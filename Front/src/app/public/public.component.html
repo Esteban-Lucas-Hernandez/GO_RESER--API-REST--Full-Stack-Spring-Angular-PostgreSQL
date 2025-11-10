@@ -1,6 +1,68 @@
 <div class="public-container">
   <h1>Bienvenido</h1>
   <p>Esta es la página principal pública de la aplicación.</p>
+
+  <!-- Sección de hoteles -->
+  <div class="hoteles-section">
+    <h2>Listado de Hoteles</h2>
+
+    <!-- Mensaje de carga -->
+    <div *ngIf="loading" class="loading">Cargando hoteles...</div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="error" class="error">
+      {{ error }}
+    </div>
+
+    <!-- Lista de hoteles -->
+    <div *ngIf="!loading && !error" class="hoteles-list">
+      <div *ngIf="hoteles.length === 0" class="no-hoteles">No se encontraron hoteles.</div>
+
+      <div *ngFor="let hotel of hoteles" class="hotel-card">
+        <!-- Imagen del hotel -->
+        <div class="hotel-image" *ngIf="hotel.imagenUrl">
+          <img [src]="hotel.imagenUrl" [alt]="hotel.nombre" />
+        </div>
+        <div class="hotel-image placeholder" *ngIf="!hotel.imagenUrl">
+          <div class="image-placeholder">Imagen no disponible</div>
+        </div>
+
+        <!-- Información del hotel -->
+        <div class="hotel-info">
+          <h3>{{ hotel.nombre }}</h3>
+
+          <div class="hotel-details">
+            <p><strong>Dirección:</strong> {{ hotel.direccion }}</p>
+            <p><strong>Teléfono:</strong> {{ hotel.telefono }}</p>
+            <p><strong>Email:</strong> {{ hotel.email }}</p>
+            <p><strong>Ciudad:</strong> {{ getCiudadNombre(hotel) }}</p>
+            <p><strong>Departamento:</strong> {{ getDepartamentoNombre(hotel) }}</p>
+
+            <div class="hotel-description" *ngIf="hotel.descripcion">
+              <strong>Descripción:</strong>
+              <p>{{ hotel.descripcion }}</p>
+            </div>
+
+            <div class="hotel-features">
+              <p><strong>Estrellas:</strong> {{ hotel.estrellas }}/5</p>
+              <p><strong>Check-in:</strong> {{ hotel.checkIn }}</p>
+              <p><strong>Check-out:</strong> {{ hotel.checkOut }}</p>
+            </div>
+
+            <div class="hotel-policies" *ngIf="hotel.politicaCancelacion">
+              <strong>Política de Cancelación:</strong>
+              <p>{{ hotel.politicaCancelacion }}</p>
+            </div>
+          </div>
+
+          <div class="hotel-dates">
+            <p><strong>Creado:</strong> {{ hotel.createdAt | date : 'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Actualizado:</strong> {{ hotel.updatedAt | date : 'dd/MM/yyyy HH:mm' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Mostrar información de usuario si está autenticado -->
