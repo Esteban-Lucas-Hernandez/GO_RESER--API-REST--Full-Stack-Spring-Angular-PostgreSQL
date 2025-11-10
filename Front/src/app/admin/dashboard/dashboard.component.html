@@ -1,0 +1,24 @@
+<div class="admin-dashboard">
+  <div class="header">
+    <h1>Panel de Administración</h1>
+    <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+  </div>
+
+  <div class="user-info" *ngIf="userInfo">
+    <h2>Información del Usuario</h2>
+    <p><strong>Nombre:</strong> {{ userInfo.username }}</p>
+    <p><strong>Email:</strong> {{ userInfo.email }}</p>
+    <p><strong>ID de Usuario:</strong> {{ userInfo.userId }}</p>
+    <p><strong>Rol(es):</strong> {{ userInfo.roles.join(', ') }}</p>
+  </div>
+
+  <div class="dashboard-content">
+    <h2>Datos del Dashboard</h2>
+    <div *ngIf="dashboardData; else noData">
+      <pre>{{ dashboardData | json }}</pre>
+    </div>
+    <ng-template #noData>
+      <p>Cargando datos del dashboard...</p>
+    </ng-template>
+  </div>
+</div>

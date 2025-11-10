@@ -31,8 +31,19 @@ export class LoginComponent {
       this.authService.login(formData).subscribe({
         next: (response: AuthResponse) => {
           console.log('Login exitoso:', response);
-          // El token ya se guarda automáticamente en localStorage gracias al servicio
-          // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
+          // Mostrar mensaje de autenticación exitosa
+          alert('Autenticación exitosa');
+
+          // Decodificar el token y obtener el rol
+          const userRole = this.authService.getUserRole();
+
+          // Redirigir según el rol
+          if (userRole === 'ROLE_ADMIN') {
+            this.router.navigate(['/admin/dashboard']);
+          } else {
+            // Redirigir a una página por defecto para otros roles
+            this.router.navigate(['/public']);
+          }
         },
         error: (error: any) => {
           console.error('Error en el login:', error);
