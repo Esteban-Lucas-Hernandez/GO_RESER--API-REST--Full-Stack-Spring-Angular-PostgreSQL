@@ -13,6 +13,7 @@ import { AuthService, LoginData, AuthResponse } from '../auth.service'; // Impor
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  loginError: string | null = null;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     // Inyectar el servicio y el router
@@ -27,27 +28,52 @@ export class LoginComponent {
       // Preparar los datos para enviar
       const formData: LoginData = this.loginForm.value;
 
+      // Limpiar error anterior
+      this.loginError = null;
+
       // Enviar los datos al endpoint
       this.authService.login(formData).subscribe({
         next: (response: AuthResponse) => {
           console.log('Login exitoso:', response);
-          // Mostrar mensaje de autenticación exitosa
-          alert('Autenticación exitosa');
 
-          // Decodificar el token y obtener el rol
-          const userRole = this.authService.getUserRole();
+          // Verificar si el login fue realmente exitoso
+          if (response && response.token && response.success !== false) {
+            // Mostrar mensaje de autenticación exitosa
+            alert('Autenticación exitosa');
 
-          // Redirigir según el rol
-          if (userRole === 'ROLE_ADMIN') {
-            this.router.navigate(['/admin/dashboard']);
+            // Verificar que el token se haya guardado correctamente
+            const token = this.authService.getToken();
+            if (token) {
+              console.log('Token guardado:', token);
+
+              // Decodificar el token y obtener el rol
+              const userRole = this.authService.getUserRole();
+              console.log('Rol del usuario:', userRole);
+
+              // Redirigir según el rol
+              if (userRole === 'ROLE_ADMIN') {
+                this.router.navigate(['/admin/dashboard']);
+              } else {
+                // Redirigir a una página por defecto para otros roles
+                this.router.navigate(['/public']);
+              }
+            } else {
+              console.error('No se guardó el token');
+            }
           } else {
-            // Redirigir a una página por defecto para otros roles
-            this.router.navigate(['/public']);
+            // El servidor respondió con éxito pero el login no fue exitoso
+            const errorMessage =
+              response?.message || 'Credenciales incorrectas. Por favor, inténtelo de nuevo.';
+            alert(errorMessage);
           }
         },
         error: (error: any) => {
           console.error('Error en el login:', error);
-          // Aquí puedes mostrar un mensaje de error al usuario
+          // Mostrar mensaje de error al usuario
+          const errorMessage =
+            error?.error?.message ||
+            'Error en el servidor. Por favor, inténtelo de nuevo más tarde.';
+          alert(errorMessage);
         },
       });
     } else {

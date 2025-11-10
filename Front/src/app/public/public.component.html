@@ -3,7 +3,15 @@
   <p>Esta es la página principal pública de la aplicación.</p>
 </div>
 
-<!-- Botón de iniciar sesión en la esquina -->
-<div class="login-button-container">
+<!-- Mostrar información de usuario si está autenticado -->
+<div class="user-info-container" *ngIf="isAuthenticated && userInfo">
+  <div class="user-info">
+    <span class="username">Hola, {{ userInfo.username }}</span>
+    <button class="logout-button" (click)="logout()">Cerrar Sesión</button>
+  </div>
+</div>
+
+<!-- Mostrar botón de iniciar sesión si no está autenticado -->
+<div class="login-button-container" *ngIf="!isAuthenticated">
   <button class="login-button" (click)="goToLogin()">Iniciar Sesión</button>
 </div>
