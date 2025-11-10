@@ -1,0 +1,78 @@
+<div class="registro-container">
+  <h2>Registro de Usuario</h2>
+  <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nombreCompleto">Nombre Completo:</label>
+      <input
+        id="nombreCompleto"
+        type="text"
+        formControlName="nombreCompleto"
+        [class.error]="
+          registroForm.get('nombreCompleto')?.invalid && registroForm.get('nombreCompleto')?.touched
+        "
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          registroForm.get('nombreCompleto')?.invalid && registroForm.get('nombreCompleto')?.touched
+        "
+      >
+        Nombre completo es requerido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        [class.error]="registroForm.get('email')?.invalid && registroForm.get('email')?.touched"
+      />
+      <div
+        class="error-message"
+        *ngIf="registroForm.get('email')?.invalid && registroForm.get('email')?.touched"
+      >
+        <span *ngIf="registroForm.get('email')?.errors?.['required']">Email es requerido</span>
+        <span *ngIf="registroForm.get('email')?.errors?.['email']">Ingrese un email válido</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telefono">Teléfono:</label>
+      <input id="telefono" type="text" formControlName="telefono" />
+    </div>
+
+    <div class="form-group">
+      <label for="documento">Documento:</label>
+      <input id="documento" type="text" formControlName="documento" />
+    </div>
+
+    <div class="form-group">
+      <label for="contrasena">Contraseña:</label>
+      <input
+        id="contrasena"
+        type="password"
+        formControlName="contrasena"
+        [class.error]="
+          registroForm.get('contrasena')?.invalid && registroForm.get('contrasena')?.touched
+        "
+      />
+      <div
+        class="error-message"
+        *ngIf="registroForm.get('contrasena')?.invalid && registroForm.get('contrasena')?.touched"
+      >
+        Contraseña es requerida
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="registroForm.invalid">Registrarse</button>
+  </form>
+
+  <!-- Enlace al login -->
+  <div class="login-link">
+    <p>
+      ¿Ya tienes cuenta? <a (click)="goToLogin()" class="login-link-anchor">Inicia sesión aquí</a>
+    </p>
+  </div>
+</div>
