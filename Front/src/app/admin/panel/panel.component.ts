@@ -6,14 +6,14 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-panel',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  templateUrl: './panel.component.html',
+  styleUrls: ['./panel.component.css'],
 })
-export class DashboardComponent implements OnInit {
-  dashboardData: any = null;
+export class PanelComponent implements OnInit {
+  panelData: any = null;
   userInfo: any = null;
 
   constructor(private authService: AuthService, private http: HttpClient, private router: Router) {}
@@ -21,8 +21,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     // Obtener la información del usuario del token
     this.loadUserInfoFromToken();
-    // Cargar los datos del dashboard
-    this.loadDashboardData();
+    // Cargar los datos del panel
+    this.loadPanelData();
   }
 
   loadUserInfoFromToken(): void {
@@ -40,19 +40,19 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  loadDashboardData(): void {
+  loadPanelData(): void {
     const token = this.authService.getToken();
     if (token) {
       const headers = new HttpHeaders({
         Authorization: `Bearer ${token}`,
       });
 
-      this.http.get('http://localhost:8080/admin/dashboard', { headers }).subscribe({
+      this.http.get('http://localhost:8080/admin/panel', { headers }).subscribe({
         next: (data: any) => {
-          this.dashboardData = data;
+          this.panelData = data;
         },
         error: (error: any) => {
-          console.error('Error loading dashboard data:', error);
+          console.error('Error loading panel data:', error);
         },
       });
     }

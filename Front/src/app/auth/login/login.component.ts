@@ -52,7 +52,7 @@ export class LoginComponent {
 
               // Redirigir según el rol
               if (userRole === 'ROLE_ADMIN') {
-                this.router.navigate(['/admin/dashboard']);
+                this.router.navigate(['/admin']);
               } else {
                 // Redirigir a una página por defecto para otros roles
                 this.router.navigate(['/public']);

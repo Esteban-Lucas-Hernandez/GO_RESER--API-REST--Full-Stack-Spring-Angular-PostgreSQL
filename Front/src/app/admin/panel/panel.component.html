@@ -1,0 +1,19 @@
+<div class="admin-panel">
+  <div class="header">
+    <h1>Panel de Administración</h1>
+    <div class="user-info" *ngIf="userInfo">
+      <p>Bienvenido, {{ userInfo.username }}!</p>
+      <p>Email: {{ userInfo.email }}</p>
+      <button (click)="logout()" class="logout-btn">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <div class="panel-content">
+    <div *ngIf="panelData; else noData">
+      <pre>{{ panelData | json }}</pre>
+    </div>
+    <ng-template #noData>
+      <p>Cargando datos del panel...</p>
+    </ng-template>
+  </div>
+</div>

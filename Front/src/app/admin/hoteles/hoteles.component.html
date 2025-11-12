@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="card">
+    <h2>Listado de Hoteles</h2>
+    <p>Aquí puedes administrar los hoteles del sistema.</p>
+
+    <div *ngIf="hoteles.length === 0" class="no-hoteles">
+      <p>No hay hoteles registrados en el sistema.</p>
+    </div>
+
+    <div *ngIf="hoteles.length > 0" class="hoteles-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Descripción</th>
+            <th>Estrellas</th>
+            <th>Política Cancelación</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Imagen</th>
+            <th>Ciudad</th>
+            <th>Departamento</th>
+            <th class="actions-cell">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let hotel of hoteles">
+            <td>{{ hotel.nombre }}</td>
+            <td>{{ hotel.direccion }}</td>
+            <td>{{ hotel.telefono }}</td>
+            <td>{{ hotel.email }}</td>
+            <td>{{ hotel.descripcion }}</td>
+            <td>{{ hotel.estrellas }}</td>
+            <td>{{ hotel.politicaCancelacion }}</td>
+            <td>{{ hotel.checkIn }}</td>
+            <td>{{ hotel.checkOut }}</td>
+            <td>
+              <img
+                *ngIf="hotel.imagenUrl"
+                [src]="hotel.imagenUrl"
+                alt="Imagen del hotel"
+                class="hotel-image"
+              />
+              <span *ngIf="!hotel.imagenUrl">Sin imagen</span>
+            </td>
+            <td>{{ hotel.ciudadNombre }}</td>
+            <td>{{ hotel.departamentoNombre }}</td>
+            <td class="actions-cell">
+              <button class="btn-edit" (click)="editarHotel(hotel)" title="Editar"></button>
+              <button
+                class="btn-delete"
+                (click)="eliminarHotel(hotel.id, hotel.nombre)"
+                title="Eliminar"
+              ></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="btn">Agregar Nuevo Hotel</button>
+  </div>
+</div>
+
+<!-- Modal de edición -->
+<app-editar-hotel
+  *ngIf="hotelAEditar"
+  [hotel]="hotelAEditar"
+  (cerrado)="cerrarEdicion()"
+  (guardado)="guardarHotel($event)"
+>
+</app-editar-hotel>

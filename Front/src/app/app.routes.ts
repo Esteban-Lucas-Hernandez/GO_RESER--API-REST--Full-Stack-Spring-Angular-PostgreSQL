@@ -2,14 +2,29 @@ import { Routes } from '@angular/router';
 import { PublicComponent } from './public/public.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegistroComponent } from './auth/registro/registro.component';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { AuthGuard } from './auth/auth.guard';
+import { PanelComponent } from './admin/panel/panel.component';
+import { HotelesComponent } from './admin/hoteles/hoteles.component';
+import { UsuariosComponent } from './admin/usuarios/usuarios.component';
+import { ReservasComponent } from './admin/reservas/reservas.component';
+import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'public', pathMatch: 'full' }, // Redirige la ruta raíz a public (sin barra inicial)
-  { path: 'public', component: PublicComponent }, // Ruta principal pública
-  { path: 'login', component: LoginComponent }, // Ruta de login
-  { path: 'registro', component: RegistroComponent }, // Ruta de registro
-  { path: 'admin/dashboard', component: DashboardComponent, canActivate: [AuthGuard] }, // Ruta protegida para administradores
-  { path: '**', redirectTo: 'public' }, // Redirige rutas no encontradas a public (sin barra inicial)
+  { path: '', redirectTo: 'public', pathMatch: 'full' },
+  { path: 'public', component: PublicComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'registro', component: RegistroComponent },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'panel', component: PanelComponent },
+      { path: 'hoteles', component: HotelesComponent },
+      { path: 'usuarios', component: UsuariosComponent },
+      { path: 'reservas', component: ReservasComponent },
+      { path: '', redirectTo: 'panel', pathMatch: 'full' },
+    ],
+  },
+  { path: '**', redirectTo: 'public' },
 ];
