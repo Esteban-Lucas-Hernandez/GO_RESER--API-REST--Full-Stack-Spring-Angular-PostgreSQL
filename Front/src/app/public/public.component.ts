@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AuthService, LoginData, AuthResponse, RegistroData } from '../auth/auth.service';
 import { HotelService, Hotel } from './hotel.service';
+import { LoginComponent } from '../auth/login/ts/login.component';
+import { RegistroComponent } from '../auth/registro/ts/registro.component';
 
 @Component({
   selector: 'app-public',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, LoginComponent, RegistroComponent],
   templateUrl: './public.component.html',
   styleUrls: ['./public.component.css'],
 })
@@ -17,6 +20,8 @@ export class PublicComponent implements OnInit {
   hoteles: Hotel[] = [];
   loading = false;
   error: string | null = null;
+  showLoginModal = false;
+  showRegistroModal = false;
 
   constructor(
     private router: Router,
@@ -68,7 +73,7 @@ export class PublicComponent implements OnInit {
 
   handleImageError(event: any): void {
     // Opcional: puedes establecer una imagen por defecto
-    event.target.src = 'assets/images/hotel-default.jpg'; // Ruta a una imagen por defecto
+    event.target.src = 'https://res.cloudinary.com/dw4e01qx8/f_auto%2Cq_auto/images/mpwgk7gjr9gqqhxmxyum'; // Ruta a una imagen por defecto
     // O simplemente ocultar la imagen:
     // event.target.style.display = 'none';
   }
@@ -96,8 +101,56 @@ export class PublicComponent implements OnInit {
     return hotel.ciudad?.departamento?.nombre || 'N/A';
   }
 
-  goToLogin() {
-    this.router.navigate(['/login']);
+  openLoginModal() {
+    this.showLoginModal = true;
+    this.showRegistroModal = false;
+  }
+
+  closeLoginModal() {
+    this.showLoginModal = false;
+  }
+
+  openRegistroModal() {
+    this.showRegistroModal = true;
+    this.showLoginModal = false;
+  }
+
+  closeRegistroModal() {
+    this.showRegistroModal = false;
+  }
+
+  onLoginSuccess(event: any) {
+    // Cerrar el modal
+    this.closeLoginModal();
+
+    // Actualizar el estado de autenticación
+    this.isAuthenticated = true;
+
+    // Obtener la información del usuario del token
+    const token = this.authService.getToken();
+    if (token) {
+      const decodedToken = this.authService.decodeToken(token);
+      if (decodedToken) {
+        this.userInfo = {
+          username: decodedToken.username,
+          roles: decodedToken.roles,
+        };
+
+        // Verificar el rol del usuario y redirigir según corresponda
+        const userRole = this.authService.getUserRole();
+        if (userRole === 'ROLE_ADMIN') {
+          // Redirigir a la página de administración
+          this.router.navigate(['/admin/dashboard']);
+        }
+      }
+    }
+  }
+
+  onRegistroSuccess(event: any) {
+    // Cerrar el modal de registro
+    this.closeRegistroModal();
+    // Mostrar mensaje de éxito
+    alert('Registro exitoso. Ahora puedes iniciar sesión.');
   }
 
   logout() {

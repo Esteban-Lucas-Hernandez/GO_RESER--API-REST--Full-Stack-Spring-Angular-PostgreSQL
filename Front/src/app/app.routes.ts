@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { PublicComponent } from './public/public.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegistroComponent } from './auth/registro/registro.component';
+import { LoginComponent } from './auth/login/ts/login.component';
+import { RegistroComponent } from './auth/registro/ts/registro.component';
 import { AuthGuard } from './auth/auth.guard';
 import { PanelComponent } from './admin/panel/panel.component';
 import { HotelesComponent } from './admin/hoteles/hoteles.component';
@@ -20,6 +20,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'panel', component: PanelComponent },
+      { path: 'dashboard', redirectTo: 'panel', pathMatch: 'full' },
       { path: 'hoteles', component: HotelesComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'reservas', component: ReservasComponent },

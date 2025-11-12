@@ -1,19 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService, LoginData, AuthResponse } from '../auth.service'; // Importar el servicio y los modelos
+import { AuthService, LoginData, AuthResponse } from '../../auth.service'; // Importar el servicio y los modelos
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  templateUrl: '../html/login.component.html',
+  styleUrls: ['../css/login.component.css'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  loginError: string | null = null;
+  @Output() loginSuccess = new EventEmitter<AuthResponse>();
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     // Inyectar el servicio y el router
@@ -29,8 +29,6 @@ export class LoginComponent {
       const formData: LoginData = this.loginForm.value;
 
       // Limpiar error anterior
-      this.loginError = null;
-
       // Enviar los datos al endpoint
       this.authService.login(formData).subscribe({
         next: (response: AuthResponse) => {
@@ -38,28 +36,8 @@ export class LoginComponent {
 
           // Verificar si el login fue realmente exitoso
           if (response && response.token && response.success !== false) {
-            // Mostrar mensaje de autenticación exitosa
-            alert('Autenticación exitosa');
-
-            // Verificar que el token se haya guardado correctamente
-            const token = this.authService.getToken();
-            if (token) {
-              console.log('Token guardado:', token);
-
-              // Decodificar el token y obtener el rol
-              const userRole = this.authService.getUserRole();
-              console.log('Rol del usuario:', userRole);
-
-              // Redirigir según el rol
-              if (userRole === 'ROLE_ADMIN') {
-                this.router.navigate(['/admin']);
-              } else {
-                // Redirigir a una página por defecto para otros roles
-                this.router.navigate(['/public']);
-              }
-            } else {
-              console.error('No se guardó el token');
-            }
+            // Emitir el evento de éxito
+            this.loginSuccess.emit(response);
           } else {
             // El servidor respondió con éxito pero el login no fue exitoso
             const errorMessage =

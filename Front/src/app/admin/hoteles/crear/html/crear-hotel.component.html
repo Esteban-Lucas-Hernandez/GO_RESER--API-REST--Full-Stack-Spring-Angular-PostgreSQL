@@ -1,0 +1,115 @@
+<div class="modal-overlay" (click)="cerrar()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Agregar Nuevo Hotel</h2>
+      <button class="close-btn" (click)="cerrar()">×</button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" formControlName="nombre" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label for="direccion">Dirección:</label>
+          <input type="text" id="direccion" formControlName="direccion" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label for="telefono">Teléfono:</label>
+          <input type="text" id="telefono" formControlName="telefono" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" formControlName="email" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción:</label>
+          <textarea
+            id="descripcion"
+            formControlName="descripcion"
+            class="form-control"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="estrellas">Estrellas:</label>
+          <select id="estrellas" formControlName="estrellas" class="form-control">
+            <option value="">Seleccione estrellas</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="politicaCancelacion">Política de Cancelación:</label>
+          <input
+            type="text"
+            id="politicaCancelacion"
+            formControlName="politicaCancelacion"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label for="checkIn">Check In:</label>
+            <input type="time" id="checkIn" formControlName="checkIn" class="form-control" />
+          </div>
+
+          <div class="form-group half-width">
+            <label for="checkOut">Check Out:</label>
+            <input type="time" id="checkOut" formControlName="checkOut" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="imagenUrl">URL de Imagen:</label>
+          <input type="text" id="imagenUrl" formControlName="imagenUrl" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label for="departamentoId">Departamento:</label>
+          <select
+            id="departamentoId"
+            formControlName="departamentoId"
+            class="form-control"
+            (change)="onDepartamentoChange($event)"
+          >
+            <option value="">Seleccione un departamento</option>
+            <option *ngFor="let dept of departamentos" [value]="dept.id">
+              {{ dept.nombre }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ciudadId">Ciudad:</label>
+          <select
+            id="ciudadId"
+            formControlName="ciudadId"
+            class="form-control"
+            [disabled]="!ciudades.length"
+          >
+            <option value="">Seleccione una ciudad</option>
+            <option *ngFor="let ciudad of ciudades" [value]="ciudad.id">
+              {{ ciudad.nombre }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="cerrar()">Cancelar</button>
+          <button type="submit" class="btn-save" [disabled]="hotelForm.invalid">Crear Hotel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

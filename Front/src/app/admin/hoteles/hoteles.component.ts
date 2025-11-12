@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HotelAdminService } from './hotel-admin.service';
 import { HotelDTO } from './hotel-admin.service';
-import { EditarHotelComponent } from './editar-hotel.component';
-import { CrearHotelComponent } from './crear-hotel.component';
+import { EditarHotelComponent } from './editar/ts/editar-hotel.component';
+import { CrearHotelComponent } from './crear/ts/crear-hotel.component';
 
 @Component({
   selector: 'app-hoteles',

@@ -47,7 +47,7 @@ export class PanelComponent implements OnInit {
         Authorization: `Bearer ${token}`,
       });
 
-      this.http.get('http://localhost:8080/admin/panel', { headers }).subscribe({
+      this.http.get('http://localhost:8080/admin/dashboard', { headers }).subscribe({
         next: (data: any) => {
           this.panelData = data;
         },
