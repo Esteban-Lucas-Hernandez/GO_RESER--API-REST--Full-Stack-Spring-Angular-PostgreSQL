@@ -67,17 +67,13 @@ export class HotelesComponent implements OnInit {
   }
 
   guardarHotel(hotelActualizado: HotelDTO): void {
-    // Actualizar el hotel en la lista local
-    const index = this.hoteles.findIndex((h) => h.id === hotelActualizado.id);
-    if (index !== -1) {
-      this.hoteles[index] = hotelActualizado;
-    }
-
     // Llamar al servicio para actualizar en el backend
     this.hotelService.actualizarHotel(hotelActualizado.id, hotelActualizado).subscribe({
       next: (hotel) => {
         alert('Hotel actualizado correctamente.');
         this.cerrarEdicion();
+        // Recargar la lista completa de hoteles para asegurar que se muestren los datos actualizados
+        this.cargarHoteles();
       },
       error: (error) => {
         console.error('Error al actualizar hotel:', error);
@@ -95,9 +91,10 @@ export class HotelesComponent implements OnInit {
   }
 
   hotelCreado(nuevoHotel: HotelDTO): void {
-    // Agregar el nuevo hotel a la lista
-    this.hoteles.push(nuevoHotel);
+    // Cerrar el formulario de creación
     this.cerrarFormularioCrear();
     alert('Hotel creado correctamente.');
+    // Recargar la lista completa de hoteles para incluir el nuevo hotel
+    this.cargarHoteles();
   }
 }
