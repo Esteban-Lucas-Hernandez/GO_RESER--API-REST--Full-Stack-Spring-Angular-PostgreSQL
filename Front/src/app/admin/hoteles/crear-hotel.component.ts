@@ -1,17 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HotelAdminService, HotelDTO, Departamento, Ciudad } from './hotel-admin.service';
 
 @Component({
-  selector: 'app-editar-hotel',
+  selector: 'app-crear-hotel',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div class="modal-overlay" (click)="cerrar()">
       <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h2>Editar Hotel</h2>
+          <h2>Agregar Nuevo Hotel</h2>
           <button class="close-btn" (click)="cerrar()">×</button>
         </div>
         <div class="modal-body">
@@ -49,6 +49,7 @@ import { HotelAdminService, HotelDTO, Departamento, Ciudad } from './hotel-admin
             <div class="form-group">
               <label for="estrellas">Estrellas:</label>
               <select id="estrellas" formControlName="estrellas" class="form-control">
+                <option value="">Seleccione estrellas</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -117,7 +118,7 @@ import { HotelAdminService, HotelDTO, Departamento, Ciudad } from './hotel-admin
             <div class="form-actions">
               <button type="button" class="btn-cancel" (click)="cerrar()">Cancelar</button>
               <button type="submit" class="btn-save" [disabled]="hotelForm.invalid">
-                Guardar Cambios
+                Crear Hotel
               </button>
             </div>
           </form>
@@ -286,10 +287,9 @@ import { HotelAdminService, HotelDTO, Departamento, Ciudad } from './hotel-admin
     `,
   ],
 })
-export class EditarHotelComponent implements OnInit {
-  @Input() hotel!: HotelDTO;
+export class CrearHotelComponent implements OnInit {
   @Output() cerrado = new EventEmitter<void>();
-  @Output() guardado = new EventEmitter<HotelDTO>();
+  @Output() hotelCreado = new EventEmitter<HotelDTO>();
 
   hotelForm!: FormGroup;
   departamentos: Departamento[] = [];
@@ -299,17 +299,16 @@ export class EditarHotelComponent implements OnInit {
 
   ngOnInit(): void {
     this.hotelForm = this.fb.group({
-      id: [this.hotel.id],
-      nombre: [this.hotel.nombre, Validators.required],
-      direccion: [this.hotel.direccion, Validators.required],
-      telefono: [this.hotel.telefono, Validators.required],
-      email: [this.hotel.email, [Validators.required, Validators.email]],
-      descripcion: [this.hotel.descripcion, Validators.required],
-      estrellas: [this.hotel.estrellas, Validators.required],
-      politicaCancelacion: [this.hotel.politicaCancelacion, Validators.required],
-      checkIn: [this.hotel.checkIn, Validators.required],
-      checkOut: [this.hotel.checkOut, Validators.required],
-      imagenUrl: [this.hotel.imagenUrl],
+      nombre: ['', Validators.required],
+      direccion: ['', Validators.required],
+      telefono: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      descripcion: ['', Validators.required],
+      estrellas: ['', Validators.required],
+      politicaCancelacion: ['', Validators.required],
+      checkIn: ['', Validators.required],
+      checkOut: ['', Validators.required],
+      imagenUrl: [''],
       departamentoId: ['', Validators.required],
       ciudadId: ['', Validators.required],
     });
@@ -321,14 +320,6 @@ export class EditarHotelComponent implements OnInit {
     this.hotelService.getDepartamentos().subscribe({
       next: (data) => {
         this.departamentos = data;
-        // Si estamos editando un hotel, seleccionar el departamento correspondiente
-        if (this.hotel.id) {
-          const dept = this.departamentos.find((d) => d.nombre === this.hotel.departamentoNombre);
-          if (dept) {
-            this.hotelForm.patchValue({ departamentoId: dept.id });
-            this.cargarCiudades(dept.id);
-          }
-        }
       },
       error: (error) => {
         console.error('Error al cargar departamentos:', error);
@@ -340,13 +331,6 @@ export class EditarHotelComponent implements OnInit {
     this.hotelService.getCiudadesPorDepartamento(departamentoId).subscribe({
       next: (data) => {
         this.ciudades = data;
-        // Si estamos editando un hotel, seleccionar la ciudad correspondiente
-        if (this.hotel.id) {
-          const ciudad = this.ciudades.find((c) => c.nombre === this.hotel.ciudadNombre);
-          if (ciudad) {
-            this.hotelForm.patchValue({ ciudadId: ciudad.id });
-          }
-        }
       },
       error: (error) => {
         console.error('Error al cargar ciudades:', error);
@@ -368,33 +352,30 @@ export class EditarHotelComponent implements OnInit {
 
   onSubmit(): void {
     if (this.hotelForm.valid) {
-      // Obtener los nombres de departamento y ciudad seleccionados
-      const departamentoId = this.hotelForm.get('departamentoId')?.value;
+      // Obtener el ID de ciudad seleccionado
       const ciudadId = this.hotelForm.get('ciudadId')?.value;
-
-      const departamento = this.departamentos.find((d) => d.id === Number(departamentoId));
-      const ciudad = this.ciudades.find((c) => c.id === Number(ciudadId));
 
       // Crear una copia del formulario sin los campos temporales
       const formValue = { ...this.hotelForm.value };
       delete formValue.departamentoId;
       delete formValue.ciudadId;
 
-      const hotelActualizado: HotelDTO = {
+      // Crear el objeto hotel con el formato que espera el backend
+      const hotelData = {
         ...formValue,
-        departamentoNombre: departamento ? departamento.nombre : '',
-        ciudadNombre: ciudad ? ciudad.nombre : '',
+        estrellas: Number(formValue.estrellas),
+        ciudadId: Number(ciudadId), // Solo enviar el ID de ciudad
       };
 
-      // Llamar al servicio para actualizar el hotel
-      this.hotelService.actualizarHotel(hotelActualizado.id, hotelActualizado).subscribe({
+      // Llamar al servicio para crear el hotel
+      this.hotelService.crearHotel(hotelData).subscribe({
         next: (hotel) => {
-          this.guardado.emit(hotel);
+          this.hotelCreado.emit(hotel);
           this.cerrar();
         },
         error: (error) => {
-          console.error('Error al actualizar hotel:', error);
-          alert('Error al actualizar el hotel. Por favor, inténtalo de nuevo.');
+          console.error('Error al crear hotel:', error);
+          alert('Error al crear el hotel. Por favor, inténtalo de nuevo.');
         },
       });
     } else {

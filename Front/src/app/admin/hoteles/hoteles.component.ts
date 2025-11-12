@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HotelAdminService } from './hotel-admin.service';
 import { HotelDTO } from './hotel-admin.service';
 import { EditarHotelComponent } from './editar-hotel.component';
+import { CrearHotelComponent } from './crear-hotel.component';
 
 @Component({
   selector: 'app-hoteles',
   standalone: true,
-  imports: [CommonModule, EditarHotelComponent],
+  imports: [CommonModule, EditarHotelComponent, CrearHotelComponent],
   templateUrl: './hoteles.component.html',
   styleUrls: ['./hoteles.component.css'],
 })
@@ -16,6 +17,7 @@ export class HotelesComponent implements OnInit {
   descripcion = 'Aquí puedes administrar los hoteles del sistema.';
   hoteles: HotelDTO[] = [];
   hotelAEditar: HotelDTO | null = null;
+  mostrandoFormularioCrear = false;
 
   constructor(private hotelService: HotelAdminService) {}
 
@@ -82,5 +84,20 @@ export class HotelesComponent implements OnInit {
         alert('Error al actualizar el hotel. Por favor, inténtalo de nuevo.');
       },
     });
+  }
+
+  mostrarFormularioCrear(): void {
+    this.mostrandoFormularioCrear = true;
+  }
+
+  cerrarFormularioCrear(): void {
+    this.mostrandoFormularioCrear = false;
+  }
+
+  hotelCreado(nuevoHotel: HotelDTO): void {
+    // Agregar el nuevo hotel a la lista
+    this.hoteles.push(nuevoHotel);
+    this.cerrarFormularioCrear();
+    alert('Hotel creado correctamente.');
   }
 }

@@ -61,7 +61,7 @@
       </table>
     </div>
 
-    <button class="btn">Agregar Nuevo Hotel</button>
+    <button class="btn" (click)="mostrarFormularioCrear()">Agregar Nuevo Hotel</button>
   </div>
 </div>
 
@@ -73,3 +73,11 @@
   (guardado)="guardarHotel($event)"
 >
 </app-editar-hotel>
+
+<!-- Modal de creación -->
+<app-crear-hotel
+  *ngIf="mostrandoFormularioCrear"
+  (cerrado)="cerrarFormularioCrear()"
+  (hotelCreado)="hotelCreado($event)"
+>
+</app-crear-hotel>

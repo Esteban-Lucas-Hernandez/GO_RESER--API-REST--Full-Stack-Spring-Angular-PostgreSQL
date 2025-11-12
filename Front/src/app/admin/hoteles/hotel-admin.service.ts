@@ -22,11 +22,23 @@ export interface HotelDTO {
   departamentoNombre: string;
 }
 
+// Interfaces para departamentos y ciudades
+export interface Departamento {
+  id: number;
+  nombre: string;
+}
+
+export interface Ciudad {
+  id: number;
+  nombre: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class HotelAdminService {
   private baseUrl = 'http://localhost:8080/admin/hoteles';
+  private departamentosUrl = 'http://localhost:8080/admin/departamentos';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -58,5 +70,38 @@ export class HotelAdminService {
     });
 
     return this.http.put<HotelDTO>(`${this.baseUrl}/${id}`, hotel, { headers });
+  }
+
+  crearHotel(hotel: HotelDTO): Observable<HotelDTO> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.post<HotelDTO>(this.baseUrl, hotel, { headers });
+  }
+
+  // Nuevos métodos para departamentos y ciudades
+  getDepartamentos(): Observable<Departamento[]> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<Departamento[]>(this.departamentosUrl, { headers });
+  }
+
+  getCiudadesPorDepartamento(departamentoId: number): Observable<Ciudad[]> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<Ciudad[]>(`${this.departamentosUrl}/${departamentoId}/ciudades`, {
+      headers,
+    });
   }
 }
