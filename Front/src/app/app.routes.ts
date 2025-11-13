@@ -3,11 +3,13 @@ import { PublicComponent } from './public/public.component';
 import { LoginComponent } from './auth/login/ts/login.component';
 import { RegistroComponent } from './auth/registro/ts/registro.component';
 import { AuthGuard } from './auth/auth.guard';
+import { SuperAdminGuard } from './auth/superadmin.guard';
 import { PanelComponent } from './admin/panel/panel.component';
 import { HotelesComponent } from './admin/hoteles/hoteles.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { ReservasComponent } from './admin/reservas/reservas.component';
 import { AdminComponent } from './admin/admin.component';
+import { SuperAdminComponent } from './superadmin/usuarios/superadmin.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch: 'full' },
@@ -26,6 +28,11 @@ export const routes: Routes = [
       { path: 'reservas', component: ReservasComponent },
       { path: '', redirectTo: 'panel', pathMatch: 'full' },
     ],
+  },
+  {
+    path: 'superadmin',
+    component: SuperAdminComponent,
+    canActivate: [SuperAdminGuard],
   },
   { path: '**', redirectTo: 'public' },
 ];

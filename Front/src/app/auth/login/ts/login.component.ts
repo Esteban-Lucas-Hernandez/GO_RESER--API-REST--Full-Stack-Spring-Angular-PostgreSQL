@@ -38,6 +38,17 @@ export class LoginComponent {
           if (response && response.token && response.success !== false) {
             // Emitir el evento de éxito
             this.loginSuccess.emit(response);
+
+            // Redirigir según el rol del usuario
+            const userRole = this.authService.getUserRole();
+            console.log('Rol del usuario:', userRole);
+            if (userRole === 'ROLE_SUPERADMIN') {
+              this.router.navigate(['/superadmin']);
+            } else if (userRole === 'ROLE_ADMIN') {
+              this.router.navigate(['/admin']);
+            } else {
+              this.router.navigate(['/public']);
+            }
           } else {
             // El servidor respondió con éxito pero el login no fue exitoso
             const errorMessage =

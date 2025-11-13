@@ -1,0 +1,89 @@
+<div class="superadmin-dashboard">
+  <h1>Panel de Super Administrador</h1>
+
+  <div class="actions">
+    <button (click)="getUsers()" class="btn btn-primary" [disabled]="loading">
+      {{ loading ? 'Actualizando...' : 'Actualizar Lista' }}
+    </button>
+  </div>
+
+  <div class="users-list">
+    <h2>Gestión de Usuarios</h2>
+
+    <div *ngIf="loading" class="loading">
+      <p>Cargando usuarios...</p>
+    </div>
+
+    <div *ngIf="!loading && usuarios.length === 0" class="no-users">
+      <p>No hay usuarios registrados.</p>
+    </div>
+
+    <table *ngIf="!loading && usuarios.length > 0" class="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre Completo</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Documento</th>
+          <th>Rol Actual</th>
+          <th>Estado</th>
+          <th>Fecha Registro</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.idUsuario }}</td>
+          <td>{{ usuario.nombreCompleto }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.telefono }}</td>
+          <td>{{ usuario.documento }}</td>
+          <td>{{ usuario.roles && usuario.roles.length > 0 ? usuario.roles[0] : 'Sin rol' }}</td>
+          <td>{{ usuario.estado ? 'Activo' : 'Inactivo' }}</td>
+          <td>{{ usuario.fechaRegistro }}</td>
+          <td>
+            <button
+              (click)="openRoleChangeDialog(usuario)"
+              class="btn btn-secondary"
+              [disabled]="changingRole"
+            >
+              {{ changingRole ? 'Cambiando...' : 'Cambiar Rol' }}
+            </button>
+            <!-- Depuración: {{ usuario | json }} -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal para cambiar rol -->
+<div *ngIf="showRoleChangeDialog" class="modal-overlay" (click)="closeRoleChangeDialog()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Cambiar Rol de Usuario</h3>
+    <p>Selecciona el nuevo rol para el usuario:</p>
+
+    <div class="role-options">
+      <button
+        *ngFor="let role of availableRoles"
+        class="btn-role"
+        [class.selected]="role === selectedRole"
+        (click)="selectRole(role)"
+      >
+        {{ role }}
+      </button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" (click)="closeRoleChangeDialog()">Cancelar</button>
+      <button
+        class="btn btn-primary"
+        (click)="confirmRoleChange()"
+        [disabled]="!selectedRole || changingRole"
+      >
+        {{ changingRole ? 'Aplicando...' : 'Aplicar Cambio' }}
+      </button>
+    </div>
+  </div>
+</div>
