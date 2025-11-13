@@ -1,0 +1,70 @@
+<div class="detalle-habitacion-container">
+  <h1>Detalle de Habitación</h1>
+
+  <!-- Botón para volver al listado de habitaciones -->
+  <div class="volver-container">
+    <button class="btn-volver" (click)="volverAlListado()">
+      ← Volver al Listado de Habitaciones
+    </button>
+  </div>
+
+  <!-- Mensaje de carga -->
+  <div *ngIf="loading" class="loading">Cargando detalle de habitación...</div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <!-- Detalle de la habitación -->
+  <div *ngIf="!loading && !error && habitacion" class="detalle-habitacion">
+    <h2>Habitación {{ habitacion.numero }}</h2>
+
+    <!-- Galería de imágenes -->
+    <div
+      class="imagenes-galeria"
+      *ngIf="habitacion.imagenesUrls && habitacion.imagenesUrls.length > 0"
+    >
+      <div class="imagen-principal">
+        <img [src]="habitacion.imagenesUrls[0]" [alt]="'Habitación ' + habitacion.numero" />
+      </div>
+      <div class="imagenes-miniaturas">
+        <img
+          *ngFor="let imagenUrl of habitacion.imagenesUrls; let i = index"
+          [src]="imagenUrl"
+          [alt]="'Imagen ' + (i + 1) + ' de habitación ' + habitacion.numero"
+        />
+      </div>
+    </div>
+    <div
+      class="sin-imagenes"
+      *ngIf="!habitacion.imagenesUrls || habitacion.imagenesUrls.length === 0"
+    >
+      <div class="image-placeholder">No hay imágenes disponibles</div>
+    </div>
+
+    <!-- Información detallada -->
+    <div class="informacion-detallada">
+
+      <div class="detalle-item"><strong>Categoría:</strong> {{ habitacion.categoria?.nombre }}</div>
+
+      <div class="detalle-item">
+        <strong>Capacidad:</strong> {{ habitacion.capacidad }} personas
+      </div>
+
+      <div class="detalle-item"><strong>Precio:</strong> ${{ habitacion.precio }}</div>
+
+      <div class="detalle-item"><strong>Estado:</strong> {{ habitacion.estado }}</div>
+
+      <div class="detalle-item descripcion" *ngIf="habitacion.descripcion">
+        <strong>Descripción:</strong>
+        <p>{{ habitacion.descripcion }}</p>
+      </div>
+
+      <div class="detalle-item categoria-descripcion" *ngIf="habitacion.categoria?.descripcion">
+        <strong>Descripción de Categoría:</strong>
+        <p>{{ habitacion.categoria?.descripcion }}</p>
+      </div>
+    </div>
+  </div>
+</div>

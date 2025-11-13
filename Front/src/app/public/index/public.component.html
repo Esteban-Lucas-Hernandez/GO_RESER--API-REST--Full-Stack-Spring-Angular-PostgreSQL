@@ -59,6 +59,13 @@
             <p><strong>Creado:</strong> {{ hotel.createdAt | date : 'dd/MM/yyyy HH:mm' }}</p>
             <p><strong>Actualizado:</strong> {{ hotel.updatedAt | date : 'dd/MM/yyyy HH:mm' }}</p>
           </div>
+
+          <!-- Botón para ver habitaciones -->
+          <div class="hotel-actions">
+            <button class="btn-ver-habitaciones" (click)="verHabitaciones(hotel.id)">
+              Ver Habitaciones
+            </button>
+          </div>
         </div>
       </div>
     </div>

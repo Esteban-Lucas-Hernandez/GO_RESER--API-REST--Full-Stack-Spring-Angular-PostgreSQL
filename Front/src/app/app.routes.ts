@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PublicComponent } from './public/public.component';
+import { PublicComponent } from './public/index/public.component';
 import { LoginComponent } from './auth/login/ts/login.component';
 import { RegistroComponent } from './auth/registro/ts/registro.component';
 import { AuthGuard } from './auth/auth.guard';
@@ -10,12 +10,16 @@ import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { ReservasComponent } from './admin/reservas/reservas.component';
 import { AdminComponent } from './admin/admin.component';
 import { SuperAdminComponent } from './superadmin/usuarios/superadmin.component';
+import { HabitacionesComponent } from './public/Habitaciones/habitaciones';
+import { DetalleHabitacionComponent } from './public/DetalleHabitacion/DetalleHabitacion';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch: 'full' },
   { path: 'public', component: PublicComponent },
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
+  { path: 'habitaciones/:id', component: HabitacionesComponent },
+  { path: 'detalle-habitacion/:hotelId/:id', component: DetalleHabitacionComponent },
   {
     path: 'admin',
     component: AdminComponent,

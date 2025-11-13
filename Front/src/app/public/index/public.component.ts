@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AuthService, LoginData, AuthResponse, RegistroData } from '../auth/auth.service';
-import { HotelService, Hotel } from './hotel.service';
-import { LoginComponent } from '../auth/login/ts/login.component';
-import { RegistroComponent } from '../auth/registro/ts/registro.component';
+import { AuthService } from '../../auth/auth.service';
+import { HotelService, Hotel, Habitacion } from '../hotel.service';
+import { LoginComponent } from '../../auth/login/ts/login.component';
+import { RegistroComponent } from '../../auth/registro/ts/registro.component';
 
 @Component({
   selector: 'app-public',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LoginComponent, RegistroComponent],
+  imports: [CommonModule, LoginComponent, RegistroComponent],
   templateUrl: './public.component.html',
   styleUrls: ['./public.component.css'],
 })
@@ -73,7 +72,8 @@ export class PublicComponent implements OnInit {
 
   handleImageError(event: any): void {
     // Opcional: puedes establecer una imagen por defecto
-    event.target.src = 'https://res.cloudinary.com/dw4e01qx8/f_auto%2Cq_auto/images/mpwgk7gjr9gqqhxmxyum'; // Ruta a una imagen por defecto
+    event.target.src =
+      'https://res.cloudinary.com/dw4e01qx8/f_auto%2Cq_auto/images/mpwgk7gjr9gqqhxmxyum'; // Ruta a una imagen por defecto
     // O simplemente ocultar la imagen:
     // event.target.style.display = 'none';
   }
@@ -159,5 +159,11 @@ export class PublicComponent implements OnInit {
     this.userInfo = null;
     // Recargar la página para reflejar los cambios
     window.location.reload();
+  }
+
+  // Método para ver las habitaciones de un hotel
+  verHabitaciones(hotelId: number) {
+    // Navegar a la página de habitaciones con el ID del hotel
+    this.router.navigate(['/habitaciones', hotelId]);
   }
 }

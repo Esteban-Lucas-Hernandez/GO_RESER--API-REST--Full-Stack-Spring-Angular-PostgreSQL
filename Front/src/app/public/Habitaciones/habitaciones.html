@@ -1,0 +1,51 @@
+<div class="habitaciones-container">
+  <h1>Habitaciones del Hotel</h1>
+
+  <!-- Botón para volver al listado de hoteles -->
+  <div class="volver-container">
+    <button class="btn-volver" (click)="volverAlListado()">← Volver al Listado de Hoteles</button>
+  </div>
+
+  <!-- Mensaje de carga -->
+  <div *ngIf="loading" class="loading">Cargando habitaciones...</div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <!-- Lista de habitaciones -->
+  <div *ngIf="!loading && !error" class="habitaciones-list">
+    <div *ngIf="habitaciones.length === 0" class="no-habitaciones">
+      No se encontraron habitaciones.
+    </div>
+
+    <div *ngFor="let habitacion of habitaciones" class="habitacion-card">
+      <!-- Imagen de la habitación -->
+      <div class="habitacion-image" *ngIf="habitacion.imagenUrl">
+        <img [src]="habitacion.imagenUrl" [alt]="'Habitación ' + habitacion.numero" />
+      </div>
+      <div class="habitacion-image placeholder" *ngIf="!habitacion.imagenUrl">
+        <div class="image-placeholder">Imagen no disponible</div>
+      </div>
+
+      <!-- Información de la habitación -->
+      <div class="habitacion-info">
+        <h3>Habitación {{ habitacion.numero }}</h3>
+
+        <div class="habitacion-details">
+          <p><strong>Categoría:</strong> {{ habitacion.categoria?.nombre }}</p>
+          <p><strong>Capacidad:</strong> {{ habitacion.capacidad }} personas</p>
+          <p><strong>Estado:</strong> {{ habitacion.estado }}</p>
+        </div>
+
+        <!-- Botón para ver detalles -->
+        <div class="habitacion-actions">
+          <button class="btn-ver-detalles" (click)="verDetalles(habitacion.idHabitacion)">
+            Ver Detalles
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
