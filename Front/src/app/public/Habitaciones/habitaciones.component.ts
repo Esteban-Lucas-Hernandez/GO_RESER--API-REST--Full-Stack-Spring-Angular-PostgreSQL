@@ -49,11 +49,7 @@ export class HabitacionesComponent implements OnInit {
   }
 
   volverAlListado(): void {
-    if (this.hotelId) {
-      this.router.navigate(['/habitaciones', this.hotelId]);
-    } else {
-      this.router.navigate(['/public']);
-    }
+    this.router.navigate(['/public']);
   }
 
   verDetalles(habitacionId: number): void {

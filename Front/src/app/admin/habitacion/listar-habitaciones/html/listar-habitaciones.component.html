@@ -1,0 +1,68 @@
+<div class="card">
+  <h2>{{ titulo }}</h2>
+  <p>{{ descripcion }}</p>
+
+  <!-- Formulario para añadir nueva imagen -->
+  <div class="add-imagen-form">
+    <h3>Añadir Nueva Imagen</h3>
+    <form (ngSubmit)="onSubmit()" #imagenForm="ngForm">
+      <div class="form-group">
+        <label for="urlImagen">URL de la Imagen:</label>
+        <input
+          type="text"
+          id="urlImagen"
+          name="urlImagen"
+          [(ngModel)]="nuevaImagen.urlImagen"
+          required
+          class="form-control"
+          placeholder="Ingrese la URL de la imagen"
+        />
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="loading">
+          <span *ngIf="loading">Añadiendo...</span>
+          <span *ngIf="!loading">Añadir Imagen</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Mensaje de carga -->
+  <div *ngIf="loading" class="loading">
+    <p>Cargando imágenes...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Lista de imágenes -->
+  <div *ngIf="!loading && imagenes.length > 0" class="imagenes-list">
+    <div class="imagenes-grid">
+      <div *ngFor="let imagen of imagenes" class="imagen-card">
+        <img
+          [src]="imagen.urlImagen"
+          [alt]="'Imagen de habitación ' + habitacionId"
+          class="imagen-preview"
+        />
+        <div class="imagen-actions">
+          <button
+            class="btn-delete"
+            (click)="eliminarImagen(imagen.idImagen!)"
+            title="Eliminar"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje cuando no hay imágenes -->
+  <div *ngIf="!loading && imagenes.length === 0" class="no-imagenes">
+    <p>No hay imágenes registradas para esta habitación.</p>
+  </div>
+
+  <div class="actions">
+    <button class="btn-secondary" (click)="volverAHabitacion()">Volver a Habitaciones</button>
+  </div>
+</div>

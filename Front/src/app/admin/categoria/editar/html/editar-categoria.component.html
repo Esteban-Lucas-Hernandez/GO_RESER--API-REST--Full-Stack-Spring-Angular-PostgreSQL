@@ -1,0 +1,48 @@
+<div class="container">
+  <h1>Editar Categoría</h1>
+
+  <!-- Mensaje de carga -->
+  <div *ngIf="loading && !categoria.id" class="loading">Cargando categoría...</div>
+
+  <div class="card" *ngIf="categoria.id || !loading">
+    <form (ngSubmit)="onSubmit()" #categoriaForm="ngForm">
+      <div class="form-group">
+        <label for="nombre">Nombre de la Categoría:</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          [(ngModel)]="categoria.nombre"
+          required
+          class="form-control"
+          placeholder="Ingrese el nombre de la categoría"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea
+          id="descripcion"
+          name="descripcion"
+          [(ngModel)]="categoria.descripcion"
+          required
+          class="form-control"
+          placeholder="Ingrese una descripción detallada de la categoría"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading">
+          <span *ngIf="loading">Actualizando...</span>
+          <span *ngIf="!loading">Actualizar Categoría</span>
+        </button>
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+    </form>
+  </div>
+</div>

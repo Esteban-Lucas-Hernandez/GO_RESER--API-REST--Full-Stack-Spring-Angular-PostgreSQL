@@ -46,7 +46,7 @@
     <!-- Información detallada -->
     <div class="informacion-detallada">
 
-      <div class="detalle-item"><strong>Categoría:</strong> {{ habitacion.categoria?.nombre }}</div>
+      <div class="detalle-item"><strong>Categoría:</strong> {{ habitacion.categoria.nombre }}</div>
 
       <div class="detalle-item">
         <strong>Capacidad:</strong> {{ habitacion.capacidad }} personas
@@ -61,9 +61,9 @@
         <p>{{ habitacion.descripcion }}</p>
       </div>
 
-      <div class="detalle-item categoria-descripcion" *ngIf="habitacion.categoria?.descripcion">
+      <div class="detalle-item categoria-descripcion" *ngIf="habitacion.categoria.descripcion">
         <strong>Descripción de Categoría:</strong>
-        <p>{{ habitacion.categoria?.descripcion }}</p>
+        <p>{{ habitacion.categoria.descripcion }}</p>
       </div>
     </div>
   </div>

@@ -1,0 +1,84 @@
+<div class="card">
+  <h2>{{ titulo }}</h2>
+  <p>{{ descripcion }}</p>
+
+  <!-- Selector de hotel -->
+  <div class="hotel-selector">
+    <label for="hotelSelect">Seleccionar Hotel:</label>
+    <select id="hotelSelect" (change)="onHotelChange($event)" [value]="hotelId || ''">
+      <option value="">-- Seleccione un hotel --</option>
+      <option *ngFor="let hotel of hoteles" [value]="hotel.id">
+        {{ hotel.nombre }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Mensaje de carga -->
+  <div *ngIf="loading" class="loading">
+    <p>Cargando habitaciones...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Mensaje cuando no hay hoteles seleccionados -->
+  <div *ngIf="!hotelId && !loading && !error" class="no-hotel-selected">
+    <p>Por favor, seleccione un hotel para ver sus habitaciones.</p>
+  </div>
+
+  <!-- Mensaje cuando no hay habitaciones -->
+  <div *ngIf="hotelId && habitaciones.length === 0 && !loading" class="no-habitaciones">
+    <p>No hay habitaciones registradas para este hotel.</p>
+  </div>
+
+  <!-- Lista de habitaciones -->
+  <div *ngIf="hotelId && habitaciones.length > 0" class="habitaciones-list">
+    <table>
+      <thead>
+        <tr>
+          <th>Número</th>
+          <th>Capacidad</th>
+          <th>Precio</th>
+          <th>Estado</th>
+          <th>Categoría</th>
+          <th class="actions-cell">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let habitacion of habitaciones">
+          <td>{{ habitacion.numero }}</td>
+          <td>{{ habitacion.capacidad }}</td>
+          <td>{{ habitacion.precio | currency }}</td>
+          <td>{{ habitacion.estado }}</td>
+          <td>{{ habitacion.categoria.nombre }}</td>
+          <td class="actions-cell">
+            <button
+              class="btn-images"
+              (click)="verImagenes(habitacion.idHabitacion!)"
+              title="Ver Imágenes"
+            ></button>
+            <button
+              class="btn-edit"
+              (click)="editarHabitacion(habitacion.idHabitacion!)"
+              title="Editar"
+            ></button>
+            <button
+              class="btn-delete"
+              (click)="eliminarHabitacion(habitacion.idHabitacion!)"
+              title="Eliminar"
+            ></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="actions">
+    <button class="btn" (click)="crearHabitacion()" [disabled]="!hotelId">
+      Agregar Nueva Habitación
+    </button>
+    <button class="btn-secondary" (click)="volverAHotel()">Volver a Hoteles</button>
+  </div>
+</div>

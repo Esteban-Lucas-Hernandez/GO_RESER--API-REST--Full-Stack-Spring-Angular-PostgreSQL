@@ -1,0 +1,40 @@
+<div class="card">
+  <h2>{{ titulo }}</h2>
+  <p>{{ descripcion }}</p>
+
+  <div *ngIf="categorias.length === 0" class="no-categorias">
+    <p>No hay categorías registradas en el sistema.</p>
+  </div>
+
+  <div *ngIf="categorias.length > 0" class="categorias-list">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th class="actions-cell">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let categoria of categorias">
+          <td>{{ categoria.nombre }}</td>
+          <td>{{ categoria.descripcion }}</td>
+          <td class="actions-cell">
+            <button
+              class="btn-edit"
+              (click)="editarCategoria(categoria.id!)"
+              title="Editar"
+            ></button>
+            <button
+              class="btn-delete"
+              (click)="eliminarCategoria(categoria.id!)"
+              title="Eliminar"
+            ></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="btn" (click)="crearCategoria()">Agregar Nueva Categoría</button>
+</div>

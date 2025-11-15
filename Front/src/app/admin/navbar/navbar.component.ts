@@ -13,7 +13,7 @@ export class NavbarComponent {
   menuItems = [
     { name: 'Panel', route: '/admin/panel' },
     { name: 'Hoteles', route: '/admin/hoteles' },
-    { name: 'Usuarios', route: '/admin/usuarios' },
-    { name: 'Reservas', route: '/admin/reservas' },
+    { name: 'Categorías', route: '/admin/categoria/listar' },
+    { name: 'Habitaciones', route: '/admin/habitacion/listar/1' }, // Ruta por defecto con hotelId = 1
   ];
 }

@@ -6,12 +6,17 @@ import { AuthGuard } from './auth/auth.guard';
 import { SuperAdminGuard } from './auth/superadmin.guard';
 import { PanelComponent } from './admin/panel/panel.component';
 import { HotelesComponent } from './admin/hoteles/hoteles.component';
-import { UsuariosComponent } from './admin/usuarios/usuarios.component';
-import { ReservasComponent } from './admin/reservas/reservas.component';
+import { ListarCategoriaComponent } from './admin/categoria/listar/ts/listar-categoria.component';
+import { CrearCategoriaComponent } from './admin/categoria/crear/ts/crear-categoria.component';
+import { EditarCategoriaComponent } from './admin/categoria/editar/ts/editar-categoria.component';
+import { ListarHabitacionComponent } from './admin/habitacion/listar/ts/listar-habitacion.component';
+import { CrearHabitacionComponent } from './admin/habitacion/crear/ts/crear-habitacion.component';
+import { EditarHabitacionComponent } from './admin/habitacion/editar/ts/editar-habitacion.component';
+import { ListarHabitacionesComponent } from './admin/habitacion/listar-habitaciones/ts/listar-habitaciones.component';
 import { AdminComponent } from './admin/admin.component';
 import { SuperAdminComponent } from './superadmin/usuarios/superadmin.component';
-import { HabitacionesComponent } from './public/Habitaciones/habitaciones';
-import { DetalleHabitacionComponent } from './public/DetalleHabitacion/DetalleHabitacion';
+import { HabitacionesComponent } from './public/Habitaciones/habitaciones.component';
+import { DetalleHabitacionComponent } from './public/DetalleHabitacion/DetalleHabitacion.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch: 'full' },
@@ -28,8 +33,16 @@ export const routes: Routes = [
       { path: 'panel', component: PanelComponent },
       { path: 'dashboard', redirectTo: 'panel', pathMatch: 'full' },
       { path: 'hoteles', component: HotelesComponent },
-      { path: 'usuarios', component: UsuariosComponent },
-      { path: 'reservas', component: ReservasComponent },
+      { path: 'categoria/listar', component: ListarCategoriaComponent },
+      { path: 'categoria/crear', component: CrearCategoriaComponent },
+      { path: 'categoria/editar/:id', component: EditarCategoriaComponent },
+      { path: 'habitacion/listar/:hotelId', component: ListarHabitacionComponent },
+      { path: 'habitacion/crear/:hotelId', component: CrearHabitacionComponent },
+      { path: 'habitacion/editar/:hotelId/:id', component: EditarHabitacionComponent },
+      {
+        path: 'habitacion/imagenes/:hotelId/:habitacionId',
+        component: ListarHabitacionesComponent,
+      },
       { path: '', redirectTo: 'panel', pathMatch: 'full' },
     ],
   },
