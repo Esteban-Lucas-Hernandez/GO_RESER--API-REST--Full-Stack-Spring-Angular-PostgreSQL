@@ -1,0 +1,41 @@
+<div class="mis-reservas-container">
+  <h1>Mis Reservas</h1>
+
+  <!-- Botón para volver -->
+  <div class="volver-container">
+    <button class="btn-volver" (click)="volverAlInicio()">← Volver al Inicio</button>
+  </div>
+
+  <!-- Mensaje de carga -->
+  <div *ngIf="loading" class="loading">Cargando reservas...</div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <!-- Lista de reservas -->
+  <div *ngIf="!loading && !error" class="reservas-list">
+    <div *ngIf="reservas.length === 0" class="no-reservas">No se encontraron reservas.</div>
+
+    <div *ngFor="let reserva of reservas" class="reserva-card">
+      <div class="reserva-info">
+        <h3>Reserva #{{ reserva.idReserva }}</h3>
+
+        <div class="reserva-details">
+          <p><strong>ID Habitación:</strong> {{ reserva.idHabitacion }}</p>
+          <p>
+            <strong>Fecha Inicio:</strong> {{ reserva.fechaInicio | date : 'dd/MM/yyyy HH:mm' }}
+          </p>
+          <p><strong>Fecha Fin:</strong> {{ reserva.fechaFin | date : 'dd/MM/yyyy HH:mm' }}</p>
+          <p><strong>Total:</strong> ${{ reserva.total }}</p>
+          <p><strong>Estado:</strong> {{ reserva.estado }}</p>
+          <p><strong>Método de Pago:</strong> {{ reserva.metodoPago }}</p>
+          <p>
+            <strong>Fecha Reserva:</strong> {{ reserva.fechaReserva | date : 'dd/MM/yyyy HH:mm' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

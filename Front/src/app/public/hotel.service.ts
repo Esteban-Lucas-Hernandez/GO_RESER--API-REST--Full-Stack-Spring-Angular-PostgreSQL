@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 // Actualizamos la interfaz para reflejar la estructura real que envía el backend
 export interface Ciudad {
@@ -65,13 +66,50 @@ export interface HabitacionDetalle {
   imagenesUrls: string[];
 }
 
+// Interfaz para el modelo de reserva
+export interface ReservaRequest {
+  fechaInicio: string; // Formato ISO string
+  fechaFin: string; // Formato ISO string
+  metodoPago: string; // tarjeta, efectivo, transferencia, nequi, daviplata
+}
+
+// Interface para el modelo de reserva de respuesta
+export interface Reserva {
+  idReserva: number;
+  idUsuario: number;
+  idHabitacion: number;
+  fechaInicio: string; // Formato ISO string
+  fechaFin: string; // Formato ISO string
+  total: number;
+  estado: string;
+  metodoPago: string;
+  fechaReserva: string; // Formato ISO string
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class HotelService {
   private baseUrl = 'http://localhost:8080/public/hoteles';
+  private reservasUrl = 'http://localhost:8080/api/reservas'; // Base URL para reservas
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  // Método privado para obtener headers de autenticación
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    } else {
+      console.warn('No se encontró token de autenticación');
+    }
+
+    return headers;
+  }
 
   getHoteles(): Observable<Hotel[]> {
     // Para rutas públicas, no enviamos token de autenticación
@@ -103,5 +141,32 @@ export class HotelService {
     });
 
     return this.http.get<HabitacionDetalle>(url, { headers });
+  }
+
+  // Método para crear una reserva
+  crearReserva(idHabitacion: number, reserva: ReservaRequest): Observable<any> {
+    const url = `${this.reservasUrl}/habitacion/${idHabitacion}`;
+    const headers = this.getAuthHeaders();
+
+    return this.http.post(url, reserva, { headers });
+  }
+
+  // Método para obtener las reservas del usuario autenticado
+  getMisReservas(): Observable<Reserva[]> {
+    const url = this.reservasUrl; // http://localhost:8080/api/reservas (sin /usuario)
+    const headers = this.getAuthHeaders();
+
+    // Log para debugging
+    console.log('Obteniendo mis reservas con headers:', headers);
+
+    return this.http.get<Reserva[]>(url, { headers });
+  }
+
+  // Método para obtener todas las reservas (para administradores)
+  getTodasLasReservas(): Observable<Reserva[]> {
+    const url = this.reservasUrl; // http://localhost:8080/api/reservas
+    const headers = this.getAuthHeaders();
+
+    return this.http.get<Reserva[]>(url, { headers });
   }
 }

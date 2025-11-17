@@ -1,0 +1,95 @@
+.mis-reservas-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.volver-container {
+  margin-bottom: 20px;
+}
+
+.btn-volver {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn-volver:hover {
+  background-color: #5a6268;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+.loading {
+  background-color: #e9ecef;
+  color: #6c757d;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.no-reservas {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.reservas-list {
+  display: grid;
+  gap: 20px;
+}
+
+.reserva-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reserva-card h3 {
+  margin: 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+}
+
+.reserva-details {
+  padding: 15px;
+}
+
+.reserva-details p {
+  margin: 10px 0;
+}
+
+.reserva-details strong {
+  display: inline-block;
+  width: 150px;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .mis-reservas-container {
+    padding: 10px;
+  }
+
+  .reserva-details strong {
+    display: block;
+    width: auto;
+    margin-bottom: 5px;
+  }
+}

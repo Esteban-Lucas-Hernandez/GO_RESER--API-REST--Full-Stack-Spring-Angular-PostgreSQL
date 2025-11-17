@@ -166,4 +166,10 @@ export class PublicComponent implements OnInit {
     // Navegar a la página de habitaciones con el ID del hotel
     this.router.navigate(['/habitaciones', hotelId]);
   }
+
+  // Método para ver las reservas del usuario
+  verMisReservas() {
+    // Navegar a la página de mis reservas
+    this.router.navigate(['/mis-reservas']);
+  }
 }

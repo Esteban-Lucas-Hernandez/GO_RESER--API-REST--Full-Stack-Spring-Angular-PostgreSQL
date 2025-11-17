@@ -17,6 +17,7 @@ import { AdminComponent } from './admin/admin.component';
 import { SuperAdminComponent } from './superadmin/usuarios/superadmin.component';
 import { HabitacionesComponent } from './public/Habitaciones/habitaciones.component';
 import { DetalleHabitacionComponent } from './public/DetalleHabitacion/DetalleHabitacion.component';
+import { MisReservasComponent } from './public/reservas/ts/mis-reservas.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch: 'full' },
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: 'registro', component: RegistroComponent },
   { path: 'habitaciones/:id', component: HabitacionesComponent },
   { path: 'detalle-habitacion/:hotelId/:id', component: DetalleHabitacionComponent },
+  { path: 'mis-reservas', component: MisReservasComponent, canActivate: [AuthGuard] },
   {
     path: 'admin',
     component: AdminComponent,

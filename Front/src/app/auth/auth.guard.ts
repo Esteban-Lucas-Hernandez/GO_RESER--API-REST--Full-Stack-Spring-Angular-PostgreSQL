@@ -14,16 +14,16 @@ export class AuthGuard implements CanActivate {
       // Obtener el rol del usuario
       const userRole = this.authService.getUserRole();
 
-      // Verificar si el usuario tiene rol de administrador
-      if (userRole === 'ROLE_ADMIN') {
-        return true; // Permitir el acceso
-      } else if (userRole === 'ROLE_SUPERADMIN') {
-        // Redirigir al panel de super admin
-        this.router.navigate(['/superadmin']);
-        return false;
+      // Permitir acceso a ROLE_USER y ROLE_ADMIN
+      if (userRole === 'ROLE_USER' || userRole === 'ROLE_ADMIN') {
+        return true;
       } else {
-        // Redirigir a la página principal si no es administrador
-        this.router.navigate(['/public']);
+        // Redirigir según el rol
+        if (userRole === 'ROLE_SUPERADMIN') {
+          this.router.navigate(['/superadmin']);
+        } else {
+          this.router.navigate(['/public']);
+        }
         return false;
       }
     } else {

@@ -150,6 +150,20 @@
   font-weight: 500;
 }
 
+.mis-reservas-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.mis-reservas-button:hover {
+  background-color: #218838;
+}
+
 .logout-button {
   background-color: #dc3545;
   color: white;

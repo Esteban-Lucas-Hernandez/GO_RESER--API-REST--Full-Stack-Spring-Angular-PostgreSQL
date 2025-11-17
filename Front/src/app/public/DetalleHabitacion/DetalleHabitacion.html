@@ -45,7 +45,6 @@
 
     <!-- Información detallada -->
     <div class="informacion-detallada">
-
       <div class="detalle-item"><strong>Categoría:</strong> {{ habitacion.categoria.nombre }}</div>
 
       <div class="detalle-item">
@@ -65,6 +64,99 @@
         <strong>Descripción de Categoría:</strong>
         <p>{{ habitacion.categoria.descripcion }}</p>
       </div>
+
+      <!-- Botón para realizar reserva -->
+      <div class="boton-reserva-container">
+        <button class="btn-reserva" (click)="toggleFormularioReserva()">
+          {{ mostrarFormularioReserva ? 'Cancelar Reserva' : 'Realizar Reserva' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Mensaje de éxito/error para la reserva -->
+    <div *ngIf="mensajeReserva" class="mensaje-reserva" [ngClass]="tipoMensajeReserva">
+      {{ mensajeReserva }}
+    </div>
+
+    <!-- Formulario de reserva -->
+    <div *ngIf="mostrarFormularioReserva" class="formulario-reserva">
+      <h3>Realizar Reserva</h3>
+      <form (ngSubmit)="onSubmitReserva()" #reservaForm="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fechaInicio">Fecha de Inicio:</label>
+            <input
+              type="date"
+              id="fechaInicio"
+              name="fechaInicio"
+              [(ngModel)]="reserva.fechaInicio"
+              required
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="horaInicio">Hora de Inicio:</label>
+            <input
+              type="time"
+              id="horaInicio"
+              name="horaInicio"
+              [(ngModel)]="reserva.horaInicio"
+              required
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fechaFin">Fecha de Fin:</label>
+            <input
+              type="date"
+              id="fechaFin"
+              name="fechaFin"
+              [(ngModel)]="reserva.fechaFin"
+              required
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="horaFin">Hora de Fin:</label>
+            <input
+              type="time"
+              id="horaFin"
+              name="horaFin"
+              [(ngModel)]="reserva.horaFin"
+              required
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="metodoPago">Método de Pago:</label>
+          <select
+            id="metodoPago"
+            name="metodoPago"
+            [(ngModel)]="reserva.metodoPago"
+            required
+            class="form-control"
+          >
+            <option value="">Seleccione un método de pago</option>
+            <option *ngFor="let metodo of metodosPago" [value]="metodo.valor">
+              {{ metodo.nombre }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-submit">Confirmar Reserva</button>
+          <button type="button" class="btn-cancel" (click)="toggleFormularioReserva()">
+            Cancelar
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

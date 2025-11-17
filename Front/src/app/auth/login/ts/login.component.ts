@@ -45,7 +45,7 @@ export class LoginComponent {
             if (userRole === 'ROLE_SUPERADMIN') {
               this.router.navigate(['/superadmin']);
             } else if (userRole === 'ROLE_ADMIN') {
-              this.router.navigate(['/admin']);
+              this.router.navigate(['/admin/panel']);
             } else {
               this.router.navigate(['/public']);
             }
