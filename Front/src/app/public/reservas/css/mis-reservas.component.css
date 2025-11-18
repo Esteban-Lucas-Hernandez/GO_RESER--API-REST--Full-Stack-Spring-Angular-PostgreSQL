@@ -82,6 +82,34 @@
   color: #333;
 }
 
+.reserva-actions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+.btn-cancelar {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn-cancelar:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.btn-cancelar:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 @media (max-width: 768px) {
   .mis-reservas-container {
     padding: 10px;

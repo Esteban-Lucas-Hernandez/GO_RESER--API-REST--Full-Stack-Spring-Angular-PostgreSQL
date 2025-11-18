@@ -84,7 +84,7 @@
       <form (ngSubmit)="onSubmitReserva()" #reservaForm="ngForm">
         <div class="form-row">
           <div class="form-group">
-            <label for="fechaInicio">Fecha de Inicio:</label>
+            <label for="fechaInicio">Fecha de Entrada:</label>
             <input
               type="date"
               id="fechaInicio"
@@ -96,38 +96,12 @@
           </div>
 
           <div class="form-group">
-            <label for="horaInicio">Hora de Inicio:</label>
-            <input
-              type="time"
-              id="horaInicio"
-              name="horaInicio"
-              [(ngModel)]="reserva.horaInicio"
-              required
-              class="form-control"
-            />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="fechaFin">Fecha de Fin:</label>
+            <label for="fechaFin">Fecha de Salida:</label>
             <input
               type="date"
               id="fechaFin"
               name="fechaFin"
               [(ngModel)]="reserva.fechaFin"
-              required
-              class="form-control"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="horaFin">Hora de Fin:</label>
-            <input
-              type="time"
-              id="horaFin"
-              name="horaFin"
-              [(ngModel)]="reserva.horaFin"
               required
               class="form-control"
             />

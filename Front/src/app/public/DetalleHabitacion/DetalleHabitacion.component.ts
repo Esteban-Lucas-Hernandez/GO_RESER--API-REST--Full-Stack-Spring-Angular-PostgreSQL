@@ -8,9 +8,7 @@ import { AuthService } from '../../auth/auth.service';
 // Interface para el modelo de reserva
 interface Reserva {
   fechaInicio: string;
-  horaInicio: string;
   fechaFin: string;
-  horaFin: string;
   metodoPago: string;
 }
 
@@ -32,9 +30,7 @@ export class DetalleHabitacionComponent implements OnInit {
   mostrarFormularioReserva = false;
   reserva: Reserva = {
     fechaInicio: '',
-    horaInicio: '14:00',
     fechaFin: '',
-    horaFin: '12:00',
     metodoPago: '',
   };
 
@@ -110,12 +106,12 @@ export class DetalleHabitacionComponent implements OnInit {
       return;
     }
 
-    // Verificar que la fecha de inicio sea anterior a la fecha de fin
-    const fechaInicioCompleta = new Date(`${this.reserva.fechaInicio}T${this.reserva.horaInicio}`);
-    const fechaFinCompleta = new Date(`${this.reserva.fechaFin}T${this.reserva.horaFin}`);
+    // Verificar que la fecha de inicio sea anterior o igual a la fecha de fin
+    const fechaInicio = new Date(this.reserva.fechaInicio);
+    const fechaFin = new Date(this.reserva.fechaFin);
 
-    if (fechaInicioCompleta >= fechaFinCompleta) {
-      this.mostrarMensaje('La fecha de inicio debe ser anterior a la fecha de fin', 'error');
+    if (fechaInicio > fechaFin) {
+      this.mostrarMensaje('La fecha de inicio debe ser anterior o igual a la fecha de fin', 'error');
       return;
     }
 
@@ -137,15 +133,10 @@ export class DetalleHabitacionComponent implements OnInit {
   enviarReserva(): void {
     if (!this.habitacionId) return;
 
-    // Combinar fecha y hora en formato ISO
-    const fechaInicioISO = new Date(
-      `${this.reserva.fechaInicio}T${this.reserva.horaInicio}`
-    ).toISOString();
-    const fechaFinISO = new Date(`${this.reserva.fechaFin}T${this.reserva.horaFin}`).toISOString();
-
+    // Enviar solo las fechas en formato YYYY-MM-DD (LocalDate)
     const reservaRequest: ReservaRequest = {
-      fechaInicio: fechaInicioISO,
-      fechaFin: fechaFinISO,
+      fechaInicio: this.reserva.fechaInicio,
+      fechaFin: this.reserva.fechaFin,
       metodoPago: this.reserva.metodoPago,
     };
 
@@ -179,12 +170,9 @@ export class DetalleHabitacionComponent implements OnInit {
 
   // Resetear el formulario de reserva
   resetFormularioReserva(): void {
-    const hoy = new Date().toISOString().split('T')[0];
     this.reserva = {
       fechaInicio: '',
-      horaInicio: '14:00',
       fechaFin: '',
-      horaFin: '12:00',
       metodoPago: '',
     };
   }

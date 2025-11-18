@@ -52,4 +52,26 @@ export class MisReservasComponent implements OnInit {
   volverAlInicio(): void {
     this.router.navigate(['/public']);
   }
+
+  cancelarReserva(idReserva: number): void {
+    if (confirm('¿Está seguro que desea cancelar esta reserva?')) {
+      this.hotelService.cancelarReserva(idReserva).subscribe({
+        next: () => {
+          // Recargar la lista de reservas para actualizar el estado
+          this.loadReservas();
+          alert('Reserva cancelada exitosamente');
+        },
+        error: (err: any) => {
+          console.error('Error al cancelar reserva:', err);
+          if (err.status === 403) {
+            alert('No tienes permisos para cancelar esta reserva.');
+          } else if (err.status === 404) {
+            alert('Reserva no encontrada.');
+          } else {
+            alert('No se pudo cancelar la reserva. Por favor, inténtelo más tarde.');
+          }
+        },
+      });
+    }
+  }
 }

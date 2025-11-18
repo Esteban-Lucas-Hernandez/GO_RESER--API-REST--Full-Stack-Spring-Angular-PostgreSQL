@@ -68,8 +68,8 @@ export interface HabitacionDetalle {
 
 // Interfaz para el modelo de reserva
 export interface ReservaRequest {
-  fechaInicio: string; // Formato ISO string
-  fechaFin: string; // Formato ISO string
+  fechaInicio: string; // Formato YYYY-MM-DD (LocalDate)
+  fechaFin: string; // Formato YYYY-MM-DD (LocalDate)
   metodoPago: string; // tarjeta, efectivo, transferencia, nequi, daviplata
 }
 
@@ -168,5 +168,13 @@ export class HotelService {
     const headers = this.getAuthHeaders();
 
     return this.http.get<Reserva[]>(url, { headers });
+  }
+
+  // Método para cancelar una reserva
+  cancelarReserva(idReserva: number): Observable<any> {
+    const url = `${this.reservasUrl}/${idReserva}/cancelar`;
+    const headers = this.getAuthHeaders();
+
+    return this.http.put(url, {}, { headers });
   }
 }

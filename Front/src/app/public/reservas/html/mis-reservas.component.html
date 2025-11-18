@@ -25,15 +25,24 @@
         <div class="reserva-details">
           <p><strong>ID Habitación:</strong> {{ reserva.idHabitacion }}</p>
           <p>
-            <strong>Fecha Inicio:</strong> {{ reserva.fechaInicio | date : 'dd/MM/yyyy HH:mm' }}
+            <strong>Fecha Entrada:</strong> {{ reserva.fechaInicio | date : 'dd/MM/yyyy' }}
           </p>
-          <p><strong>Fecha Fin:</strong> {{ reserva.fechaFin | date : 'dd/MM/yyyy HH:mm' }}</p>
+          <p><strong>Fecha Salida:</strong> {{ reserva.fechaFin | date : 'dd/MM/yyyy' }}</p>
           <p><strong>Total:</strong> ${{ reserva.total }}</p>
           <p><strong>Estado:</strong> {{ reserva.estado }}</p>
           <p><strong>Método de Pago:</strong> {{ reserva.metodoPago }}</p>
           <p>
             <strong>Fecha Reserva:</strong> {{ reserva.fechaReserva | date : 'dd/MM/yyyy HH:mm' }}
           </p>
+        </div>
+
+        <div class="reserva-actions" *ngIf="reserva.estado?.toUpperCase() !== 'CANCELADA'">
+          <button 
+            class="btn-cancelar" 
+            (click)="cancelarReserva(reserva.idReserva)"
+          >
+            Cancelar Reserva
+          </button>
         </div>
       </div>
     </div>
