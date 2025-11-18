@@ -6,6 +6,12 @@
     <button class="btn-volver" (click)="volverAlListado()">← Volver al Listado de Hoteles</button>
   </div>
 
+  <!-- Contenedor del mapa -->
+  <div class="map-container">
+    <h2>Ubicación del Hotel</h2>
+    <div id="map" class="map"></div>
+  </div>
+
   <!-- Mensaje de carga -->
   <div *ngIf="loading" class="loading">Cargando habitaciones...</div>
 

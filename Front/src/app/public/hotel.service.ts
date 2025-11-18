@@ -30,6 +30,9 @@ export interface Hotel {
   createdAt: string; // LocalDateTime en el backend
   updatedAt: string; // LocalDateTime en el backend
   ciudad: Ciudad; // Objeto anidado en lugar de ciudadNombre
+  // Información de coordenadas
+  latitud: number;
+  longitud: number;
 }
 
 // Interfaz para CategoriaHabitacionDTO
@@ -51,6 +54,11 @@ export interface Habitacion {
   descripcion: string;
   estado: string;
   imagenUrl: string;
+  // Añadimos coordenadas a la habitación también
+  latitud: number;
+  longitud: number;
+  // Añadimos el nombre del hotel
+  hotelNombre: string;
 }
 
 // Interfaz para HabitacionDetalleDTO
@@ -64,6 +72,10 @@ export interface HabitacionDetalle {
   descripcion: string;
   estado: string;
   imagenesUrls: string[];
+  // Información de la ciudad del hotel
+  ciudadNombre: string;
+  latitud: number;
+  longitud: number;
 }
 
 // Interfaz para el modelo de reserva
@@ -141,6 +153,18 @@ export class HotelService {
     });
 
     return this.http.get<HabitacionDetalle>(url, { headers });
+  }
+
+  // Método para obtener la información de un hotel específico
+  getHotelById(hotelId: number): Observable<Hotel> {
+    const url = `${this.baseUrl}/${hotelId}`;
+    // Para rutas públicas, no enviamos token de autenticación
+    const headers = new HttpHeaders({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get<Hotel>(url, { headers });
   }
 
   // Método para crear una reserva
