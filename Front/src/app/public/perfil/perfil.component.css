@@ -97,7 +97,105 @@
   color: #495057;
 }
 
-/* Estilos para el formulario de edición */
+/* Contenedor de input con botón de edición */
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.input-container input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.input-container input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.input-container span {
+  flex: 1;
+  margin: 0;
+}
+
+/* Botón de lápiz para editar */
+.btn-edit-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px 8px;
+  transition: transform 0.2s;
+}
+
+.btn-edit-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Acciones de edición (guardar y cancelar) */
+.edit-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-save-icon,
+.btn-cancel-icon {
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-save-icon {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-save-icon:hover {
+  background-color: #218838;
+}
+
+.btn-cancel-icon {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-cancel-icon:hover {
+  background-color: #5a6268;
+}
+
+/* Estilos para el formulario de cambio de contraseña */
+.password-change-form {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+}
+
+.password-change-form h4 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.password-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* Estilos para el formulario de edición (legacy - mantener por compatibilidad) */
 .perfil-form {
   display: flex;
   flex-direction: column;
@@ -141,13 +239,23 @@
 .btn-editar,
 .btn-guardar,
 .btn-cancelar,
-.btn-eliminar {
+.btn-eliminar,
+.btn-password {
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
+}
+
+.btn-password {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.btn-password:hover {
+  background-color: #138496;
 }
 
 .btn-editar {

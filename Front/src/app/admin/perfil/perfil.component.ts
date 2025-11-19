@@ -19,6 +19,8 @@ export class PerfilComponent implements OnInit {
   userRole: string | null = null;
   tokenInfo: any = null;
   editMode = false;
+  editingField: string | null = null;
+  showPasswordChange = false;
   updateData: ActualizarPerfilDTO = {
     nombreCompleto: '',
     telefono: '',
@@ -99,6 +101,106 @@ export class PerfilComponent implements OnInit {
       this.updateData.email = this.perfil.email || '';
       this.updateData.contrasena = '';
     }
+  }
+
+  toggleFieldEdit(field: string): void {
+    if (this.editingField === field) {
+      this.editingField = null;
+      // Restaurar el valor original si se cancela
+      if (this.perfil) {
+        switch (field) {
+          case 'nombreCompleto':
+            this.updateData.nombreCompleto = this.perfil.nombreCompleto || '';
+            break;
+          case 'telefono':
+            this.updateData.telefono = this.perfil.telefono || '';
+            break;
+          case 'documento':
+            this.updateData.documento = this.perfil.documento || '';
+            break;
+          case 'email':
+            this.updateData.email = this.perfil.email || '';
+            break;
+        }
+      }
+    } else {
+      this.editingField = field;
+    }
+  }
+
+  saveField(field: string): void {
+    const dataToUpdate: ActualizarPerfilDTO = {};
+
+    switch (field) {
+      case 'nombreCompleto':
+        if (this.updateData.nombreCompleto) {
+          dataToUpdate.nombreCompleto = this.updateData.nombreCompleto;
+        }
+        break;
+      case 'telefono':
+        if (this.updateData.telefono) {
+          dataToUpdate.telefono = this.updateData.telefono;
+        }
+        break;
+      case 'documento':
+        if (this.updateData.documento) {
+          dataToUpdate.documento = this.updateData.documento;
+        }
+        break;
+      case 'email':
+        if (this.updateData.email) {
+          dataToUpdate.email = this.updateData.email;
+        }
+        break;
+    }
+
+    if (Object.keys(dataToUpdate).length === 0) {
+      alert('No hay cambios para actualizar.');
+      return;
+    }
+
+    this.perfilService.updateProfile(dataToUpdate).subscribe({
+      next: (updatedProfile: UsuarioDTO) => {
+        this.perfil = updatedProfile;
+        this.editingField = null;
+        alert('Campo actualizado correctamente.');
+      },
+      error: (err) => {
+        console.error('Error al actualizar el campo:', err);
+        alert('Error al actualizar el campo. Por favor, inténtelo más tarde.');
+      },
+    });
+  }
+
+  togglePasswordChange(): void {
+    this.showPasswordChange = !this.showPasswordChange;
+    if (!this.showPasswordChange) {
+      this.updateData.contrasena = '';
+    }
+  }
+
+  updatePassword(): void {
+    if (!this.updateData.contrasena) {
+      alert('Por favor, ingrese la nueva contraseña.');
+      return;
+    }
+
+    const dataToUpdate: ActualizarPerfilDTO = {
+      contrasena: this.updateData.contrasena,
+    };
+
+    this.perfilService.updateProfile(dataToUpdate).subscribe({
+      next: (updatedProfile: UsuarioDTO) => {
+        this.perfil = updatedProfile;
+        this.showPasswordChange = false;
+        this.updateData.contrasena = '';
+        alert('Contraseña actualizada correctamente.');
+      },
+      error: (err) => {
+        console.error('Error al actualizar la contraseña:', err);
+        alert('Error al actualizar la contraseña. Por favor, inténtelo más tarde.');
+      },
+    });
   }
 
   updateProfile(): void {

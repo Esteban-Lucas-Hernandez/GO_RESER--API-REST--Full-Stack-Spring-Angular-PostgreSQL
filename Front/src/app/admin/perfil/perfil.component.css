@@ -35,7 +35,7 @@
 
 .info-item {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 12px 0;
   border-bottom: 1px solid #f5f5f5;
 }
@@ -43,13 +43,112 @@
 .info-item label {
   font-weight: bold;
   color: #555;
-  width: 30%;
+  margin-bottom: 8px;
 }
 
 .info-item span {
   color: #333;
-  width: 70%;
-  text-align: right;
+}
+
+/* Contenedor de input con botón de edición */
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.input-container input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.input-container input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.input-container span {
+  flex: 1;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+}
+
+/* Botón de lápiz para editar */
+.btn-edit-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px 8px;
+  transition: transform 0.2s;
+}
+
+.btn-edit-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Acciones de edición (guardar y cancelar) */
+.edit-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-save-icon,
+.btn-cancel-icon {
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-save-icon {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-save-icon:hover {
+  background-color: #1e7e34;
+}
+
+.btn-cancel-icon {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-cancel-icon:hover {
+  background-color: #545b62;
+}
+
+/* Estilos para el formulario de cambio de contraseña */
+.password-change-form {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+}
+
+.password-change-form h4 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.password-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .perfil-form {
@@ -93,7 +192,8 @@
 .btn-guardar,
 .btn-cancelar,
 .btn-eliminar,
-.btn-reintentar {
+.btn-reintentar,
+.btn-password {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -101,6 +201,15 @@
   font-weight: bold;
   transition: background-color 0.3s;
   min-width: 120px;
+}
+
+.btn-password {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.btn-password:hover {
+  background-color: #138496;
 }
 
 .btn-editar {
@@ -217,7 +326,10 @@
     gap: 5px;
   }
 
-  .info-item label,
+  .info-item label {
+    width: 100%;
+  }
+
   .info-item span {
     width: 100%;
     text-align: left;

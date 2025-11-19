@@ -20,25 +20,121 @@
     </div>
 
     <!-- Modo de visualización -->
-    <div *ngIf="!editMode" class="perfil-info">
+    <div *ngIf="!editMode && !showPasswordChange" class="perfil-info">
       <div class="info-item">
         <label>Nombre Completo:</label>
-        <span>{{ perfil.nombreCompleto }}</span>
+        <div class="input-container">
+          <input
+            *ngIf="editingField === 'nombreCompleto'"
+            type="text"
+            [(ngModel)]="updateData.nombreCompleto"
+            placeholder="Nombre completo"
+          />
+          <span *ngIf="editingField !== 'nombreCompleto'">{{ perfil.nombreCompleto }}</span>
+          <button
+            *ngIf="editingField !== 'nombreCompleto'"
+            (click)="toggleFieldEdit('nombreCompleto')"
+            class="btn-edit-icon"
+            title="Editar"
+          >
+            ✏️
+          </button>
+          <div *ngIf="editingField === 'nombreCompleto'" class="edit-actions">
+            <button (click)="saveField('nombreCompleto')" class="btn-save-icon" title="Guardar">
+              ✓
+            </button>
+            <button (click)="toggleFieldEdit('nombreCompleto')" class="btn-cancel-icon" title="Cancelar">
+              ✕
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="info-item">
         <label>Email:</label>
-        <span>{{ perfil.email }}</span>
+        <div class="input-container">
+          <input
+            *ngIf="editingField === 'email'"
+            type="email"
+            [(ngModel)]="updateData.email"
+            placeholder="Email"
+          />
+          <span *ngIf="editingField !== 'email'">{{ perfil.email }}</span>
+          <button
+            *ngIf="editingField !== 'email'"
+            (click)="toggleFieldEdit('email')"
+            class="btn-edit-icon"
+            title="Editar"
+          >
+            ✏️
+          </button>
+          <div *ngIf="editingField === 'email'" class="edit-actions">
+            <button (click)="saveField('email')" class="btn-save-icon" title="Guardar">
+              ✓
+            </button>
+            <button (click)="toggleFieldEdit('email')" class="btn-cancel-icon" title="Cancelar">
+              ✕
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="info-item">
         <label>Teléfono:</label>
-        <span>{{ perfil.telefono || 'No proporcionado' }}</span>
+        <div class="input-container">
+          <input
+            *ngIf="editingField === 'telefono'"
+            type="text"
+            [(ngModel)]="updateData.telefono"
+            placeholder="Teléfono"
+          />
+          <span *ngIf="editingField !== 'telefono'">{{ perfil.telefono || 'No proporcionado' }}</span>
+          <button
+            *ngIf="editingField !== 'telefono'"
+            (click)="toggleFieldEdit('telefono')"
+            class="btn-edit-icon"
+            title="Editar"
+          >
+            ✏️
+          </button>
+          <div *ngIf="editingField === 'telefono'" class="edit-actions">
+            <button (click)="saveField('telefono')" class="btn-save-icon" title="Guardar">
+              ✓
+            </button>
+            <button (click)="toggleFieldEdit('telefono')" class="btn-cancel-icon" title="Cancelar">
+              ✕
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="info-item">
         <label>Documento:</label>
-        <span>{{ perfil.documento || 'No proporcionado' }}</span>
+        <div class="input-container">
+          <input
+            *ngIf="editingField === 'documento'"
+            type="text"
+            [(ngModel)]="updateData.documento"
+            placeholder="Documento"
+          />
+          <span *ngIf="editingField !== 'documento'">{{ perfil.documento || 'No proporcionado' }}</span>
+          <button
+            *ngIf="editingField !== 'documento'"
+            (click)="toggleFieldEdit('documento')"
+            class="btn-edit-icon"
+            title="Editar"
+          >
+            ✏️
+          </button>
+          <div *ngIf="editingField === 'documento'" class="edit-actions">
+            <button (click)="saveField('documento')" class="btn-save-icon" title="Guardar">
+              ✓
+            </button>
+            <button (click)="toggleFieldEdit('documento')" class="btn-cancel-icon" title="Cancelar">
+              ✕
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="info-item">
@@ -53,40 +149,11 @@
       </div>
     </div>
 
-    <!-- Modo de edición -->
-    <div *ngIf="editMode" class="perfil-form">
+    <!-- Formulario de cambio de contraseña -->
+    <div *ngIf="showPasswordChange" class="password-change-form">
+      <h4>Cambiar Contraseña</h4>
       <div class="form-group">
-        <label for="nombreCompleto">Nombre Completo:</label>
-        <input
-          type="text"
-          id="nombreCompleto"
-          [(ngModel)]="updateData.nombreCompleto"
-          placeholder="Nombre completo"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" [(ngModel)]="updateData.email" placeholder="Email" />
-      </div>
-
-      <div class="form-group">
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" [(ngModel)]="updateData.telefono" placeholder="Teléfono" />
-      </div>
-
-      <div class="form-group">
-        <label for="documento">Documento:</label>
-        <input
-          type="text"
-          id="documento"
-          [(ngModel)]="updateData.documento"
-          placeholder="Documento"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="contrasena">Contraseña (dejar en blanco para no cambiar):</label>
+        <label for="contrasena">Nueva Contraseña:</label>
         <input
           type="password"
           id="contrasena"
@@ -94,14 +161,16 @@
           placeholder="Nueva contraseña"
         />
       </div>
+      <div class="password-actions">
+        <button (click)="updatePassword()" class="btn-guardar">Guardar Contraseña</button>
+        <button (click)="togglePasswordChange()" class="btn-cancelar">Cancelar</button>
+      </div>
     </div>
 
     <div class="perfil-actions">
-      <button *ngIf="!editMode" (click)="toggleEditMode()" class="btn-editar">Editar Perfil</button>
-      <button *ngIf="editMode" (click)="updateProfile()" class="btn-guardar">
-        Guardar Cambios
+      <button (click)="togglePasswordChange()" class="btn-password">
+        {{ showPasswordChange ? 'Cancelar Cambio de Contraseña' : 'Cambiar Contraseña' }}
       </button>
-      <button *ngIf="editMode" (click)="toggleEditMode()" class="btn-cancelar">Cancelar</button>
       <button (click)="onDeleteAccount()" class="btn-eliminar">Eliminar Cuenta</button>
     </div>
   </div>
