@@ -19,7 +19,7 @@ export class CrearHabitacionComponent implements OnInit {
     capacidad: 0,
     precio: 0,
     descripcion: '',
-    estado: 'DISPONIBLE',
+    estado: 'disponible',
     categoriaId: 0,
     imagenUrl: '',
     imagenesUrls: [],

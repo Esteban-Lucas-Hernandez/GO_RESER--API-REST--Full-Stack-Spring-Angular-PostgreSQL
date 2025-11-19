@@ -27,7 +27,7 @@ export class EditarHabitacionComponent implements OnInit {
     capacidad: 0,
     precio: 0,
     descripcion: '',
-    estado: 'DISPONIBLE',
+    estado: 'disponible',
     imagenUrl: '',
     imagenesUrls: [],
   };
