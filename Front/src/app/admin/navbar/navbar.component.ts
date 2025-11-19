@@ -15,5 +15,6 @@ export class NavbarComponent {
     { name: 'Hoteles', route: '/admin/hoteles' },
     { name: 'Categorías', route: '/admin/categoria/listar' },
     { name: 'Habitaciones', route: '/admin/habitacion/listar/1' }, // Ruta por defecto con hotelId = 1
+    { name: 'Perfil', route: '/admin/perfil' },
   ];
 }

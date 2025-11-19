@@ -172,4 +172,10 @@ export class PublicComponent implements OnInit {
     // Navegar a la página de mis reservas
     this.router.navigate(['/mis-reservas']);
   }
+
+  // Método para ver el perfil del usuario
+  verPerfil() {
+    // Navegar a la página de perfil
+    this.router.navigate(['/perfil']);
+  }
 }

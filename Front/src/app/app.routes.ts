@@ -4,6 +4,7 @@ import { LoginComponent } from './auth/login/ts/login.component';
 import { RegistroComponent } from './auth/registro/ts/registro.component';
 import { AuthGuard } from './auth/auth.guard';
 import { SuperAdminGuard } from './auth/superadmin.guard';
+import { AdminGuard } from './auth/admin.guard';
 import { PanelComponent } from './admin/panel/panel.component';
 import { HotelesComponent } from './admin/hoteles/hoteles.component';
 import { ListarCategoriaComponent } from './admin/categoria/listar/ts/listar-categoria.component';
@@ -18,6 +19,8 @@ import { SuperAdminComponent } from './superadmin/usuarios/superadmin.component'
 import { HabitacionesComponent } from './public/Habitaciones/habitaciones.component';
 import { DetalleHabitacionComponent } from './public/DetalleHabitacion/DetalleHabitacion.component';
 import { MisReservasComponent } from './public/reservas/ts/mis-reservas.component';
+import { PerfilComponent } from './admin/perfil/perfil.component';
+import { PerfilComponent as PublicPerfilComponent } from './public/perfil/perfil.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch: 'full' },
@@ -27,10 +30,11 @@ export const routes: Routes = [
   { path: 'habitaciones/:id', component: HabitacionesComponent },
   { path: 'detalle-habitacion/:hotelId/:id', component: DetalleHabitacionComponent },
   { path: 'mis-reservas', component: MisReservasComponent, canActivate: [AuthGuard] },
+  { path: 'perfil', component: PublicPerfilComponent, canActivate: [AuthGuard] },
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
     children: [
       { path: 'panel', component: PanelComponent },
       { path: 'dashboard', redirectTo: 'panel', pathMatch: 'full' },
@@ -45,6 +49,7 @@ export const routes: Routes = [
         path: 'habitacion/imagenes/:hotelId/:habitacionId',
         component: ListarHabitacionesComponent,
       },
+      { path: 'perfil', component: PerfilComponent },
       { path: '', redirectTo: 'panel', pathMatch: 'full' },
     ],
   },

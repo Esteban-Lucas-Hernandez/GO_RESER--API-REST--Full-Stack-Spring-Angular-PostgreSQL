@@ -1,0 +1,123 @@
+<div class="perfil-container">
+  <h2>Perfil de Usuario</h2>
+
+  <!-- Mostrar mensaje de carga -->
+  <div *ngIf="loading" class="loading">
+    <p>Cargando información del perfil...</p>
+  </div>
+
+  <!-- Mostrar mensaje de error -->
+  <div *ngIf="error" class="error">
+    <h3>Error de permisos</h3>
+    <pre>{{ error }}</pre>
+    <button (click)="loadProfile()" class="btn-reintentar">Reintentar</button>
+  </div>
+
+  <!-- Mostrar información del perfil -->
+  <div *ngIf="perfil && !loading" class="perfil-card">
+    <div class="perfil-header">
+      <h3>Información Personal</h3>
+    </div>
+
+    <!-- Modo de visualización -->
+    <div *ngIf="!editMode" class="perfil-info">
+      <div class="info-item">
+        <label>Nombre Completo:</label>
+        <span>{{ perfil.nombreCompleto }}</span>
+      </div>
+
+      <div class="info-item">
+        <label>Email:</label>
+        <span>{{ perfil.email }}</span>
+      </div>
+
+      <div class="info-item">
+        <label>Teléfono:</label>
+        <span>{{ perfil.telefono || 'No proporcionado' }}</span>
+      </div>
+
+      <div class="info-item">
+        <label>Documento:</label>
+        <span>{{ perfil.documento || 'No proporcionado' }}</span>
+      </div>
+
+      <div class="info-item">
+        <label>Rol:</label>
+        <span>{{ perfil.rol }}</span>
+      </div>
+
+      <div class="info-item">
+        <label>Fecha de Registro:</label>
+        <span>{{ perfil.fechaRegistro | date : 'dd/MM/yyyy' }}</span>
+      </div>
+
+      <!-- Mostrar rol del token si es diferente al rol del perfil -->
+      <div class="info-item" *ngIf="userRole && userRole !== perfil.rol">
+        <label>Rol de Token:</label>
+        <span>{{ userRole }}</span>
+      </div>
+    </div>
+
+    <!-- Modo de edición -->
+    <div *ngIf="editMode" class="perfil-form">
+      <div class="form-group">
+        <label for="nombreCompleto">Nombre Completo:</label>
+        <input
+          type="text"
+          id="nombreCompleto"
+          [(ngModel)]="updateData.nombreCompleto"
+          placeholder="Nombre completo"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="updateData.email" placeholder="Email" />
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" [(ngModel)]="updateData.telefono" placeholder="Teléfono" />
+      </div>
+
+      <div class="form-group">
+        <label for="documento">Documento:</label>
+        <input
+          type="text"
+          id="documento"
+          [(ngModel)]="updateData.documento"
+          placeholder="Documento"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="contrasena">Contraseña (dejar en blanco para no cambiar):</label>
+        <input
+          type="password"
+          id="contrasena"
+          [(ngModel)]="updateData.contrasena"
+          placeholder="Nueva contraseña"
+        />
+      </div>
+    </div>
+
+    <div class="perfil-actions">
+      <button *ngIf="!editMode" (click)="toggleEditMode()" class="btn-editar">Editar Perfil</button>
+      <button *ngIf="editMode" (click)="updateProfile()" class="btn-guardar">
+        Guardar Cambios
+      </button>
+      <button *ngIf="editMode" (click)="toggleEditMode()" class="btn-cancelar">Cancelar</button>
+      <button (click)="onDeleteAccount()" class="btn-eliminar">Eliminar Cuenta</button>
+    </div>
+  </div>
+
+  <!-- Mostrar mensaje si no hay perfil y no hay error -->
+  <div *ngIf="!perfil && !loading && !error" class="no-data">
+    <p>No se encontró información de perfil.</p>
+    <p *ngIf="userRole">Su rol actual es: {{ userRole }}</p>
+    <div *ngIf="tokenInfo" class="token-info">
+      <h4>Información del Token:</h4>
+      <p>Roles: {{ tokenInfo.roles ? tokenInfo.roles.join(', ') : 'No identificados' }}</p>
+    </div>
+  </div>
+</div>

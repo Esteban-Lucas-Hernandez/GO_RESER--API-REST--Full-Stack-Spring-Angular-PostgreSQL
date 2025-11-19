@@ -178,6 +178,21 @@
   background-color: #c82333;
 }
 
+/* Estilos para el botón de perfil */
+.perfil-button {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.perfil-button:hover {
+  background-color: #138496;
+}
+
 /* Estilos para el botón de inicio de sesión */
 .login-button-container {
   position: fixed;
