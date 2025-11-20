@@ -16,6 +16,8 @@ import { EditarHabitacionComponent } from './admin/habitacion/editar/ts/editar-h
 import { ListarHabitacionesComponent } from './admin/habitacion/listar-habitaciones/ts/listar-habitaciones.component';
 import { AdminComponent } from './admin/admin.component';
 import { SuperAdminComponent } from './superadmin/usuarios/superadmin.component';
+import { SuperAdminContainerComponent } from './superadmin/superadmin.component';
+import { SuperAdminPerfilComponent } from './superadmin/perfil/perfil.component';
 import { HabitacionesComponent } from './public/Habitaciones/habitaciones.component';
 import { DetalleHabitacionComponent } from './public/DetalleHabitacion/DetalleHabitacion.component';
 import { MisReservasComponent } from './public/reservas/ts/mis-reservas.component';
@@ -55,8 +57,13 @@ export const routes: Routes = [
   },
   {
     path: 'superadmin',
-    component: SuperAdminComponent,
+    component: SuperAdminContainerComponent,
     canActivate: [SuperAdminGuard],
+    children: [
+      { path: 'usuarios', component: SuperAdminComponent },
+      { path: 'perfil', component: SuperAdminPerfilComponent },
+      { path: '', redirectTo: 'usuarios', pathMatch: 'full' },
+    ],
   },
   { path: '**', redirectTo: 'public' },
 ];

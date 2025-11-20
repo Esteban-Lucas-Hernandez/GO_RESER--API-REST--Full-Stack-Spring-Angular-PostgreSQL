@@ -1,0 +1,19 @@
+.superadmin-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  margin-left: 250px;
+  padding: 20px;
+  flex: 1;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+    padding: 10px;
+  }
+}

@@ -1,0 +1,10 @@
+<nav class="sidebar">
+  <h2>Super Administración</h2>
+  <ul>
+    <li *ngFor="let item of menuItems">
+      <a [routerLink]="item.route" routerLinkActive="active">
+        {{ item.name }}
+      </a>
+    </li>
+  </ul>
+</nav>
