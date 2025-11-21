@@ -46,6 +46,28 @@ export class SuperAdminService {
     return this.http.put(url, data, { headers });
   }
 
+  // Cambiar el estado de un usuario
+  changeUserStatus(id: number, status: boolean): Observable<any> {
+    const url = `${this.baseUrl}/usuarios/${id}/estado?estado=${status}`;
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.patch(url, {}, { headers });
+  }
+
+  // Eliminar un usuario
+  deleteUser(id: number): Observable<any> {
+    const url = `${this.baseUrl}/usuarios/${id}`;
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.delete(url, { headers });
+  }
+
   // Método auxiliar para obtener el token
   private getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);

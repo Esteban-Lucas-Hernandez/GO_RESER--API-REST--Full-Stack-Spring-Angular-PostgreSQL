@@ -50,7 +50,24 @@
             >
               {{ changingRole ? 'Cambiando...' : 'Cambiar Rol' }}
             </button>
-            <!-- Depuración: {{ usuario | json }} -->
+            
+            <button
+              (click)="changeUserStatus(usuario)"
+              class="btn btn-warning"
+              [disabled]="changingStatus"
+              style="margin-left: 5px;"
+            >
+              {{ usuario.estado ? 'Desactivar' : 'Activar' }}
+            </button>
+            
+            <button
+              (click)="deleteUser(usuario)"
+              class="btn btn-danger"
+              [disabled]="deletingUser"
+              style="margin-left: 5px;"
+            >
+              {{ deletingUser ? 'Eliminando...' : 'Eliminar' }}
+            </button>
           </td>
         </tr>
       </tbody>

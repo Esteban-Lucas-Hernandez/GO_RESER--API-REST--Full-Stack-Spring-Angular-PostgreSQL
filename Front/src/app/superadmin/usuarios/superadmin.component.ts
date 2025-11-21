@@ -14,6 +14,8 @@ export class SuperAdminComponent implements OnInit {
   usuarios: Usuario[] = [];
   loading = false;
   changingRole = false;
+  changingStatus = false;
+  deletingUser = false;
 
   // Propiedades para el diálogo de cambio de rol
   showRoleChangeDialog = false;
@@ -39,6 +41,60 @@ export class SuperAdminComponent implements OnInit {
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
         this.loading = false;
+      },
+    });
+  }
+
+  // Método para cambiar el estado de un usuario
+  changeUserStatus(usuario: Usuario) {
+    if (!usuario.idUsuario) {
+      alert('ID de usuario inválido');
+      return;
+    }
+
+    this.changingStatus = true;
+    const newStatus = !usuario.estado; // Cambiar al estado opuesto
+    
+    this.superAdminService.changeUserStatus(usuario.idUsuario, newStatus).subscribe({
+      next: (response) => {
+        // Actualizar la lista de usuarios
+        this.getUsers();
+        this.changingStatus = false;
+        alert(`Estado del usuario ${usuario.nombreCompleto} actualizado correctamente`);
+      },
+      error: (error) => {
+        console.error('Error al cambiar el estado:', error);
+        alert('Error al cambiar el estado del usuario: ' + (error.error?.message || error.message));
+        this.changingStatus = false;
+      },
+    });
+  }
+
+  // Método para eliminar un usuario
+  deleteUser(usuario: Usuario) {
+    if (!usuario.idUsuario) {
+      alert('ID de usuario inválido');
+      return;
+    }
+
+    // Confirmar antes de eliminar
+    const confirmDelete = confirm(`¿Está seguro que desea eliminar al usuario ${usuario.nombreCompleto}? Esta acción no se puede deshacer.`);
+    if (!confirmDelete) {
+      return;
+    }
+
+    this.deletingUser = true;
+    this.superAdminService.deleteUser(usuario.idUsuario).subscribe({
+      next: (response) => {
+        // Actualizar la lista de usuarios
+        this.getUsers();
+        this.deletingUser = false;
+        alert(`Usuario ${usuario.nombreCompleto} eliminado correctamente`);
+      },
+      error: (error) => {
+        console.error('Error al eliminar usuario:', error);
+        alert('Error al eliminar el usuario: ' + (error.error?.message || error.message));
+        this.deletingUser = false;
       },
     });
   }
