@@ -133,4 +133,38 @@
       </form>
     </div>
   </div>
+
+  <!-- Modal de Confirmación de Pago -->
+  <div *ngIf="mostrarModalPago" class="modal-overlay">
+    <div class="modal-pago">
+      <div class="modal-header">
+        <h3>Confirmar Pago</h3>
+        <button class="btn-close-modal" (click)="cerrarModalPago()" [disabled]="procesandoPago">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Mensaje de pago -->
+        <div *ngIf="mensajePago" class="mensaje-pago" [ngClass]="tipoMensajePago">
+          {{ mensajePago }}
+        </div>
+
+        <div class="info-reserva">
+          <p><strong>ID Reserva:</strong> {{ pagoConfirmacion.idReserva }}</p>
+          <p><strong>Método de Pago:</strong> {{ pagoConfirmacion.metodo }}</p>
+          <p><strong>Monto Total:</strong> ${{ pagoConfirmacion.monto | number:'1.2-2' }}</p>
+        </div>
+
+        <form (ngSubmit)="confirmarPago()" #pagoForm="ngForm">
+          <div class="modal-actions">
+            <button type="submit" class="btn-confirmar-pago" [disabled]="procesandoPago">
+              {{ procesandoPago ? 'Procesando...' : 'Confirmar Pago' }}
+            </button>
+            <button type="button" class="btn-cancelar-pago" (click)="cerrarModalPago()" [disabled]="procesandoPago">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

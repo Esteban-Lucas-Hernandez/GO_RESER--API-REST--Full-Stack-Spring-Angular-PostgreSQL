@@ -98,12 +98,23 @@ export interface Reserva {
   fechaReserva: string; // Formato ISO string
 }
 
+// Interface para confirmar pago
+export interface PagoConfirmacion {
+  idPago?: number;
+  idReserva: number;
+  referenciaPago?: string;
+  metodo: string;
+  fechaPago: string; // ISO DateTime
+  monto: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class HotelService {
   private baseUrl = 'http://localhost:8080/public/hoteles';
-  private reservasUrl = 'http://localhost:8080/api/reservas'; // Base URL para reservas
+  private reservasUrl = 'http://localhost:8080/user/reservas'; // Base URL para reservas
+  private pagosUrl = 'http://localhost:8080/user/pagos'; // Base URL para pagos
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -200,5 +211,13 @@ export class HotelService {
     const headers = this.getAuthHeaders();
 
     return this.http.put(url, {}, { headers });
+  }
+
+  // Método para confirmar pago
+  confirmarPago(idReserva: number, pago: PagoConfirmacion): Observable<any> {
+    const url = `${this.pagosUrl}/confirmar/${idReserva}`;
+    const headers = this.getAuthHeaders();
+
+    return this.http.post(url, pago, { headers });
   }
 }

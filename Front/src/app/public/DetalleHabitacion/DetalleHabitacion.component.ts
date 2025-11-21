@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HotelService, HabitacionDetalle, ReservaRequest } from '../hotel.service';
+import { HotelService, HabitacionDetalle, ReservaRequest, PagoConfirmacion } from '../hotel.service';
 import { AuthService } from '../../auth/auth.service';
 
 // Interface para el modelo de reserva
@@ -46,6 +46,19 @@ export class DetalleHabitacionComponent implements OnInit {
   // Mensajes de éxito/error para la reserva
   mensajeReserva: string | null = null;
   tipoMensajeReserva: 'exito' | 'error' | null = null;
+
+  // Variables para el modal de pago
+  mostrarModalPago = false;
+  reservaCreada: any = null;
+  pagoConfirmacion: PagoConfirmacion = {
+    idReserva: 0,
+    metodo: '',
+    fechaPago: '',
+    monto: 0
+  };
+  procesandoPago = false;
+  mensajePago: string | null = null;
+  tipoMensajePago: 'exito' | 'error' | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -125,6 +138,9 @@ export class DetalleHabitacionComponent implements OnInit {
       return;
     }
 
+    // Prevenir el envío del formulario por defecto
+    event?.preventDefault();
+    
     // Enviar la reserva
     this.enviarReserva();
   }
@@ -142,15 +158,28 @@ export class DetalleHabitacionComponent implements OnInit {
 
     this.hotelService.crearReserva(this.habitacionId, reservaRequest).subscribe({
       next: (response) => {
-        this.mostrarMensaje('Reserva realizada con éxito', 'exito');
-
-        // Ocultar el formulario después de un breve delay
-        setTimeout(() => {
-          this.mostrarFormularioReserva = false;
-          this.resetFormularioReserva();
-        }, 2000);
+        console.log('Reserva creada:', response);
+        this.reservaCreada = response;
+        
+        // Calcular el monto total (precio * días)
+        const fechaInicio = new Date(this.reserva.fechaInicio);
+        const fechaFin = new Date(this.reserva.fechaFin);
+        const dias = Math.ceil((fechaFin.getTime() - fechaInicio.getTime()) / (1000 * 60 * 60 * 24));
+        const montoTotal = this.habitacion.precio * dias;
+        
+        // Inicializar el formulario de pago
+        this.pagoConfirmacion = {
+          idReserva: response.idReserva,
+          metodo: this.reserva.metodoPago,
+          fechaPago: new Date().toISOString(),
+          monto: montoTotal
+        };
+        
+        // Cerrar formulario de reserva y abrir modal de pago
+        this.mostrarFormularioReserva = false;
+        this.mostrarModalPago = true;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error al crear reserva:', error);
         let mensaje = 'Error al realizar la reserva. Por favor, inténtelo más tarde.';
 
@@ -186,6 +215,62 @@ export class DetalleHabitacionComponent implements OnInit {
     setTimeout(() => {
       this.mensajeReserva = null;
       this.tipoMensajeReserva = null;
+    }, 3000);
+  }
+
+  // Cerrar modal de pago
+  cerrarModalPago(): void {
+    this.mostrarModalPago = false;
+    this.mensajePago = null;
+    this.tipoMensajePago = null;
+    this.resetFormularioReserva();
+  }
+
+  // Confirmar pago
+  confirmarPago(): void {
+    this.procesandoPago = true;
+    const idReserva = this.pagoConfirmacion.idReserva;
+
+    // Generar una referencia de pago automática
+    this.pagoConfirmacion.referenciaPago = 'REF-' + new Date().getTime();
+
+    this.hotelService.confirmarPago(idReserva, this.pagoConfirmacion).subscribe({
+      next: (response: any) => {
+        console.log('Pago confirmado:', response);
+        this.mostrarMensajePago('Pago confirmado exitosamente', 'exito');
+        
+        // Cerrar modal después de un breve delay
+        setTimeout(() => {
+          this.procesandoPago = false;
+          this.cerrarModalPago();
+          this.mostrarMensaje('Reserva y pago realizados con éxito', 'exito');
+        }, 2000);
+      },
+      error: (error: any) => {
+        console.error('Error al confirmar pago:', error);
+        this.procesandoPago = false;
+        
+        let mensaje = 'Error al confirmar el pago. Por favor, inténtelo más tarde.';
+        if (error.status === 400) {
+          mensaje = 'Datos de pago inválidos. Por favor revise la información.';
+        } else if (error.status === 404) {
+          mensaje = 'No se encontró la reserva.';
+        }
+        
+        this.mostrarMensajePago(mensaje, 'error');
+      },
+    });
+  }
+
+  // Mostrar mensaje de pago
+  mostrarMensajePago(mensaje: string, tipo: 'exito' | 'error'): void {
+    this.mensajePago = mensaje;
+    this.tipoMensajePago = tipo;
+
+    // Limpiar el mensaje después de 3 segundos
+    setTimeout(() => {
+      this.mensajePago = null;
+      this.tipoMensajePago = null;
     }, 3000);
   }
 }
