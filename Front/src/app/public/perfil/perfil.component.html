@@ -43,7 +43,11 @@
             <button (click)="saveField('nombreCompleto')" class="btn-save-icon" title="Guardar">
               ✓
             </button>
-            <button (click)="toggleFieldEdit('nombreCompleto')" class="btn-cancel-icon" title="Cancelar">
+            <button
+              (click)="toggleFieldEdit('nombreCompleto')"
+              class="btn-cancel-icon"
+              title="Cancelar"
+            >
               ✕
             </button>
           </div>
@@ -69,9 +73,7 @@
             ✏️
           </button>
           <div *ngIf="editingField === 'email'" class="edit-actions">
-            <button (click)="saveField('email')" class="btn-save-icon" title="Guardar">
-              ✓
-            </button>
+            <button (click)="saveField('email')" class="btn-save-icon" title="Guardar">✓</button>
             <button (click)="toggleFieldEdit('email')" class="btn-cancel-icon" title="Cancelar">
               ✕
             </button>
@@ -88,7 +90,9 @@
             [(ngModel)]="updateData.telefono"
             placeholder="Teléfono"
           />
-          <span *ngIf="editingField !== 'telefono'">{{ perfil.telefono || 'No proporcionado' }}</span>
+          <span *ngIf="editingField !== 'telefono'">{{
+            perfil.telefono || 'No proporcionado'
+          }}</span>
           <button
             *ngIf="editingField !== 'telefono'"
             (click)="toggleFieldEdit('telefono')"
@@ -98,9 +102,7 @@
             ✏️
           </button>
           <div *ngIf="editingField === 'telefono'" class="edit-actions">
-            <button (click)="saveField('telefono')" class="btn-save-icon" title="Guardar">
-              ✓
-            </button>
+            <button (click)="saveField('telefono')" class="btn-save-icon" title="Guardar">✓</button>
             <button (click)="toggleFieldEdit('telefono')" class="btn-cancel-icon" title="Cancelar">
               ✕
             </button>
@@ -117,7 +119,9 @@
             [(ngModel)]="updateData.documento"
             placeholder="Documento"
           />
-          <span *ngIf="editingField !== 'documento'">{{ perfil.documento || 'No proporcionado' }}</span>
+          <span *ngIf="editingField !== 'documento'">{{
+            perfil.documento || 'No proporcionado'
+          }}</span>
           <button
             *ngIf="editingField !== 'documento'"
             (click)="toggleFieldEdit('documento')"
@@ -171,7 +175,6 @@
       <button (click)="togglePasswordChange()" class="btn-password">
         {{ showPasswordChange ? 'Cancelar Cambio de Contraseña' : 'Cambiar Contraseña' }}
       </button>
-      <button (click)="onDeleteAccount()" class="btn-eliminar">Eliminar Cuenta</button>
     </div>
   </div>
 

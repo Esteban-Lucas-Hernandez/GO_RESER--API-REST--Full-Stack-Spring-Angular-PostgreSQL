@@ -58,23 +58,15 @@ export class PerfilService {
   // Actualizar información del superadministrador
   updateProfile(data: ActualizarPerfilDTO): Observable<UsuarioDTO> {
     const headers = this.getAuthHeaders();
-    console.log('SuperAdminPerfilService: Realizando solicitud PUT a', this.baseUrl, 'con datos:', data);
+    console.log(
+      'SuperAdminPerfilService: Realizando solicitud PUT a',
+      this.baseUrl,
+      'con datos:',
+      data
+    );
 
     return this.http
       .put<UsuarioDTO>(this.baseUrl, data, { headers })
-      .pipe(catchError(this.handleError));
-  }
-
-  // Eliminar cuenta de superadministrador
-  deleteProfile(): Observable<string> {
-    const headers = this.getAuthHeaders();
-    console.log('SuperAdminPerfilService: Realizando solicitud DELETE a', this.baseUrl);
-
-    return this.http
-      .delete(this.baseUrl, {
-        headers,
-        responseType: 'text',
-      })
       .pipe(catchError(this.handleError));
   }
 

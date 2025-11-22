@@ -237,37 +237,4 @@ export class SuperAdminPerfilComponent implements OnInit {
       },
     });
   }
-
-  onDeleteAccount(): void {
-    if (
-      confirm(
-        '¿Está seguro que desea eliminar su cuenta de superadministrador? Esta acción no se puede deshacer.'
-      )
-    ) {
-      this.perfilService.deleteProfile().subscribe({
-        next: (response: string) => {
-          alert('Cuenta de superadministrador eliminada correctamente');
-        },
-        error: (err: any) => {
-          console.error('Error al eliminar la cuenta de superadministrador:', err);
-
-          if (err.status === 403) {
-            let errorMsg = 'No tiene permisos para eliminar la cuenta de superadministrador.\n';
-            errorMsg += 'Posibles causas:\n';
-            errorMsg += '- Su rol de usuario no tiene permiso para esta acción\n';
-            errorMsg += `- Su rol actual es: ${this.userRole || 'No identificado'}\n`;
-
-            if (this.tokenInfo && this.tokenInfo.roles) {
-              errorMsg += `- Roles en el token: ${this.tokenInfo.roles.join(', ')}\n`;
-            }
-
-            errorMsg += '\nPor favor, contacte al administrador del sistema.';
-            alert(errorMsg);
-          } else {
-            alert('Error al eliminar la cuenta de superadministrador. Por favor, inténtelo más tarde.');
-          }
-        },
-      });
-    }
-  }
 }

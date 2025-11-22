@@ -67,18 +67,6 @@ export class PerfilService {
       .pipe(catchError(this.handleError));
   }
 
-  // Eliminar cuenta de administrador
-  deleteProfile(): Observable<string> {
-    const headers = this.getAuthHeaders();
-    console.log('PerfilService: Realizando solicitud DELETE a', this.baseUrl);
-
-    return this.http
-      .delete(this.baseUrl, {
-        headers,
-        responseType: 'text',
-      })
-      .pipe(catchError(this.handleError));
-  }
 
   // Manejo de errores
   private handleError(error: HttpErrorResponse) {

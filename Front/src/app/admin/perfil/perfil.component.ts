@@ -245,40 +245,4 @@ export class PerfilComponent implements OnInit {
       },
     });
   }
-
-  onDeleteAccount(): void {
-    if (
-      confirm(
-        '¿Está seguro que desea eliminar su cuenta de administrador? Esta acción no se puede deshacer.'
-      )
-    ) {
-      this.perfilService.deleteProfile().subscribe({
-        next: (response: string) => {
-          alert('Cuenta de administrador eliminada correctamente');
-          // Aquí podrías redirigir al usuario a la página de login
-          // this.router.navigate(['/login']);
-        },
-        error: (err) => {
-          console.error('Error al eliminar la cuenta de administrador:', err);
-
-          // Manejo específico del error 403
-          if (err.status === 403) {
-            let errorMsg = 'No tiene permisos para eliminar la cuenta de administrador.\n';
-            errorMsg += 'Posibles causas:\n';
-            errorMsg += '- Su rol de usuario no tiene permiso para esta acción\n';
-            errorMsg += `- Su rol actual es: ${this.userRole || 'No identificado'}\n`;
-
-            if (this.tokenInfo && this.tokenInfo.roles) {
-              errorMsg += `- Roles en el token: ${this.tokenInfo.roles.join(', ')}\n`;
-            }
-
-            errorMsg += '\nPor favor, contacte al administrador del sistema.';
-            alert(errorMsg);
-          } else {
-            alert('Error al eliminar la cuenta de administrador. Por favor, inténtelo más tarde.');
-          }
-        },
-      });
-    }
-  }
 }
