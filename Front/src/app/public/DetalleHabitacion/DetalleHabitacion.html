@@ -81,7 +81,7 @@
     <!-- Formulario de reserva -->
     <div *ngIf="mostrarFormularioReserva" class="formulario-reserva">
       <h3>Realizar Reserva</h3>
-      <form (ngSubmit)="onSubmitReserva()" #reservaForm="ngForm">
+      <form (ngSubmit)="onSubmitReserva($event)" #reservaForm="ngForm">
         <div class="form-row">
           <div class="form-group">
             <label for="fechaInicio">Fecha de Entrada:</label>

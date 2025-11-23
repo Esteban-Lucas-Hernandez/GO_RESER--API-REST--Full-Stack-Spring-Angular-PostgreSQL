@@ -54,4 +54,136 @@
       </div>
     </div>
   </div>
+
+  <!-- Apartado de reseñas -->
+  <div class="resenas-section" *ngIf="!loading && !error">
+    <div class="resenas-header">
+      <h2>Reseñas del Hotel</h2>
+      <!-- Botón para añadir reseña -->
+      <button class="btn-anadir-resena" (click)="openCreateModal()">Añadir Reseña</button>
+    </div>
+
+    <div *ngIf="resenas.length === 0" class="no-resenas">
+      No hay reseñas para este hotel todavía.
+    </div>
+
+    <div *ngFor="let resena of resenas" class="resena-card">
+      <div class="resena-header">
+        <span class="resena-usuario">{{ resena.nombreUsuario }}</span>
+        <div class="resena-calificacion">
+          <span
+            *ngFor="
+              let star of [].constructor(getValidCalificacion(resena.calificacion));
+              let i = index
+            "
+            class="star filled"
+            >★</span
+          >
+          <span
+            *ngFor="let star of [].constructor(getEmptyStars(resena.calificacion)); let i = index"
+            class="star"
+            >★</span
+          >
+        </div>
+      </div>
+      <p class="resena-comentario">{{ resena.comentario }}</p>
+      <span class="resena-fecha">{{ resena.fechaResena | date : 'short' }}</span>
+
+      <!-- Botones de acción para reseñas del usuario -->
+      <div class="resena-actions" *ngIf="isUserReview(resena)">
+        <button class="btn-editar" (click)="editarResena(resena)">Editar</button>
+        <button class="btn-eliminar" (click)="deleteResena(resena.idResena)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Edición de Reseña -->
+<div class="modal" *ngIf="showEditModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Editar Reseña</h3>
+      <span class="close" (click)="closeEditModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="saveResenaChanges()" #editForm="ngForm">
+        <div class="form-group">
+          <label for="calificacion">Calificación:</label>
+          <div class="rating-input">
+            <span
+              *ngFor="let star of [].constructor(5); let i = index"
+              class="star"
+              [class.filled]="i < editCalificacion"
+              (click)="editCalificacion = i + 1"
+              >★</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="comentario">Comentario:</label>
+          <textarea
+            id="comentario"
+            [(ngModel)]="editComentario"
+            name="comentario"
+            rows="4"
+            required
+            class="form-control"
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancelar" (click)="closeEditModal()">Cancelar</button>
+          <button type="submit" class="btn-guardar" [disabled]="!editForm.form.valid">
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Creación de Reseña -->
+<div class="modal" *ngIf="showCreateModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Añadir Reseña</h3>
+      <span class="close" (click)="closeCreateModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="saveNewResena()" #createForm="ngForm">
+        <div class="form-group">
+          <label for="newCalificacion">Calificación:</label>
+          <div class="rating-input">
+            <span
+              *ngFor="let star of [].constructor(5); let i = index"
+              class="star"
+              [class.filled]="i < newCalificacion"
+              (click)="newCalificacion = i + 1"
+              >★</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="newComentario">Comentario:</label>
+          <textarea
+            id="newComentario"
+            [(ngModel)]="newComentario"
+            name="newComentario"
+            rows="4"
+            required
+            class="form-control"
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancelar" (click)="closeCreateModal()">Cancelar</button>
+          <button type="submit" class="btn-guardar" [disabled]="!createForm.form.valid">
+            Añadir Reseña
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

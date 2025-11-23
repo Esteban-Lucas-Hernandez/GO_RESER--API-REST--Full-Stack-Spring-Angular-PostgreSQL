@@ -19,6 +19,12 @@ export class HotelesComponent implements OnInit {
   hotelAEditar: HotelDTO | null = null;
   mostrandoFormularioCrear = false;
 
+  // Variables para el modal de confirmación
+  mostrandoModalConfirmacion = false;
+  mensajeModal = '';
+  hotelAEliminar: { id: number; nombre: string } | null = null;
+  tieneHabitaciones = false;
+
   constructor(private hotelService: HotelAdminService) {}
 
   ngOnInit(): void {
@@ -37,25 +43,59 @@ export class HotelesComponent implements OnInit {
     });
   }
 
+  // Método modificado para verificar habitaciones antes de eliminar
   eliminarHotel(id: number, nombre: string): void {
-    // Mostrar confirmación antes de eliminar
-    if (
-      confirm(
-        `¿Estás seguro de que deseas eliminar el hotel "${nombre}"? Esta acción no se puede deshacer.`
-      )
-    ) {
-      this.hotelService.eliminarHotel(id).subscribe({
+    this.hotelAEliminar = { id, nombre };
+
+    // Verificar si el hotel tiene habitaciones
+    this.hotelService.verificarHabitacionesHotel(id).subscribe({
+      next: (tieneHabitaciones) => {
+        this.tieneHabitaciones = tieneHabitaciones;
+
+        if (tieneHabitaciones) {
+          this.mensajeModal =
+            'Pueden haber habitaciones y reservas asociadas. ¿Desea eliminar este hotel?';
+        } else {
+          this.mensajeModal =
+            'No hay habitaciones ni reservas relacionadas. ¿Desea eliminar este hotel?';
+        }
+
+        this.mostrandoModalConfirmacion = true;
+      },
+      error: (error) => {
+        console.error('Error al verificar habitaciones:', error);
+        // En caso de error, mostramos un mensaje genérico
+        this.mensajeModal = '¿Desea eliminar este hotel?';
+        this.mostrandoModalConfirmacion = true;
+      },
+    });
+  }
+
+  // Método para confirmar la eliminación usando la ruta cascade
+  confirmarEliminacion(): void {
+    if (this.hotelAEliminar) {
+      this.hotelService.eliminarHotelCascade(this.hotelAEliminar.id).subscribe({
         next: () => {
           // Actualizar la lista de hoteles después de eliminar
-          this.hoteles = this.hoteles.filter((hotel) => hotel.id !== id);
-          alert(`El hotel "${nombre}" ha sido eliminado correctamente.`);
+          this.hoteles = this.hoteles.filter((hotel) => hotel.id !== this.hotelAEliminar!.id);
+          alert(`El hotel "${this.hotelAEliminar!.nombre}" ha sido eliminado correctamente.`);
+          this.cerrarModalConfirmacion();
         },
         error: (error) => {
           console.error('Error al eliminar hotel:', error);
           alert('Error al eliminar el hotel. Por favor, inténtalo de nuevo.');
+          this.cerrarModalConfirmacion();
         },
       });
     }
+  }
+
+  // Método para cerrar el modal de confirmación
+  cerrarModalConfirmacion(): void {
+    this.mostrandoModalConfirmacion = false;
+    this.hotelAEliminar = null;
+    this.tieneHabitaciones = false;
+    this.mensajeModal = '';
   }
 
   editarHotel(hotel: HotelDTO): void {

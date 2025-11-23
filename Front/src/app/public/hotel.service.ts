@@ -3,6 +3,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
+// Interfaz para las reseñas corregida según el DTO proporcionado
+export interface Resena {
+  idResena: number;
+  idUsuario: number;
+  nombreUsuario: string;
+  idHotel: number;
+  comentario: string;
+  calificacion: number;
+  fechaResena: string;
+}
+
 // Actualizamos la interfaz para reflejar la estructura real que envía el backend
 export interface Ciudad {
   id: number;
@@ -115,6 +126,9 @@ export class HotelService {
   private baseUrl = 'http://localhost:8080/public/hoteles';
   private reservasUrl = 'http://localhost:8080/user/reservas'; // Base URL para reservas
   private pagosUrl = 'http://localhost:8080/user/pagos'; // Base URL para pagos
+  private resenasUrl = 'http://localhost:8080/public/resenas'; // Base URL para reseñas
+  private userResenasUrl = 'http://localhost:8080/user/resenas'; // Base URL para reseñas de usuario
+  private userResenaUrl = 'http://localhost:8080/user/resenas'; // Base URL para crear reseña
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -178,28 +192,69 @@ export class HotelService {
     return this.http.get<Hotel>(url, { headers });
   }
 
+  // Método para obtener las reseñas de un hotel específico
+  getResenasByHotelId(hotelId: number): Observable<Resena[]> {
+    const url = `${this.resenasUrl}/hotel/${hotelId}`;
+    const headers = new HttpHeaders({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get<Resena[]>(url, { headers });
+  }
+
+  // Método para crear una reseña
+  createResena(
+    hotelId: number,
+    resenaData: { comentario: string; calificacion: number }
+  ): Observable<Resena> {
+    // Asegurémonos de que la URL es correcta
+    const url = `${this.userResenaUrl}/hotel/${hotelId}`;
+    const headers = this.getAuthHeaders();
+
+    // Para depuración
+    console.log('Creando reseña en URL:', url);
+    console.log('Headers:', headers);
+    console.log('Datos de reseña:', resenaData);
+
+    return this.http.post<Resena>(url, resenaData, { headers });
+  }
+
+  // Método para eliminar una reseña del usuario
+  deleteResena(idResena: number): Observable<any> {
+    const url = `${this.userResenasUrl}/${idResena}`;
+    const headers = this.getAuthHeaders();
+
+    return this.http.delete(url, { headers });
+  }
+
+  // Método para actualizar una reseña del usuario
+  updateResena(idResena: number, resena: Partial<Resena>): Observable<Resena> {
+    const url = `${this.userResenasUrl}/${idResena}`;
+    const headers = this.getAuthHeaders();
+
+    return this.http.put<Resena>(url, resena, { headers });
+  }
+
   // Método para crear una reserva
-  crearReserva(idHabitacion: number, reserva: ReservaRequest): Observable<any> {
-    const url = `${this.reservasUrl}/habitacion/${idHabitacion}`;
+  crearReserva(habitacionId: number, reserva: ReservaRequest): Observable<Reserva> {
+    const url = `${this.reservasUrl}/${habitacionId}`;
     const headers = this.getAuthHeaders();
 
-    return this.http.post(url, reserva, { headers });
+    return this.http.post<Reserva>(url, reserva, { headers });
   }
 
-  // Método para obtener las reservas del usuario autenticado
+  // Método para confirmar un pago
+  confirmarPago(idReserva: number, pago: PagoConfirmacion): Observable<any> {
+    const url = `${this.pagosUrl}/${idReserva}`;
+    const headers = this.getAuthHeaders();
+
+    return this.http.post<any>(url, pago, { headers });
+  }
+
+  // Método para obtener las reservas del usuario actual
   getMisReservas(): Observable<Reserva[]> {
-    const url = this.reservasUrl; // http://localhost:8080/api/reservas (sin /usuario)
-    const headers = this.getAuthHeaders();
-
-    // Log para debugging
-    console.log('Obteniendo mis reservas con headers:', headers);
-
-    return this.http.get<Reserva[]>(url, { headers });
-  }
-
-  // Método para obtener todas las reservas (para administradores)
-  getTodasLasReservas(): Observable<Reserva[]> {
-    const url = this.reservasUrl; // http://localhost:8080/api/reservas
+    const url = `${this.reservasUrl}`;
     const headers = this.getAuthHeaders();
 
     return this.http.get<Reserva[]>(url, { headers });
@@ -207,17 +262,9 @@ export class HotelService {
 
   // Método para cancelar una reserva
   cancelarReserva(idReserva: number): Observable<any> {
-    const url = `${this.reservasUrl}/${idReserva}/cancelar`;
+    const url = `${this.reservasUrl}/${idReserva}`;
     const headers = this.getAuthHeaders();
 
-    return this.http.put(url, {}, { headers });
-  }
-
-  // Método para confirmar pago
-  confirmarPago(idReserva: number, pago: PagoConfirmacion): Observable<any> {
-    const url = `${this.pagosUrl}/confirmar/${idReserva}`;
-    const headers = this.getAuthHeaders();
-
-    return this.http.post(url, pago, { headers });
+    return this.http.delete<any>(url, { headers });
   }
 }

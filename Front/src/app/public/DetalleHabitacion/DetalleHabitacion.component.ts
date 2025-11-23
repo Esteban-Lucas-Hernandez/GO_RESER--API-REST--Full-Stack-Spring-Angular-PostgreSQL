@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HotelService, HabitacionDetalle, ReservaRequest, PagoConfirmacion } from '../hotel.service';
+import { HotelService, HabitacionDetalle, ReservaRequest, PagoConfirmacion, Reserva } from '../hotel.service';
 import { AuthService } from '../../auth/auth.service';
 
-// Interface para el modelo de reserva
-interface Reserva {
+// Interface para el modelo de reserva en el formulario
+interface ReservaForm {
   fechaInicio: string;
   fechaFin: string;
   metodoPago: string;
@@ -28,7 +28,7 @@ export class DetalleHabitacionComponent implements OnInit {
 
   // Variables para el formulario de reserva
   mostrarFormularioReserva = false;
-  reserva: Reserva = {
+  reserva: ReservaForm = {
     fechaInicio: '',
     fechaFin: '',
     metodoPago: '',
@@ -113,7 +113,7 @@ export class DetalleHabitacionComponent implements OnInit {
   }
 
   // Validar y enviar formulario de reserva
-  onSubmitReserva(): void {
+  onSubmitReserva(event: Event): void {
     if (!this.reserva.fechaInicio || !this.reserva.fechaFin || !this.reserva.metodoPago) {
       this.mostrarMensaje('Por favor complete todos los campos', 'error');
       return;
@@ -139,7 +139,7 @@ export class DetalleHabitacionComponent implements OnInit {
     }
 
     // Prevenir el envío del formulario por defecto
-    event?.preventDefault();
+    event.preventDefault();
     
     // Enviar la reserva
     this.enviarReserva();
@@ -157,7 +157,7 @@ export class DetalleHabitacionComponent implements OnInit {
     };
 
     this.hotelService.crearReserva(this.habitacionId, reservaRequest).subscribe({
-      next: (response) => {
+      next: (response: Reserva) => {
         console.log('Reserva creada:', response);
         this.reservaCreada = response;
         
@@ -235,7 +235,7 @@ export class DetalleHabitacionComponent implements OnInit {
     this.pagoConfirmacion.referenciaPago = 'REF-' + new Date().getTime();
 
     this.hotelService.confirmarPago(idReserva, this.pagoConfirmacion).subscribe({
-      next: (response: any) => {
+      next: (response: unknown) => {
         console.log('Pago confirmado:', response);
         this.mostrarMensajePago('Pago confirmado exitosamente', 'exito');
         

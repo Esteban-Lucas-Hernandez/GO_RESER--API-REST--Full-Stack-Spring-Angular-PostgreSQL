@@ -82,6 +82,28 @@ export class HotelAdminService {
     return this.http.post<HotelDTO>(this.baseUrl, hotel, { headers });
   }
 
+  // Método para verificar si un hotel tiene habitaciones
+  verificarHabitacionesHotel(id: number): Observable<boolean> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<boolean>(`${this.baseUrl}/${id}/has-habitaciones`, { headers });
+  }
+
+  // Método corregido para eliminar un hotel con todas sus dependencias
+  eliminarHotelCascade(id: number): Observable<void> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.delete<void>(`${this.baseUrl}/${id}/cascade`, { headers });
+  }
+
   // Nuevos métodos para departamentos y ciudades
   getDepartamentos(): Observable<Departamento[]> {
     const token = this.authService.getToken();

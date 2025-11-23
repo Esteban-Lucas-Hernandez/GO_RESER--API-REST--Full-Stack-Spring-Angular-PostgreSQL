@@ -79,3 +79,15 @@
   (hotelCreado)="hotelCreado($event)"
 >
 </app-crear-hotel>
+
+<!-- Modal de confirmación de eliminación -->
+<div *ngIf="mostrandoModalConfirmacion" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Confirmar Eliminación</h3>
+    <p>{{ mensajeModal }}</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="cerrarModalConfirmacion()">Cancelar</button>
+      <button class="btn-confirm" (click)="confirmarEliminacion()">Eliminar</button>
+    </div>
+  </div>
+</div>
