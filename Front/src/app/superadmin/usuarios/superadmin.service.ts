@@ -59,14 +59,17 @@ export class SuperAdminService {
 
   // Eliminar un usuario
   deleteUser(id: number): Observable<any> {
-    const url = `${this.baseUrl}/usuarios/${id}`;
-    const token = this.getToken();
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
+  const url = `${this.baseUrl}/usuarios/${id}`;
+  const token = this.getToken();
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`,
+  });
 
-    return this.http.delete(url, { headers });
-  }
+  return this.http.delete(url, {
+    headers,
+    responseType: 'text'  // 👈 ESTA ES LA CLAVE
+  });
+}
 
   // Método auxiliar para obtener el token
   private getToken(): string | null {
