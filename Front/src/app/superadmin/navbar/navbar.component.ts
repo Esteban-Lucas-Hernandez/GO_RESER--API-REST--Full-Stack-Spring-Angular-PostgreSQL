@@ -13,6 +13,8 @@ export class SuperAdminNavbarComponent {
   menuItems = [
     { name: 'Usuarios', route: '/superadmin/usuarios' },
     { name: 'Hoteles', route: '/superadmin/hoteles' },
+    { name: 'Habitaciones', route: '/superadmin/habitaciones' },
+    { name: 'Reservas', route: '/superadmin/reservas' },
     { name: 'Perfil', route: '/superadmin/perfil' },
   ];
 }

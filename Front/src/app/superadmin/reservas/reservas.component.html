@@ -1,0 +1,60 @@
+<div class="reservas-container">
+  <h2>Gestión de Reservas</h2>
+
+  <!-- Filtro de hoteles -->
+  <div class="filter-section">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label for="hotel-select">Filtrar por hotel:</label>
+        <select id="hotel-select" (change)="onHotelChange($event)" [value]="selectedHotelId || ''">
+          <option value="">Todos los hoteles</option>
+          <option *ngFor="let hotel of hoteles" [value]="hotel.id">
+            {{ hotel.nombre }}
+          </option>
+        </select>
+      </div>
+      <button class="btn-reset" (click)="resetFilter()" *ngIf="selectedHotelId">
+        Limpiar filtro
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Cargando reservas...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error">
+    <table class="reservas-table">
+      <thead>
+        <tr>
+          <th>ID Reserva</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Total</th>
+          <th>Estado</th>
+          <th>Método de Pago</th>
+          <th>Fecha Reserva</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reserva of reservas">
+          <td>{{ reserva.idReserva }}</td>
+          <td>{{ reserva.fechaInicio }}</td>
+          <td>{{ reserva.fechaFin }}</td>
+          <td>{{ reserva.total | currency : 'COP' : 'symbol' : '1.0-0' }}</td>
+          <td>{{ reserva.estado }}</td>
+          <td>{{ reserva.metodoPago }}</td>
+          <td>{{ reserva.fechaReserva | date : 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="reservas.length === 0" class="no-data">
+      <p>No hay reservas registradas.</p>
+    </div>
+  </div>
+</div>

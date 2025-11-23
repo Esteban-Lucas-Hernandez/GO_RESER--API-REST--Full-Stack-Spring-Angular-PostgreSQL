@@ -19,6 +19,8 @@ import { SuperAdminComponent } from './superadmin/usuarios/superadmin.component'
 import { SuperAdminContainerComponent } from './superadmin/superadmin.component';
 import { SuperAdminPerfilComponent } from './superadmin/perfil/perfil.component';
 import { SuperAdminHotelesComponent } from './superadmin/hoteles/hoteles.component';
+import { SuperAdminHabitacionesComponent } from './superadmin/habitaciones/habitaciones.component';
+import { SuperAdminReservasComponent } from './superadmin/reservas/reservas.component';
 import { HabitacionesComponent } from './public/Habitaciones/habitaciones.component';
 import { DetalleHabitacionComponent } from './public/DetalleHabitacion/DetalleHabitacion.component';
 import { MisReservasComponent } from './public/reservas/ts/mis-reservas.component';
@@ -63,6 +65,8 @@ export const routes: Routes = [
     children: [
       { path: 'usuarios', component: SuperAdminComponent },
       { path: 'hoteles', component: SuperAdminHotelesComponent },
+      { path: 'habitaciones', component: SuperAdminHabitacionesComponent },
+      { path: 'reservas', component: SuperAdminReservasComponent },
       { path: 'perfil', component: SuperAdminPerfilComponent },
       { path: '', redirectTo: 'usuarios', pathMatch: 'full' },
     ],

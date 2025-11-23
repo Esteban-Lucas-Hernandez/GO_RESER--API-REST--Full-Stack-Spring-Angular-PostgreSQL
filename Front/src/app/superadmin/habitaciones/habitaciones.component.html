@@ -1,0 +1,60 @@
+<div class="habitaciones-container">
+  <h2>Gestión de Habitaciones</h2>
+
+  <!-- Filtro de hoteles -->
+  <div class="filter-section">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label for="hotel-select">Filtrar por hotel:</label>
+        <select id="hotel-select" (change)="onHotelChange($event)" [value]="selectedHotelId || ''">
+          <option value="">Todos los hoteles</option>
+          <option *ngFor="let hotel of hoteles" [value]="hotel.id">
+            {{ hotel.nombre }}
+          </option>
+        </select>
+      </div>
+      <button class="btn-reset" (click)="resetFilter()" *ngIf="selectedHotelId">
+        Limpiar filtro
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Cargando habitaciones...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error">
+    <table class="habitaciones-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Categoría</th>
+          <th>Número</th>
+          <th>Capacidad</th>
+          <th>Precio</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let habitacion of habitaciones">
+          <td>{{ habitacion.idHabitacion }}</td>
+          <td>{{ habitacion.categoria?.nombre || 'N/A' }}</td>
+          <td>{{ habitacion.numero }}</td>
+          <td>{{ habitacion.capacidad }}</td>
+          <td>{{ habitacion.precio | currency : 'COP' : 'symbol' : '1.0-0' }}</td>
+          <td>{{ habitacion.descripcion }}</td>
+          <td>{{ habitacion.estado }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="habitaciones.length === 0" class="no-data">
+      <p>No hay habitaciones registradas.</p>
+    </div>
+  </div>
+</div>
