@@ -27,6 +27,7 @@ import { MisReservasComponent } from './public/reservas/ts/mis-reservas.componen
 import { PerfilComponent } from './admin/perfil/perfil.component';
 import { PerfilComponent as PublicPerfilComponent } from './public/perfil/perfil.component';
 import { ReservasComponent } from './admin/Reservas/reservas.component';
+import { ResenasComponent } from './admin/resenas/resenas.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch: 'full' },
@@ -56,6 +57,7 @@ export const routes: Routes = [
         component: ListarHabitacionesComponent,
       },
       { path: 'reservas', component: ReservasComponent },
+      { path: 'resenas', component: ResenasComponent },
       { path: 'perfil', component: PerfilComponent },
       { path: '', redirectTo: 'panel', pathMatch: 'full' },
     ],

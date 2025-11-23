@@ -1,0 +1,52 @@
+<div class="resenas-container">
+  <h2>Gestión de Reseñas</h2>
+
+  <!-- Filtro por hotel -->
+  <div class="filtro-container">
+    <label for="hotel-select">Seleccionar Hotel:</label>
+    <select
+      id="hotel-select"
+      (change)="onHotelChange($event)"
+      [(ngModel)]="hotelSeleccionado"
+      class="form-control"
+    >
+      <option *ngFor="let hotel of hoteles" [value]="hotel.id">
+        {{ hotel.nombre }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Tabla de reseñas -->
+  <div class="tabla-container">
+    <table class="tabla-resenas">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Comentario</th>
+          <th>Calificación</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let resena of resenas">
+          <td>{{ resena.nombreUsuario }}</td>
+          <td>{{ resena.comentario }}</td>
+          <td>
+            <span class="calificacion">
+              {{ resena.calificacion }}
+              <span *ngIf="resena.calificacion === 5">★ ★ ★ ★ ★</span>
+              <span *ngIf="resena.calificacion === 4">★ ★ ★ ★</span>
+              <span *ngIf="resena.calificacion === 3">★ ★ ★</span>
+              <span *ngIf="resena.calificacion === 2">★ ★</span>
+              <span *ngIf="resena.calificacion === 1">★</span>
+            </span>
+          </td>
+          <td>{{ resena.fechaResena | date : 'dd/MM/yyyy' }}</td>
+        </tr>
+        <tr *ngIf="resenas.length === 0">
+          <td colspan="4" class="no-data">No hay reseñas para este hotel</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
