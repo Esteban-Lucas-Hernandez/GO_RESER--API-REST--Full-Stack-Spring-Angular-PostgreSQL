@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HotelService, HabitacionDetalle, ReservaRequest, PagoConfirmacion, Reserva } from '../hotel.service';
+import {
+  HotelService,
+  HabitacionDetalle,
+  ReservaRequest,
+  PagoConfirmacion,
+  Reserva,
+} from '../hotel.service';
 import { AuthService } from '../../auth/auth.service';
 
 // Interface para el modelo de reserva en el formulario
@@ -54,7 +60,7 @@ export class DetalleHabitacionComponent implements OnInit {
     idReserva: 0,
     metodo: '',
     fechaPago: '',
-    monto: 0
+    monto: 0,
   };
   procesandoPago = false;
   mensajePago: string | null = null;
@@ -124,7 +130,10 @@ export class DetalleHabitacionComponent implements OnInit {
     const fechaFin = new Date(this.reserva.fechaFin);
 
     if (fechaInicio > fechaFin) {
-      this.mostrarMensaje('La fecha de inicio debe ser anterior o igual a la fecha de fin', 'error');
+      this.mostrarMensaje(
+        'La fecha de inicio debe ser anterior o igual a la fecha de fin',
+        'error'
+      );
       return;
     }
 
@@ -140,7 +149,7 @@ export class DetalleHabitacionComponent implements OnInit {
 
     // Prevenir el envío del formulario por defecto
     event.preventDefault();
-    
+
     // Enviar la reserva
     this.enviarReserva();
   }
@@ -160,21 +169,23 @@ export class DetalleHabitacionComponent implements OnInit {
       next: (response: Reserva) => {
         console.log('Reserva creada:', response);
         this.reservaCreada = response;
-        
+
         // Calcular el monto total (precio * días)
         const fechaInicio = new Date(this.reserva.fechaInicio);
         const fechaFin = new Date(this.reserva.fechaFin);
-        const dias = Math.ceil((fechaFin.getTime() - fechaInicio.getTime()) / (1000 * 60 * 60 * 24));
+        const dias = Math.ceil(
+          (fechaFin.getTime() - fechaInicio.getTime()) / (1000 * 60 * 60 * 24)
+        );
         const montoTotal = this.habitacion.precio * dias;
-        
+
         // Inicializar el formulario de pago
         this.pagoConfirmacion = {
           idReserva: response.idReserva,
           metodo: this.reserva.metodoPago,
           fechaPago: new Date().toISOString(),
-          monto: montoTotal
+          monto: montoTotal,
         };
-        
+
         // Cerrar formulario de reserva y abrir modal de pago
         this.mostrarFormularioReserva = false;
         this.mostrarModalPago = true;
@@ -238,7 +249,7 @@ export class DetalleHabitacionComponent implements OnInit {
       next: (response: unknown) => {
         console.log('Pago confirmado:', response);
         this.mostrarMensajePago('Pago confirmado exitosamente', 'exito');
-        
+
         // Cerrar modal después de un breve delay
         setTimeout(() => {
           this.procesandoPago = false;
@@ -249,14 +260,14 @@ export class DetalleHabitacionComponent implements OnInit {
       error: (error: any) => {
         console.error('Error al confirmar pago:', error);
         this.procesandoPago = false;
-        
+
         let mensaje = 'Error al confirmar el pago. Por favor, inténtelo más tarde.';
         if (error.status === 400) {
           mensaje = 'Datos de pago inválidos. Por favor revise la información.';
         } else if (error.status === 404) {
           mensaje = 'No se encontró la reserva.';
         }
-        
+
         this.mostrarMensajePago(mensaje, 'error');
       },
     });
