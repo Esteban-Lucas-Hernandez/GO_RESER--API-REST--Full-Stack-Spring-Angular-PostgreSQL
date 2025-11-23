@@ -5,7 +5,9 @@ import { AuthService } from '../../auth/auth.service';
 
 // Interfaz para las reservas en el panel de superadmin
 export interface SuperAdminReserva {
-  idReserva: number;
+  id: number;
+  emailUsuario: string;
+  numeroHabitacion: string;
   fechaInicio: string;
   fechaFin: string;
   total: number;

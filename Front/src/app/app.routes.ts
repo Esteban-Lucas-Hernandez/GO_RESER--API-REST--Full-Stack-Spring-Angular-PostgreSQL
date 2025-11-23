@@ -26,6 +26,7 @@ import { DetalleHabitacionComponent } from './public/DetalleHabitacion/DetalleHa
 import { MisReservasComponent } from './public/reservas/ts/mis-reservas.component';
 import { PerfilComponent } from './admin/perfil/perfil.component';
 import { PerfilComponent as PublicPerfilComponent } from './public/perfil/perfil.component';
+import { ReservasComponent } from './admin/Reservas/reservas.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch: 'full' },
@@ -54,6 +55,7 @@ export const routes: Routes = [
         path: 'habitacion/imagenes/:hotelId/:habitacionId',
         component: ListarHabitacionesComponent,
       },
+      { path: 'reservas', component: ReservasComponent },
       { path: 'perfil', component: PerfilComponent },
       { path: '', redirectTo: 'panel', pathMatch: 'full' },
     ],

@@ -2,32 +2,36 @@
   <h2>Gestión de Reservas</h2>
 
   <!-- Filtro de hoteles -->
-  <div class="filter-section">
-    <div class="filter-row">
-      <div class="filter-group">
-        <label for="hotel-select">Filtrar por hotel:</label>
-        <select id="hotel-select" (change)="onHotelChange($event)" [value]="selectedHotelId || ''">
-          <option value="">Todos los hoteles</option>
-          <option *ngFor="let hotel of hoteles" [value]="hotel.id">
-            {{ hotel.nombre }}
-          </option>
-        </select>
-      </div>
-      <button class="btn-reset" (click)="resetFilter()" *ngIf="selectedHotelId">
-        Limpiar filtro
-      </button>
-    </div>
+  <div class="filtro-container">
+    <label for="hotel-select">Seleccionar Hotel:</label>
+    <select
+      id="hotel-select"
+      [(ngModel)]="hotelSeleccionado"
+      (change)="onHotelChange()"
+      [disabled]="cargandoHoteles"
+      class="form-control"
+    >
+      <option *ngFor="let hotel of hoteles" [value]="hotel.id">
+        {{ hotel.nombre }}
+      </option>
+    </select>
+
+    <button
+      (click)="cargarTodasLasReservas()"
+      class="btn btn-secondary"
+      [disabled]="cargandoReservas"
+    >
+      Mostrar Todas las Reservas
+    </button>
   </div>
 
-  <div *ngIf="loading" class="loading">
-    <p>Cargando reservas...</p>
+  <!-- Indicador de carga -->
+  <div *ngIf="cargandoHoteles || cargandoReservas" class="loading">
+    <p>Cargando...</p>
   </div>
 
-  <div *ngIf="error" class="error">
-    <p>{{ error }}</p>
-  </div>
-
-  <div *ngIf="!loading && !error">
+  <!-- Tabla de reservas -->
+  <div *ngIf="!cargandoReservas && !cargandoHoteles" class="tabla-container">
     <table class="reservas-table">
       <thead>
         <tr>
@@ -47,16 +51,15 @@
           <td>{{ reserva.numeroHabitacion }}</td>
           <td>{{ reserva.fechaInicio | date : 'dd/MM/yyyy' }}</td>
           <td>{{ reserva.fechaFin | date : 'dd/MM/yyyy' }}</td>
-          <td>{{ reserva.total | currency : 'COP' : 'symbol' : '1.0-0' }}</td>
+          <td>${{ reserva.total }}</td>
           <td>{{ reserva.estado }}</td>
           <td>{{ reserva.metodoPago }}</td>
           <td>{{ reserva.fechaReserva | date : 'dd/MM/yyyy HH:mm' }}</td>
         </tr>
+        <tr *ngIf="reservas.length === 0">
+          <td colspan="8" class="no-data">No se encontraron reservas</td>
+        </tr>
       </tbody>
     </table>
-
-    <div *ngIf="reservas.length === 0" class="no-data">
-      <p>No hay reservas registradas.</p>
-    </div>
   </div>
 </div>
