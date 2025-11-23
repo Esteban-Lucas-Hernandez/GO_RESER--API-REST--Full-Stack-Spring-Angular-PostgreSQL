@@ -179,7 +179,14 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
         },
         error: (err) => {
           console.error('Error al crear reseña:', err);
-          alert('Error al crear la reseña');
+          // Mostrar el mensaje de error específico del backend si está disponible
+          let errorMessage = 'Error al crear la reseña';
+          if (err.error && err.error.message) {
+            errorMessage = err.error.message;
+          } else if (err.message) {
+            errorMessage = err.message;
+          }
+          alert(errorMessage);
         },
       });
     }

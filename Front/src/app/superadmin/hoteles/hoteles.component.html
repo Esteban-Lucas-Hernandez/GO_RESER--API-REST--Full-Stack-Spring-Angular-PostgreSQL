@@ -1,0 +1,66 @@
+<div class="hoteles-container">
+  <h2>Gestión de Hoteles</h2>
+
+  <div *ngIf="loading" class="loading">
+    <p>Cargando hoteles...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error">
+    <table class="hoteles-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>Descripción</th>
+          <th>Estrellas</th>
+          <th>Política Cancelación</th>
+          <th>Check In</th>
+          <th>Check Out</th>
+          <th>Imagen</th>
+          <th>Ciudad</th>
+          <th>Departamento</th>
+          <th>Creado</th>
+          <th>Actualizado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hotel of hoteles">
+          <td>{{ hotel.id }}</td>
+          <td>{{ hotel.nombre }}</td>
+          <td>{{ hotel.direccion }}</td>
+          <td>{{ hotel.telefono }}</td>
+          <td>{{ hotel.email }}</td>
+          <td>{{ hotel.descripcion }}</td>
+          <td>{{ hotel.estrellas }}</td>
+          <td>{{ hotel.politicaCancelacion }}</td>
+          <td>{{ hotel.checkIn }}</td>
+          <td>{{ hotel.checkOut }}</td>
+          <td>
+            <img
+              *ngIf="hotel.imagenUrl"
+              [src]="hotel.imagenUrl"
+              alt="Imagen del hotel"
+              class="hotel-image"
+            />
+            <span *ngIf="!hotel.imagenUrl">Sin imagen</span>
+          </td>
+          <td>{{ hotel.ciudadNombre }}</td>
+          <td>{{ hotel.departamentoNombre }}</td>
+          <td>{{ hotel.createdAt | date : 'short' }}</td>
+          <td>{{ hotel.updatedAt | date : 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="hoteles.length === 0" class="no-data">
+      <p>No hay hoteles registrados.</p>
+    </div>
+  </div>
+</div>

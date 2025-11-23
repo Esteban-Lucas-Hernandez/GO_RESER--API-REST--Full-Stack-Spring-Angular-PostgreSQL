@@ -1,0 +1,64 @@
+.hoteles-container {
+  padding: 20px;
+}
+
+.hoteles-container h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.hoteles-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: auto;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.hoteles-table th,
+.hoteles-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  white-space: nowrap;
+}
+
+.hoteles-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+}
+
+.hoteles-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.loading,
+.error,
+.no-data {
+  padding: 20px;
+  text-align: center;
+}
+
+.error {
+  color: #d32f2f;
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  border-radius: 4px;
+}
+
+.no-data {
+  color: #666;
+  font-style: italic;
+}
+
+.hotel-image {
+  max-width: 100px;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+}

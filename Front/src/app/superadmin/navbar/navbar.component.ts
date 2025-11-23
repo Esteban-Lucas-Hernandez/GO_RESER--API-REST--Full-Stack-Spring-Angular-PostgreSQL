@@ -12,6 +12,7 @@ import { Router, RouterModule } from '@angular/router';
 export class SuperAdminNavbarComponent {
   menuItems = [
     { name: 'Usuarios', route: '/superadmin/usuarios' },
+    { name: 'Hoteles', route: '/superadmin/hoteles' },
     { name: 'Perfil', route: '/superadmin/perfil' },
   ];
 }

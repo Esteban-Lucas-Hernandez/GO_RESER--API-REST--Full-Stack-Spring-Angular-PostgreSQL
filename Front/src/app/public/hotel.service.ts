@@ -238,7 +238,7 @@ export class HotelService {
 
   // Método para crear una reserva
   crearReserva(habitacionId: number, reserva: ReservaRequest): Observable<Reserva> {
-    const url = `${this.reservasUrl}/${habitacionId}`;
+    const url = `${this.reservasUrl}/habitacion/${habitacionId}`;
     const headers = this.getAuthHeaders();
 
     return this.http.post<Reserva>(url, reserva, { headers });
@@ -246,7 +246,7 @@ export class HotelService {
 
   // Método para confirmar un pago
   confirmarPago(idReserva: number, pago: PagoConfirmacion): Observable<any> {
-    const url = `${this.pagosUrl}/${idReserva}`;
+    const url = `${this.pagosUrl}/confirmar/${idReserva}`;
     const headers = this.getAuthHeaders();
 
     return this.http.post<any>(url, pago, { headers });
@@ -262,9 +262,9 @@ export class HotelService {
 
   // Método para cancelar una reserva
   cancelarReserva(idReserva: number): Observable<any> {
-    const url = `${this.reservasUrl}/${idReserva}`;
+    const url = `${this.reservasUrl}/${idReserva}/cancelar`;
     const headers = this.getAuthHeaders();
 
-    return this.http.delete<any>(url, { headers });
+    return this.http.put<any>(url, {}, { headers });
   }
 }
