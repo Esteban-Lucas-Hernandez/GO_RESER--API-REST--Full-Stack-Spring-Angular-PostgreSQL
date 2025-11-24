@@ -23,6 +23,15 @@
     >
       Mostrar Todas las Reservas
     </button>
+
+    <!-- Botón para generar PDF de reservas por hotel -->
+    <button
+      (click)="descargarPdfPorHotel()"
+      class="btn btn-pdf-hotel"
+      [disabled]="!hotelSeleccionado || cargandoReservas"
+    >
+      Generar PDF
+    </button>
   </div>
 
   <!-- Indicador de carga -->
@@ -43,6 +52,7 @@
           <th>Estado</th>
           <th>Método de Pago</th>
           <th>Fecha Reserva</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -55,9 +65,14 @@
           <td>{{ reserva.estado }}</td>
           <td>{{ reserva.metodoPago }}</td>
           <td>{{ reserva.fechaReserva | date : 'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <button class="btn-pdf" (click)="descargarPdf(reserva.idReserva)" title="Descargar PDF">
+              📄
+            </button>
+          </td>
         </tr>
         <tr *ngIf="reservas.length === 0">
-          <td colspan="8" class="no-data">No se encontraron reservas</td>
+          <td colspan="9" class="no-data">No se encontraron reservas</td>
         </tr>
       </tbody>
     </table>

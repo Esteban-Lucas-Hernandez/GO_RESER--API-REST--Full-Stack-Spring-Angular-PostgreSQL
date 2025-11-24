@@ -28,4 +28,38 @@ export class ReservasService {
     const headers = this.getAuthHeaders();
     return this.http.get<any[]>(`${this.baseUrl}/hotel/${hotelId}`, { headers });
   }
+
+  // Método para obtener el PDF de una reserva
+  getReservaPdf(reservaId: number): Observable<Blob> {
+    // Validar que el ID de la reserva sea válido
+    if (!reservaId || reservaId <= 0) {
+      throw new Error('ID de reserva inválido');
+    }
+
+    const url = `${this.baseUrl}/${reservaId}/pdf`;
+    console.log('Solicitando PDF desde URL:', url);
+
+    const headers = this.getAuthHeaders();
+    return this.http.get(url, {
+      headers,
+      responseType: 'blob',
+    });
+  }
+
+  // Método para obtener el PDF de todas las reservas de un hotel
+  getReservasPorHotelPdf(hotelId: number): Observable<Blob> {
+    // Validar que el ID del hotel sea válido
+    if (!hotelId || hotelId <= 0) {
+      throw new Error('ID de hotel inválido');
+    }
+
+    const url = `${this.baseUrl}/hotel/${hotelId}`;
+    console.log('Solicitando PDF de reservas por hotel desde URL:', url);
+
+    const headers = this.getAuthHeaders();
+    return this.http.get(url, {
+      headers,
+      responseType: 'blob',
+    });
+  }
 }

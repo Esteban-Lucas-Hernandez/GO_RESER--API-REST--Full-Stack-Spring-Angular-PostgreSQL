@@ -77,4 +77,42 @@ export class SuperAdminReservasComponent implements OnInit {
     this.selectedHotelId = null;
     this.loadReservas();
   }
+
+  // Método para descargar el PDF de una reserva
+  descargarPdf(idReserva: number): void {
+    // Validar que el ID de la reserva sea válido
+    if (!idReserva || idReserva <= 0) {
+      console.error('ID de reserva inválido:', idReserva);
+      alert('No se puede descargar el PDF: ID de reserva inválido.');
+      return;
+    }
+
+    console.log('Descargando PDF para la reserva ID:', idReserva);
+
+    this.reservasService.getReservaPdf(idReserva).subscribe({
+      next: (blob: Blob) => {
+        // Crear un enlace temporal para descargar el archivo
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `reserva-${idReserva}.pdf`; // Nombre del archivo
+        document.body.appendChild(a);
+        a.click();
+
+        // Limpiar el objeto URL después de la descarga
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      },
+      error: (error: any) => {
+        console.error('Error al descargar PDF para la reserva ID:', idReserva, error);
+        if (error.status === 403) {
+          alert('No tiene permisos para descargar el PDF de esta reserva.');
+        } else if (error.status === 404) {
+          alert('No se encontró el PDF para esta reserva.');
+        } else {
+          alert('No se pudo descargar el PDF. Por favor, inténtelo más tarde.');
+        }
+      },
+    });
+  }
 }

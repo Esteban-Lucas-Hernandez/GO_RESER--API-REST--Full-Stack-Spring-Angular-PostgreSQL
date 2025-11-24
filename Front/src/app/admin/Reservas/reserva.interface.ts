@@ -1,5 +1,5 @@
 export interface Reserva {
-  id: number;
+  idReserva: number;
   emailUsuario: string;
   numeroHabitacion: string;
   fechaInicio: string;

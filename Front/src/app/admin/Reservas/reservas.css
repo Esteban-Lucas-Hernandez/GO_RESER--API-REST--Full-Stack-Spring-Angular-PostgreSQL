@@ -17,6 +17,7 @@
   padding: 15px;
   background-color: #f8f9fa;
   border-radius: 5px;
+  flex-wrap: wrap;
 }
 
 .filtro-container label {
@@ -46,6 +47,16 @@
 
 .filtro-container .btn-secondary:hover:not(:disabled) {
   background-color: #5a6268;
+}
+
+/* Estilos para el botón de generar PDF */
+.filtro-container .btn-pdf-hotel {
+  background-color: #28a745;
+  color: white;
+}
+
+.filtro-container .btn-pdf-hotel:hover:not(:disabled) {
+  background-color: #218838;
 }
 
 .filtro-container .btn:disabled {
@@ -92,4 +103,43 @@
   text-align: center;
   color: #666;
   font-style: italic;
+}
+
+/* Estilos para el botón PDF */
+.btn-pdf {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-pdf:hover {
+  background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+  .filtro-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filtro-container > * {
+    margin-bottom: 10px;
+  }
+
+  .reservas-table {
+    font-size: 14px;
+  }
+
+  .reservas-table th,
+  .reservas-table td {
+    padding: 8px 10px;
+  }
 }

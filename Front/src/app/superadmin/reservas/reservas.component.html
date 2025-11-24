@@ -39,6 +39,7 @@
           <th>Estado</th>
           <th>Método de Pago</th>
           <th>Fecha Reserva</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -51,6 +52,11 @@
           <td>{{ reserva.estado }}</td>
           <td>{{ reserva.metodoPago }}</td>
           <td>{{ reserva.fechaReserva | date : 'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <button class="btn-pdf" (click)="descargarPdf(reserva.idReserva)" title="Descargar PDF">
+              📄
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
