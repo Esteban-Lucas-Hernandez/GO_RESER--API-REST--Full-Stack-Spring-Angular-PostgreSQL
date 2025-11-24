@@ -74,4 +74,37 @@ export class MisReservasComponent implements OnInit {
       });
     }
   }
+
+  // Método para descargar el comprobante de una reserva
+  descargarComprobante(idReserva: number): void {
+    this.hotelService.getComprobanteReserva(idReserva).subscribe({
+      next: (blob: Blob) => {
+        // Crear un enlace temporal para descargar el archivo
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `comprobante-reserva-${idReserva}.pdf`; // Nombre del archivo
+        document.body.appendChild(a);
+        a.click();
+
+        // Limpiar el objeto URL después de la descarga
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      },
+      error: (err: any) => {
+        console.error('Error al descargar comprobante:', err);
+        alert('No se pudo descargar el comprobante. Por favor, inténtelo más tarde.');
+      },
+    });
+  }
+
+  // Método para verificar si una reserva puede tener comprobante (pagos confirmados)
+  puedeDescargarComprobante(reserva: Reserva): boolean {
+    // Solo mostrar el botón para reservas con estado "CONFIRMADA" o similar
+    return (
+      reserva.estado?.toUpperCase() === 'CONFIRMADA' ||
+      reserva.estado?.toUpperCase() === 'PAGADA' ||
+      reserva.estado?.toUpperCase() === 'COMPLETADA'
+    );
+  }
 }

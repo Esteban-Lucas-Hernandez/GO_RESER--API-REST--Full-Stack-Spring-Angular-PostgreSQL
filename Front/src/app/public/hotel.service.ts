@@ -271,4 +271,15 @@ export class HotelService {
 
     return this.http.put<any>(url, {}, { headers });
   }
+
+  // Método para obtener el comprobante de una reserva
+  getComprobanteReserva(idReserva: number): Observable<Blob> {
+    const url = `${this.reservasUrl}/${idReserva}/comprobante`;
+    const headers = this.getAuthHeaders();
+
+    return this.http.get(url, {
+      headers,
+      responseType: 'blob',
+    });
+  }
 }
