@@ -245,11 +245,15 @@ export class HotelService {
   }
 
   // Método para confirmar un pago
-  confirmarPago(idReserva: number, pago: PagoConfirmacion): Observable<any> {
+  confirmarPago(idReserva: number, pago: PagoConfirmacion): Observable<Blob> {
     const url = `${this.pagosUrl}/confirmar/${idReserva}`;
     const headers = this.getAuthHeaders();
 
-    return this.http.post<any>(url, pago, { headers });
+    // Usamos responseType: 'blob' para recibir el PDF como Blob
+    return this.http.post(url, pago, {
+      headers,
+      responseType: 'blob',
+    });
   }
 
   // Método para obtener las reservas del usuario actual

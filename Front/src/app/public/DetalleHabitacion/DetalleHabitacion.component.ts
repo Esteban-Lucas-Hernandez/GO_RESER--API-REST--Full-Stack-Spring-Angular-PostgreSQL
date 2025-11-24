@@ -246,9 +246,41 @@ export class DetalleHabitacionComponent implements OnInit {
     this.pagoConfirmacion.referenciaPago = 'REF-' + new Date().getTime();
 
     this.hotelService.confirmarPago(idReserva, this.pagoConfirmacion).subscribe({
-      next: (response: unknown) => {
-        console.log('Pago confirmado:', response);
-        this.mostrarMensajePago('Pago confirmado exitosamente', 'exito');
+      next: (response: Blob) => {
+        console.log('Respuesta recibida:', response);
+
+        // Verificar si la respuesta es un PDF válido
+        if (response.type === 'application/pdf') {
+          console.log('PDF confirmado, descargando...');
+
+          // Crear un enlace para descargar el PDF
+          const blob = new Blob([response], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+
+          // Crear un elemento <a> temporal para la descarga
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `comprobante-pago-${idReserva}.pdf`; // Nombre del archivo
+          document.body.appendChild(a);
+          a.click();
+
+          // Limpiar el DOM
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+
+          this.mostrarMensajePago(
+            'Pago confirmado exitosamente. Descargando comprobante...',
+            'exito'
+          );
+        } else {
+          // Si no es un PDF, leer el contenido para ver qué es
+          const reader = new FileReader();
+          reader.onload = () => {
+            console.log('Contenido de la respuesta:', reader.result);
+            this.mostrarMensajePago('Error: La respuesta no es un PDF válido', 'error');
+          };
+          reader.readAsText(response);
+        }
 
         // Cerrar modal después de un breve delay
         setTimeout(() => {
