@@ -78,7 +78,7 @@ export class SuperAdminComponent implements OnInit {
     }
 
     // Confirmar antes de eliminar
-    const confirmDelete = confirm(`¿Está seguro que desea eliminar al usuario ${usuario.nombreCompleto}? Esta acción no se puede deshacer.`);
+    const confirmDelete = confirm(`¿Está seguro que desea eliminar al usuario ${usuario.nombreCompleto}? Puede contener hoteles y habitaciones esta acción no se puede deshacer.`);
     if (!confirmDelete) {
       return;
     }
