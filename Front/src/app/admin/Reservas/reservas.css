@@ -59,6 +59,16 @@
   background-color: #218838;
 }
 
+/* Estilos para el botón de eliminar reservas canceladas y antiguas */
+.filtro-container .btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.filtro-container .btn-danger:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
 .filtro-container .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -122,6 +132,26 @@
 
 .btn-pdf:hover {
   background-color: #c82333;
+}
+
+/* Estilos para el botón de eliminar */
+.btn-delete {
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+}
+
+.btn-delete:hover {
+  background-color: #e0a800;
 }
 
 @media (max-width: 768px) {

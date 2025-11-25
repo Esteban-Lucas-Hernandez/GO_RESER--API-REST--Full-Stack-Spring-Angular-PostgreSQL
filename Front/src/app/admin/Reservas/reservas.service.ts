@@ -62,4 +62,27 @@ export class ReservasService {
       responseType: 'blob',
     });
   }
+
+  // Método para eliminar una reserva
+  eliminarReserva(idReserva: number): Observable<void> {
+    // Validar que el ID de la reserva sea válido
+    if (!idReserva || idReserva <= 0) {
+      throw new Error('ID de reserva inválido');
+    }
+
+    const url = `${this.baseUrl}/${idReserva}`;
+    console.log('Eliminando reserva con ID:', idReserva);
+
+    const headers = this.getAuthHeaders();
+    return this.http.delete<void>(url, { headers });
+  }
+
+  // Método para eliminar reservas canceladas y antiguas
+  eliminarReservasCanceladasYAntiguas(): Observable<number> {
+    const url = `${this.baseUrl}`;
+    console.log('Eliminando reservas canceladas y antiguas');
+
+    const headers = this.getAuthHeaders();
+    return this.http.delete<number>(url, { headers });
+  }
 }

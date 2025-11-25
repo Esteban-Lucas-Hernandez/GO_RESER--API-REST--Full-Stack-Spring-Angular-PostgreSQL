@@ -24,13 +24,12 @@
       Mostrar Todas las Reservas
     </button>
 
-    <!-- Botón para generar PDF de reservas por hotel -->
     <button
-      (click)="descargarPdfPorHotel()"
-      class="btn btn-pdf-hotel"
-      [disabled]="!hotelSeleccionado || cargandoReservas"
+      (click)="eliminarReservasCanceladasYAntiguas()"
+      class="btn btn-danger"
+      [disabled]="cargandoReservas"
     >
-      Generar PDF
+      Eliminar Reservas Canceladas y Antiguas
     </button>
   </div>
 

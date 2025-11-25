@@ -164,4 +164,83 @@ export class ReservasComponent implements OnInit {
       },
     });
   }
+
+  // Método para eliminar una reserva
+  eliminarReserva(idReserva: number): void {
+    // Validar que el ID de la reserva sea válido
+    if (!idReserva || idReserva <= 0) {
+      console.error('ID de reserva inválido:', idReserva);
+      alert('No se puede eliminar la reserva: ID inválido.');
+      return;
+    }
+
+    // Confirmar antes de eliminar
+    const confirmacion = confirm(
+      '¿Está seguro de que desea eliminar esta reserva? Esta acción no se puede deshacer.'
+    );
+    if (!confirmacion) {
+      return;
+    }
+
+    console.log('Eliminando reserva con ID:', idReserva);
+
+    this.reservasService.eliminarReserva(idReserva).subscribe({
+      next: () => {
+        console.log('Reserva eliminada exitosamente');
+        alert('Reserva eliminada correctamente.');
+
+        // Recargar la lista de reservas después de eliminar
+        if (this.hotelSeleccionado) {
+          this.cargarReservasPorHotel(this.hotelSeleccionado);
+        } else {
+          this.cargarTodasLasReservas();
+        }
+      },
+      error: (error: any) => {
+        console.error('Error al eliminar reserva:', error);
+        if (error.status === 403) {
+          alert('No tiene permisos para eliminar esta reserva.');
+        } else if (error.status === 404) {
+          alert('No se encontró la reserva para eliminar.');
+        } else {
+          alert('No se pudo eliminar la reserva. Por favor, inténtelo más tarde.');
+        }
+      },
+    });
+  }
+
+  // Método para eliminar reservas canceladas y antiguas
+  eliminarReservasCanceladasYAntiguas(): void {
+    // Confirmar antes de eliminar
+    const confirmacion = confirm(
+      '¿Está seguro de que desea eliminar todas las reservas canceladas y antiguas? Esta acción no se puede deshacer.'
+    );
+    if (!confirmacion) {
+      return;
+    }
+
+    console.log('Eliminando reservas canceladas y antiguas');
+
+    this.reservasService.eliminarReservasCanceladasYAntiguas().subscribe({
+      next: (cantidad: number) => {
+        console.log(`Se eliminaron ${cantidad} reservas canceladas y antiguas`);
+        alert(`Se eliminaron ${cantidad} reservas canceladas y antiguas.`);
+
+        // Recargar la lista de reservas después de eliminar
+        if (this.hotelSeleccionado) {
+          this.cargarReservasPorHotel(this.hotelSeleccionado);
+        } else {
+          this.cargarTodasLasReservas();
+        }
+      },
+      error: (error: any) => {
+        console.error('Error al eliminar reservas canceladas y antiguas:', error);
+        if (error.status === 403) {
+          alert('No tiene permisos para eliminar reservas.');
+        } else {
+          alert('No se pudieron eliminar las reservas. Por favor, inténtelo más tarde.');
+        }
+      },
+    });
+  }
 }
