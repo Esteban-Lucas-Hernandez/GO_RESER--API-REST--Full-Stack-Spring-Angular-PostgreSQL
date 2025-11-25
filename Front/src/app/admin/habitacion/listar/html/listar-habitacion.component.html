@@ -4,9 +4,9 @@
 
   <!-- Selector de hotel -->
   <div class="hotel-selector">
-    <label for="hotelSelect">Seleccionar Hotel:</label>
+    <label for="hotelSelect">Filtrar por Hotel:</label>
     <select id="hotelSelect" (change)="onHotelChange($event)" [value]="hotelId || ''">
-      <option value="">-- Seleccione un hotel --</option>
+      <option value="">Todos los hoteles</option>
       <option *ngFor="let hotel of hoteles" [value]="hotel.id">
         {{ hotel.nombre }}
       </option>
@@ -23,21 +23,17 @@
     <p>{{ error }}</p>
   </div>
 
-  <!-- Mensaje cuando no hay hoteles seleccionados -->
-  <div *ngIf="!hotelId && !loading && !error" class="no-hotel-selected">
-    <p>Por favor, seleccione un hotel para ver sus habitaciones.</p>
-  </div>
-
   <!-- Mensaje cuando no hay habitaciones -->
-  <div *ngIf="hotelId && habitaciones.length === 0 && !loading" class="no-habitaciones">
-    <p>No hay habitaciones registradas para este hotel.</p>
+  <div *ngIf="!loading && habitaciones.length === 0" class="no-habitaciones">
+    <p>No hay habitaciones registradas.</p>
   </div>
 
   <!-- Lista de habitaciones -->
-  <div *ngIf="hotelId && habitaciones.length > 0" class="habitaciones-list">
+  <div *ngIf="habitaciones.length > 0" class="habitaciones-list">
     <table>
       <thead>
         <tr>
+          <th *ngIf="!hotelId">Hotel</th>
           <th>Número</th>
           <th>Capacidad</th>
           <th>Precio</th>
@@ -48,6 +44,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let habitacion of habitaciones">
+          <td *ngIf="!hotelId">{{ getHotelName(habitacion.idHotel) }}</td>
           <td>{{ habitacion.numero }}</td>
           <td>{{ habitacion.capacidad }}</td>
           <td>{{ habitacion.precio | currency }}</td>

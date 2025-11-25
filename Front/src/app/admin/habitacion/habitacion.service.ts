@@ -12,6 +12,12 @@ export class HabitacionService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
+  // Obtener todas las habitaciones de todos los hoteles
+  getTodasLasHabitaciones(): Observable<HabitacionDTO[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<HabitacionDTO[]>(`${this.baseUrl}/habitaciones`, { headers });
+  }
+
   // Obtener todas las habitaciones de un hotel
   getHabitacionesByHotelId(hotelId: number): Observable<HabitacionDTO[]> {
     const headers = this.getAuthHeaders();
