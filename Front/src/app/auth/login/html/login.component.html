@@ -36,5 +36,16 @@
 
     <button type="submit" [disabled]="loginForm.invalid">Ingresar</button>
   </form>
- 
+
+  <!-- Botón de inicio de sesión con Google -->
+  <div class="google-login-container">
+    <button class="google-login-btn" (click)="loginWithGoogle()">
+      <img
+        src="https://developers.google.com/identity/images/g-logo.png"
+        alt="Google logo"
+        class="google-icon"
+      />
+      Iniciar sesión con Google
+    </button>
+  </div>
 </div>

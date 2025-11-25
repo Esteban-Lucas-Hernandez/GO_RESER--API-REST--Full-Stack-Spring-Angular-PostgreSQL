@@ -39,8 +39,14 @@ export class PublicComponent implements OnInit {
         const decodedToken = this.authService.decodeToken(token);
         if (decodedToken) {
           this.userInfo = {
-            username: decodedToken.username,
+            username: decodedToken.username || localStorage.getItem('userName'),
             roles: decodedToken.roles,
+          };
+        } else {
+          // Si no se puede decodificar el token, intentar obtener el nombre de usuario del localStorage
+          this.userInfo = {
+            username: localStorage.getItem('userName') || 'Usuario',
+            roles: [],
           };
         }
       }
@@ -132,7 +138,7 @@ export class PublicComponent implements OnInit {
       const decodedToken = this.authService.decodeToken(token);
       if (decodedToken) {
         this.userInfo = {
-          username: decodedToken.username,
+          username: decodedToken.username || localStorage.getItem('userName'),
           roles: decodedToken.roles,
         };
 
@@ -141,6 +147,9 @@ export class PublicComponent implements OnInit {
         if (userRole === 'ROLE_ADMIN') {
           // Redirigir a la página de administración
           this.router.navigate(['/admin/dashboard']);
+        } else if (userRole === 'ROLE_SUPERADMIN') {
+          // Redirigir a la página de superadministración
+          this.router.navigate(['/superadmin/usuarios']);
         }
       }
     }
@@ -155,6 +164,11 @@ export class PublicComponent implements OnInit {
 
   logout() {
     this.authService.removeToken();
+    // También eliminar otros datos del localStorage relacionados con Google
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userName');
+
     this.isAuthenticated = false;
     this.userInfo = null;
     // Recargar la página para reflejar los cambios

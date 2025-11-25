@@ -79,3 +79,34 @@ button:hover:not(:disabled) {
 .register-link-anchor:hover {
   text-decoration: underline;
 }
+
+/* Estilos para el botón de inicio de sesión con Google */
+.google-login-container {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.google-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.google-login-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+}

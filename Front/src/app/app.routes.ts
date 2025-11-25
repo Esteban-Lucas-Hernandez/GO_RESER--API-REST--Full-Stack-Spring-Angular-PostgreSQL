@@ -28,12 +28,14 @@ import { PerfilComponent } from './admin/perfil/perfil.component';
 import { PerfilComponent as PublicPerfilComponent } from './public/perfil/perfil.component';
 import { ReservasComponent } from './admin/Reservas/reservas.component';
 import { ResenasComponent } from './admin/resenas/resenas.component';
+import { GoogleCallbackComponent } from './auth/google-callback/google-callback.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch: 'full' },
   { path: 'public', component: PublicComponent },
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
+  { path: 'auth/google/callback', component: GoogleCallbackComponent },
   { path: 'habitaciones/:id', component: HabitacionesComponent },
   { path: 'detalle-habitacion/:hotelId/:id', component: DetalleHabitacionComponent },
   { path: 'mis-reservas', component: MisReservasComponent, canActivate: [AuthGuard] },

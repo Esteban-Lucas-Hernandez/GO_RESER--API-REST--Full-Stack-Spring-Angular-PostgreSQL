@@ -77,4 +77,10 @@ export class LoginComponent {
   goToRegistro() {
     this.router.navigate(['/registro']);
   }
+
+  // Método para iniciar sesión con Google
+  loginWithGoogle() {
+    // Redirigir al endpoint de autenticación de Google
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  }
 }
