@@ -107,4 +107,17 @@ export class MisReservasComponent implements OnInit {
       reserva.estado?.toUpperCase() === 'COMPLETADA'
     );
   }
+
+  // Método para verificar si una reserva puede ser cancelada
+  puedeCancelarReserva(reserva: Reserva): boolean {
+    // No permitir cancelar si la fecha de salida es anterior a la fecha actual
+    const fechaSalida = new Date(reserva.fechaFin);
+    const fechaActual = new Date();
+    
+    // Comparar solo las fechas (sin horas)
+    fechaSalida.setHours(0, 0, 0, 0);
+    fechaActual.setHours(0, 0, 0, 0);
+    
+    return fechaSalida >= fechaActual;
+  }
 }

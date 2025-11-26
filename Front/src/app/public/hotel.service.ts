@@ -101,6 +101,8 @@ export interface Reserva {
   idReserva: number;
   idUsuario: number;
   idHabitacion: number;
+  numeroHabitacion: string;
+  nombreHotel: string;
   fechaInicio: string; // Formato ISO string
   fechaFin: string; // Formato ISO string
   total: number;

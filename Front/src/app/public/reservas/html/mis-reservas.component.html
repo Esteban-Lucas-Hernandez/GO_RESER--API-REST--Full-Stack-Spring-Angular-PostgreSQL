@@ -20,10 +20,10 @@
 
     <div *ngFor="let reserva of reservas" class="reserva-card">
       <div class="reserva-info">
-        <h3>Reserva #{{ reserva.idReserva }}</h3>
+        <h3>{{ reserva.nombreHotel }}</h3>
 
         <div class="reserva-details">
-          <p><strong>ID Habitación:</strong> {{ reserva.idHabitacion }}</p>
+          <p><strong>Número Habitación:</strong> {{ reserva.numeroHabitacion }}</p>
           <p><strong>Fecha Entrada:</strong> {{ reserva.fechaInicio | date : 'dd/MM/yyyy' }}</p>
           <p><strong>Fecha Salida:</strong> {{ reserva.fechaFin | date : 'dd/MM/yyyy' }}</p>
           <p><strong>Total:</strong> ${{ reserva.total }}</p>
@@ -44,7 +44,7 @@
             Descargar Factura
           </button>
 
-          <button class="btn-cancelar" (click)="cancelarReserva(reserva.idReserva)">
+          <button class="btn-cancelar" (click)="cancelarReserva(reserva.idReserva)" *ngIf="puedeCancelarReserva(reserva)">
             Cancelar Reserva
           </button>
         </div>
