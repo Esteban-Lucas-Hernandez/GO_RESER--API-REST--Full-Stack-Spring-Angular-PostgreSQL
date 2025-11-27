@@ -75,7 +75,18 @@
 <!-- Mostrar información de usuario si está autenticado -->
 <div class="user-info-container" *ngIf="isAuthenticated && userInfo">
   <div class="user-info">
-    <span class="username">Hola, {{ userInfo.username }}</span>
+    <!-- Mostrar imagen de perfil en lugar del nombre de usuario -->
+    <div class="user-avatar">
+      <img
+        [src]="
+          userInfo.fotoUrl ||
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+        "
+        [alt]="userInfo.username"
+        class="avatar-image"
+        (error)="handleUserImageError($event)"
+      />
+    </div>
     <button class="mis-reservas-button" (click)="verMisReservas()">Mis Reservas</button>
     <button class="perfil-button" (click)="verPerfil()">Ver Perfil</button>
     <button class="logout-button" (click)="logout()">Cerrar Sesión</button>

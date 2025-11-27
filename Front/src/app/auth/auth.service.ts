@@ -8,6 +8,7 @@ export interface RegistroData {
   telefono: string;
   documento: string;
   contrasena: string;
+  fotoUrl?: string;
 }
 
 export interface LoginData {

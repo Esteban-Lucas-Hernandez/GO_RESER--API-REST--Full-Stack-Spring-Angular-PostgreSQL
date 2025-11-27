@@ -32,14 +32,19 @@ export class GoogleCallbackComponent implements OnInit {
       const userId = params['userId'];
       const email = params['email'];
       const fullName = params['fullName'];
+      const fotoUrl = params['fotoUrl'];
       const success = params['success'] === 'true';
 
       if (success && token) {
         // Guardar el token y la información del usuario
-        this.authService.saveToken(token); // Usar el método del servicio para guardar el token
+        this.authService.saveToken(token);
         localStorage.setItem('userId', userId);
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userName', fullName);
+        // Guardar la URL de la foto si está presente
+        if (fotoUrl) {
+          localStorage.setItem('userFotoUrl', fotoUrl);
+        }
 
         // Redirigir según el rol del usuario
         setTimeout(() => {
@@ -52,7 +57,7 @@ export class GoogleCallbackComponent implements OnInit {
             // Para usuarios regulares o sin rol específico
             this.router.navigate(['/public']);
           }
-        }, 100); // Pequeño retraso para asegurar que el token se haya guardado
+        }, 100);
       } else {
         // Manejar error
         console.error('Error en autenticación con Google');

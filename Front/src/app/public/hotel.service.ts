@@ -12,6 +12,7 @@ export interface Resena {
   comentario: string;
   calificacion: number;
   fechaResena: string;
+  fotoUrl?: string; // Agregar el campo fotoUrl
 }
 
 // Actualizamos la interfaz para reflejar la estructura real que envía el backend

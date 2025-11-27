@@ -6,4 +6,5 @@ export interface UsuarioDTO {
   email: string;
   rol: string;
   fechaRegistro: string;
+  fotoUrl?: string;
 }

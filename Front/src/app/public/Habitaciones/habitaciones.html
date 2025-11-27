@@ -69,7 +69,24 @@
 
     <div *ngFor="let resena of resenas" class="resena-card">
       <div class="resena-header">
-        <span class="resena-usuario">{{ resena.nombreUsuario }}</span>
+        <!-- Mostrar la imagen de perfil del usuario -->
+        <div class="resena-usuario-info">
+          <div class="resena-usuario-avatar" *ngIf="resena.fotoUrl">
+            <img
+              [src]="resena.fotoUrl"
+              [alt]="'Foto de ' + resena.nombreUsuario"
+              class="avatar-image"
+            />
+          </div>
+          <div class="resena-usuario-avatar placeholder" *ngIf="!resena.fotoUrl">
+            <img
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              [alt]="'Foto de ' + resena.nombreUsuario"
+              class="avatar-image"
+            />
+          </div>
+          <span class="resena-usuario">{{ resena.nombreUsuario }}</span>
+        </div>
         <div class="resena-calificacion">
           <span
             *ngFor="
@@ -87,7 +104,7 @@
         </div>
       </div>
       <p class="resena-comentario">{{ resena.comentario }}</p>
-      <span class="resena-fecha">{{ resena.fechaResena | date : 'short' }}</span>
+      <span class="resena-fecha">{{ resena.fechaResena }}</span>
 
       <!-- Botones de acción para reseñas del usuario -->
       <div class="resena-actions" *ngIf="isUserReview(resena)">

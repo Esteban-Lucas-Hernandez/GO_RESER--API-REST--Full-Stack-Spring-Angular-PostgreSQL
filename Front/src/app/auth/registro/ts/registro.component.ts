@@ -23,6 +23,7 @@ export class RegistroComponent {
       telefono: [''],
       documento: [''],
       contrasena: ['', Validators.required],
+      fotoUrl: [''], // Campo opcional para la URL de la foto
     });
   }
 
@@ -30,6 +31,12 @@ export class RegistroComponent {
     if (this.registroForm.valid) {
       // Preparar los datos para enviar
       const formData: RegistroData = this.registroForm.value;
+
+      // Si no se proporciona fotoUrl, usar la URL por defecto
+      if (!formData.fotoUrl || formData.fotoUrl.trim() === '') {
+        formData.fotoUrl =
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+      }
 
       // Enviar los datos al endpoint
       this.authService.registrar(formData).subscribe({

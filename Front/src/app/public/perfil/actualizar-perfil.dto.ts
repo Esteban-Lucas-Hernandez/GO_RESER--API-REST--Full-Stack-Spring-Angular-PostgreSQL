@@ -4,4 +4,5 @@ export interface ActualizarPerfilDTO {
   documento?: string;
   email?: string;
   contrasena?: string;
+  fotoUrl?: string;
 }
