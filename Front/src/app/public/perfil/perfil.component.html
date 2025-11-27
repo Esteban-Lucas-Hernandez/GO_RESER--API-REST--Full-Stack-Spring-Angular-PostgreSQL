@@ -21,6 +21,44 @@
 
     <!-- Modo de visualización -->
     <div *ngIf="!editMode && !showPasswordChange" class="perfil-info">
+      <!-- Foto de perfil -->
+      <div class="info-item">
+        <label>Foto de Perfil:</label>
+        <div class="input-container">
+          <div class="profile-image-container">
+            <img
+              [src]="
+                perfil.fotoUrl ||
+                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+              "
+              alt="Foto de perfil"
+              class="profile-image"
+              (error)="handleImageError($event)"
+            />
+          </div>
+          <button
+            *ngIf="editingField !== 'fotoUrl'"
+            (click)="toggleFieldEdit('fotoUrl')"
+            class="btn-edit-icon"
+            title="Editar"
+          >
+            ✏️
+          </button>
+          <div *ngIf="editingField === 'fotoUrl'" class="edit-actions">
+            <input
+              type="text"
+              [(ngModel)]="updateData.fotoUrl"
+              placeholder="URL de la foto de perfil"
+              class="foto-url-input"
+            />
+            <button (click)="saveField('fotoUrl')" class="btn-save-icon" title="Guardar">✓</button>
+            <button (click)="toggleFieldEdit('fotoUrl')" class="btn-cancel-icon" title="Cancelar">
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="info-item">
         <label>Nombre Completo:</label>
         <div class="input-container">

@@ -1,158 +1,146 @@
+/* Estilos generales para el contenedor del perfil */
 .perfil-container {
-  padding: 20px;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .perfil-container h2 {
   color: #333;
-  margin-bottom: 20px;
   text-align: center;
+  margin-bottom: 20px;
 }
 
+/* Estilos para la tarjeta de perfil */
 .perfil-card {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  margin-bottom: 20px;
-}
-
-.perfil-header {
-  border-bottom: 1px solid #eee;
-  padding-bottom: 15px;
-  margin-bottom: 20px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .perfil-header h3 {
-  color: #444;
-  margin: 0;
+  color: #333;
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
 }
 
-.perfil-info {
-  margin-bottom: 25px;
-}
-
+/* Estilos para los elementos de información */
 .info-item {
   display: flex;
-  flex-direction: column;
-  padding: 12px 0;
-  border-bottom: 1px solid #f5f5f5;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .info-item label {
   font-weight: bold;
   color: #555;
-  margin-bottom: 8px;
+  flex: 1;
 }
 
 .info-item span {
+  flex: 2;
   color: #333;
 }
 
-/* Contenedor de input con botón de edición */
+/* Estilos para el contenedor de entrada */
 .input-container {
+  flex: 2;
   display: flex;
   align-items: center;
-  gap: 8px;
-  position: relative;
+  gap: 10px;
 }
 
 .input-container input {
   flex: 1;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
-.input-container input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+/* Estilos para la imagen de perfil */
+.profile-image-container {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ddd;
 }
 
-.input-container span {
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.foto-url-input {
   flex: 1;
-  padding: 8px 12px;
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
+  padding: 8px;
+  border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 14px;
 }
 
-/* Botón de lápiz para editar */
-.btn-edit-icon {
+/* Estilos para los botones de edición */
+.btn-edit-icon,
+.btn-save-icon,
+.btn-cancel-icon {
   background: none;
   border: none;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 18px;
-  padding: 4px 8px;
-  transition: transform 0.2s;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-edit-icon {
+  color: #007bff;
 }
 
 .btn-edit-icon:hover {
-  transform: scale(1.2);
+  background-color: #e9ecef;
 }
 
-/* Acciones de edición (guardar y cancelar) */
+.btn-save-icon {
+  color: #28a745;
+}
+
+.btn-save-icon:hover {
+  background-color: #e9ecef;
+}
+
+.btn-cancel-icon {
+  color: #dc3545;
+}
+
+.btn-cancel-icon:hover {
+  background-color: #e9ecef;
+}
+
 .edit-actions {
   display: flex;
   gap: 5px;
 }
 
-.btn-save-icon,
-.btn-cancel-icon {
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 4px 10px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.btn-save-icon {
-  background-color: #28a745;
-  color: white;
-}
-
-.btn-save-icon:hover {
-  background-color: #1e7e34;
-}
-
-.btn-cancel-icon {
-  background-color: #6c757d;
-  color: white;
-}
-
-.btn-cancel-icon:hover {
-  background-color: #545b62;
-}
-
 /* Estilos para el formulario de cambio de contraseña */
 .password-change-form {
-  margin: 20px 0;
-  padding: 20px;
   background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 20px 0;
 }
 
 .password-change-form h4 {
   margin-top: 0;
   color: #333;
-  margin-bottom: 15px;
-}
-
-.password-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.perfil-form {
-  margin-bottom: 25px;
 }
 
 .form-group {
@@ -171,100 +159,73 @@
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
+  font-size: 14px;
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
-
-.perfil-actions {
+.password-actions {
   display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.btn-editar,
-.btn-guardar,
-.btn-cancelar,
-.btn-eliminar,
-.btn-reintentar,
+/* Estilos para los botones de acción */
+.perfil-actions {
+  margin-top: 20px;
+  text-align: center;
+}
+
 .btn-password {
-  padding: 10px 20px;
+  background-color: #6c757d;
+  color: white;
   border: none;
+  padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
-  min-width: 120px;
-}
-
-.btn-password {
-  background-color: #17a2b8;
-  color: white;
+  font-size: 14px;
+  transition: background-color 0.2s;
 }
 
 .btn-password:hover {
-  background-color: #138496;
-}
-
-.btn-editar {
-  background-color: #007bff;
-  color: white;
-}
-
-.btn-editar:hover {
-  background-color: #0056b3;
+  background-color: #5a6268;
 }
 
 .btn-guardar {
   background-color: #28a745;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
 }
 
 .btn-guardar:hover {
-  background-color: #1e7e34;
+  background-color: #218838;
 }
 
 .btn-cancelar {
   background-color: #6c757d;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
 }
 
 .btn-cancelar:hover {
-  background-color: #545b62;
+  background-color: #5a6268;
 }
 
-.btn-eliminar {
-  background-color: #dc3545;
-  color: white;
-}
-
-.btn-eliminar:hover {
-  background-color: #c82333;
-}
-
-.btn-reintentar {
-  background-color: #28a745;
-  color: white;
-}
-
-.btn-reintentar:hover {
-  background-color: #1e7e34;
-}
-
-/* Estilos para mensajes de carga y error */
+/* Estilos para mensajes */
 .loading,
 .error,
 .no-data {
   text-align: center;
   padding: 20px;
-  margin: 20px 0;
   border-radius: 4px;
+  margin: 20px 0;
 }
 
 .loading {
@@ -276,22 +237,6 @@
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
-  text-align: left;
-}
-
-.error h3 {
-  margin-top: 0;
-  color: #721c24;
-}
-
-.error pre {
-  background-color: #f8d7da;
-  border: none;
-  padding: 10px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  font-size: 14px;
-  margin: 10px 0;
 }
 
 .no-data {
@@ -300,29 +245,49 @@
   border: 1px solid #ffeaa7;
 }
 
+.btn-reintentar {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.btn-reintentar:hover {
+  background-color: #0069d9;
+}
+
+/* Estilos para información del token */
 .token-info {
   margin-top: 15px;
   padding: 10px;
-  background-color: #e9ecef;
+  background-color: #f8f9fa;
   border-radius: 4px;
 }
 
 .token-info h4 {
   margin-top: 0;
-  color: #495057;
+  color: #333;
 }
 
+.token-info p {
+  margin: 5px 0;
+  color: #666;
+}
+
+/* Media queries para dispositivos móviles */
 @media (max-width: 768px) {
   .perfil-container {
-    padding: 10px;
-  }
-
-  .perfil-card {
-    padding: 20px;
+    margin: 10px;
+    padding: 15px;
   }
 
   .info-item {
     flex-direction: column;
+    align-items: flex-start;
     gap: 5px;
   }
 
@@ -330,20 +295,20 @@
     width: 100%;
   }
 
-  .info-item span {
+  .input-container {
     width: 100%;
-    text-align: left;
   }
 
+  .password-actions,
   .perfil-actions {
     flex-direction: column;
+    align-items: center;
   }
 
-  .btn-editar,
+  .btn-password,
   .btn-guardar,
-  .btn-cancelar,
-  .btn-eliminar,
-  .btn-reintentar {
+  .btn-cancelar {
     width: 100%;
+    max-width: 200px;
   }
 }

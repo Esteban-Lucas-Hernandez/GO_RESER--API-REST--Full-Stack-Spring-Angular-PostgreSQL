@@ -6,6 +6,7 @@ export interface UsuarioDTO {
   documento: string;
   rol: string;
   fechaRegistro: string;
+  fotoUrl?: string;
 }
 
 export interface ActualizarPerfilDTO {
@@ -14,4 +15,5 @@ export interface ActualizarPerfilDTO {
   documento?: string;
   email?: string;
   contrasena?: string;
+  fotoUrl?: string;
 }

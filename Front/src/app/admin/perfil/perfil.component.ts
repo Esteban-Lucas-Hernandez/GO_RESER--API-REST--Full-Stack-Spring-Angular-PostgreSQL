@@ -27,6 +27,7 @@ export class PerfilComponent implements OnInit {
     documento: '',
     email: '',
     contrasena: '',
+    fotoUrl: '',
   };
 
   constructor(private perfilService: PerfilService, private authService: AuthService) {}
@@ -63,6 +64,7 @@ export class PerfilComponent implements OnInit {
           this.updateData.telefono = this.perfil.telefono || '';
           this.updateData.documento = this.perfil.documento || '';
           this.updateData.email = this.perfil.email || '';
+          this.updateData.fotoUrl = this.perfil.fotoUrl || '';
         }
       },
       error: (err) => {
@@ -99,6 +101,7 @@ export class PerfilComponent implements OnInit {
       this.updateData.telefono = this.perfil.telefono || '';
       this.updateData.documento = this.perfil.documento || '';
       this.updateData.email = this.perfil.email || '';
+      this.updateData.fotoUrl = this.perfil.fotoUrl || '';
       this.updateData.contrasena = '';
     }
   }
@@ -120,6 +123,9 @@ export class PerfilComponent implements OnInit {
             break;
           case 'email':
             this.updateData.email = this.perfil.email || '';
+            break;
+          case 'fotoUrl':
+            this.updateData.fotoUrl = this.perfil.fotoUrl || '';
             break;
         }
       }
@@ -152,6 +158,11 @@ export class PerfilComponent implements OnInit {
           dataToUpdate.email = this.updateData.email;
         }
         break;
+      case 'fotoUrl':
+        if (this.updateData.fotoUrl) {
+          dataToUpdate.fotoUrl = this.updateData.fotoUrl;
+        }
+        break;
     }
 
     if (Object.keys(dataToUpdate).length === 0) {
@@ -170,6 +181,12 @@ export class PerfilComponent implements OnInit {
         alert('Error al actualizar el campo. Por favor, inténtelo más tarde.');
       },
     });
+  }
+
+  handleImageError(event: any): void {
+    // Establecer una imagen por defecto si falla la carga de la imagen de perfil
+    event.target.src =
+      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
   }
 
   togglePasswordChange(): void {
@@ -221,6 +238,10 @@ export class PerfilComponent implements OnInit {
 
     if (this.updateData.email) {
       dataToUpdate.email = this.updateData.email;
+    }
+
+    if (this.updateData.fotoUrl) {
+      dataToUpdate.fotoUrl = this.updateData.fotoUrl;
     }
 
     if (this.updateData.contrasena) {
