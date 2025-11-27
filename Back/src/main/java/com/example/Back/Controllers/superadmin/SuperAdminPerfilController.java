@@ -64,6 +64,11 @@ public class SuperAdminPerfilController {
                 usuario.setDocumento(actualizarPerfilDTO.getDocumento());
             }
             
+            // Actualizar fotoUrl si se proporciona
+            if (actualizarPerfilDTO.getFotoUrl() != null) {
+                usuario.setFotoUrl(actualizarPerfilDTO.getFotoUrl());
+            }
+            
             // Actualizar email si se proporciona
             if (actualizarPerfilDTO.getEmail() != null && !actualizarPerfilDTO.getEmail().isEmpty()) {
                 // Verificar que el email no esté ya en uso por otro usuario
