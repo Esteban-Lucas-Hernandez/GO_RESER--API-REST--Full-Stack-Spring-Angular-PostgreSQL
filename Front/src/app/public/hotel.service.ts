@@ -71,6 +71,13 @@ export interface Habitacion {
   longitud: number;
   // Añadimos el nombre del hotel
   hotelNombre: string;
+  // Añadimos información adicional del hotel
+  email: string;
+  descripcionHotel: string;
+  checkIn: string;
+  checkOut: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Interfaz para HabitacionDetalleDTO

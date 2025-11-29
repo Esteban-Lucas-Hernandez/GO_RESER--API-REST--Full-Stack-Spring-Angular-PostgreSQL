@@ -1,0 +1,34 @@
+<div class="dropdown-container">
+  <!-- Trigger - Foto de perfil -->
+  <div class="user-avatar" (click)="toggle()">
+    <img
+      [src]="
+        userInfo?.fotoUrl ||
+        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+      "
+      [alt]="userInfo?.username || 'Usuario'"
+      class="avatar-image"
+      (error)="handleImageError($event)"
+    />
+  </div>
+
+  <!-- Content -->
+  <div
+    *ngIf="open"
+    class="dropdown-menu"
+  >
+    <div class="menu-item" (click)="verMisReservas()">
+      <span>Mis Reservas</span>
+    </div>
+
+    <div class="menu-item" (click)="verPerfil()">
+      <span>Ver Perfil</span>
+    </div>
+
+    <hr class="menu-divider" />
+
+    <div class="menu-item" (click)="logout()">
+      <span>Cerrar Sesión</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="hero-section">
+  <div class="video-background">
+    <iframe
+      class="hero-video"
+      src="https://www.youtube.com/embed/UJEUwEJ6gH4?autoplay=1&mute=1&loop=1&playlist=UJEUwEJ6gH4&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    >
+    </iframe>
+  </div>
+
+  <div class="hero-content">
+    <!-- Animated Text Component for title -->
+    <h1 class="animated-title">
+      <span
+        class="word"
+        *ngFor="let word of titleWordsArray; let i = index"
+        [ngClass]="getWordClass(word)"
+        [style.animation-delay]="i * 0.1 + 's'"
+        (click)="onWordClick(word)"
+      >
+        {{ word }}
+      </span>
+    </h1>
+    <!-- Animated Text Component for subtitle -->
+    <div class="animated-text-container">
+      <p class="animated-text">
+        <span
+          class="word"
+          *ngFor="let word of subtitleWordsArray; let i = index"
+          [ngClass]="getWordClass(word)"
+          [style.animation-delay]="i * 0.1 + 's'"
+          (click)="onWordClick(word)"
+        >
+          {{ word }}
+        </span>
+      </p>
+    </div>
+
+    <!-- Search Filter -->
+    <div class="search-filter-container" #searchContainer>
+      <div class="search-box">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
+          (focus)="showDropdown = true"
+          (blur)="hideDropdownWithDelay()"
+          placeholder="Buscar hoteles por nombre, ciudad o departamento..."
+          class="search-input"
+          #searchInput
+        />
+        <div class="search-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dropdown with filtered hotels - positioned in the body -->
+<div
+  class="dropdown-container-global"
+  *ngIf="showDropdown && filteredHoteles.length > 0 && searchTerm.trim()"
+  [style.top.px]="dropdownPositionTop"
+  [style.left.px]="dropdownPositionLeft"
+  [style.width.px]="dropdownWidth"
+>
+  <ul class="dropdown-list">
+    <li
+      *ngFor="let hotel of filteredHoteles"
+      class="dropdown-item"
+      (mousedown)="selectHotel(hotel)"
+    >
+      <div class="hotel-info-dropdown">
+        <div class="hotel-name">{{ hotel.nombre }}</div>
+        <div class="hotel-location">
+          {{ hotel.direccion }}, {{ getCiudadNombre(hotel) }}, {{ getDepartamentoNombre(hotel) }}
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

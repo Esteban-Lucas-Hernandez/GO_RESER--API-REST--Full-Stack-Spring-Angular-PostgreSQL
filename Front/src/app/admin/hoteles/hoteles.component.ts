@@ -106,9 +106,31 @@ export class HotelesComponent implements OnInit {
     this.hotelAEditar = null;
   }
 
-  guardarHotel(hotelActualizado: HotelDTO): void {
+  guardarHotel(hotelActualizado: any): void {
+    // Verificar si el objeto tiene la estructura de respuesta del servicio
+    let hotelData: HotelDTO;
+
+    if (hotelActualizado && hotelActualizado.data) {
+      // Si el objeto tiene una propiedad 'data', usar esa
+      hotelData = hotelActualizado.data;
+    } else if (hotelActualizado && hotelActualizado.id) {
+      // Si el objeto tiene directamente las propiedades del hotel
+      hotelData = hotelActualizado;
+    } else {
+      console.error('Estructura de datos no válida:', hotelActualizado);
+      alert('Error: Datos del hotel no válidos. Por favor, inténtalo de nuevo.');
+      return;
+    }
+
+    // Verificar que el ID no sea undefined o null
+    if (hotelData.id === undefined || hotelData.id === null) {
+      console.error('ID de hotel no válido:', hotelData);
+      alert('Error: ID de hotel no válido. Por favor, inténtalo de nuevo.');
+      return;
+    }
+
     // Llamar al servicio para actualizar en el backend
-    this.hotelService.actualizarHotel(hotelActualizado.id, hotelActualizado).subscribe({
+    this.hotelService.actualizarHotel(hotelData.id, hotelData).subscribe({
       next: (hotel) => {
         alert('Hotel actualizado correctamente.');
         this.cerrarEdicion();

@@ -1,0 +1,453 @@
+/* Navbar principal con efecto glassmorphism mejorado */
+.navbar {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  min-height: 60px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 191, 255, 0.1), 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efecto cuando se hace scroll */
+.navbar.scrolled {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+  box-shadow: 0 4px 24px rgba(0, 191, 255, 0.15), 0 2px 12px rgba(0, 0, 0, 0.08);
+  min-height: 50px;
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: height 0.3s ease;
+}
+
+.navbar.scrolled .nav-container {
+  height: 50px;
+}
+
+/* Logo con animación */
+.nav-logo {
+  position: relative;
+  z-index: 10;
+}
+
+.nav-logo a {
+  background: linear-gradient(135deg, #00bfff, #0080ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo a:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+/* Efecto de brillo en el logo */
+.nav-logo a::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00bfff, #0080ff, #00bfff);
+  border-radius: 8px;
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.nav-logo a:hover::before {
+  opacity: 0.3;
+}
+
+/* Menu items con efectos avanzados */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin: 0;
+  position: relative;
+}
+
+.nav-link {
+  color: #00bfff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+/* Efecto de fondo al hover */
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 191, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.nav-link:hover::before {
+  left: 100%;
+}
+
+.nav-link:hover {
+  background-color: rgba(0, 191, 255, 0.08);
+  color: #00bfff;
+  transform: translateY(-2px);
+}
+
+/* Indicador activo */
+.nav-link.active {
+  background: linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 128, 255, 0.1));
+  color: #0080ff;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  background: linear-gradient(90deg, #00bfff, #0080ff);
+  border-radius: 2px;
+}
+
+/* Botón de login premium */
+.login-button {
+  background: linear-gradient(135deg, #00bfff, #0080ff);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.login-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 191, 255, 0.4);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+/* Avatar mejorado */
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.user-avatar {
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.1);
+}
+
+.avatar-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(135deg, #00bfff, #0080ff) border-box;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 191, 255, 0.2);
+}
+
+.avatar-image:hover {
+  box-shadow: 0 6px 20px rgba(0, 191, 255, 0.3);
+}
+
+/* Dropdown menu mejorado */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 191, 255, 0.2);
+}
+
+.dropdown-container:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  color: #333;
+  text-decoration: none;
+  display: block;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  border-radius: 12px;
+  margin: 4px 8px;
+}
+
+.dropdown-item:hover {
+  background: linear-gradient(90deg, rgba(0, 191, 255, 0.1), rgba(0, 128, 255, 0.1));
+  color: #00bfff;
+  transform: translateX(5px);
+}
+
+/* Modales modernos */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.98));
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 191, 255, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid rgba(0, 191, 255, 0.1);
+  background: linear-gradient(135deg, rgba(0, 191, 255, 0.05), transparent);
+}
+
+.modal-header h2 {
+  margin: 0;
+  background: linear-gradient(135deg, #00bfff, #0080ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #777;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(0, 191, 255, 0.1);
+  color: #00bfff;
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 25px;
+  overflow-y: auto;
+}
+
+.register-link,
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 191, 255, 0.1);
+}
+
+.register-link-anchor,
+.login-link-anchor {
+  color: #00bfff;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.register-link-anchor::after,
+.login-link-anchor::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #00bfff, #0080ff);
+  transition: width 0.3s ease;
+}
+
+.register-link-anchor:hover::after,
+.login-link-anchor:hover::after {
+  width: 100%;
+}
+
+.register-link-anchor:hover,
+.login-link-anchor:hover {
+  color: #0080ff;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 20px;
+  }
+
+  .nav-menu {
+    gap: 5px;
+  }
+
+  .nav-link {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .login-button {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .nav-logo a {
+    font-size: 1.2rem;
+  }
+
+  .avatar-image {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Animación de carga */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(0, 191, 255, 0.1), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}

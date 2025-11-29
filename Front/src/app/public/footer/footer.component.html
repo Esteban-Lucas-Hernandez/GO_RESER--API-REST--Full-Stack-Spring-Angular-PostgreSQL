@@ -1,0 +1,56 @@
+<footer class="footer">
+  <div class="footer-container">
+    <!-- Sección de información de contacto -->
+    <div class="footer-section">
+      <h3>Contacto</h3>
+      <div class="contact-info">
+        <p><i class="fas fa-map-marker-alt"></i> {{ contactInfo.address }}</p>
+        <p><i class="fas fa-phone"></i> {{ contactInfo.phone }}</p>
+        <p><i class="fas fa-envelope"></i> {{ contactInfo.email }}</p>
+      </div>
+    </div>
+
+    <!-- Sección de enlaces rápidos -->
+    <div class="footer-section">
+      <h3>Enlaces Rápidos</h3>
+      <ul class="footer-links">
+        <li *ngFor="let link of quickLinks">
+          <a [href]="link.path">{{ link.name }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Sección de información de la empresa -->
+    <div class="footer-section">
+      <h3>Empresa</h3>
+      <ul class="footer-links">
+        <li *ngFor="let info of companyInfo">
+          <a [href]="info.path">{{ info.name }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Sección de redes sociales -->
+    <div class="footer-section">
+      <h3>Síguenos</h3>
+      <div class="social-links">
+        <a
+          *ngFor="let social of socialLinks"
+          [href]="social.url"
+          [title]="social.name"
+          class="social-icon"
+        >
+          <i class="fab fa-{{ social.icon }}"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Línea divisoria -->
+  <div class="footer-divider"></div>
+
+  <!-- Copyright -->
+  <div class="footer-bottom">
+    <p>&copy; {{ currentYear }} GO RESER. Todos los derechos reservados.</p>
+  </div>
+</footer>

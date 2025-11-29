@@ -1,0 +1,44 @@
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-dropdown-menu',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './dropdown-menu.html',
+  styleUrls: ['./dropdown-menu.css']
+})
+export class DropdownMenuComponent {
+  @Input() userInfo: any = null;
+  open = false;
+
+  constructor(private router: Router) {}
+
+  toggle() {
+    this.open = !this.open;
+  }
+
+  handleImageError(event: any): void {
+    // Establecer una imagen por defecto si falla la carga de la imagen de perfil
+    event.target.src =
+      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+  }
+
+  verMisReservas() {
+    this.open = false; // Cerrar el menú
+    this.router.navigate(['/mis-reservas']);
+  }
+
+  verPerfil() {
+    this.open = false; // Cerrar el menú
+    this.router.navigate(['/perfil']);
+  }
+
+  logout() {
+    this.open = false; // Cerrar el menú
+    // Emitir evento de cierre de sesión o llamar directamente al servicio
+    // Aquí simplemente recargamos la página como en el componente original
+    window.location.reload();
+  }
+}

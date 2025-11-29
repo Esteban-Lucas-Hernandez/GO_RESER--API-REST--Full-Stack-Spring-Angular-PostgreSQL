@@ -1,0 +1,66 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a href="/">GO RESER</a>
+    </div>
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a href="#" (click)="scrollToHeroSearch($event)" class="nav-link">Búsqueda</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" (click)="scrollToHotels($event)" class="nav-link">Hoteles</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" (click)="scrollToFooter($event)" class="nav-link">Contacto</a>
+      </li>
+      <!-- Mostrar dropdown de usuario si está autenticado -->
+      <li class="nav-item" *ngIf="isAuthenticated">
+        <app-dropdown-menu [userInfo]="userInfo"></app-dropdown-menu>
+      </li>
+      <!-- Mostrar botón de iniciar sesión si no está autenticado -->
+      <li class="nav-item" *ngIf="!isAuthenticated">
+        <button class="login-button" (click)="openLoginModal()">Iniciar Sesión</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Modal de inicio de sesión -->
+<div class="modal-overlay" *ngIf="showLoginModal" (click)="closeLoginModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Iniciar Sesión</h2>
+      <button class="close-btn" (click)="closeLoginModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <app-login (loginSuccess)="onLoginSuccess($event)"></app-login>
+      <!-- Enlace al registro dentro del modal -->
+      <div class="register-link">
+        <p>
+          ¿No tienes cuenta?
+          <a (click)="openRegistroModal()" class="register-link-anchor">Regístrate aquí</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de registro -->
+<div class="modal-overlay" *ngIf="showRegistroModal" (click)="closeRegistroModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Registro de Usuario</h2>
+      <button class="close-btn" (click)="closeRegistroModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <app-registro (registroSuccess)="onRegistroSuccess($event)"></app-registro>
+      <!-- Enlace al login dentro del modal -->
+      <div class="login-link">
+        <p>
+          ¿Ya tienes cuenta?
+          <a (click)="openLoginModal()" class="login-link-anchor">Inicia sesión aquí</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

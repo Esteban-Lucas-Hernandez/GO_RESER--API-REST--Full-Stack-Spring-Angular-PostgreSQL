@@ -1,0 +1,96 @@
+<div class="hoteles-section">
+  <h2>Listado de Hoteles</h2>
+
+  <!-- Mensaje de carga -->
+  <div *ngIf="loading" class="loading">Cargando hoteles...</div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <!-- Carrusel de hoteles -->
+  <div *ngIf="!loading && !error" class="hoteles-carousel">
+    <div *ngIf="getDisplayHoteles().length === 0" class="no-hoteles">
+      No se encontraron hoteles.
+    </div>
+
+    <!-- Contenedor del carrusel -->
+    <div class="carousel-container" *ngIf="getDisplayHoteles().length > 0">
+      <!-- Swiper container -->
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div *ngFor="let hotel of getDisplayHoteles()" class="swiper-slide">
+            <div class="hotel-card">
+              <!-- Imagen del hotel -->
+              <div class="hotel-image-container">
+                <div class="hotel-image" [ngClass]="{ 'has-image': hotel.imagenUrl }">
+                  <img
+                    *ngIf="hotel.imagenUrl"
+                    [src]="hotel.imagenUrl"
+                    [alt]="hotel.nombre"
+                    (error)="handleImageError($event)"
+                  />
+                  <div class="image-placeholder" *ngIf="!hotel.imagenUrl">
+                    <i class="fas fa-hotel placeholder-icon"></i>
+                    <span>Imagen no disponible</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Información del hotel -->
+              <div class="hotel-info">
+                <h3 class="hotel-name">{{ hotel.nombre }}</h3>
+
+                <div class="hotel-location">
+                  <i class="fas fa-map-marker-alt location-icon"></i>
+                  <span class="location-text"
+                    >{{ getCiudadNombre(hotel) }}, {{ getDepartamentoNombre(hotel) }}</span
+                  >
+                </div>
+
+                <div class="hotel-rating">
+                  <div class="stars">
+                    <i
+                      *ngFor="let star of getStarsArray(hotel.estrellas)"
+                      class="fas fa-star star-filled"
+                    ></i>
+                    <i
+                      *ngFor="let star of getEmptyStarsArray(hotel.estrellas)"
+                      class="far fa-star star-empty"
+                    ></i>
+                  </div>
+                  <span class="rating-text">{{ hotel.estrellas }}/5</span>
+                </div>
+
+                <div class="hotel-details">
+                  <p><strong>Dirección:</strong> {{ hotel.direccion }}</p>
+                  <p><strong>Teléfono:</strong> {{ hotel.telefono }}</p>
+
+                  <div class="hotel-policies" *ngIf="hotel.politicaCancelacion">
+                    <strong>Política de Cancelación:</strong>
+                    <p>{{ hotel.politicaCancelacion }}</p>
+                  </div>
+                </div>
+
+                <!-- Botón para ver habitaciones -->
+                <div class="hotel-actions">
+                  <button class="btn-ver-habitaciones" (click)="verHabitaciones(hotel.id)">
+                    Ver Habitaciones
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,60 +1,21 @@
-/* Estilos para la sección hero */
-.hero-section {
-  background-image: url('https://images.pexels.com/photos/9400917/pexels-photo-9400917.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 100vw;
-  margin: 0;
-  padding: 100px 0;
-  text-align: center;
-  color: white;
-  position: relative;
-  border-radius: 0 0 50% 50% / 0 0 30px 30px;
-  z-index: 1;
-}
-
-.hero-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 0 0 50% 50% / 0 0 30px 30px;
-  z-index: -1;
-}
-
-.hero-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  position: relative;
-  z-index: 2;
-}
-
-.hero-section h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.hero-section p {
-  font-size: 1.2rem;
-  margin-bottom: 0;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
 /* Estilos para la sección de hoteles */
 .hoteles-section {
-  margin-top: 50px;
+  margin-top: 0;
+  padding-top: 0;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 
 .hoteles-section h2 {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 .loading,
@@ -84,79 +45,181 @@
 /* Estilos para el carrusel de hoteles */
 .hoteles-carousel {
   margin-top: 20px;
+  width: 100%;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .carousel-container {
   position: relative;
   overflow: hidden;
   padding: 20px 0;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .swiper-container {
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
 }
 
 .hotel-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
   width: 100%;
-  max-width: 400px;
+  max-width: 350px;
   margin: 0 auto;
   background: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .hotel-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hotel-image-container {
+  overflow: hidden;
+  position: relative;
+  height: 200px;
 }
 
 .hotel-image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   overflow: hidden;
+  transition: transform 0.5s ease;
 }
 
-.hotel-image img {
+.hotel-card:hover .hotel-image {
+  transform: scale(1.05);
+}
+
+.hotel-image.has-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
-.hotel-image.placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8f9fa;
+.hotel-card:hover .hotel-image.has-image img {
+  transform: scale(1.05);
 }
 
 .image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #f8f9fa;
   color: #6c757d;
-  font-style: italic;
+  padding: 20px;
+  text-align: center;
+}
+
+.placeholder-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #ced4da;
 }
 
 .hotel-info {
   padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.hotel-info h3 {
+.hotel-name {
   margin-top: 0;
-  color: #333;
-  font-size: 1.5rem;
+  color: #2c3e50;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.hotel-location {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #7f8c8d;
+}
+
+.location-icon {
+  color: #3498db;
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.location-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.hotel-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.stars {
+  display: flex;
+  margin-right: 10px;
+}
+
+.star-filled {
+  color: #f39c12;
+  font-size: 1.1rem;
+  margin-right: 2px;
+}
+
+.star-empty {
+  color: #ddd;
+  font-size: 1.1rem;
+  margin-right: 2px;
+}
+
+.rating-text {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  font-weight: 500;
 }
 
 .hotel-details p {
-  margin: 5px 0;
+  margin: 8px 0;
   color: #555;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.hotel-details strong {
+  color: #2c3e50;
 }
 
 .hotel-description,
@@ -179,44 +242,62 @@
   color: #777;
 }
 
+.hotel-policies p {
+  margin: 5px 0 0 0;
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.4;
+}
+
 .hotel-actions {
-  margin-top: 20px;
+  margin-top: auto;
+  padding-top: 15px;
   text-align: center;
 }
 
 .btn-ver-habitaciones {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #3498db, #2980b9);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 12px 24px;
+  border-radius: 30px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.2s;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
 }
 
 .btn-ver-habitaciones:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #2980b9, #2573a7);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(52, 152, 219, 0.3);
 }
 
 /* Estilos para los controles del carrusel */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #007bff;
-  background-color: rgba(255, 255, 255, 0.8);
-  width: 40px;
-  height: 40px;
+  color: #3498db;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
-  top: calc(50% - 20px);
+  transition: all 0.3s ease;
+  top: calc(50% - 22px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
   background-color: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .swiper-button-next::after,
@@ -232,15 +313,17 @@
 }
 
 .swiper-pagination-bullet {
-  background-color: #007bff;
+  background-color: #3498db;
   opacity: 0.5;
   width: 12px;
   height: 12px;
+  transition: all 0.3s ease;
 }
 
 .swiper-pagination-bullet-active {
   opacity: 1;
-  background-color: #007bff;
+  background-color: #3498db;
+  transform: scale(1.2);
 }
 
 /* Responsive */
@@ -253,20 +336,20 @@
     padding: 15px;
   }
 
-  .hotel-info h3 {
-    font-size: 1.3rem;
+  .hotel-name {
+    font-size: 1.2rem;
   }
 
   .swiper-button-next,
   .swiper-button-prev {
-    width: 30px;
-    height: 30px;
-    top: calc(50% - 15px);
+    width: 36px;
+    height: 36px;
+    top: calc(50% - 18px);
   }
 
   .swiper-button-next::after,
   .swiper-button-prev::after {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .swiper-pagination-bullet {
@@ -276,10 +359,9 @@
 }
 
 .public-container {
-  padding: 0;
-  max-width: 100%;
-  margin: 0;
-  position: relative;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .user-info-container,
@@ -380,49 +462,4 @@
 .register-link-anchor:hover,
 .login-link-anchor:hover {
   color: #0056b3;
-}
-
-/* Añadido para asegurar que el contenido se desplace correctamente bajo el nav */
-.main-content {
-  margin-top: 0; /* Eliminado el margen superior para que el hero quede pegado al nav */
-  padding: 0; /* Eliminado el padding para que el hero quede pegado al nav */
-  position: relative;
-  z-index: 2;
-}
-
-/* Estilos para la sección de información extra */
-.informacion-extra-section {
-  margin-top: 40px;
-  width: 100%;
-  max-width: 100%;
-  padding: 0;
-}
-
-/* Ajuste de margen inferior para evitar solapamiento con el footer */
-.informacion-extra-section {
-  margin-bottom: 20px;
-}
-
-/* Responsive adjustments for main content */
-@media (max-width: 768px) {
-  .main-content {
-    padding: 0 10px;
-  }
-}
-
-/* Estilos para el footer */
-.footer {
-  width: 100%;
-  margin-top: auto;
-}
-
-/* Ajustes para asegurar que el contenido principal no se solape con el footer */
-app-public {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
 }

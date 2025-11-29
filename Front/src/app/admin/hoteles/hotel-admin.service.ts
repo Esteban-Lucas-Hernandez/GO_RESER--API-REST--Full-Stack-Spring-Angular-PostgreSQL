@@ -69,6 +69,11 @@ export class HotelAdminService {
       Authorization: `Bearer ${token}`,
     });
 
+    // Verificar que el ID no sea undefined o null
+    if (id === undefined || id === null) {
+      throw new Error('ID de hotel no válido');
+    }
+
     return this.http.put<HotelDTO>(`${this.baseUrl}/${id}`, hotel, { headers });
   }
 

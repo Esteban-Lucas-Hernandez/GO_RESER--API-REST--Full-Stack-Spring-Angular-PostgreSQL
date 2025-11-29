@@ -110,6 +110,13 @@ export class EditarHotelComponent implements OnInit {
         ciudadNombre: ciudad ? ciudad.nombre : '',
       };
 
+      // Verificar que el ID no sea undefined o null
+      if (hotelActualizado.id === undefined || hotelActualizado.id === null) {
+        console.error('ID de hotel no válido en el formulario:', formValue);
+        alert('Error: ID de hotel no válido. Por favor, inténtalo de nuevo.');
+        return;
+      }
+
       // Llamar al servicio para actualizar el hotel
       this.hotelService.actualizarHotel(hotelActualizado.id, hotelActualizado).subscribe({
         next: (hotel: HotelDTO) => {

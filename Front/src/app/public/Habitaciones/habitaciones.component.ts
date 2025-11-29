@@ -76,10 +76,36 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.error = null;
 
+    // Verificar que el ID del hotel sea válido
+    console.log('Cargando información para el hotel ID:', hotelId);
+
+    if (!hotelId || hotelId <= 0) {
+      this.error = 'ID de hotel inválido';
+      this.loading = false;
+      return;
+    }
+
+    // Cargar las habitaciones del hotel (la información del hotel viene en la primera habitación)
     this.hotelService.getHabitacionesByHotelId(hotelId).subscribe({
       next: (data: Habitacion[]) => {
+        console.log('Habitaciones cargadas:', data);
         this.habitaciones = data;
         this.loading = false;
+
+        // Extraer información del hotel de la primera habitación
+        if (this.habitaciones.length > 0) {
+          const primeraHabitacion = this.habitaciones[0];
+          this.hotel = {
+            id: primeraHabitacion.idHotel,
+            nombre: primeraHabitacion.hotelNombre,
+            email: primeraHabitacion.email,
+            descripcion: primeraHabitacion.descripcionHotel,
+            checkIn: primeraHabitacion.checkIn,
+            checkOut: primeraHabitacion.checkOut,
+            createdAt: primeraHabitacion.createdAt,
+            updatedAt: primeraHabitacion.updatedAt,
+          };
+        }
 
         // Depuración: Mostrar las coordenadas en la consola
         if (this.habitaciones.length > 0) {
@@ -91,13 +117,6 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
           );
         }
 
-        // Extraer información del hotel de la primera habitación
-        if (this.habitaciones.length > 0) {
-          this.hotel.id = this.habitaciones[0].idHotel;
-          // Usar el nombre del hotel desde el DTO de habitación
-          this.hotel.nombre = this.habitaciones[0].hotelNombre;
-        }
-
         // Actualizar la posición del mapa cuando se carguen los datos
         setTimeout(() => {
           this.updateMapPosition();
@@ -105,7 +124,15 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
       },
       error: (err: any) => {
         console.error('Error al cargar habitaciones:', err);
-        this.error = 'No se pudieron cargar las habitaciones. Por favor, inténtelo más tarde.';
+        // Proporcionar un mensaje de error más específico
+        if (err.status === 404) {
+          this.error = 'No se encontraron habitaciones para este hotel.';
+        } else if (err.status === 0) {
+          this.error =
+            'No se pudo conectar con el servidor para cargar las habitaciones. Verifique que el servidor esté en ejecución.';
+        } else {
+          this.error = `Error al cargar las habitaciones: ${err.message || 'Error desconocido'}`;
+        }
         this.loading = false;
       },
     });

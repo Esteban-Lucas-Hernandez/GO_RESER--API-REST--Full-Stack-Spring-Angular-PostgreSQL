@@ -6,6 +6,43 @@
     <button class="btn-volver" (click)="volverAlListado()">← Volver al Listado de Hoteles</button>
   </div>
 
+  <!-- Información del hotel -->
+  <div class="hotel-info-section" *ngIf="hotel && !loading && !error">
+    <h2>{{ hotel.nombre }}</h2>
+
+    <div class="hotel-details-grid">
+      <div class="hotel-detail-item">
+        <strong>Email:</strong>
+        <span>{{ hotel.email }}</span>
+      </div>
+
+      <div class="hotel-detail-item">
+        <strong>Descripción:</strong>
+        <span>{{ hotel.descripcion }}</span>
+      </div>
+
+      <div class="hotel-detail-item">
+        <strong>Check-in:</strong>
+        <span>{{ hotel.checkIn }}</span>
+      </div>
+
+      <div class="hotel-detail-item">
+        <strong>Check-out:</strong>
+        <span>{{ hotel.checkOut }}</span>
+      </div>
+
+      <div class="hotel-detail-item">
+        <strong>Creado:</strong>
+        <span>{{ hotel.createdAt | date : 'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+
+      <div class="hotel-detail-item">
+        <strong>Actualizado:</strong>
+        <span>{{ hotel.updatedAt | date : 'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Contenedor del mapa -->
   <div class="map-container">
     <h2>Ubicación del Hotel</h2>
