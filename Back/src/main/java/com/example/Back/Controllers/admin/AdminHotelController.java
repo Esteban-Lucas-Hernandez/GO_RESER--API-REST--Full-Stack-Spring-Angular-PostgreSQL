@@ -44,12 +44,29 @@ public class AdminHotelController {
 
     // Actualizar un hotel existente
     @PutMapping("/{id}")
-    public ResponseEntity<Hotel> updateHotel(@PathVariable Integer id, @RequestBody HotelDTO hotelDTO) {
-        Hotel updatedHotel = hotelService.updateHotel(id, hotelDTO);
-        if (updatedHotel != null) {
-            return ResponseEntity.ok(updatedHotel);
-        } else {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Map<String, Object>> updateHotel(@PathVariable Integer id, @RequestBody HotelDTO hotelDTO) {
+        try {
+            Hotel updatedHotel = hotelService.updateHotel(id, hotelDTO);
+            if (updatedHotel != null) {
+                // Convertir el hotel a DTO usando el mapper ya disponible
+                HotelDTO updatedHotelDTO = hotelMapper.hotelToHotelDTO(updatedHotel);
+                
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", true);
+                response.put("message", "Hotel actualizado exitosamente");
+                response.put("data", updatedHotelDTO);
+                return ResponseEntity.ok(response);
+            } else {
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", false);
+                response.put("message", "No se encontró el hotel para actualizar");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Error al actualizar hotel: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 

@@ -2,6 +2,8 @@ package com.example.Back.Dto;
 
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -27,4 +29,12 @@ public class HabitacionDTO {
     private String ciudadNombre;
     private BigDecimal latitud;
     private BigDecimal longitud;
+    
+    // Campos adicionales del hotel solicitados
+    private String email;
+    private String descripcionHotel;
+    private LocalTime checkIn;
+    private LocalTime checkOut;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
