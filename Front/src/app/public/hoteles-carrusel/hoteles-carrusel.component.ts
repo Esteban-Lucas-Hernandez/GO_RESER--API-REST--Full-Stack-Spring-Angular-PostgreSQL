@@ -123,6 +123,7 @@ export class HotelesCarruselComponent implements OnInit, OnDestroy, AfterViewIni
           slidesPerView: 1,
           spaceBetween: 20,
           loop: true,
+          centeredSlides: true,
           navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
@@ -149,7 +150,12 @@ export class HotelesCarruselComponent implements OnInit, OnDestroy, AfterViewIni
             // when window width >= 1024px
             1024: {
               slidesPerView: 3,
-              spaceBetween: 30,
+              spaceBetween: 40,
+            },
+            // when window width >= 1200px
+            1200: {
+              slidesPerView: 3,
+              spaceBetween: 50,
             },
           },
         });

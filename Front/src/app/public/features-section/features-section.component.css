@@ -1,0 +1,106 @@
+.features-container {
+  width: 100%;
+  text-align: center;
+  padding: 20px 20px; /* Reducido el padding superior de 40px a 20px */
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 1400px;
+  margin: 0 auto;
+  margin-top: -20px; /* Añadido para acercarlo al hero */
+}
+
+/* LOGOS DE SOCIOS */
+.partner-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-bottom: 30px; /* Reducido de 40px a 30px */
+}
+
+.partner-logos img {
+  height: 20px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.partner-logos img:hover {
+  opacity: 1;
+}
+
+.partner-logos .more {
+  color: #666;
+  font-size: 14px;
+}
+
+/* TARJETAS */
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.card {
+  max-width: 280px;
+  padding: 20px;
+  border-radius: 10px;
+  transition: 0.3s ease;
+  background: white;
+}
+
+.card .icon {
+  width: 240px;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .features-container {
+    padding: 15px 15px; /* Ajustado el padding para móviles */
+    margin-top: -15px; /* Ajustado para móviles */
+  }
+
+  .partner-logos {
+    gap: 15px;
+    margin-bottom: 25px; /* Ajustado para móviles */
+  }
+
+  .partner-logos img {
+    height: 16px;
+  }
+
+  .cards-container {
+    gap: 20px;
+  }
+
+  .card {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .card .icon {
+    width: 200px;
+  }
+
+  .card h3 {
+    font-size: 18px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
+}

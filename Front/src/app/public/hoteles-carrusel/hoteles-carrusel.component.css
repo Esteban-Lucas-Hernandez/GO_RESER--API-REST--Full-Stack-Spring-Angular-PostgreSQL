@@ -11,11 +11,33 @@
 }
 
 .hoteles-section h2 {
-  text-align: center;
+  text-align: left;
   color: #333;
   margin-bottom: 20px;
   font-size: 2rem;
   font-weight: 700;
+}
+
+.titulo-hoteles {
+  font-family: 'Georgia', serif;
+  text-align: left;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 2.2rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.titulo-hoteles::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db, #2980b9);
+  border-radius: 2px;
 }
 
 .loading,
@@ -68,6 +90,7 @@
   height: 100%;
   max-width: 100%;
   margin: 0 auto;
+  padding: 20px 0;
 }
 
 .swiper-slide {
@@ -77,6 +100,24 @@
   width: 100%;
   max-width: 350px;
   margin: 0 auto;
+  height: auto;
+  opacity: 0.7;
+  transform: scale(0.85);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.swiper-slide-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
+}
+
+.swiper-slide-next,
+.swiper-slide-prev {
+  opacity: 0.85;
+  transform: scale(0.9);
+  z-index: 1;
 }
 
 .hotel-card {
@@ -104,6 +145,7 @@
   overflow: hidden;
   position: relative;
   height: 200px;
+  flex-shrink: 0;
 }
 
 .hotel-image {
@@ -160,6 +202,7 @@
   font-weight: 700;
   margin-bottom: 12px;
   line-height: 1.3;
+  flex-grow: 1;
 }
 
 .hotel-location {
@@ -167,6 +210,7 @@
   align-items: center;
   margin-bottom: 12px;
   color: #7f8c8d;
+  flex-shrink: 0;
 }
 
 .location-icon {
@@ -186,6 +230,7 @@
   margin-bottom: 15px;
   padding-bottom: 15px;
   border-bottom: 1px solid #eee;
+  flex-shrink: 0;
 }
 
 .stars {
@@ -211,11 +256,18 @@
   font-weight: 500;
 }
 
+.hotel-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .hotel-details p {
   margin: 8px 0;
   color: #555;
   font-size: 0.9rem;
   line-height: 1.5;
+  flex-grow: 1;
 }
 
 .hotel-details strong {
@@ -226,6 +278,7 @@
 .hotel-features,
 .hotel-policies {
   margin: 10px 0;
+  flex-grow: 1;
 }
 
 .hotel-description strong,
@@ -240,6 +293,7 @@
   border-top: 1px solid #eee;
   font-size: 0.9rem;
   color: #777;
+  flex-shrink: 0;
 }
 
 .hotel-policies p {
@@ -253,6 +307,7 @@
   margin-top: auto;
   padding-top: 15px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .btn-ver-habitaciones {
@@ -291,12 +346,14 @@
   transition: all 0.3s ease;
   top: calc(50% - 22px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 0;
+  transform: translateY(-50%);
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
   background-color: rgba(255, 255, 255, 1);
-  transform: scale(1.1);
+  transform: scale(1.1) translateY(-50%);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 

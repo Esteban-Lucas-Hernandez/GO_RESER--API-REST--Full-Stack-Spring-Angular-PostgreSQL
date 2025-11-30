@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" id="Layer_1"
+     x="0" y="0" style="enable-background:new 0 0 270 160" version="1.1" viewBox="0 0 270 160"><style>.st5{fill:#fff}.st18{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}.st27{fill:#c4e3f4}.st28{fill:none;stroke:#31454c;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}.st29{fill:#1391d2}.st31,.st32{fill:#bfd4e8;stroke:#000;stroke-miterlimit:10}.st32{fill:#fff;stroke-linecap:round;stroke-linejoin:round}</style>
+    <linearGradient id="SVGID_1_" x1="8259.96" x2="8456.144" y1="3030.464" y2="3030.464"
+                    gradientTransform="rotate(145.018 4708.98 259.612)" gradientUnits="userSpaceOnUse"><stop offset="0" style="stop-color:#94c5e6"/>
+        <stop offset=".659" style="stop-color:#cfe5f3"/>
+        <stop offset="1" style="stop-color:#e8f3f8"/></linearGradient>
+    <path d="M229.79 96.13c-16.76 20.64-34.82 28.3-57.91 19.97s-30.85-15.73-57.21-1.83-58.08 34.82-75.39 8.27S56.06 74.72 72.24 51.8C88.42 28.88 99.76-.96 131.93 10.03s26.46 37.39 64.44 38.68c40.69 1.37 55.83 19.82 33.42 47.42z"
+          style="opacity:.66;fill:url(#SVGID_1_)"/>
+    <linearGradient id="SVGID_00000127734918361802247450000011316202132973826996_" x1="8272.279" x2="8447.203"
+                    y1="3029.218" y2="3029.218" gradientTransform="rotate(145.018 4708.98 259.612)"
+                    gradientUnits="userSpaceOnUse"><stop offset="0" style="stop-color:#94c5e6"/>
+        <stop offset=".659" style="stop-color:#cfe5f3"/>
+        <stop offset="1" style="stop-color:#e8f3f8"/></linearGradient>
+    <path d="M218.34 96.55c-14.94 18.4-31.04 25.23-51.63 17.81-20.59-7.42-27.51-14.03-51.01-1.63-23.5 12.4-51.79 31.04-67.22 7.37s14.96-42.64 29.39-63.08 24.53-47.04 53.22-37.24 23.59 33.34 57.45 34.49c36.28 1.21 49.78 17.67 29.8 42.28z"
+          style="opacity:.66;fill:url(#SVGID_00000127734918361802247450000011316202132973826996_)"/>
+    <path d="M118.87 27.48h23.71v102.35h-23.71z" class="st27"/>
+    <path d="M112.21 49.94h37.03v102.35h-37.03z" class="st27"/>
+    <path d="M131.35 69.08h22.88v83.21h-22.88z" class="st27"/>
+    <path d="M100.56 27.48h23.71v102.35h-23.71z" class="st5"/>
+    <path d="M93.9 49.94h37.03v102.35H93.9z" class="st5"/>
+    <path d="M124.28 69.08h13.31v83.21h-13.31zm-37.03 0h13.31v83.21H87.25z" class="st5"/>
+    <path d="M119.7 27.48V12.5" class="st28"/>
+    <path d="M100.64 49.94V27.41h41.94v22.53h6.66v19.14h4.99l.08 83.21H87.32l-.07-83.28h6.73V49.88zm29.12 19.07h19.97m-30.37-19.14h24.13"
+          class="st18"/>
+    <path d="M124.35 152.29v-25.8" class="st28"/>
+    <path d="M137.67 152.29V93.21" class="st18"/>
+    <path d="M119.78 60.21h7.06v5.84h-7.06zm-10.01 0h7.06v5.84h-7.06zm-10.01 0h7.06v5.84h-7.06z" class="st29"/>
+    <path d="M128.04 124.19h34.72v5.73h-34.72zm0-5.73v5.73h34.72l-8.76-5.73z" class="st5"/>
+    <path d="M126.35 130.04h38.43v22.25h-38.43z" class="st27"/>
+    <path d="M116.58 129.92h23.66v22.37h-23.66zm11.46-11.46-8.77 5.73v5.73h17.53v-5.73z" class="st5"/>
+    <path d="M118.66 133.96h4.72v4.72h-4.72zm14.5-.1h4.72v4.72h-4.72zm-7.25 0h4.72v4.72h-4.72z" style="fill:#3b8dcf"/>
+    <path d="M146.64 130.09h18.14v22.2h-48.2v-22.25h2.69v-5.73l8.77-5.73H154l8.76 5.73.06 5.78m-34.72-11.58 8.77 5.73m-17.6 5.68h10.18"
+          class="st18"/>
+    <path d="M93.19 87.87H75.32l-3.72 5.71h25.32zM56.5 96.56h25.82v55.57H56.5z" class="st5"/>
+    <path d="M83.56 96.56h14.35v55.57H83.56z" class="st27"/>
+    <path d="M68.87 93.58h31.28v2.98H68.87z" class="st5"/>
+    <path d="M56.5 93.62h31.28v2.98H56.5z" class="st5"/>
+    <path d="M81.03 96.56h3.72v55.57h-3.72zm.05-8.65H63.2l-3.72 5.71H84.8z" class="st5"/>
+    <path d="M63.06 99.22h4.75v8.49h-4.75zm8.92 0h4.75v8.49h-4.75z" class="st29"/>
+    <path d="M98.2 96.6H83.31m14.6 55.57H57.49V96.6h-.99v-2.98h2.98l3.68-5.75H93.2l3.77 5.75 3.18-.04v3.02h-2.19s.16 55.77-.05 55.57zM59.23 93.62h9.43"
+          class="st18"/>
+    <path d="M173.54 90.86h21.71v35.47h-21.71z" class="st31"/>
+    <path d="M163.85 90.86h21.88v35.47h-21.88z" style="fill:#fff;stroke:#000;stroke-miterlimit:10"/>
+    <path d="M171.21 100.97h30v51.32h-30z" class="st27"/>
+    <path d="M158.06 100.97h30v51.32h-30z" class="st5"/>
+    <path d="M160.48 106.26h4.72v8.43h-4.72zm10.11 0h4.72v8.43h-4.72zm10.12 0h4.72v8.43h-4.72z" class="st31"/>
+    <path d="M187.11 101.02h9.11m-38.16 51.27h43.15v-51.27h-6.01V90.86l-31.35.05v10.11l-5.79-.05s-.06 51.26 0 51.32zm5.46-51.27h14.15"
+          class="st18"/>
+    <path d="m199.358 121.601 2.496-3.29 29.513 22.38-2.495 3.29z" class="st32"/>
+    <path d="m240.72 148.54-1.75 2.31a3.728 3.728 0 0 1-5.22.72l-23.58-17.88a3.728 3.728 0 0 1-.72-5.22l1.75-2.31a3.728 3.728 0 0 1 5.22-.72L240 143.32a3.728 3.728 0 0 1 .72 5.22z"
+          class="st32"/>
+    <ellipse cx="176.02" cy="100.36" class="st32" rx="33.34" ry="33.22" transform="rotate(-38.528 176.021 100.365)"/>
+    <ellipse cx="176.02" cy="100.36" class="st18" rx="26.83" ry="26.73" transform="rotate(-38.528 176.021 100.365)"/>
+    <defs><ellipse id="SVGID_00000111886030147627810570000008952918313158445754_" cx="176.26" cy="100.49" rx="26.83" ry="26.73" transform="rotate(-38.528 176.265 100.489)"/></defs>
+    <clipPath id="SVGID_00000003093656966004576960000011372515960519012738_"><use xlink:href="#SVGID_00000111886030147627810570000008952918313158445754_" style="overflow:visible"/></clipPath>
+    <g style="clip-path:url(#SVGID_00000003093656966004576960000011372515960519012738_)"><path d="M169.39 87.21h24.51v40.05h-24.51z" class="st27"/>
+        <path d="M158.46 87.21h24.7v40.05h-24.7z" class="st5"/>
+        <path d="M166.76 98.63h33.87v57.93h-33.87z" class="st27"/>
+        <path d="M152.18 98.63h33.87v57.93h-33.87z" class="st5"/>
+        <path d="M154.65 104.6h5.33v9.51h-5.33zm11.42 0h5.33v9.51h-5.33zm11.42 0h5.33v9.51h-5.33z"
+              style="fill:#f59715"/>
+        <path d="M184.72 98.69h10.27m-43.07 57.87h48.71V98.69h-6.78V87.21l-35.39.06v11.42l-6.54-.06s-.07 57.86 0 57.93zm6.16-57.87h15.98"
+              class="st18"/></g>
+    <use xlink:href="#SVGID_00000111886030147627810570000008952918313158445754_"
+         style="overflow:visible;fill:none;stroke:#000;stroke-miterlimit:10"/>
+    <path d="M34.21 152.29h182.94" class="st18"/></svg>
