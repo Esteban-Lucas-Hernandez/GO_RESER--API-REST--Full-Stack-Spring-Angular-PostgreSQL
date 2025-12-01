@@ -69,7 +69,9 @@
 
                   <div class="hotel-policies" *ngIf="hotel.politicaCancelacion">
                     <strong>Política de Cancelación:</strong>
-                    <p>{{ hotel.politicaCancelacion }}</p>
+                    <div class="politica-cancelacion-container">
+                      <p>{{ hotel.politicaCancelacion }}</p>
+                    </div>
                   </div>
                 </div>
 
@@ -85,11 +87,15 @@
         </div>
 
         <!-- Navigation buttons -->
+        <!--
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
+        -->
 
         <!-- Pagination -->
+        <!--
         <div class="swiper-pagination"></div>
+        -->
       </div>
     </div>
   </div>

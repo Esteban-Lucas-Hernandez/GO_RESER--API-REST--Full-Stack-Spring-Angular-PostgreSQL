@@ -48,10 +48,10 @@
 }
 
 .nav-logo a {
-  background: linear-gradient(135deg, #00bfff, #0080ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: transparent;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
   font-size: 1.5rem;
   font-weight: 800;
   text-decoration: none;
@@ -62,9 +62,20 @@
   gap: 10px;
 }
 
+.nav-logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.nav-logo a:hover .nav-logo-img {
+  transform: scale(1.05);
+}
+
 .nav-logo a:hover {
   transform: scale(1.05);
-  filter: brightness(1.2);
+  filter: brightness(1.1);
 }
 
 /* Efecto de brillo en el logo */

@@ -120,42 +120,71 @@ export class HotelesCarruselComponent implements OnInit, OnDestroy, AfterViewIni
       if (swiperElement && typeof window !== 'undefined' && this.getDisplayHoteles().length > 0) {
         this.swiperInstance = new Swiper('.swiper-container', {
           modules: [Navigation, Pagination, Autoplay],
-          slidesPerView: 1,
-          spaceBetween: 20,
+          slidesPerView: 'auto',
+          spaceBetween: 30,
           loop: true,
-          centeredSlides: true,
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          },
-          pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-          },
+          centeredSlides: false,
+          speed: 6000,
           autoplay: {
-            delay: 5000,
+            delay: 1,
             disableOnInteraction: false,
+            // Eliminamos pauseOnMouseEnter para evitar conflictos
           },
           breakpoints: {
             // when window width >= 640px
             640: {
-              slidesPerView: 1,
-              spaceBetween: 20,
+              slidesPerView: 'auto',
+              spaceBetween: 30,
             },
             // when window width >= 768px
             768: {
-              slidesPerView: 2,
+              slidesPerView: 'auto',
               spaceBetween: 30,
             },
             // when window width >= 1024px
             1024: {
-              slidesPerView: 3,
-              spaceBetween: 40,
+              slidesPerView: 'auto',
+              spaceBetween: 30,
             },
             // when window width >= 1200px
             1200: {
-              slidesPerView: 3,
-              spaceBetween: 50,
+              slidesPerView: 'auto',
+              spaceBetween: 30,
+            },
+          },
+          on: {
+            init: () => {
+              // Añadir eventos de mouse para detener/reanudar el autoplay
+              const swiperContainer = document.querySelector('.swiper-container');
+              if (swiperContainer) {
+                swiperContainer.addEventListener('mouseenter', () => {
+                  if (this.swiperInstance) {
+                    this.swiperInstance.autoplay.stop();
+                  }
+                });
+
+                swiperContainer.addEventListener('mouseleave', () => {
+                  if (this.swiperInstance) {
+                    this.swiperInstance.autoplay.start();
+                  }
+                });
+
+                // También añadimos eventos touch para dispositivos móviles
+                swiperContainer.addEventListener('touchstart', () => {
+                  if (this.swiperInstance) {
+                    this.swiperInstance.autoplay.stop();
+                  }
+                });
+
+                swiperContainer.addEventListener('touchend', () => {
+                  if (this.swiperInstance) {
+                    // Pequeño retraso para permitir interacción del usuario
+                    setTimeout(() => {
+                      this.swiperInstance?.autoplay.start();
+                    }, 3000);
+                  }
+                });
+              }
             },
           },
         });
