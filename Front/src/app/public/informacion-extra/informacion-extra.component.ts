@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HotelService, Hotel, Resena } from '../hotel.service';
 
 interface Estadistica {
   valor: number | string;
@@ -45,15 +46,21 @@ export class InformacionExtraComponent implements OnInit, OnDestroy {
 
   // Información estadística
   estadisticas: Estadistica[] = [
-    { valor: 500, etiqueta: 'Hoteles Asociados', valorMostrado: '0' },
-    { valor: 10000, etiqueta: 'Clientes Satisfechos', valorMostrado: '0' },
+    { valor: 0, etiqueta: 'Hoteles', valorMostrado: '0' },
+    { valor: 0, etiqueta: 'Reseñas', valorMostrado: '0' },
     { valor: '24/7', etiqueta: 'Soporte Disponible', valorMostrado: '24/7' },
     { valor: 99, etiqueta: 'Recomendación', valorMostrado: '0' },
   ];
 
   private observer: IntersectionObserver | undefined;
 
+  constructor(private hotelService: HotelService) {}
+
   ngOnInit() {
+    // Cargar el número real de hoteles y reseñas
+    this.cargarNumeroHoteles();
+    this.cargarNumeroResenas();
+
     // Crear un observador para detectar cuando la sección entra en la vista
     this.observer = new IntersectionObserver(
       (entries) => {
@@ -77,6 +84,32 @@ export class InformacionExtraComponent implements OnInit, OnDestroy {
         this.observer.observe(estadisticasElement);
       }
     }, 1000);
+  }
+
+  cargarNumeroHoteles() {
+    this.hotelService.getHoteles().subscribe({
+      next: (hoteles: Hotel[]) => {
+        // Actualizar el valor de hoteles en las estadísticas
+        this.estadisticas[0].valor = hoteles.length;
+      },
+      error: (error) => {
+        console.error('Error al cargar hoteles:', error);
+        // En caso de error, mantener el valor por defecto
+      },
+    });
+  }
+
+  cargarNumeroResenas() {
+    this.hotelService.getTodasResenas().subscribe({
+      next: (resenas: Resena[]) => {
+        // Actualizar el valor de reseñas en las estadísticas
+        this.estadisticas[1].valor = resenas.length;
+      },
+      error: (error) => {
+        console.error('Error al cargar reseñas:', error);
+        // En caso de error, mantener el valor por defecto
+      },
+    });
   }
 
   iniciarContadores() {
@@ -103,8 +136,8 @@ export class InformacionExtraComponent implements OnInit, OnDestroy {
 
       // Formatear el valor mostrado
       if (index === 1) {
-        // Para clientes satisfechos, mostrar en formato K+
-        this.estadisticas[index].valorMostrado = `${Math.round(valorActual / 1000)}K+`;
+        // Para reseñas, mostrar el valor real sin formato K+
+        this.estadisticas[index].valorMostrado = Math.round(valorActual).toString();
       } else {
         this.estadisticas[index].valorMostrado = Math.round(valorActual).toString();
       }
@@ -115,7 +148,8 @@ export class InformacionExtraComponent implements OnInit, OnDestroy {
         this.estadisticas[index].valorMostrado !== '0'
       ) {
         if (index === 1) {
-          // Ya se formateó como K+
+          // Para reseñas, no añadir K+
+          this.estadisticas[index].valorMostrado += '+';
         } else {
           this.estadisticas[index].valorMostrado += '+';
         }

@@ -202,6 +202,16 @@ export class HotelService {
     return this.http.get<Hotel>(url, { headers });
   }
 
+  // Método para obtener todas las reseñas
+  getTodasResenas(): Observable<Resena[]> {
+    const headers = new HttpHeaders({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get<Resena[]>(this.resenasUrl, { headers });
+  }
+
   // Método para obtener las reseñas de un hotel específico
   getResenasByHotelId(hotelId: number): Observable<Resena[]> {
     const url = `${this.resenasUrl}/hotel/${hotelId}`;

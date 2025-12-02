@@ -6,6 +6,7 @@ import { HeroComponent } from '../hero/hero.component';
 import { InformacionExtraComponent } from '../informacion-extra/informacion-extra.component';
 import { FooterComponent } from '../footer/footer.component';
 import { FeaturesSectionComponent } from '../features-section/features-section.component';
+import { HotelService } from '../hotel.service';
 
 @Component({
   selector: 'app-public',
@@ -19,6 +20,7 @@ import { FeaturesSectionComponent } from '../features-section/features-section.c
     FooterComponent,
     FeaturesSectionComponent,
   ],
+  providers: [HotelService],
   templateUrl: './public.component.html',
   styleUrls: ['./public.component.css'],
 })
