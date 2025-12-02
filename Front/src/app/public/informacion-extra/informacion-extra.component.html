@@ -11,7 +11,7 @@
     </div>
 
     <!-- Sección de servicios -->
-    <div class="servicios-section">
+    <div class="servicios-section" id="por-que-elegirnos">
       <h2>¿Por qué elegirnos?</h2>
       <div class="servicios-grid">
         <div class="servicio-card" *ngFor="let servicio of servicios">
@@ -27,7 +27,7 @@
       <div class="cta-content">
         <h2>¡Empieza tu próxima aventura hoy!</h2>
         <p>Descubre hoteles increíbles y vive experiencias únicas con nosotros.</p>
-        <button class="cta-button">Explorar Hoteles</button>
+        <button class="cta-button" (click)="scrollToHoteles()">Explorar Hoteles</button>
       </div>
     </div>
   </div>

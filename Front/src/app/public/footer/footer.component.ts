@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
 })
@@ -18,10 +19,10 @@ export class FooterComponent {
 
   // Enlaces rápidos
   quickLinks = [
-    { name: 'Inicio', path: '/' },
-    { name: 'Habitaciones', path: '/habitaciones' },
-    { name: 'Mis Reservas', path: '/reservas' },
-    { name: 'Contacto', path: '/contacto' },
+    { name: 'Inicio', path: '/public' },
+    { name: 'Hoteles', path: '/public#hoteles' },
+    { name: '¿Por que elegirnos?', path: '/public#por-que-elegirnos' },
+    { name: 'Contacto', path: '/public#contacto' },
   ];
 
   // Enlaces a redes sociales

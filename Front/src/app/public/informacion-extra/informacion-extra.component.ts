@@ -163,4 +163,12 @@ export class InformacionExtraComponent implements OnInit, OnDestroy {
       this.observer.disconnect();
     }
   }
+
+  scrollToHoteles(): void {
+    // Encontrar el elemento del carrusel de hoteles y hacer scroll hacia él
+    const hotelesElement = document.querySelector('app-hoteles-carrusel');
+    if (hotelesElement) {
+      hotelesElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
