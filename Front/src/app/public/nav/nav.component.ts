@@ -21,6 +21,7 @@ export class NavComponent implements OnInit {
   userInfo: any = null;
   showLoginModal = false;
   showRegistroModal = false;
+  showMobileMenu = false;
   private storageListener: any;
 
   constructor(
@@ -50,6 +51,9 @@ export class NavComponent implements OnInit {
     // Solo agregar el listener si estamos en el navegador
     if (typeof window !== 'undefined') {
       window.addEventListener('storage', this.storageListener);
+
+      // Agregar listener para cambios en el tamaño de la ventana
+      window.addEventListener('resize', this.onResize.bind(this));
     }
 
     // Escuchar eventos de navegación para actualizar la información del usuario
@@ -67,7 +71,21 @@ export class NavComponent implements OnInit {
           this.isAuthenticated = false;
           this.userInfo = null;
         }
+
+        // Cerrar el menú móvil al cambiar de ruta
+        this.showMobileMenu = false;
       });
+  }
+
+  onResize() {
+    // Cerrar el menú móvil si la pantalla es más grande que 580px
+    if (window.innerWidth > 580) {
+      this.showMobileMenu = false;
+    }
+  }
+
+  toggleMobileMenu() {
+    this.showMobileMenu = !this.showMobileMenu;
   }
 
   loadUserProfile(): void {
@@ -189,6 +207,9 @@ export class NavComponent implements OnInit {
         }, 800); // Ajustar tiempo para coincidir con la duración del scroll
       }
     }
+
+    // Cerrar el menú móvil después de hacer clic
+    this.showMobileMenu = false;
   }
 
   // Método para desplazarse al carrusel de hoteles
@@ -202,6 +223,9 @@ export class NavComponent implements OnInit {
 
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
+
+    // Cerrar el menú móvil después de hacer clic
+    this.showMobileMenu = false;
   }
 
   // Método para desplazarse al footer
@@ -215,5 +239,8 @@ export class NavComponent implements OnInit {
         behavior: 'smooth',
       });
     }
+
+    // Cerrar el menú móvil después de hacer clic
+    this.showMobileMenu = false;
   }
 }

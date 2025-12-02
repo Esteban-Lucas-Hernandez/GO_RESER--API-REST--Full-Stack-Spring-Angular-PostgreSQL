@@ -5,7 +5,15 @@
         <img src="assets/Logo/Logo.png" alt="GO RESER" class="nav-logo-img" />
       </a>
     </div>
-    <ul class="nav-menu">
+
+    <!-- Botón de menú hamburguesa para móviles -->
+    <div class="mobile-menu-button" (click)="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <ul class="nav-menu" [class.mobile-menu-active]="showMobileMenu">
       <li class="nav-item">
         <a href="#" (click)="scrollToHeroSearch($event)" class="nav-link">Búsqueda</a>
       </li>

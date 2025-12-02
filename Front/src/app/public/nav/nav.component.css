@@ -171,6 +171,76 @@
   border-radius: 2px;
 }
 
+/* Botón de menú hamburguesa para móviles */
+.mobile-menu-button {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+  margin-left: 15px;
+}
+
+.mobile-menu-button span {
+  width: 100%;
+  height: 3px;
+  background: #00bfff;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: center;
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 580px) {
+  .mobile-menu-button {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    left: -100%;
+    top: 70px;
+    flex-direction: column;
+    background-color: white;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+    padding: 20px 0;
+    z-index: 9;
+    border-top: 1px solid rgba(0, 191, 255, 0.2);
+  }
+
+  .nav-menu.mobile-menu-active {
+    left: 0;
+  }
+
+  .nav-item {
+    margin: 10px 0;
+  }
+
+  .nav-link {
+    padding: 15px 20px;
+    font-size: 1.1rem;
+  }
+
+  .login-button {
+    margin: 15px auto;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+  }
+
+  .dropdown-container {
+    margin: 15px auto;
+  }
+}
+
 /* Botón de login premium */
 .login-button {
   background: linear-gradient(135deg, #00bfff, #0080ff);
