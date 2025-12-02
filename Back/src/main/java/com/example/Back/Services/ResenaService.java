@@ -47,6 +47,14 @@ public class ResenaService {
                 .map(resenaMapper::toDTO)
                 .collect(Collectors.toList());
     }
+    
+    // Obtener todas las reseñas de todos los hoteles
+    public List<ResenaDTO> obtenerTodasLasResenas() {
+        List<Resena> resenas = resenaRepository.findAll();
+        return resenas.stream()
+                .map(resenaMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 
     // Obtener todas las reseñas de un usuario específico
     public List<ResenaDTO> obtenerResenasPorUsuario(Integer idUsuario) {

@@ -24,4 +24,15 @@ public class ResenaPublicController {
             return ResponseEntity.badRequest().build();
         }
     }
+    
+    // Obtener todas las reseñas de todos los hoteles (endpoint público)
+    @GetMapping
+    public ResponseEntity<List<ResenaDTO>> obtenerTodasLasResenas() {
+        try {
+            List<ResenaDTO> resenas = resenaService.obtenerTodasLasResenas();
+            return ResponseEntity.ok(resenas);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
