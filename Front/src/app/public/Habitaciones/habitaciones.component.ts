@@ -10,21 +10,29 @@ import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { defaultIcon } from '../../leaflet.config';
 
+// Importar el componente de navegación
+import { NavComponent } from '../nav/nav.component';
 @Component({
   selector: 'app-habitaciones',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Agregar FormsModule a los imports
+  imports: [CommonModule, FormsModule, NavComponent], // Agregar FormsModule y NavComponent a los imports
   templateUrl: './habitaciones.html',
   styleUrls: ['./habitaciones.css'],
 })
 export class HabitacionesComponent implements OnInit, AfterViewInit {
   habitaciones: Habitacion[] = [];
+  habitacionesPaginadas: Habitacion[] = [];
   resenas: Resena[] = [];
   loading = false;
   error: string | null = null;
   hotelId: number | null = null;
   hotel: Partial<Hotel> = {};
   currentUserId: number | null = null;
+
+  // Variables para paginación
+  currentPage = 1;
+  itemsPerPage = 3; // Cambiado de 6 a 3 habitaciones por página
+  totalPages = 0;
 
   // Variables para el modal de edición
   showEditModal = false;
@@ -72,6 +80,35 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
     this.initMap();
   }
 
+  // Método para actualizar las habitaciones paginadas
+  updatePaginatedRooms(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.habitacionesPaginadas = this.habitaciones.slice(startIndex, endIndex);
+  }
+
+  // Método para cambiar de página
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePaginatedRooms();
+    }
+  }
+
+  // Método para ir a la página anterior
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.changePage(this.currentPage - 1);
+    }
+  }
+
+  // Método para ir a la página siguiente
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.changePage(this.currentPage + 1);
+    }
+  }
+
   loadHabitaciones(hotelId: number): void {
     this.loading = true;
     this.error = null;
@@ -90,6 +127,11 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
       next: (data: Habitacion[]) => {
         console.log('Habitaciones cargadas:', data);
         this.habitaciones = data;
+
+        // Calcular paginación
+        this.totalPages = Math.ceil(this.habitaciones.length / this.itemsPerPage);
+        this.updatePaginatedRooms();
+
         this.loading = false;
 
         // Extraer información del hotel de la primera habitación
