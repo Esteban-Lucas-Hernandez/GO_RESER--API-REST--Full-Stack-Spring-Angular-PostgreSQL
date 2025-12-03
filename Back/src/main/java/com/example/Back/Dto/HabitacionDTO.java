@@ -24,11 +24,15 @@ public class HabitacionDTO {
     
     // Información del hotel
     private String hotelNombre;
+    private Integer estrellas; // Campo agregado para las estrellas del hotel
     
     // Información de la ciudad del hotel
     private String ciudadNombre;
     private BigDecimal latitud;
     private BigDecimal longitud;
+    
+    // Información del departamento
+    private String departamentoNombre; // Campo agregado para el nombre del departamento
     
     // Campos adicionales del hotel solicitados
     private String email;
@@ -37,4 +41,7 @@ public class HabitacionDTO {
     private LocalTime checkOut;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    
+    // Imagen del hotel
+    private String hotelImagenUrl;
 }
