@@ -5,7 +5,8 @@
   font-family: 'Segoe UI', sans-serif;
   max-width: 1400px;
   margin: 0 auto;
-  margin-top: -20px; /* Añadido para acercarlo al hero */
+  margin-top: -40px; /* Ajustado para acercarlo más al hero */
+  margin-bottom: 20px; /* Añadido para controlar el espacio inferior */
 }
 
 /* LOGOS DE SOCIOS */

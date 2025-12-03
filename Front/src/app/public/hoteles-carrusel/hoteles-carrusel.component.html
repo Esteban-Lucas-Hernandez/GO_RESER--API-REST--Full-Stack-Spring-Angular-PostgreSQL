@@ -42,7 +42,7 @@
               <div class="hotel-info">
                 <h3 class="hotel-name">{{ hotel.nombre }}</h3>
 
-                <div class="hotel-location">
+                <div class="hotel-location" (click)="buscarEnGoogle(hotel)">
                   <i class="fas fa-map-marker-alt location-icon"></i>
                   <span class="location-text"
                     >{{ getCiudadNombre(hotel) }}, {{ getDepartamentoNombre(hotel) }}</span
@@ -68,7 +68,7 @@
                   <p><strong>Teléfono:</strong> {{ hotel.telefono }}</p>
 
                   <div class="hotel-policies" *ngIf="hotel.politicaCancelacion">
-                    <strong>Política de Cancelación:</strong>
+                    <strong style="color: rgb(221, 2, 2)">Política de Cancelación:</strong>
                     <div class="politica-cancelacion-container">
                       <p>{{ hotel.politicaCancelacion }}</p>
                     </div>
@@ -85,17 +85,9 @@
             </div>
           </div>
         </div>
-
-        <!-- Navigation buttons -->
-        <!--
+        <!-- Botones de navegación del carrusel -->
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
-        -->
-
-        <!-- Pagination -->
-        <!--
-        <div class="swiper-pagination"></div>
-        -->
       </div>
     </div>
   </div>

@@ -95,16 +95,61 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
         // Extraer información del hotel de la primera habitación
         if (this.habitaciones.length > 0) {
           const primeraHabitacion = this.habitaciones[0];
-          this.hotel = {
-            id: primeraHabitacion.idHotel,
-            nombre: primeraHabitacion.hotelNombre,
-            email: primeraHabitacion.email,
-            descripcion: primeraHabitacion.descripcionHotel,
-            checkIn: primeraHabitacion.checkIn,
-            checkOut: primeraHabitacion.checkOut,
-            createdAt: primeraHabitacion.createdAt,
-            updatedAt: primeraHabitacion.updatedAt,
-          };
+
+          // Cargar información completa del hotel desde el endpoint específico
+          if (this.hotelId) {
+            this.hotelService.getHotelById(this.hotelId).subscribe({
+              next: (hotelData: Hotel) => {
+                this.hotel = hotelData;
+              },
+              error: (err: any) => {
+                console.error('Error al cargar información completa del hotel:', err);
+                // Fallback: usar información básica de la habitación
+                this.hotel = {
+                  id: primeraHabitacion.idHotel,
+                  nombre: primeraHabitacion.hotelNombre,
+                  email: primeraHabitacion.email,
+                  descripcion: primeraHabitacion.descripcionHotel,
+                  checkIn: primeraHabitacion.checkIn,
+                  checkOut: primeraHabitacion.checkOut,
+                  createdAt: primeraHabitacion.createdAt,
+                  updatedAt: primeraHabitacion.updatedAt,
+                  imagenUrl: primeraHabitacion.hotelImagenUrl,
+                  estrellas: primeraHabitacion.estrellas,
+                  ciudad: {
+                    id: 0, // Valor por defecto
+                    nombre: primeraHabitacion.ciudadNombre,
+                    departamento: {
+                      id: 0, // Valor por defecto
+                      nombre: primeraHabitacion.departamentoNombre,
+                    },
+                  },
+                };
+              },
+            });
+          } else {
+            // Fallback: usar información básica de la habitación
+            this.hotel = {
+              id: primeraHabitacion.idHotel,
+              nombre: primeraHabitacion.hotelNombre,
+              email: primeraHabitacion.email,
+              descripcion: primeraHabitacion.descripcionHotel,
+              checkIn: primeraHabitacion.checkIn,
+              checkOut: primeraHabitacion.checkOut,
+              createdAt: primeraHabitacion.createdAt,
+              updatedAt: primeraHabitacion.updatedAt,
+              imagenUrl: primeraHabitacion.hotelImagenUrl,
+              estrellas: primeraHabitacion.estrellas,
+              ciudad: {
+                id: 0, // Valor por defecto
+                nombre: primeraHabitacion.ciudadNombre,
+                departamento: {
+                  id: 0, // Valor por defecto
+                  nombre: primeraHabitacion.departamentoNombre,
+                },
+              },
+            };
+          }
         }
 
         // Depuración: Mostrar las coordenadas en la consola
@@ -391,6 +436,13 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
           .bindPopup(`<b>${hotelInfo}</b><br>${this.habitaciones.length} habitaciones disponibles`)
           .openPopup();
       }
+
+      // Forzar la actualización del mapa
+      setTimeout(() => {
+        if (this.map) {
+          this.map.invalidateSize();
+        }
+      }, 200);
     }
   }
 }

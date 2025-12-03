@@ -78,6 +78,12 @@ export interface Habitacion {
   checkOut: string;
   createdAt: string;
   updatedAt: string;
+  // Añadimos la imagen del hotel
+  hotelImagenUrl: string;
+  // Añadimos información de ubicación y calificación del hotel
+  estrellas: number;
+  ciudadNombre: string;
+  departamentoNombre: string;
 }
 
 // Interfaz para HabitacionDetalleDTO

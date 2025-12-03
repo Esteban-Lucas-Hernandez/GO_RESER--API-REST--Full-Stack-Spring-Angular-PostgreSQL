@@ -1,6 +1,6 @@
 /* Estilos para la sección de hoteles */
 .hoteles-section {
-  margin-top: 0;
+  margin-top: -30px; /* Ajustado para acercarlo a la sección de características */
   padding-top: 0;
   max-width: 1200px;
   margin-left: auto;
@@ -100,8 +100,8 @@
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  width: 300px !important;
-  max-width: 300px !important;
+  width: calc(25% - 15px) !important;
+  max-width: calc(25% - 15px) !important;
   margin: 0 10px !important;
   height: auto !important;
   opacity: 1 !important;
@@ -116,9 +116,9 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  width: 300px !important;
-  max-width: 300px !important;
-  min-width: 300px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: unset !important;
   margin: 0 auto;
   background: white;
   box-sizing: border-box;

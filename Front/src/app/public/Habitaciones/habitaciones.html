@@ -1,243 +1,315 @@
-<div class="habitaciones-container">
-  <h1>Habitaciones del Hotel</h1>
+<!DOCTYPE html>
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Hotel Details and Rooms</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="habitaciones.css" />
+  </head>
+  <body>
+    <div class="layout-container">
+      <div class="layout-container">
+        <main>
+          <div class="layout-content-container">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">
+              <a class="breadcrumb-link" href="#">Hotels</a>
+              <span class="breadcrumb-link">/</span>
+              <span class="breadcrumb-current">{{ hotel.nombre }}</span>
+            </div>
+            <!-- PageHeading -->
+            <div class="page-heading">
+              <div>
+                <h2>{{ hotel.nombre }}</h2>
+                <span>{{ hotel.descripcion }}</span>
+              </div>
+            </div>
+            <!-- Main Content Grid -->
+            <div class="main-grid">
+              <!-- Left Column -->
+              <div class="left-column">
+                <!-- HeaderImage -->
+                <div
+                  class="header-image"
+                  [attr.data-alt]="'Exterior view of ' + (hotel.nombre || 'the hotel') + ' hotel'"
+                  [style.background-image]="
+                    'url(' +
+                    (hotel.imagenUrl ||
+                      'https://lh3.googleusercontent.com/aida-public/AB6AXuAzLpvSZBH8mXfxs_YfWe1kNAp97DeTvwHyH2wM-CbPZHyKbSrmFyuVvJ-qNEQBPA42iVFSRFTWsG7FSZ-ZaF0ir4YSFJcl526noYq4sUUCqN3pPrpPh4XB_IqYceuPGKVt4HvUCNXwYRb94gH4BvbZ62ouUJdaafmWa-Dv-MV4loZ1UUHOJSnFz8nFt61PdeohfIt5Wv4NfzYEvvI4l1XDg3zpNPkVlZ2EKL-YrH8HpmvXHBCtyToTS6L0AVX1LB6nRISkhj03Q4c') +
+                    ')'
+                  "
+                ></div>
+                <!-- Hotel Information -->
+                <div class="amenities-section">
+                  <h3 class="section-title">Información del Hotel</h3>
+                  <div class="hotel-info-grid">
+                    <div class="info-item">
+                      <span class="material-symbols-outlined">location_on</span>
+                      <span
+                        >{{ hotel.ciudad?.nombre }}, {{ hotel.ciudad?.departamento?.nombre }}</span
+                      >
+                    </div>
+                    <div class="info-item">
+                      <span class="material-symbols-outlined">email</span>
+                      <span>{{ hotel.email }}</span>
+                    </div>
+                    <div class="info-item">
+                      <span class="material-symbols-outlined">schedule</span>
+                      <span>Check-in: {{ hotel.checkIn }} | Check-out: {{ hotel.checkOut }}</span>
+                    </div>
+                    <div class="info-item">
+                      <span class="material-symbols-outlined">star</span>
+                      <span>Calificación: {{ hotel.estrellas }} estrellas</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Map -->
+                <div class="map-container">
+                  <h2>Ubicación del Hotel</h2>
+                  <div id="map" class="map"></div>
+                </div>
+              </div>
+              <!-- Right Column (Rooms) -->
+              <div class="right-column">
+                <div class="rooms-section">
+                  <h3 class="section-title">Habitaciones</h3>
+                  <div class="rooms-list">
+                    <div *ngIf="loading" class="loading-message">Cargando habitaciones...</div>
+                    <div *ngIf="error" class="error-message">{{ error }}</div>
 
-  <!-- Botón para volver al listado de hoteles -->
-  <div class="volver-container">
-    <button class="btn-volver" (click)="volverAlListado()">← Volver al Listado de Hoteles</button>
-  </div>
+                    <div
+                      *ngIf="!loading && !error && habitaciones.length === 0"
+                      class="no-habitaciones"
+                    >
+                      No se encontraron habitaciones.
+                    </div>
 
-  <!-- Información del hotel -->
-  <div class="hotel-info-section" *ngIf="hotel && !loading && !error">
-    <h2>{{ hotel.nombre }}</h2>
+                    <!-- Room Item -->
+                    <div *ngFor="let habitacion of habitaciones" class="room-card">
+                      <div
+                        class="room-image"
+                        [attr.data-alt]="'Habitación ' + habitacion.numero"
+                        [style.background-image]="
+                          habitacion.imagenUrl ? 'url(' + habitacion.imagenUrl + ')' : 'none'
+                        "
+                        [ngClass]="{ placeholder: !habitacion.imagenUrl }"
+                      >
+                        <div *ngIf="!habitacion.imagenUrl" class="image-placeholder">
+                          Imagen no disponible
+                        </div>
+                      </div>
+                      <div class="room-info">
+                        <div>
+                          <p class="room-name">
+                            Habitación {{ habitacion.numero }} - {{ habitacion.categoria.nombre }}
+                          </p>
+                          <p class="room-capacity">
+                            Capacidad: {{ habitacion.capacidad }} personas
+                          </p>
+                        </div>
+                        <div class="room-actions">
+                          <span
+                            class="status-badge"
+                            [ngClass]="{
+                              'status-available': habitacion.estado === 'DISPONIBLE',
+                              'status-occupied': habitacion.estado === 'OCUPADA',
+                              'status-maintenance': habitacion.estado === 'MANTENIMIENTO'
+                            }"
+                          >
+                            {{ habitacion.estado }}
+                          </span>
+                          <button
+                            class="view-button"
+                            (click)="verDetalles(habitacion.idHabitacion)"
+                          >
+                            Ver
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Customer Reviews Section -->
+            <div class="reviews-section" *ngIf="!loading && !error">
+              <div class="reviews-header">
+                <h3 class="section-title">Reseñas del Hotel</h3>
+                <button class="add-review-button" (click)="openCreateModal()">
+                  <span class="material-symbols-outlined">add</span>
+                  <span>Añadir Reseña</span>
+                </button>
+              </div>
 
-    <div class="hotel-details-grid">
-      <div class="hotel-detail-item">
-        <strong>Email:</strong>
-        <span>{{ hotel.email }}</span>
-      </div>
+              <div *ngIf="resenas.length === 0" class="no-resenas">
+                No hay reseñas para este hotel todavía.
+              </div>
 
-      <div class="hotel-detail-item">
-        <strong>Descripción:</strong>
-        <span>{{ hotel.descripcion }}</span>
-      </div>
-
-      <div class="hotel-detail-item">
-        <strong>Check-in:</strong>
-        <span>{{ hotel.checkIn }}</span>
-      </div>
-
-      <div class="hotel-detail-item">
-        <strong>Check-out:</strong>
-        <span>{{ hotel.checkOut }}</span>
-      </div>
-
-      <div class="hotel-detail-item">
-        <strong>Creado:</strong>
-        <span>{{ hotel.createdAt | date : 'dd/MM/yyyy HH:mm' }}</span>
-      </div>
-
-      <div class="hotel-detail-item">
-        <strong>Actualizado:</strong>
-        <span>{{ hotel.updatedAt | date : 'dd/MM/yyyy HH:mm' }}</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Contenedor del mapa -->
-  <div class="map-container">
-    <h2>Ubicación del Hotel</h2>
-    <div id="map" class="map"></div>
-  </div>
-
-  <!-- Mensaje de carga -->
-  <div *ngIf="loading" class="loading">Cargando habitaciones...</div>
-
-  <!-- Mensaje de error -->
-  <div *ngIf="error" class="error">
-    {{ error }}
-  </div>
-
-  <!-- Lista de habitaciones -->
-  <div *ngIf="!loading && !error" class="habitaciones-list">
-    <div *ngIf="habitaciones.length === 0" class="no-habitaciones">
-      No se encontraron habitaciones.
-    </div>
-
-    <div *ngFor="let habitacion of habitaciones" class="habitacion-card">
-      <!-- Imagen de la habitación -->
-      <div class="habitacion-image" *ngIf="habitacion.imagenUrl">
-        <img [src]="habitacion.imagenUrl" [alt]="'Habitación ' + habitacion.numero" />
-      </div>
-      <div class="habitacion-image placeholder" *ngIf="!habitacion.imagenUrl">
-        <div class="image-placeholder">Imagen no disponible</div>
-      </div>
-
-      <!-- Información de la habitación -->
-      <div class="habitacion-info">
-        <h3>Habitación {{ habitacion.numero }}</h3>
-
-        <div class="habitacion-details">
-          <p><strong>Categoría:</strong> {{ habitacion.categoria.nombre }}</p>
-          <p><strong>Capacidad:</strong> {{ habitacion.capacidad }} personas</p>
-          <p><strong>Estado:</strong> {{ habitacion.estado }}</p>
-        </div>
-
-        <!-- Botón para ver detalles -->
-        <div class="habitacion-actions">
-          <button class="btn-ver-detalles" (click)="verDetalles(habitacion.idHabitacion)">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Apartado de reseñas -->
-  <div class="resenas-section" *ngIf="!loading && !error">
-    <div class="resenas-header">
-      <h2>Reseñas del Hotel</h2>
-      <!-- Botón para añadir reseña -->
-      <button class="btn-anadir-resena" (click)="openCreateModal()">Añadir Reseña</button>
-    </div>
-
-    <div *ngIf="resenas.length === 0" class="no-resenas">
-      No hay reseñas para este hotel todavía.
-    </div>
-
-    <div *ngFor="let resena of resenas" class="resena-card">
-      <div class="resena-header">
-        <!-- Mostrar la imagen de perfil del usuario -->
-        <div class="resena-usuario-info">
-          <div class="resena-usuario-avatar" *ngIf="resena.fotoUrl">
-            <img
-              [src]="resena.fotoUrl"
-              [alt]="'Foto de ' + resena.nombreUsuario"
-              class="avatar-image"
-            />
+              <div class="reviews-list" *ngIf="resenas.length > 0">
+                <div *ngFor="let resena of resenas" class="review-item">
+                  <div class="resena-usuario-avatar" *ngIf="resena.fotoUrl">
+                    <img
+                      [src]="resena.fotoUrl"
+                      [alt]="'Foto de ' + resena.nombreUsuario"
+                      class="review-avatar"
+                    />
+                  </div>
+                  <div class="resena-usuario-avatar placeholder" *ngIf="!resena.fotoUrl">
+                    <img
+                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      [alt]="'Foto de ' + resena.nombreUsuario"
+                      class="review-avatar"
+                    />
+                  </div>
+                  <div class="review-content">
+                    <div class="review-header">
+                      <div>
+                        <p class="reviewer-name">{{ resena.nombreUsuario }}</p>
+                        <p class="review-date">{{ resena.fechaResena | date : 'mediumDate' }}</p>
+                      </div>
+                      <div class="star-rating">
+                        <span
+                          *ngFor="
+                            let star of [].constructor(getValidCalificacion(resena.calificacion));
+                            let i = index
+                          "
+                          class="material-symbols-outlined"
+                          style="font-variation-settings: 'FILL' 1; color: #f59e0b"
+                          >star</span
+                        >
+                        <span
+                          *ngFor="
+                            let star of [].constructor(getEmptyStars(resena.calificacion));
+                            let i = index
+                          "
+                          class="material-symbols-outlined"
+                          style="color: #f59e0b"
+                          >star</span
+                        >
+                      </div>
+                    </div>
+                    <p class="review-text">
+                      {{ resena.comentario }}
+                    </p>
+                    <div class="review-actions" *ngIf="isUserReview(resena)">
+                      <button class="action-button" (click)="editarResena(resena)">
+                        <span class="material-symbols-outlined">edit</span>
+                      </button>
+                      <button class="action-button delete" (click)="deleteResena(resena.idResena)">
+                        <span class="material-symbols-outlined">delete</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="resena-usuario-avatar placeholder" *ngIf="!resena.fotoUrl">
-            <img
-              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-              [alt]="'Foto de ' + resena.nombreUsuario"
-              class="avatar-image"
-            />
-          </div>
-          <span class="resena-usuario">{{ resena.nombreUsuario }}</span>
-        </div>
-        <div class="resena-calificacion">
-          <span
-            *ngFor="
-              let star of [].constructor(getValidCalificacion(resena.calificacion));
-              let i = index
-            "
-            class="star filled"
-            >★</span
-          >
-          <span
-            *ngFor="let star of [].constructor(getEmptyStars(resena.calificacion)); let i = index"
-            class="star"
-            >★</span
-          >
-        </div>
-      </div>
-      <p class="resena-comentario">{{ resena.comentario }}</p>
-      <span class="resena-fecha">{{ resena.fechaResena }}</span>
-
-      <!-- Botones de acción para reseñas del usuario -->
-      <div class="resena-actions" *ngIf="isUserReview(resena)">
-        <button class="btn-editar" (click)="editarResena(resena)">Editar</button>
-        <button class="btn-eliminar" (click)="deleteResena(resena.idResena)">Eliminar</button>
+        </main>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Modal de Edición de Reseña -->
-<div class="modal" *ngIf="showEditModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Editar Reseña</h3>
-      <span class="close" (click)="closeEditModal()">&times;</span>
+    <!-- Modal de Edición de Reseña -->
+    <div class="modal" *ngIf="showEditModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Editar Reseña</h3>
+          <span class="close" (click)="closeEditModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveResenaChanges()" #editForm="ngForm">
+            <div class="form-group">
+              <label for="calificacion">Calificación:</label>
+              <div class="rating-input">
+                <span
+                  *ngFor="let star of [].constructor(5); let i = index"
+                  class="star"
+                  [class.filled]="i < editCalificacion"
+                  (click)="editCalificacion = i + 1"
+                  >★</span
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="comentario">Comentario:</label>
+              <textarea
+                id="comentario"
+                [(ngModel)]="editComentario"
+                name="comentario"
+                rows="4"
+                required
+                class="form-control"
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-cancelar" (click)="closeEditModal()">
+                Cancelar
+              </button>
+              <button type="submit" class="btn-guardar" [disabled]="!editForm.form.valid">
+                Guardar Cambios
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="modal-body">
-      <form (ngSubmit)="saveResenaChanges()" #editForm="ngForm">
-        <div class="form-group">
-          <label for="calificacion">Calificación:</label>
-          <div class="rating-input">
-            <span
-              *ngFor="let star of [].constructor(5); let i = index"
-              class="star"
-              [class.filled]="i < editCalificacion"
-              (click)="editCalificacion = i + 1"
-              >★</span
-            >
-          </div>
-        </div>
 
-        <div class="form-group">
-          <label for="comentario">Comentario:</label>
-          <textarea
-            id="comentario"
-            [(ngModel)]="editComentario"
-            name="comentario"
-            rows="4"
-            required
-            class="form-control"
-          ></textarea>
+    <!-- Modal de Creación de Reseña -->
+    <div class="modal" *ngIf="showCreateModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Añadir Reseña</h3>
+          <span class="close" (click)="closeCreateModal()">&times;</span>
         </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveNewResena()" #createForm="ngForm">
+            <div class="form-group">
+              <label for="newCalificacion">Calificación:</label>
+              <div class="rating-input">
+                <span
+                  *ngFor="let star of [].constructor(5); let i = index"
+                  class="star"
+                  [class.filled]="i < newCalificacion"
+                  (click)="newCalificacion = i + 1"
+                  >★</span
+                >
+              </div>
+            </div>
 
-        <div class="form-actions">
-          <button type="button" class="btn-cancelar" (click)="closeEditModal()">Cancelar</button>
-          <button type="submit" class="btn-guardar" [disabled]="!editForm.form.valid">
-            Guardar Cambios
-          </button>
+            <div class="form-group">
+              <label for="newComentario">Comentario:</label>
+              <textarea
+                id="newComentario"
+                [(ngModel)]="newComentario"
+                name="newComentario"
+                rows="4"
+                required
+                class="form-control"
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-cancelar" (click)="closeCreateModal()">
+                Cancelar
+              </button>
+              <button type="submit" class="btn-guardar" [disabled]="!createForm.form.valid">
+                Añadir Reseña
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
-</div>
-
-<!-- Modal de Creación de Reseña -->
-<div class="modal" *ngIf="showCreateModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Añadir Reseña</h3>
-      <span class="close" (click)="closeCreateModal()">&times;</span>
-    </div>
-    <div class="modal-body">
-      <form (ngSubmit)="saveNewResena()" #createForm="ngForm">
-        <div class="form-group">
-          <label for="newCalificacion">Calificación:</label>
-          <div class="rating-input">
-            <span
-              *ngFor="let star of [].constructor(5); let i = index"
-              class="star"
-              [class.filled]="i < newCalificacion"
-              (click)="newCalificacion = i + 1"
-              >★</span
-            >
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="newComentario">Comentario:</label>
-          <textarea
-            id="newComentario"
-            [(ngModel)]="newComentario"
-            name="newComentario"
-            rows="4"
-            required
-            class="form-control"
-          ></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn-cancelar" (click)="closeCreateModal()">Cancelar</button>
-          <button type="submit" class="btn-guardar" [disabled]="!createForm.form.valid">
-            Añadir Reseña
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+  </body>
+</html>

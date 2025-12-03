@@ -120,36 +120,36 @@ export class HotelesCarruselComponent implements OnInit, OnDestroy, AfterViewIni
       if (swiperElement && typeof window !== 'undefined' && this.getDisplayHoteles().length > 0) {
         this.swiperInstance = new Swiper('.swiper-container', {
           modules: [Navigation, Pagination, Autoplay],
-          slidesPerView: 'auto',
-          spaceBetween: 30,
-          loop: true,
+          slidesPerView: 4,
+          spaceBetween: 20,
+          loop: false,
           centeredSlides: false,
-          speed: 6000,
-          autoplay: {
-            delay: 1,
-            disableOnInteraction: false,
-            // Eliminamos pauseOnMouseEnter para evitar conflictos
+          speed: 600,
+          autoplay: false,
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
           },
           breakpoints: {
             // when window width >= 640px
             640: {
-              slidesPerView: 'auto',
-              spaceBetween: 30,
+              slidesPerView: 1,
+              spaceBetween: 15,
             },
             // when window width >= 768px
             768: {
-              slidesPerView: 'auto',
-              spaceBetween: 30,
+              slidesPerView: 2,
+              spaceBetween: 15,
             },
             // when window width >= 1024px
             1024: {
-              slidesPerView: 'auto',
-              spaceBetween: 30,
+              slidesPerView: 3,
+              spaceBetween: 20,
             },
             // when window width >= 1200px
             1200: {
-              slidesPerView: 'auto',
-              spaceBetween: 30,
+              slidesPerView: 4,
+              spaceBetween: 20,
             },
           },
           on: {
@@ -314,5 +314,16 @@ export class HotelesCarruselComponent implements OnInit, OnDestroy, AfterViewIni
   // Método para obtener un array de números para las estrellas vacías
   getEmptyStarsArray(rating: number): number[] {
     return Array(5 - Math.floor(rating)).fill(0);
+  }
+
+  // Método para buscar en Google la ubicación del hotel
+  buscarEnGoogle(hotel: Hotel): void {
+    const ciudad = this.getCiudadNombre(hotel);
+    const departamento = this.getDepartamentoNombre(hotel);
+    const query = `${ciudad} ${departamento}`;
+    const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+
+    // Abrir en una nueva pestaña
+    window.open(url, '_blank');
   }
 }
