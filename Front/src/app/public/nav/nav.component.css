@@ -586,11 +586,11 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  background: rgba(255, 255, 255, 0.2);
+  background: #fff;
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: white;
+  color: rgb(78, 163, 249);
   padding: 0;
   width: 36px;
   height: 36px;
@@ -603,7 +603,7 @@
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgb(255, 255, 255);
   transform: rotate(90deg);
 }
 
