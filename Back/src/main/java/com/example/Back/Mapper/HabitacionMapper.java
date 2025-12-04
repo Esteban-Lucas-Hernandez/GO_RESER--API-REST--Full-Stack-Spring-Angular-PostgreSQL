@@ -29,6 +29,7 @@ public interface HabitacionMapper {
     @Mapping(source = "hotel.createdAt", target = "createdAt")
     @Mapping(source = "hotel.updatedAt", target = "updatedAt")
     @Mapping(source = "hotel.imagenUrl", target = "hotelImagenUrl")
+    @Mapping(source = "hotel.politicaCancelacion", target = "politicaCancelacion")
     HabitacionDTO habitacionToHabitacionDTO(Habitacion habitacion);
 
     List<HabitacionDTO> habitacionesToHabitacionDTOs(List<Habitacion> habitaciones);

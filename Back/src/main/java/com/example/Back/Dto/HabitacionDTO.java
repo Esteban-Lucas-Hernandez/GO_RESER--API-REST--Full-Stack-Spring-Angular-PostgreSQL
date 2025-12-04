@@ -44,4 +44,7 @@ public class HabitacionDTO {
     
     // Imagen del hotel
     private String hotelImagenUrl;
+    
+    // Política de cancelación del hotel
+    private String politicaCancelacion;
 }
