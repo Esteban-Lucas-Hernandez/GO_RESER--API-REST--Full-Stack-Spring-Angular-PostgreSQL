@@ -73,6 +73,11 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
         this.loadResenas(this.hotelId);
       }
     });
+
+    // Forzar el scroll al inicio de la página al cargar
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
   }
 
   ngAfterViewInit(): void {

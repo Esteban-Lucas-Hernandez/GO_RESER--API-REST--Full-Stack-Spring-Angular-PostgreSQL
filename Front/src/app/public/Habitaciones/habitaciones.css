@@ -223,7 +223,7 @@ body.dark .rating-text {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  margin-top: -85px;
+  margin-top: -50px;
 }
 
 @media (min-width: 1024px) {
@@ -458,11 +458,11 @@ body.dark .room-card {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(36, 162, 246, 0.283), rgba(46, 159, 204, 0.407)),
+  background: linear-gradient(135deg, rgba(155, 213, 251, 0.146), rgba(146, 221, 251, 0.27)),
     repeating-linear-gradient(
       45deg,
-      rgba(10, 105, 214, 0.296),
-      rgba(4, 121, 194, 0.385) 2px,
+      rgba(255, 255, 255, 0.296),
+      rgba(255, 255, 255, 0.223) 2px,
       transparent 2px,
       transparent 10px
     );

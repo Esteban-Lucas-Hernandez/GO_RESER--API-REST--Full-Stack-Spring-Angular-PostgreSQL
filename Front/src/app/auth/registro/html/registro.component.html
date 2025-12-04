@@ -1,11 +1,11 @@
 <div class="registro-container">
-  <h2>Registro de Usuario</h2>
+  <h1>Crear Cuenta</h1>
   <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="nombreCompleto">Nombre Completo:</label>
       <input
         id="nombreCompleto"
         type="text"
+        placeholder="Nombre Completo"
         formControlName="nombreCompleto"
         [class.error]="
           registroForm.get('nombreCompleto')?.invalid && registroForm.get('nombreCompleto')?.touched
@@ -22,10 +22,10 @@
     </div>
 
     <div class="form-group">
-      <label for="email">Email:</label>
       <input
         id="email"
         type="email"
+        placeholder="Email"
         formControlName="email"
         [class.error]="registroForm.get('email')?.invalid && registroForm.get('email')?.touched"
       />
@@ -39,26 +39,23 @@
     </div>
 
     <div class="form-group">
-      <label for="telefono">Teléfono:</label>
-      <input id="telefono" type="text" formControlName="telefono" />
+      <input id="telefono" type="text" placeholder="Teléfono" formControlName="telefono" />
     </div>
 
     <div class="form-group">
-      <label for="documento">Documento:</label>
-      <input id="documento" type="text" formControlName="documento" />
+      <input id="documento" type="text" placeholder="Documento" formControlName="documento" />
     </div>
 
     <div class="form-group">
-      <label for="fotoUrl">Foto URL (Opcional):</label>
-      <input id="fotoUrl" type="text" formControlName="fotoUrl" />
+      <input id="fotoUrl" type="text" placeholder="Foto URL (Opcional)" formControlName="fotoUrl" />
       <small>Si no proporciona una imagen, se usará una por defecto.</small>
     </div>
 
     <div class="form-group">
-      <label for="contrasena">Contraseña:</label>
       <input
         id="contrasena"
         type="password"
+        placeholder="Contraseña"
         formControlName="contrasena"
         [class.error]="
           registroForm.get('contrasena')?.invalid && registroForm.get('contrasena')?.touched

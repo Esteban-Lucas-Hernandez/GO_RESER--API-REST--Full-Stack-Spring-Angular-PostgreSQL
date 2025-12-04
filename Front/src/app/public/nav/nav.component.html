@@ -37,40 +37,44 @@
 
 <!-- Modal de inicio de sesión -->
 <div class="modal-overlay" *ngIf="showLoginModal" (click)="closeLoginModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h2>Iniciar Sesión</h2>
-      <button class="close-btn" (click)="closeLoginModal()">×</button>
+  <div
+    class="modal-content"
+    [class.right-panel-active]="isSignUpActive"
+    (click)="$event.stopPropagation()"
+  >
+    <button class="close-btn" (click)="closeLoginModal()">×</button>
+    <div class="form-container sign-in-container">
+      <form>
+        <div class="social-container">
+          <!-- Aquí irían los botones sociales si los hubiera -->
+        </div>
+        <app-login (loginSuccess)="onLoginSuccess($event)"></app-login>
+      </form>
     </div>
-    <div class="modal-body">
-      <app-login (loginSuccess)="onLoginSuccess($event)"></app-login>
-      <!-- Enlace al registro dentro del modal -->
-      <div class="register-link">
-        <p>
-          ¿No tienes cuenta?
-          <a (click)="openRegistroModal()" class="register-link-anchor">Regístrate aquí</a>
-        </p>
+    <div class="form-container sign-up-container">
+      <form>
+        <h1>Crear Cuenta</h1>
+        <div class="social-container">
+          <!-- Aquí irían los botones sociales si los hubiera -->
+        </div>
+        <app-registro (registroSuccess)="onRegistroSuccess($event)"></app-registro>
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>¡Bienvenido de vuelta!</h1>
+          <p>Para mantenerte conectado con nosotros, inicia sesión con tu información personal</p>
+          <button class="ghost" id="signIn" (click)="toggleSignIn()">Iniciar Sesión</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>¡Hola, Amigo!</h1>
+          <p>Ingresa tus datos personales y comienza tu viaje con nosotros</p>
+          <button class="ghost" id="signUp" (click)="toggleSignUp()">Registrarse</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal de registro -->
-<div class="modal-overlay" *ngIf="showRegistroModal" (click)="closeRegistroModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h2>Registro de Usuario</h2>
-      <button class="close-btn" (click)="closeRegistroModal()">×</button>
-    </div>
-    <div class="modal-body">
-      <app-registro (registroSuccess)="onRegistroSuccess($event)"></app-registro>
-      <!-- Enlace al login dentro del modal -->
-      <div class="login-link">
-        <p>
-          ¿Ya tienes cuenta?
-          <a (click)="openLoginModal()" class="login-link-anchor">Inicia sesión aquí</a>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Modal de registro (ya no se necesita ya que está integrado en el modal de login) -->

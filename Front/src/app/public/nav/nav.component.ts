@@ -22,6 +22,7 @@ export class NavComponent implements OnInit {
   showLoginModal = false;
   showRegistroModal = false;
   showMobileMenu = false;
+  isSignUpActive = false; // Propiedad para controlar el estado del formulario
   private storageListener: any;
 
   constructor(
@@ -88,6 +89,15 @@ export class NavComponent implements OnInit {
     this.showMobileMenu = !this.showMobileMenu;
   }
 
+  // Método para alternar entre inicio de sesión y registro
+  toggleSignUp() {
+    this.isSignUpActive = true;
+  }
+
+  toggleSignIn() {
+    this.isSignUpActive = false;
+  }
+
   loadUserProfile(): void {
     console.log('Cargando perfil de usuario...');
     this.perfilService.getProfile().subscribe({
@@ -143,6 +153,7 @@ export class NavComponent implements OnInit {
   openLoginModal() {
     this.showLoginModal = true;
     this.showRegistroModal = false;
+    this.isSignUpActive = false; // Resetear al abrir el modal
   }
 
   closeLoginModal() {
@@ -152,6 +163,7 @@ export class NavComponent implements OnInit {
   openRegistroModal() {
     this.showRegistroModal = true;
     this.showLoginModal = false;
+    this.isSignUpActive = true; // Activar el formulario de registro
   }
 
   closeRegistroModal() {
@@ -182,8 +194,8 @@ export class NavComponent implements OnInit {
   }
 
   onRegistroSuccess(event: any) {
-    // Cerrar el modal de registro
-    this.closeRegistroModal();
+    // Cambiar al formulario de inicio de sesión después del registro exitoso
+    this.isSignUpActive = false;
     // Mostrar mensaje de éxito
     alert('Registro exitoso. Ahora puedes iniciar sesión.');
   }

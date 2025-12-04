@@ -1,36 +1,87 @@
+/* Importar fuente Montserrat */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+  box-sizing: border-box;
+}
+
 .registro-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.registro-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.registro-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.registro-container::-webkit-scrollbar-thumb {
+  background: #ff4b2b;
+  border-radius: 10px;
+}
+
+.registro-container::-webkit-scrollbar-thumb:hover {
+  background: #e04025;
+}
+
+h1 {
+  font-weight: bold;
+  margin: 0;
 }
 
 h2 {
   text-align: center;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  margin: 20px 0 30px;
+}
+
+span {
+  font-size: 12px;
+}
+
+a {
   color: #333;
-  margin-bottom: 1.5rem;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 15px 0;
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #555;
+  display: none; /* Ocultar labels en este diseño */
 }
 
 input {
+  background-color: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
 }
 
 input.error {
@@ -43,25 +94,45 @@ input.error {
   margin-top: 0.25rem;
 }
 
-button {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
+button[type='submit'] {
+  border-radius: 20px;
+  border: 1px solid #2b92ff;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  font-family: 'Montserrat', sans-serif;
   margin-top: 1rem;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
 
-button:disabled {
+button[type='submit']:active {
+  transform: scale(0.95);
+}
+
+button[type='submit']:focus {
+  outline: none;
+}
+
+button[type='submit']:disabled {
   background-color: #6c757d;
   cursor: not-allowed;
 }
 
-button:hover:not(:disabled) {
-  background-color: #0056b3;
+button[type='submit']:hover:not(:disabled) {
+  background-color: #e04025;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+small {
+  font-size: 10px;
+  color: #999;
 }
 
 /* Estilos para el enlace de login */
