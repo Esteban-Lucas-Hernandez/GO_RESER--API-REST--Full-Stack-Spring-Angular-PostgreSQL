@@ -33,7 +33,46 @@
             <!-- PageHeading -->
             <div class="page-heading">
               <div class="hotel-header">
-                <h1 class="hotel-title">{{ hotel.nombre }}</h1>
+                <div class="hotel-title-container">
+                  <h1 class="hotel-title">{{ hotel.nombre }}</h1>
+                  <!-- Filtro de búsqueda movido aquí, al lado del título -->
+                  <div class="search-filter-container" style="flex-grow: 1; max-width: 620px; border: 1px solid #63addd; border-radius: 10px;">
+                    <div class="search-box">
+                      <input
+                        type="text"
+                        class="search-input"
+                        placeholder="Buscar habitaciones..."
+                        [(ngModel)]="searchTerm"
+                        (input)="onSearchInput()"
+                        (focus)="showSuggestions = true"
+                        (blur)="onSearchBlur()"
+                      />
+                      <span class="search-icon material-symbols-outlined">search</span>
+                      <button
+                        *ngIf="searchTerm"
+                        class="clear-search"
+                        (click)="clearFilter()"
+                        type="button"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    <!-- Lista de sugerencias -->
+                    <div
+                      class="suggestions-dropdown"
+                      *ngIf="showSuggestions && filteredHabitaciones.length > 0 && searchTerm"
+                    >
+                      <div
+                        class="suggestion-item"
+                        *ngFor="let habitacion of filteredHabitaciones"
+                        (mousedown)="selectHabitacion(habitacion)"
+                      >
+                        Habitación {{ habitacion.numero }} - {{ habitacion.categoria.nombre }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <p class="hotel-description">{{ hotel.descripcion }}</p>
               </div>
               <div class="hotel-rating">
@@ -97,7 +136,7 @@
                   <div class="cancelation-policy">
                     <h3>Política de Cancelación</h3>
                     <p>
-                      Cancelación gratuita hasta 24 horas antes de la llegada. Después de ese
+                      {{ hotel.politicaCancelacion}}. Después de ese
                       tiempo, se cobrará una noche de estadía.
                     </p>
                   </div>
@@ -151,9 +190,7 @@
 
                       <div class="room-details">
                         <div class="room-info">
-                          <h3 class="room-name">
-                            Habitación {{ habitacion.numero }} 
-                          </h3>
+                          <h3 class="room-name">Habitación {{ habitacion.numero }}</h3>
                           <div class="room-specs">
                             <div class="spec-item">
                               <span class="material-symbols-outlined spec-icon">person</span>

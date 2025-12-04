@@ -49,6 +49,11 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
   private map: any;
   private marker: any;
 
+  // Variables para el filtro de búsqueda
+  searchTerm: string = '';
+  showSuggestions: boolean = false;
+  filteredHabitaciones: Habitacion[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -132,6 +137,7 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
       next: (data: Habitacion[]) => {
         console.log('Habitaciones cargadas:', data);
         this.habitaciones = data;
+        this.filteredHabitaciones = [...data]; // Inicializar con todas las habitaciones
 
         // Calcular paginación
         this.totalPages = Math.ceil(this.habitaciones.length / this.itemsPerPage);
@@ -163,6 +169,7 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
                   updatedAt: primeraHabitacion.updatedAt,
                   imagenUrl: primeraHabitacion.hotelImagenUrl,
                   estrellas: primeraHabitacion.estrellas,
+                  politicaCancelacion: primeraHabitacion.politicaCancelacion,
                   ciudad: {
                     id: 0, // Valor por defecto
                     nombre: primeraHabitacion.ciudadNombre,
@@ -187,6 +194,7 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
               updatedAt: primeraHabitacion.updatedAt,
               imagenUrl: primeraHabitacion.hotelImagenUrl,
               estrellas: primeraHabitacion.estrellas,
+              politicaCancelacion: primeraHabitacion.politicaCancelacion,
               ciudad: {
                 id: 0, // Valor por defecto
                 nombre: primeraHabitacion.ciudadNombre,
@@ -366,7 +374,7 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
           alert('Reseña actualizada correctamente');
         },
         error: (err) => {
-          console.error('Error al actualizar reseña:', err);
+          console.error('Error al actualizarizar reseña:', err);
           alert('Error al actualizar la reseña');
         },
       });
@@ -491,5 +499,58 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
         }
       }, 200);
     }
+  }
+
+  // Métodos para el filtro de búsqueda
+  onSearchInput(): void {
+    if (this.searchTerm.trim() === '') {
+      // Si el término de búsqueda está vacío, mostrar todas las habitaciones
+      this.filteredHabitaciones = [...this.habitaciones];
+      this.showSuggestions = false;
+      // Actualizar la paginación para mostrar todas las habitaciones
+      this.totalPages = Math.ceil(this.habitaciones.length / this.itemsPerPage);
+      this.currentPage = 1;
+      this.updatePaginatedRooms();
+    } else {
+      // Filtrar las habitaciones basadas en el término de búsqueda
+      this.filteredHabitaciones = this.habitaciones.filter(
+        (habitacion) =>
+          habitacion.numero.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          habitacion.categoria.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          habitacion.descripcion.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+
+      this.showSuggestions = this.filteredHabitaciones.length > 0;
+    }
+  }
+
+  onSearchBlur(): void {
+    // Pequeño retraso para permitir que se ejecute el mousedown en las sugerencias
+    setTimeout(() => {
+      this.showSuggestions = false;
+    }, 200);
+  }
+
+  selectHabitacion(habitacion: Habitacion): void {
+    // Seleccionar una habitación específica y mostrar solo esa en la lista
+    this.habitacionesPaginadas = [habitacion];
+    this.searchTerm = `Habitación ${habitacion.numero}`;
+    this.showSuggestions = false;
+
+    // Actualizar la paginación
+    this.totalPages = 1;
+    this.currentPage = 1;
+  }
+
+  // Método para limpiar el filtro y mostrar todas las habitaciones
+  clearFilter(): void {
+    this.searchTerm = '';
+    this.filteredHabitaciones = [...this.habitaciones];
+    this.showSuggestions = false;
+
+    // Actualizar la paginación
+    this.totalPages = Math.ceil(this.habitaciones.length / this.itemsPerPage);
+    this.currentPage = 1;
+    this.updatePaginatedRooms();
   }
 }

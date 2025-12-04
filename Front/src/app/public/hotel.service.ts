@@ -84,6 +84,8 @@ export interface Habitacion {
   estrellas: number;
   ciudadNombre: string;
   departamentoNombre: string;
+  // Añadimos política de cancelación
+  politicaCancelacion: string;
 }
 
 // Interfaz para HabitacionDetalleDTO
