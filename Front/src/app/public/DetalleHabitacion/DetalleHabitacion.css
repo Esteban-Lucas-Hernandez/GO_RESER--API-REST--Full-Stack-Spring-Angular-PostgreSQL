@@ -73,9 +73,7 @@
   transition: border-color 0.2s;
 }
 
-.imagenes-miniaturas img:hover {
-  border-color: #007bff;
-}
+
 
 .sin-imagenes {
   padding: 15px;

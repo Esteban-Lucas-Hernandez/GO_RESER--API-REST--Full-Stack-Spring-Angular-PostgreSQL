@@ -36,7 +36,15 @@
                 <div class="hotel-title-container">
                   <h1 class="hotel-title">{{ hotel.nombre }}</h1>
                   <!-- Filtro de búsqueda movido aquí, al lado del título -->
-                  <div class="search-filter-container" style="flex-grow: 1; max-width: 620px; border: 1px solid #63addd; border-radius: 10px;">
+                  <div
+                    class="search-filter-container"
+                    style="
+                      flex-grow: 1;
+                      max-width: 620px;
+                      border: 1px solid #63addd;
+                      border-radius: 10px;
+                    "
+                  >
                     <div class="search-box">
                       <input
                         type="text"
@@ -136,8 +144,8 @@
                   <div class="cancelation-policy">
                     <h3>Política de Cancelación</h3>
                     <p>
-                      {{ hotel.politicaCancelacion}}. Después de ese
-                      tiempo, se cobrará una noche de estadía.
+                      {{ hotel.politicaCancelacion }}. Después de ese tiempo, se cobrará una noche
+                      de estadía.
                     </p>
                   </div>
                 </div>
@@ -281,10 +289,13 @@
             <div class="reviews-section" *ngIf="!loading && !error">
               <div class="reviews-header">
                 <h2 class="section-title">Reseñas del Hotel</h2>
-                <button class="add-review-button" (click)="openCreateModal()">
-                  <span class="material-symbols-outlined">add</span>
-                  <span>Añadir Reseña</span>
-                </button>
+                <div class="reviews-header-controls">
+                  <div class="reviews-count">{{ resenas.length }} reseñas</div>
+                  <button class="add-review-button" (click)="openCreateModal()">
+                    <span class="material-symbols-outlined">add</span>
+                    <span>Añadir Reseña</span>
+                  </button>
+                </div>
               </div>
 
               <div *ngIf="resenas.length === 0" class="no-resenas">
@@ -296,7 +307,8 @@
               </div>
 
               <div class="reviews-list" *ngIf="resenas.length > 0">
-                <div *ngFor="let resena of resenas" class="review-item">
+                <!-- Mostrar solo las reseñas paginadas -->
+                <div *ngFor="let resena of resenasPaginadas" class="review-item">
                   <div class="reviewer-info">
                     <div class="resena-usuario-avatar" *ngIf="resena.fotoUrl">
                       <img
@@ -341,19 +353,54 @@
                       >
                     </div>
                     <div class="review-actions" *ngIf="isUserReview(resena)">
-                      <button class="action-button" (click)="editarResena(resena)">
+                      <button
+                        class="action-button"
+                        (click)="editarResena(resena)"
+                        title="Editar reseña"
+                      >
                         <span class="material-symbols-outlined">edit</span>
                       </button>
-                      <button class="action-button delete" (click)="deleteResena(resena.idResena)">
+                      <button
+                        class="action-button delete"
+                        (click)="deleteResena(resena.idResena)"
+                        title="Eliminar reseña"
+                      >
                         <span class="material-symbols-outlined">delete</span>
                       </button>
                     </div>
                   </div>
                 </div>
+
+                <!-- Paginación de reseñas -->
+                <div class="pagination" *ngIf="totalResenasPages > 0">
+                  <button
+                    class="pagination-btn"
+                    (click)="previousResenaPage()"
+                    [disabled]="currentResenaPage === 1"
+                    title="Página anterior"
+                  >
+                    <span class="material-symbols-outlined">chevron_left</span>
+                  </button>
+
+                  <span class="pagination-info">
+                    Página {{ currentResenaPage }} de {{ totalResenasPages }}
+                  </span>
+
+                  <button
+                    class="pagination-btn"
+                    (click)="nextResenaPage()"
+                    [disabled]="currentResenaPage === totalResenasPages"
+                    title="Página siguiente"
+                  >
+                    <span class="material-symbols-outlined">chevron_right</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </main>
+        <!-- Incluir el componente de footer -->
+        <app-footer></app-footer>
       </div>
     </div>
 

@@ -113,6 +113,12 @@
   position: relative;
 }
 
+.nav-item.dropdown-item-margin {
+  margin-left: 15px;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
 .nav-item:nth-child(-n + 3) {
   margin-top: 5px; /* Aplica margen superior solo a los primeros 3 elementos (Búsqueda, Hoteles, Contacto) */
 }

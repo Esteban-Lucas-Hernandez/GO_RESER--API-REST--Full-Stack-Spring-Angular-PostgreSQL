@@ -12,10 +12,12 @@ import { defaultIcon } from '../../leaflet.config';
 
 // Importar el componente de navegación
 import { NavComponent } from '../nav/nav.component';
+// Importar el componente de footer
+import { FooterComponent } from '../footer/footer.component';
 @Component({
   selector: 'app-habitaciones',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavComponent], // Agregar FormsModule y NavComponent a los imports
+  imports: [CommonModule, FormsModule, NavComponent, FooterComponent], // Agregar FooterComponent a los imports
   templateUrl: './habitaciones.html',
   styleUrls: ['./habitaciones.css'],
 })
@@ -23,16 +25,22 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
   habitaciones: Habitacion[] = [];
   habitacionesPaginadas: Habitacion[] = [];
   resenas: Resena[] = [];
+  resenasPaginadas: Resena[] = []; // Nueva propiedad para las reseñas paginadas
   loading = false;
   error: string | null = null;
   hotelId: number | null = null;
   hotel: Partial<Hotel> = {};
   currentUserId: number | null = null;
 
-  // Variables para paginación
+  // Variables para paginación de habitaciones
   currentPage = 1;
   itemsPerPage = 3; // Cambiado de 6 a 3 habitaciones por página
   totalPages = 0;
+
+  // Variables para paginación de reseñas
+  currentResenaPage = 1;
+  resenasPerPage = 4; // Cambiar de 2 a 4 reseñas por página
+  totalResenasPages = 0;
 
   // Variables para el modal de edición
   showEditModal = false;
@@ -97,7 +105,14 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
     this.habitacionesPaginadas = this.habitaciones.slice(startIndex, endIndex);
   }
 
-  // Método para cambiar de página
+  // Método para actualizar las reseñas paginadas
+  updatePaginatedResenas(): void {
+    const startIndex = (this.currentResenaPage - 1) * this.resenasPerPage;
+    const endIndex = startIndex + this.resenasPerPage;
+    this.resenasPaginadas = this.resenas.slice(startIndex, endIndex);
+  }
+
+  // Método para cambiar de página de habitaciones
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
@@ -105,17 +120,39 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // Método para ir a la página anterior
+  // Método para cambiar de página de reseñas
+  changeResenaPage(page: number): void {
+    if (page >= 1 && page <= this.totalResenasPages) {
+      this.currentResenaPage = page;
+      this.updatePaginatedResenas();
+    }
+  }
+
+  // Método para ir a la página anterior de habitaciones
   previousPage(): void {
     if (this.currentPage > 1) {
       this.changePage(this.currentPage - 1);
     }
   }
 
-  // Método para ir a la página siguiente
+  // Método para ir a la página siguiente de habitaciones
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.changePage(this.currentPage + 1);
+    }
+  }
+
+  // Método para ir a la página anterior de reseñas
+  previousResenaPage(): void {
+    if (this.currentResenaPage > 1) {
+      this.changeResenaPage(this.currentResenaPage - 1);
+    }
+  }
+
+  // Método para ir a la página siguiente de reseñas
+  nextResenaPage(): void {
+    if (this.currentResenaPage < this.totalResenasPages) {
+      this.changeResenaPage(this.currentResenaPage + 1);
     }
   }
 
@@ -243,6 +280,13 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
       next: (data: Resena[]) => {
         this.resenas = data;
         console.log('Reseñas cargadas:', data);
+        console.log('Número total de reseñas:', this.resenas.length);
+
+        // Calcular paginación de reseñas
+        this.totalResenasPages = Math.ceil(this.resenas.length / this.resenasPerPage);
+        console.log('Reseñas por página:', this.resenasPerPage);
+        console.log('Total de páginas de reseñas:', this.totalResenasPages);
+        this.updatePaginatedResenas();
       },
       error: (err: any) => {
         console.error('Error al cargar reseñas:', err);
@@ -293,6 +337,10 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
         next: (response: Resena) => {
           // Agregar la nueva reseña a la lista
           this.resenas.push(response);
+
+          // Recalcular paginación de reseñas
+          this.totalResenasPages = Math.ceil(this.resenas.length / this.resenasPerPage);
+          this.updatePaginatedResenas();
 
           // Cerrar el modal
           this.closeCreateModal();
@@ -361,6 +409,17 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
           const index = this.resenas.findIndex((r) => r.idResena === this.selectedResena!.idResena);
           if (index !== -1) {
             this.resenas[index] = { ...this.resenas[index], ...updatedResena };
+
+            // Actualizar también en las reseñas paginadas si está en la página actual
+            const paginatedIndex = this.resenasPaginadas.findIndex(
+              (r) => r.idResena === this.selectedResena!.idResena
+            );
+            if (paginatedIndex !== -1) {
+              this.resenasPaginadas[paginatedIndex] = {
+                ...this.resenasPaginadas[paginatedIndex],
+                ...updatedResena,
+              };
+            }
           }
 
           // Cerrar el modal
@@ -388,6 +447,10 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
         next: () => {
           // Eliminar la reseña de la lista local
           this.resenas = this.resenas.filter((resena) => resena.idResena !== idResena);
+
+          // Recalcular paginación de reseñas
+          this.totalResenasPages = Math.ceil(this.resenas.length / this.resenasPerPage);
+          this.updatePaginatedResenas();
 
           // Recargar las reseñas para asegurar que se muestra el cambio
           if (this.hotelId) {

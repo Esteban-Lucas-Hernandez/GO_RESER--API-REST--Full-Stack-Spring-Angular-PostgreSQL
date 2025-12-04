@@ -82,6 +82,7 @@ input {
   margin: 8px 0;
   width: 100%;
   font-family: 'Montserrat', sans-serif;
+  border-radius: 20px;
 }
 
 input.error {

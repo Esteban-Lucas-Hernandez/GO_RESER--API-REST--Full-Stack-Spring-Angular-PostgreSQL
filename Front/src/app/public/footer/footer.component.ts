@@ -13,7 +13,7 @@ export class FooterComponent {
   // Información de contacto
   contactInfo = {
     address: 'Carrera 12 # 34-56, Bogotá, Colombia',
-    phone: '+57 300 123 4567',
+    phone: '+57 300 455 4430',
     email: 'info@goreser.com',
   };
 
@@ -29,8 +29,8 @@ export class FooterComponent {
   socialLinks = [
     { name: 'Facebook', url: '#', icon: 'facebook' },
     { name: 'Twitter', url: '#', icon: 'twitter' },
-    { name: 'Instagram', url: '#', icon: 'instagram' },
-    { name: 'LinkedIn', url: '#', icon: 'linkedin' },
+    { name: 'Instagram', url: 'https://www.instagram.com/estebannn.david/', icon: 'instagram' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/esteban-david-lucas-hern%C3%A1ndez-6ab481375/', icon: 'linkedin' },
   ];
 
   // Información de la empresa

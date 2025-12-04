@@ -24,7 +24,7 @@
         <a href="#" (click)="scrollToFooter($event)" class="nav-link">Contacto</a>
       </li>
       <!-- Mostrar dropdown de usuario si está autenticado -->
-      <li class="nav-item" *ngIf="isAuthenticated">
+      <li class="nav-item dropdown-item-margin" *ngIf="isAuthenticated">
         <app-dropdown-menu [userInfo]="userInfo"></app-dropdown-menu>
       </li>
       <!-- Mostrar botón de iniciar sesión si no está autenticado -->
