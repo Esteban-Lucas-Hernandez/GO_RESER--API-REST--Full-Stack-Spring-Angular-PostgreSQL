@@ -2,6 +2,7 @@ package com.example.Back.Dto;
 
 import lombok.*;
 import java.util.List;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,11 @@ public class HabitacionDetalleDTO {
     private String descripcion;
     private String estado;
     private List<String> imagenesUrls;
+    
+    // Campos adicionales del hotel
+    private String hotelNombre;
+    private String ciudadNombre;
+    private String departamentoNombre;
+    private LocalTime checkIn;
+    private LocalTime checkOut;
 }
