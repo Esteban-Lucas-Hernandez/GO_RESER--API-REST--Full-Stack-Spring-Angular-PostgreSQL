@@ -99,8 +99,13 @@ export interface HabitacionDetalle {
   descripcion: string;
   estado: string;
   imagenesUrls: string[];
+  // Información del hotel
+  hotelNombre: string;
   // Información de la ciudad del hotel
   ciudadNombre: string;
+  departamentoNombre: string;
+  checkIn: string; // LocalTime en el backend
+  checkOut: string; // LocalTime en el backend
   latitud: number;
   longitud: number;
 }

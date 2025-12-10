@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   HotelService,
   HabitacionDetalle,
@@ -10,6 +10,8 @@ import {
   Reserva,
 } from '../hotel.service';
 import { AuthService } from '../../auth/auth.service';
+import { NavComponent } from '../nav/nav.component';
+import { FooterComponent } from '../footer/footer.component';
 
 // Interface para el modelo de reserva en el formulario
 interface ReservaForm {
@@ -21,7 +23,7 @@ interface ReservaForm {
 @Component({
   selector: 'app-detalle-habitacion',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule, NavComponent, FooterComponent],
   templateUrl: './DetalleHabitacion.html',
   styleUrls: ['./DetalleHabitacion.css'],
 })
@@ -31,6 +33,14 @@ export class DetalleHabitacionComponent implements OnInit {
   error: string | null = null;
   hotelId: number | null = null;
   habitacionId: number | null = null;
+
+  // Variable para la imagen principal seleccionada
+  imagenPrincipal: string = '';
+
+  // Variables para el modal de galería
+  mostrarModal: boolean = false;
+  imagenModal: string = '';
+  indiceImagenActual: number = 0;
 
   // Variables para el formulario de reserva
   mostrarFormularioReserva = false;
@@ -91,6 +101,10 @@ export class DetalleHabitacionComponent implements OnInit {
     this.hotelService.getHabitacionDetalle(hotelId, habitacionId).subscribe({
       next: (data: HabitacionDetalle) => {
         this.habitacion = data;
+        // Establecer la primera imagen como imagen principal si existen imágenes
+        if (data.imagenesUrls && data.imagenesUrls.length > 0) {
+          this.imagenPrincipal = data.imagenesUrls[0];
+        }
         this.loading = false;
       },
       error: (err: any) => {
@@ -315,5 +329,69 @@ export class DetalleHabitacionComponent implements OnInit {
       this.mensajePago = null;
       this.tipoMensajePago = null;
     }, 3000);
+  }
+
+  // Método para cambiar la imagen principal
+  cambiarImagenPrincipal(imagenUrl: string): void {
+    this.imagenPrincipal = imagenUrl;
+  }
+
+  // Métodos para el modal de galería
+  abrirModal(): void {
+    if (this.habitacion.imagenesUrls && this.habitacion.imagenesUrls.length > 0) {
+      this.mostrarModal = true;
+      this.indiceImagenActual = 0;
+      this.imagenModal = this.habitacion.imagenesUrls[0];
+      // Prevenir el scroll del body cuando el modal está abierto
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  cerrarModal(event: Event): void {
+    // Solo cerrar si se hace clic en el fondo del modal o en el botón de cerrar
+    if (event.target === event.currentTarget) {
+      this.mostrarModal = false;
+      // Restaurar el scroll del body
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  imagenAnterior(): void {
+    if (this.habitacion.imagenesUrls && this.habitacion.imagenesUrls.length > 0) {
+      this.indiceImagenActual =
+        (this.indiceImagenActual - 1 + this.habitacion.imagenesUrls.length) %
+        this.habitacion.imagenesUrls.length;
+      this.imagenModal = this.habitacion.imagenesUrls[this.indiceImagenActual];
+    }
+  }
+
+  imagenSiguiente(): void {
+    if (this.habitacion.imagenesUrls && this.habitacion.imagenesUrls.length > 0) {
+      this.indiceImagenActual = (this.indiceImagenActual + 1) % this.habitacion.imagenesUrls.length;
+      this.imagenModal = this.habitacion.imagenesUrls[this.indiceImagenActual];
+    }
+  }
+
+  // Cerrar el modal con la tecla Escape
+  @HostListener('document:keydown.escape', ['$event'])
+  handleKeyboardEvent(event: Event) {
+    if (this.mostrarModal) {
+      this.mostrarModal = false;
+      document.body.style.overflow = 'auto';
+    }
+    if (this.mostrarFormularioReserva) {
+      this.mostrarFormularioReserva = false;
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  // Método para cerrar el modal de reserva
+  cerrarModalReserva(event: Event): void {
+    // Solo cerrar si se hace clic en el fondo del modal o en el botón de cerrar
+    if (event.target === event.currentTarget) {
+      this.mostrarFormularioReserva = false;
+      // Restaurar el scroll del body
+      document.body.style.overflow = 'auto';
+    }
   }
 }
