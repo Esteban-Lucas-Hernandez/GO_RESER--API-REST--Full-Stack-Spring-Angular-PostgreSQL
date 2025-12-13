@@ -17,6 +17,11 @@ export class MisReservasComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
+  // Propiedades para la paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 4;
+  totalPages: number = 0;
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -34,6 +39,7 @@ export class MisReservasComponent implements OnInit {
     this.hotelService.getMisReservas().subscribe({
       next: (data: Reserva[]) => {
         this.reservas = data;
+        this.calculateTotalPages();
         this.loading = false;
       },
       error: (err: any) => {
@@ -47,6 +53,43 @@ export class MisReservasComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  // Calcular el número total de páginas
+  calculateTotalPages(): void {
+    this.totalPages = Math.ceil(this.reservas.length / this.itemsPerPage);
+    // Asegurarse de que la página actual no exceda el total de páginas
+    if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+    }
+  }
+
+  // Obtener las reservas para la página actual
+  getReservasPaginadas(): Reserva[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.reservas.slice(startIndex, endIndex);
+  }
+
+  // Cambiar a una página específica
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  // Ir a la página siguiente
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  // Ir a la página anterior
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
   }
 
   volverAlInicio(): void {
@@ -112,12 +155,22 @@ export class MisReservasComponent implements OnInit {
   puedeCancelarReserva(reserva: Reserva): boolean {
     // No permitir cancelar si la fecha de salida es anterior a la fecha actual
     const fechaSalida = new Date(reserva.fechaFin);
+    const fechaInicio = new Date(reserva.fechaInicio);
     const fechaActual = new Date();
-    
+
     // Comparar solo las fechas (sin horas)
     fechaSalida.setHours(0, 0, 0, 0);
     fechaActual.setHours(0, 0, 0, 0);
-    
-    return fechaSalida >= fechaActual;
+
+    // Verificar si faltan menos de 24 horas para la fecha de inicio
+    const horasAntesDeInicio = 24;
+    const tiempoLimiteCancelacion = new Date(
+      fechaInicio.getTime() - horasAntesDeInicio * 60 * 60 * 1000
+    );
+
+    // Solo permitir cancelar si:
+    // 1. La fecha de salida es posterior o igual a la fecha actual (como antes)
+    // 2. Aún no hemos pasado el límite de 24 horas antes del inicio
+    return fechaSalida >= fechaActual && fechaActual < tiempoLimiteCancelacion;
   }
 }

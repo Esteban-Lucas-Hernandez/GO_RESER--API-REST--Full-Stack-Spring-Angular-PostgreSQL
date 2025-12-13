@@ -228,6 +228,13 @@ main {
   margin-bottom: 2rem;
 }
 
+.property-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .property-title h1 {
   font-size: 2rem;
   font-weight: 800;
@@ -244,6 +251,14 @@ main {
   font-size: 1rem;
 }
 
+.location-icon {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
 .property-hotel {
   display: flex;
   align-items: center;
@@ -251,6 +266,19 @@ main {
   color: var(--text-gray-500);
   font-size: 1rem;
   margin-top: 0.5rem;
+}
+
+/* Responsive adjustments for property title */
+@media (max-width: 570px) {
+  .property-title-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .property-location {
+    align-self: flex-start;
+  }
 }
 
 /* Nuevos estilos para la galería de imágenes */
@@ -316,6 +344,7 @@ main {
   position: relative;
   width: 100%;
   height: calc(33.333% - 0.666rem);
+  min-height: 10px; /* Altura mínima para mejor visualización en móviles */
   cursor: pointer;
   border-radius: 0.5rem !important;
   -webkit-border-radius: 0.5rem !important;
@@ -323,7 +352,6 @@ main {
   overflow: hidden;
   box-shadow: var(--shadow-md);
 }
-
 .ver-mas-container img {
   width: 100%;
   height: 100%;
@@ -349,6 +377,12 @@ main {
   -moz-border-radius: 0.5rem !important;
 }
 
+.ver-mas-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
 .ver-mas-container:hover .overlay {
   background-color: rgba(0, 0, 0, 0.7);
 }
@@ -464,6 +498,36 @@ main {
   font-size: 1rem;
 }
 
+/* Responsive adjustments for gallery modal */
+@media (max-width: 767px) {
+  .modal-contenido {
+    width: 95%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .modal-imagen-principal {
+    height: 50vh;
+  }
+
+  .nav-btn {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .prev {
+    left: 5px;
+  }
+
+  .next {
+    right: 5px;
+  }
+
+  .indice-imagen {
+    font-size: 0.875rem;
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 767px) {
   .imagenes-galeria {
@@ -487,6 +551,14 @@ main {
     height: 100%;
   }
 
+  .ver-mas-container {
+    min-height: 100px; /* Mayor altura mínima en móviles */
+  }
+
+  .ver-mas-text {
+    font-size: 1.2rem; /* Ajuste de tamaño de fuente para móviles */
+  }
+
   .sin-imagenes {
     height: 300px;
   }
@@ -496,8 +568,22 @@ main {
   }
 }
 
-/* Fin de nuevos estilos para la galería de imágenes */
+/* Ajustes adicionales para dispositivos muy pequeños */
+@media (max-width: 480px) {
+  .imagenes-miniaturas {
+    height: 50px;
+    margin-top: 0.75rem;
+  }
 
+  .ver-mas-container {
+    min-height: 70px; /* Altura mínima ajustada para pantallas muy pequeñas */
+  }
+
+  .ver-mas-text {
+    font-size: 1rem; /* Tamaño de fuente reducido para pantallas muy pequeñas */
+  }
+}
+/* Fin de nuevos estilos para la galería de imágenes */
 /* Gallery grid */
 .gallery-section {
   margin-bottom: 3rem;
@@ -637,6 +723,19 @@ main {
   }
 }
 
+/* Responsive adjustments for details grid */
+@media (max-width: 767px) {
+  .details-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .detail-card {
   background-color: #f8fafc; /* Gris suave */
   border-radius: 0.75rem; /* Bordes redondeados */
@@ -749,6 +848,9 @@ main {
   transition: all 0.3s ease !important;
   -webkit-border-radius: 0.75rem !important;
   -moz-border-radius: 0.75rem !important;
+  min-height: 500px; /* Altura mínima aumentada */
+  display: flex;
+  flex-direction: column;
 }
 
 .reservation-card:hover {
@@ -899,6 +1001,47 @@ main {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
   -webkit-transform: translateY(-2px) !important;
   -moz-transform: translateY(-2px) !important;
+}
+
+/* Estilo por defecto para pantallas grandes (PC) */
+.gallery-reservation-container {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 2rem 0 0rem;
+}
+
+.imagenes-galeria {
+  flex: 0 0 72%;
+  max-width: 72%;
+}
+
+.reservation-section {
+  flex: 0 0 28%;
+  max-width: 28%;
+}
+
+/* Responsive adjustments for reservation section */
+@media (max-width: 1023px) {
+  .gallery-reservation-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0 0 0;
+  }
+
+  .imagenes-galeria {
+    flex: 1;
+    max-width: 100%;
+  }
+
+  .reservation-section {
+    flex: 1;
+    max-width: 100%;
+    position: static;
+    min-width: unset;
+    width: 100%;
+    margin-top: 2rem;
+  }
 }
 
 /* Estilos para los métodos de pago */
@@ -1313,6 +1456,15 @@ footer {
   color: var(--text-black);
 }
 
+/* Responsive adjustments for reservation modal */
+@media (max-width: 767px) {
+  .modal-contenido-reserva {
+    width: 95%;
+    margin: 10% auto;
+    padding: 1.5rem;
+  }
+}
+
 /* Estilos para el modal de confirmación de pago */
 .modal-overlay {
   display: block;
@@ -1376,6 +1528,15 @@ footer {
   cursor: not-allowed;
 }
 
+/* Responsive adjustments for payment modal */
+@media (max-width: 767px) {
+  .modal-pago {
+    width: 95%;
+    margin: 10% auto;
+    padding: 1.5rem;
+  }
+}
+
 .modal-body {
   margin-bottom: 1rem;
 }
@@ -1401,9 +1562,10 @@ footer {
 }
 
 .info-reserva {
-  background-color: var(--background-gray);
+  background-color: #e3f2fd; /* Azul cielo suave */
+  border: 1px solid #1e88e5; /* Azul un poco más fuerte */
   padding: 1.5rem;
-  border-radius: var(--radius-md);
+  border-radius: 0.5rem; /* Bordes redondeados */
   margin-bottom: 1.5rem;
 }
 
@@ -1435,14 +1597,24 @@ footer {
 }
 
 .btn-confirmar-pago {
+  background: linear-gradient(135deg, #3498db, #2980b9); /* Azul gradiente */
   background-color: var(--primary);
   color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-confirmar-pago:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2980b9, #3498db); /* Gradiente invertido al pasar el mouse */
   background-color: var(--primary-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  color: white; /* Asegurar que el color del texto permanezca blanco */
 }
 
 .btn-confirmar-pago:disabled {
@@ -1488,8 +1660,8 @@ footer {
 .form-control {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid var(--border-gray-300);
-  border-radius: var(--radius-md);
+  border: 2px solid #3498db; /* Borde azul */
+  border-radius: 0.5rem; /* Bordes redondeados */
   background-color: var(--background-light);
   color: var(--text-black);
   font-size: 1rem;
@@ -1498,8 +1670,8 @@ footer {
 
 .form-control:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+  border-color: #3498db; /* Mantener el borde azul al enfocar */
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* Sombra azul suave */
 }
 
 .form-actions {
@@ -1520,38 +1692,51 @@ footer {
 }
 
 .btn-submit {
-  background-color: var(--primary);
-  color: rgb(0, 0, 0);
+  background: linear-gradient(135deg, #27ae60, #219653); /* Verde gradiente */
+  background-color: #27ae60;
+  color: white;
   border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-submit:hover {
-  background-color: var(--primary-dark);
+  background: linear-gradient(135deg, #219653, #27ae60); /* Gradiente invertido al pasar el mouse */
+  background-color: #219653;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  color: white; /* Asegurar que el color del texto permanezca blanco */
 }
 
 .btn-cancel {
-  background-color: var(--background-gray);
-  color: var(--text-dark);
-  border: 1px solid var(--border-gray-300);
+  background: linear-gradient(135deg, #e74c3c, #c0392b); /* Rojo gradiente */
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-cancel:hover {
-  background-color: var(--border-gray-200);
+  background: linear-gradient(135deg, #c0392b, #e74c3c); /* Gradiente invertido al pasar el mouse */
+  background-color: #c0392b;
   transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  color: white; /* Asegurar que el color del texto permanezca blanco */
 }
 
 @media (max-width: 767px) {
   .form-row {
     flex-direction: column;
     gap: 0;
-  }
-
-  .modal-contenido-reserva {
-    width: 95%;
-    margin: 10% auto;
-    padding: 1.5rem;
   }
 }
 

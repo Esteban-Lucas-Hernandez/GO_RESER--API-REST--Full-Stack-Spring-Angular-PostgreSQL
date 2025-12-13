@@ -161,6 +161,8 @@ body.dark .hotel-description {
   align-items: flex-end;
   gap: 0.5rem;
   margin-left: 5rem;
+  flex-shrink: 0; /* Evita que el contenedor se encoja en pantallas pequeñas */
+  position: relative; /* Mantiene la posición relativa */
 }
 
 .stars-container {
@@ -368,11 +370,19 @@ body.dark .map-section h2 {
 }
 
 .map-container {
-  width: 340%;
-  height: 20rem;
+  width: 340%; /* Ancho original mantenido para pantallas grandes */
+  height: 20rem; /* Altura original */
   border-radius: 0.5rem;
   overflow: hidden;
   position: relative;
+}
+
+/* Responsive para pantallas de 1024px hacia abajo */
+@media (max-width: 1024px) {
+  .map-container {
+    width: 100%; /* Ancho al 100% para mejor experiencia responsiva en pantallas pequeñas */
+    height: 20rem; /* Mantener altura original */
+  }
 }
 
 #map {
@@ -421,9 +431,95 @@ body.dark .room-count {
 }
 
 .rooms-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1.5rem;
+}
+
+/* Mostrar habitaciones de dos en dos en pantallas menores a 1024px */
+@media (max-width: 1023px) {
+  .rooms-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* En pantallas menores a 1024px, mostrar las tarjetas con imagen arriba y contenido abajo */
+  .room-card {
+    flex-direction: column;
+  }
+
+  .room-image-container {
+    width: 100%;
+    height: 12rem;
+  }
+
+  .room-image {
+    width: 100% !important;
+  }
+
+  /* Ajustar el contenido de las tarjetas para que se vea completo */
+  .room-details {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .room-info .room-name {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .room-specs {
+    gap: 0.75rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .spec-item {
+    width: 100%;
+  }
+
+  .price {
+    font-size: 1.25rem;
+  }
+
+  .room-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .action-buttons {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .view-button {
+    width: 100%;
+    min-width: auto;
+  }
+
+  /* Hacer que el botón "Ver" esté debajo de la categoría */
+  .status-and-button {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .status-badge {
+    align-self: flex-start;
+  }
+
+  .view-button {
+    align-self: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .rooms-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .room-card {
@@ -479,15 +575,22 @@ body.dark .room-card {
   border-color: var(--primary);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 1024px) {
   .room-card {
     flex-direction: row;
     border-radius: 0.75rem !important;
     -webkit-border-radius: 0.75rem !important;
     -moz-border-radius: 0.75rem !important;
   }
-}
 
+  .status-and-button {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+  }
+}
 .room-image-container {
   width: 100%;
   height: 12rem;
@@ -497,11 +600,10 @@ body.dark .room-card {
   overflow: hidden;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 1024px) {
   .room-image-container {
+    height: 12rem;
     width: 12rem;
-    height: auto;
-    flex-shrink: 0;
   }
 }
 
@@ -1323,6 +1425,9 @@ body.dark .btn-guardar:disabled {
 
   .hotel-rating {
     align-items: flex-start;
+    margin-left: 0; /* Elimina el margen izquierdo en móviles */
+    margin-top: 1rem; /* Agrega un margen superior para separarlo del título */
+    align-self: flex-start; /* Asegura que se alinee al inicio */
   }
 
   .section-header {

@@ -130,6 +130,7 @@ export interface Reserva {
   estado: string;
   metodoPago: string;
   fechaReserva: string; // Formato ISO string
+  urlImagenHabitacion?: string; // Nueva propiedad opcional para la imagen de la habitación
 }
 
 // Interface para confirmar pago

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotelService, Habitacion, Hotel, Resena } from '../hotel.service';
@@ -35,6 +35,7 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
   // Variables para paginación de habitaciones
   currentPage = 1;
   itemsPerPage = 3; // Cambiado de 6 a 3 habitaciones por página
+  itemsPerPageMobile = 4; // 4 habitaciones por página en móviles
   totalPages = 0;
 
   // Variables para paginación de reseñas
@@ -91,6 +92,9 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
     }
+
+    // Establecer el número de habitaciones por página según el tamaño de la pantalla
+    this.setItemsPerPage();
   }
 
   ngAfterViewInit(): void {
@@ -103,6 +107,30 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.habitacionesPaginadas = this.habitaciones.slice(startIndex, endIndex);
+  }
+
+  // Método para establecer el número de habitaciones por página según el tamaño de la pantalla
+  setItemsPerPage(): void {
+    if (typeof window !== 'undefined') {
+      const screenWidth = window.innerWidth;
+      // En pantallas menores a 1024px, mostrar 4 habitaciones por página
+      if (screenWidth < 1024) {
+        this.itemsPerPage = this.itemsPerPageMobile;
+      } else {
+        // En pantallas mayores o iguales a 1024px, mantener 3 habitaciones por página
+        this.itemsPerPage = 3;
+      }
+
+      // Recalcular la paginación
+      this.totalPages = Math.ceil(this.habitaciones.length / this.itemsPerPage);
+      this.updatePaginatedRooms();
+    }
+  }
+
+  // Escuchar cambios en el tamaño de la ventana
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.setItemsPerPage();
   }
 
   // Método para actualizar las reseñas paginadas
@@ -177,7 +205,7 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
         this.filteredHabitaciones = [...data]; // Inicializar con todas las habitaciones
 
         // Calcular paginación
-        this.totalPages = Math.ceil(this.habitaciones.length / this.itemsPerPage);
+        this.setItemsPerPage();
         this.updatePaginatedRooms();
 
         this.loading = false;
