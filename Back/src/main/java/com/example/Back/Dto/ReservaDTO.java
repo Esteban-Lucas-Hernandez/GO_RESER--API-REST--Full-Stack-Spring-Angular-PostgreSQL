@@ -16,4 +16,5 @@ public class ReservaDTO {
     private String metodoPago;
     private LocalDateTime fechaReserva;
     private String nombreHotel;
+    private String urlImagenHabitacion;
 }
