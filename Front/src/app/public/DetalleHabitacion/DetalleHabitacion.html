@@ -16,63 +16,90 @@
         <span>Habitacion {{ habitacion.numero }}</span>
       </div>
 
-      <div class="property-title" style="margin-bottom: 0.5rem">
-        <div
-          style="display: flex; justify-content: space-between; align-items: center; width: 100%"
-        >
+      <div class="property-title">
+        <div class="property-title-container">
           <h1>Habitacion {{ habitacion.numero }}</h1>
           <div class="property-location">
-            <span
-              class="material-symbols-outlined"
-              style="
-                background: linear-gradient(135deg, #3498db, #2980b9);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-              "
-              >place</span
-            >
+            <span class="material-symbols-outlined location-icon">place</span>
             <span>{{ habitacion.ciudadNombre }}, {{ habitacion.departamentoNombre }}</span>
           </div>
         </div>
       </div>
 
-      <!-- Galería de imágenes -->
-      <div
-        class="imagenes-galeria"
-        *ngIf="habitacion.imagenesUrls && habitacion.imagenesUrls.length > 0"
-        style="margin-top: 0.5rem"
-      >
-        <div class="imagen-principal">
-          <img
-            [src]="imagenPrincipal || habitacion.imagenesUrls[0]"
-            [alt]="'Habitación ' + habitacion.numero"
-          />
-        </div>
-        <div class="imagenes-miniaturas">
-          <img
-            *ngFor="let imagenUrl of habitacion.imagenesUrls | slice : 0 : 2; let i = index"
-            [src]="imagenUrl"
-            [alt]="'Imagen ' + (i + 1) + ' de habitación ' + habitacion.numero"
-            (click)="cambiarImagenPrincipal(imagenUrl)"
-          />
-          <div
-            class="ver-mas-container"
-            *ngIf="habitacion.imagenesUrls.length > 2"
-            (click)="abrirModal()"
-          >
+      <!-- Contenedor para galería y reserva en una fila -->
+      <div class="gallery-reservation-container">
+        <!-- Galería de imágenes -->
+        <div
+          class="imagenes-galeria"
+          *ngIf="habitacion.imagenesUrls && habitacion.imagenesUrls.length > 0"
+        >
+          <div class="imagen-principal">
             <img
-              [src]="habitacion.imagenesUrls[2]"
-              [alt]="'Imagen 3 de habitación ' + habitacion.numero"
+              [src]="imagenPrincipal || habitacion.imagenesUrls[0]"
+              [alt]="'Habitación ' + habitacion.numero"
             />
-            <div class="overlay">
-              <span class="ver-mas-text">+{{ habitacion.imagenesUrls.length - 2 }}</span>
+          </div>
+          <div class="imagenes-miniaturas">
+            <img
+              *ngFor="let imagenUrl of habitacion.imagenesUrls | slice : 0 : 2; let i = index"
+              [src]="imagenUrl"
+              [alt]="'Imagen ' + (i + 1) + ' de habitación ' + habitacion.numero"
+              (click)="cambiarImagenPrincipal(imagenUrl)"
+            />
+            <div
+              class="ver-mas-container"
+              *ngIf="habitacion.imagenesUrls.length > 2"
+              (click)="abrirModal()"
+            >
+              <img
+                [src]="habitacion.imagenesUrls[2]"
+                [alt]="'Imagen 3 de habitación ' + habitacion.numero"
+              />
+              <div class="overlay">
+                <span class="ver-mas-text">+{{ habitacion.imagenesUrls.length - 2 }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección de reserva al lado de la galería -->
+        <div class="reservation-section">
+          <div class="reservation-card">
+            <div class="reservation-header">
+              <h3>Reservar Ahora</h3>
+              <div class="reservation-price">COP {{ habitacion.precio }} <span>/ noche</span></div>
+            </div>
+
+            <div class="reservation-details">
+              <div class="reservation-detail">
+                <span class="detail-label">Check-in:</span>
+                <span class="detail-value">Después de {{ habitacion.checkIn }}</span>
+              </div>
+              <div class="reservation-detail">
+                <span class="detail-label">Check-out:</span>
+                <span class="detail-value">Antes de {{ habitacion.checkOut }}</span>
+              </div>
+              <div class="reservation-detail">
+                <span class="detail-label">Capacidad:</span>
+                <span class="detail-value">{{ habitacion.capacidad }} huésped</span>
+              </div>
+            </div>
+
+            <!-- Botón para realizar reserva -->
+            <div class="boton-reserva-container">
+              <button class="btn-reserva" (click)="toggleFormularioReserva()">
+                Reservar Ahora
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Mensaje cuando no hay imágenes -->
       <div
         class="sin-imagenes"
         *ngIf="!habitacion.imagenesUrls || habitacion.imagenesUrls.length === 0"
+        style="margin-top: 1rem"
       >
         <div class="image-placeholder">No hay imágenes disponibles</div>
       </div>
@@ -92,7 +119,7 @@
         </div>
       </div>
 
-      <div class="content-section">
+      <div class="content-section" style="width: 100%; margin-top: 2rem">
         <div class="product-info">
           <div class="product-details">
             <div class="details-grid">
@@ -134,131 +161,137 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="reservation-section">
-          <div class="reservation-card">
-            <div class="reservation-header">
-              <h3>Reservar Ahora</h3>
-              <div class="reservation-price">COP {{ habitacion.precio }} <span>/ noche</span></div>
+      <!-- Modal de reserva -->
+      <div
+        class="modal-reserva"
+        *ngIf="mostrarFormularioReserva"
+        (click)="cerrarModalReserva($event)"
+      >
+        <div class="modal-contenido-reserva">
+          <span class="cerrar-modal-reserva" (click)="toggleFormularioReserva()">&times;</span>
+          <h3>Realizar Reserva</h3>
+          <form (ngSubmit)="onSubmitReserva($event)" #reservaForm="ngForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fechaInicio">Fecha de Entrada:</label>
+                <input
+                  type="date"
+                  id="fechaInicio"
+                  name="fechaInicio"
+                  [(ngModel)]="reserva.fechaInicio"
+                  required
+                  class="form-control"
+                  style="
+                    border: 2px solid #8ab6d4;
+                    border-radius: 0.5rem;
+                    padding: 0.75rem;
+                    font-size: 1rem;
+                  "
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="fechaFin">Fecha de Salida:</label>
+                <input
+                  type="date"
+                  id="fechaFin"
+                  name="fechaFin"
+                  [(ngModel)]="reserva.fechaFin"
+                  required
+                  class="form-control"
+                  style="
+                    border: 2px solid #81b4d4;
+                    border-radius: 0.5rem;
+                    padding: 0.75rem;
+                    font-size: 1rem;
+                  "
+                />
+              </div>
             </div>
 
-            <div class="reservation-details">
-              <div class="reservation-detail">
-                <span class="detail-label">Check-in:</span>
-                <span class="detail-value">Después de {{ habitacion.checkIn }}</span>
-              </div>
-              <div class="reservation-detail">
-                <span class="detail-label">Check-out:</span>
-                <span class="detail-value">Antes de {{ habitacion.checkOut }}</span>
-              </div>
-              <div class="reservation-detail">
-                <span class="detail-label">Capacidad:</span>
-                <span class="detail-value">{{ habitacion.capacidad }} huésped</span>
-              </div>
-            </div>
-
-            <!-- Botón para realizar reserva -->
-            <div class="boton-reserva-container">
-              <button class="btn-reserva" (click)="toggleFormularioReserva()">
-                Reservar Ahora
-              </button>
-            </div>
-          </div>
-
-          <!-- Modal de reserva -->
-          <div
-            class="modal-reserva"
-            *ngIf="mostrarFormularioReserva"
-            (click)="cerrarModalReserva($event)"
-          >
-            <div class="modal-contenido-reserva">
-              <span class="cerrar-modal-reserva" (click)="toggleFormularioReserva()">&times;</span>
-              <h3>Realizar Reserva</h3>
-
-              <form (ngSubmit)="onSubmitReserva($event)" #reservaForm="ngForm">
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="fechaInicio">Fecha de Entrada:</label>
-                    <input
-                      type="date"
-                      id="fechaInicio"
-                      name="fechaInicio"
-                      [(ngModel)]="reserva.fechaInicio"
-                      required
-                      class="form-control"
-                    />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="fechaFin">Fecha de Salida:</label>
-                    <input
-                      type="date"
-                      id="fechaFin"
-                      name="fechaFin"
-                      [(ngModel)]="reserva.fechaFin"
-                      required
-                      class="form-control"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="metodoPago">Método de Pago:</label>
-                  <div class="metodos-pago-container">
-                    <div
-                      *ngFor="let metodo of metodosPago"
-                      class="metodo-pago-item"
-                      [class.selected]="reserva.metodoPago === metodo.valor"
-                      (click)="reserva.metodoPago = metodo.valor"
-                      [class.nequi-item]="metodo.valor === 'nequi'"
-                      [class.daviplata-item]="metodo.valor === 'daviplata'"
-                      [class.tarjeta-item]="metodo.valor === 'tarjeta'"
-                    >
-                      <span
-                        *ngIf="
-                          metodo.valor !== 'nequi' &&
-                          metodo.valor !== 'daviplata' &&
-                          metodo.valor !== 'tarjeta'
-                        "
-                        >{{ metodo.nombre }}</span
-                      >
-                      <img
-                        *ngIf="metodo.valor === 'nequi'"
-                        src="https://i.pinimg.com/1200x/2a/72/06/2a7206159d26c4305611cf3c9d1df633.jpg"
-                        alt="Nequi"
-                        class="nequi-logo-full"
-                      />
-                      <img
-                        *ngIf="metodo.valor === 'daviplata'"
-                        src="https://cdn.worldvectorlogo.com/logos/daviplata.svg"
-                        alt="Daviplata"
-                        class="daviplata-logo-full"
-                      />
-                      <img
-                        *ngIf="metodo.valor === 'tarjeta'"
-                        src="https://img.freepik.com/vector-premium/tarjeta-bancaria-sobre-fondo-blanco-numero-tarjeta-chip-nfc-aplicacion-banca-linea-cvv-pago-contacto-efectivo-anticipo-efectivo-gestion-financiera-dolares-moneda-centavo-cambio-comercial-factura_774778-490.jpg"
-                        alt="Tarjeta de crédito/débito"
-                        class="tarjeta-logo-full"
-                      />
-                    </div>
-                  </div>
-                  <input
-                    type="hidden"
-                    name="metodoPago"
-                    [(ngModel)]="reserva.metodoPago"
-                    required
+            <div class="form-group">
+              <label for="metodoPago">Método de Pago:</label>
+              <div class="metodos-pago-container">
+                <div
+                  *ngFor="let metodo of metodosPago"
+                  class="metodo-pago-item"
+                  [class.selected]="reserva.metodoPago === metodo.valor"
+                  (click)="reserva.metodoPago = metodo.valor"
+                  [class.nequi-item]="metodo.valor === 'nequi'"
+                  [class.daviplata-item]="metodo.valor === 'daviplata'"
+                  [class.tarjeta-item]="metodo.valor === 'tarjeta'"
+                >
+                  <span
+                    *ngIf="
+                      metodo.valor !== 'nequi' &&
+                      metodo.valor !== 'daviplata' &&
+                      metodo.valor !== 'tarjeta'
+                    "
+                    >{{ metodo.nombre }}</span
+                  >
+                  <img
+                    *ngIf="metodo.valor === 'nequi'"
+                    src="https://i.pinimg.com/1200x/2a/72/06/2a7206159d26c4305611cf3c9d1df633.jpg"
+                    alt="Nequi"
+                    class="nequi-logo-full"
+                  />
+                  <img
+                    *ngIf="metodo.valor === 'daviplata'"
+                    src="https://cdn.worldvectorlogo.com/logos/daviplata.svg"
+                    alt="Daviplata"
+                    class="daviplata-logo-full"
+                  />
+                  <img
+                    *ngIf="metodo.valor === 'tarjeta'"
+                    src="https://img.freepik.com/vector-premium/tarjeta-bancaria-sobre-fondo-blanco-numero-tarjeta-chip-nfc-aplicacion-banca-linea-cvv-pago-contacto-efectivo-anticipo-efectivo-gestion-financiera-dolares-moneda-centavo-cambio-comercial-factura_774778-490.jpg"
+                    alt="Tarjeta de crédito/débito"
+                    class="tarjeta-logo-full"
                   />
                 </div>
-
-                <div class="form-actions">
-                  <button type="submit" class="btn-submit">Confirmar Reserva</button>
-                  <button type="button" class="btn-cancel" (click)="toggleFormularioReserva()">
-                    Cancelar
-                  </button>
-                </div>
-              </form>
+              </div>
+              <input type="hidden" name="metodoPago" [(ngModel)]="reserva.metodoPago" required />
             </div>
-          </div>
+
+            <div class="form-actions">
+              <button
+                type="submit"
+                class="btn-submit"
+                style="
+                  background: linear-gradient(135deg, #27ae60, #219653);
+                  color: white;
+                  border: none;
+                  padding: 0.75rem 1.5rem;
+                  border-radius: 0.5rem;
+                  font-size: 1rem;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: all 0.2s ease-in-out;
+                "
+              >
+                Confirmar Reserva
+              </button>
+              <button
+                type="button"
+                class="btn-cancel"
+                style="
+                  background: linear-gradient(135deg, #e74c3c, #c0392b);
+                  color: white;
+                  border: none;
+                  padding: 0.75rem 1.5rem;
+                  border-radius: 0.5rem;
+                  font-size: 1rem;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: all 0.2s ease-in-out;
+                "
+                (click)="toggleFormularioReserva()"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
         </div>
       </div>
 
@@ -278,14 +311,38 @@
               {{ mensajePago }}
             </div>
 
-            <div class="info-reserva">
+            <div
+              class="info-reserva"
+              style="
+                background-color: #e3f2fd;
+                border: 1px solid #1e88e5;
+                border-radius: 0.5rem;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+              "
+            >
               <p><strong>Método de Pago:</strong> {{ pagoConfirmacion.metodo }}</p>
               <p><strong>Monto Total:</strong> $ {{ pagoConfirmacion.monto | number : '1.2-2' }}</p>
             </div>
 
             <form (ngSubmit)="confirmarPago()" #pagoForm="ngForm">
               <div class="modal-actions">
-                <button type="submit" class="btn-confirmar-pago" [disabled]="procesandoPago">
+                <button
+                  type="submit"
+                  class="btn-confirmar-pago"
+                  [disabled]="procesandoPago"
+                  style="
+                    background: linear-gradient(135deg, #3498db, #2980b9);
+                    color: white;
+                    border: none;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 0.5rem;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s ease-in-out;
+                  "
+                >
                   {{ procesandoPago ? 'Procesando...' : 'Confirmar Pago' }}
                 </button>
                 <button

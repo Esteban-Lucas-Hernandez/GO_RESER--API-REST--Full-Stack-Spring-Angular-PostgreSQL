@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -27,7 +27,7 @@ interface ReservaForm {
   templateUrl: './DetalleHabitacion.html',
   styleUrls: ['./DetalleHabitacion.css'],
 })
-export class DetalleHabitacionComponent implements OnInit {
+export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
   habitacion!: HabitacionDetalle;
   loading = false;
   error: string | null = null;
@@ -92,6 +92,11 @@ export class DetalleHabitacionComponent implements OnInit {
         this.loadHabitacionDetalle(this.hotelId, this.habitacionId);
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    // Posicionar la vista en la parte superior al cargar
+    window.scrollTo(0, 0);
   }
 
   loadHabitacionDetalle(hotelId: number, habitacionId: number): void {

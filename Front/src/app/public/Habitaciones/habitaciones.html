@@ -223,36 +223,38 @@
                           </div>
 
                           <div class="action-buttons">
-                            <span
-                              class="status-badge"
-                              [ngClass]="{
-                                'status-available': habitacion.estado === 'DISPONIBLE',
-                                'status-occupied': habitacion.estado === 'OCUPADA',
-                                'status-maintenance': habitacion.estado === 'MANTENIMIENTO'
-                              }"
-                              [style.background-color]="
-                                habitacion.estado === 'DISPONIBLE'
-                                  ? '#bbf7d0'
-                                  : habitacion.estado === 'OCUPADA'
-                                  ? '#ffe7ba'
-                                  : '#e2e8f0'
-                              "
-                              [style.color]="
-                                habitacion.estado === 'DISPONIBLE'
-                                  ? '#15803d'
-                                  : habitacion.estado === 'OCUPADA'
-                                  ? '#92400e'
-                                  : '#1e293b'
-                              "
-                            >
-                              {{ habitacion.estado }}
-                            </span>
-                            <button
-                              class="view-button"
-                              (click)="verDetalles(habitacion.idHabitacion)"
-                            >
-                              Ver
-                            </button>
+                            <div class="status-and-button">
+                              <span
+                                class="status-badge"
+                                [ngClass]="{
+                                  'status-available': habitacion.estado === 'DISPONIBLE',
+                                  'status-occupied': habitacion.estado === 'OCUPADA',
+                                  'status-maintenance': habitacion.estado === 'MANTENIMIENTO'
+                                }"
+                                [style.background-color]="
+                                  habitacion.estado === 'DISPONIBLE'
+                                    ? '#bbf7d0'
+                                    : habitacion.estado === 'OCUPADA'
+                                    ? '#ffe7ba'
+                                    : '#e2e8f0'
+                                "
+                                [style.color]="
+                                  habitacion.estado === 'DISPONIBLE'
+                                    ? '#15803d'
+                                    : habitacion.estado === 'OCUPADA'
+                                    ? '#92400e'
+                                    : '#1e293b'
+                                "
+                              >
+                                {{ habitacion.estado }}
+                              </span>
+                              <button
+                                class="view-button"
+                                (click)="verDetalles(habitacion.idHabitacion)"
+                              >
+                                Ver
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>

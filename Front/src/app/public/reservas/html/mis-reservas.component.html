@@ -1,54 +1,142 @@
-<div class="mis-reservas-container">
-  <h1>Mis Reservas</h1>
-
-  <!-- Botón para volver -->
-  <div class="volver-container">
-    <button class="btn-volver" (click)="volverAlInicio()">← Volver al Inicio</button>
-  </div>
-
-  <!-- Mensaje de carga -->
-  <div *ngIf="loading" class="loading">Cargando reservas...</div>
-
-  <!-- Mensaje de error -->
-  <div *ngIf="error" class="error">
-    {{ error }}
-  </div>
-
-  <!-- Lista de reservas -->
-  <div *ngIf="!loading && !error" class="reservas-list">
-    <div *ngIf="reservas.length === 0" class="no-reservas">No se encontraron reservas.</div>
-
-    <div *ngFor="let reserva of reservas" class="reserva-card">
-      <div class="reserva-info">
-        <h3>{{ reserva.nombreHotel }}</h3>
-
-        <div class="reserva-details">
-          <p><strong>Número Habitación:</strong> {{ reserva.numeroHabitacion }}</p>
-          <p><strong>Fecha Entrada:</strong> {{ reserva.fechaInicio | date : 'dd/MM/yyyy' }}</p>
-          <p><strong>Fecha Salida:</strong> {{ reserva.fechaFin | date : 'dd/MM/yyyy' }}</p>
-          <p><strong>Total:</strong> ${{ reserva.total }}</p>
-          <p><strong>Estado:</strong> {{ reserva.estado }}</p>
-          <p><strong>Método de Pago:</strong> {{ reserva.metodoPago }}</p>
-          <p>
-            <strong>Fecha Reserva:</strong> {{ reserva.fechaReserva | date : 'dd/MM/yyyy HH:mm' }}
-          </p>
+<div class="reservations-container">
+  <!-- Header con título y botón de volver -->
+  <div class="reservations-content">
+    <header class="reservations-header">
+      <div class="header-content">
+        <!-- Logo y título en la esquina izquierda -->
+        <div class="logo-title-container">
+          <img src="assets/Logo/Logo.png" alt="Logo" class="header-logo" />
         </div>
 
-        <div class="reserva-actions" *ngIf="reserva.estado?.toUpperCase() !== 'CANCELADA'">
-          <!-- Botón para descargar comprobante (solo para pagos confirmados) -->
-          <button
-            class="btn-descargar"
-            *ngIf="puedeDescargarComprobante(reserva)"
-            (click)="descargarComprobante(reserva.idReserva)"
-          >
-            Descargar Factura
-          </button>
+        <!-- Botón en la esquina derecha -->
+        <button class="back-button" (click)="volverAlInicio()">
+          <span class="material-symbols-outlined">arrow_back</span>
+          <span>Volver al Inicio</span>
+        </button>
+      </div>
+    </header>
+    <h1 class="reservations-title" style="margin-left: 30px; margin-top: 20px">Mis Reservas</h1>
+    <!-- Mensaje de carga -->
+    <div *ngIf="loading" class="loading">Cargando reservas...</div>
 
-          <button class="btn-cancelar" (click)="cancelarReserva(reserva.idReserva)" *ngIf="puedeCancelarReserva(reserva)">
-            Cancelar Reserva
-          </button>
+    <!-- Mensaje de error -->
+    <div *ngIf="error" class="error">
+      {{ error }}
+    </div>
+
+    <!-- Contenido principal cuando no hay errores -->
+    <main class="reservations-main" *ngIf="!loading && !error">
+      <!-- Mensaje cuando no hay reservas -->
+      <div *ngIf="reservas.length === 0" class="no-reservations">
+        <div class="no-reservations-content">
+          <span class="material-symbols-outlined icon-large">info</span>
+          <p class="no-reservations-title">No se encontraron reservas.</p>
+          <p class="no-reservations-text">Aún no tienes reservas registradas.</p>
         </div>
       </div>
-    </div>
+
+      <!-- Lista de reservas paginadas -->
+      <div *ngFor="let reserva of getReservasPaginadas()" class="reservation-card">
+        <div class="card-content">
+          <!-- Imagen de la habitación -->
+          <div
+            class="card-image"
+            [attr.data-alt]="'Imagen de la habitación ' + reserva.numeroHabitacion"
+            [ngStyle]="{
+              'background-image':
+                'url(' +
+                (reserva.urlImagenHabitacion || 'https://placehold.co/600x400?text=Sin+Imagen') +
+                ')'
+            }"
+          ></div>
+
+          <!-- Detalles de la reserva -->
+          <div class="card-details">
+            <div>
+              <h2 class="hotel-name">{{ reserva.nombreHotel }}</h2>
+              <p class="reservation-id">ID de Reserva: #{{ reserva.idReserva }}</p>
+
+              <div class="details-grid">
+                <p>
+                  <strong class="detail-label">Nombre del Hotel:</strong>
+                  {{ reserva.nombreHotel }}
+                </p>
+
+                <p>
+                  <strong class="detail-label">Número de Habitación:</strong>
+                  {{ reserva.numeroHabitacion }}
+                </p>
+
+                <p>
+                  <strong class="detail-label">Fecha de Entrada:</strong>
+                  {{ reserva.fechaInicio | date : 'dd MMM, yyyy' }}
+                </p>
+
+                <p>
+                  <strong class="detail-label">Fecha de Salida:</strong>
+                  {{ reserva.fechaFin | date : 'dd MMM, yyyy' }}
+                </p>
+
+                <p><strong class="detail-label">Total:</strong> ${{ reserva.total }}</p>
+
+                <p>
+                  <strong class="detail-label">Estado:</strong>
+                  {{ reserva.estado }}
+                </p>
+
+                <p>
+                  <strong class="detail-label">Método de Pago:</strong>
+                  {{ reserva.metodoPago }}
+                </p>
+
+                <p>
+                  <strong class="detail-label">Fecha de Reserva:</strong>
+                  {{ reserva.fechaReserva | date : 'dd MMM, yyyy' }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Acciones de la reserva -->
+            <div class="card-actions" *ngIf="reserva.estado?.toUpperCase() !== 'CANCELADA'">
+              <!-- Botón para descargar comprobante (solo para pagos confirmados) -->
+              <button
+                class="action-button download-button"
+                *ngIf="puedeDescargarComprobante(reserva)"
+                (click)="descargarComprobante(reserva.idReserva)"
+              >
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span>Descargar Factura</span>
+              </button>
+
+              <button
+                class="action-button cancel-button"
+                (click)="cancelarReserva(reserva.idReserva)"
+                *ngIf="puedeCancelarReserva(reserva)"
+              >
+                <span class="material-symbols-outlined">cancel</span>
+                <span>Cancelar Reserva</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paginación -->
+      <div class="pagination-container" *ngIf="reservas.length > itemsPerPage">
+        <button class="pagination-button" (click)="previousPage()" [disabled]="currentPage === 1">
+          Anterior
+        </button>
+
+        <span class="pagination-info"> Página {{ currentPage }} de {{ totalPages }} </span>
+
+        <button
+          class="pagination-button"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
+          Siguiente
+        </button>
+      </div>
+    </main>
   </div>
 </div>
