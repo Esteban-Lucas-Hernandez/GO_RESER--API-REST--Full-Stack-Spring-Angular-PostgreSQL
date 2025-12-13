@@ -13,8 +13,10 @@
     flex-direction: column;
     margin: 0 !important;
     padding: 0 !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
+    width: 100% !important;
+    /* Changed from 100vw to 100% to avoid overflow */
+    max-width: 100% !important;
+    /* Changed from 100vw to 100% */
   }
 
   main {

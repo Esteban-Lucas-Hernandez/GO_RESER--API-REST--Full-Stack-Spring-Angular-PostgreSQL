@@ -67,7 +67,7 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
     private router: Router,
     private hotelService: HotelService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Obtener el ID del usuario logueado

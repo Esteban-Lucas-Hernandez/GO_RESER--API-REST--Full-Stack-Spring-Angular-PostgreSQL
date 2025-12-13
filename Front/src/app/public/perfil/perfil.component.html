@@ -1,228 +1,334 @@
-<div class="perfil-container">
-  <h2>Perfil de Usuario</h2>
+<div class="page-container">
 
-  <!-- Mostrar mensaje de carga -->
-  <div *ngIf="loading" class="loading">
-    <p>Cargando información del perfil...</p>
-  </div>
-
-  <!-- Mostrar mensaje de error -->
-  <div *ngIf="error" class="error">
-    <h3>Error de permisos</h3>
-    <pre>{{ error }}</pre>
-    <button (click)="loadProfile()" class="btn-reintentar">Reintentar</button>
-  </div>
-
-  <!-- Mostrar información del perfil -->
-  <div *ngIf="perfil && !loading" class="perfil-card">
-    <div class="perfil-header">
-      <h3>Información Personal</h3>
-    </div>
-
-    <!-- Modo de visualización -->
-    <div *ngIf="!editMode && !showPasswordChange" class="perfil-info">
-      <!-- Foto de perfil -->
-      <div class="info-item">
-        <label>Foto de Perfil:</label>
-        <div class="input-container">
-          <div class="profile-image-container">
-            <img
-              [src]="
-                perfil.fotoUrl ||
-                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-              "
-              alt="Foto de perfil"
-              class="profile-image"
-              (error)="handleImageError($event)"
-            />
+  <!-- 
+    ENCABEZADO FIJO (HEADER)
+    Contiene el logo y la navegación principal.
+    Está fijo en la parte superior ('position: fixed' en CSS).
+  -->
+  <header>
+    <div class="header-container">
+      <div class="header-content">
+        <!-- SECCIÓN LOGO -->
+        <div class="header-logo">
+          <div class="logo-wrapper">
+            <img src="http://localhost:4200/assets/Logo/Logo.png" alt="Logo">
           </div>
-          <button
-            *ngIf="editingField !== 'fotoUrl'"
-            (click)="toggleFieldEdit('fotoUrl')"
-            class="btn-edit-icon"
-            title="Editar"
-          >
-            ✏️
-          </button>
-          <div *ngIf="editingField === 'fotoUrl'" class="edit-actions">
-            <input
-              type="text"
-              [(ngModel)]="updateData.fotoUrl"
-              placeholder="URL de la foto de perfil"
-              class="foto-url-input"
-            />
-            <button (click)="saveField('fotoUrl')" class="btn-save-icon" title="Guardar">✓</button>
-            <button (click)="toggleFieldEdit('fotoUrl')" class="btn-cancel-icon" title="Cancelar">
-              ✕
-            </button>
+        </div>
+
+        <!-- SECCIÓN NAVEGACIÓN -->
+        <div class="header-nav-container">
+          <nav class="main-nav">
+            <!-- Botón 'Volver al inicio' -->
+            <a class="nav-link nav-link-active" href="#">Volver al inicio</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 
+    CONTENIDO PRINCIPAL 
+    'main-content' ocupa el espacio restante y tiene el padding lateral.
+  -->
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <!-- ESTADO DE CARGA: Se muestra mientras 'loading' es true -->
+      <div *ngIf="loading" class="loading">
+        <p>Cargando información del perfil...</p>
+      </div>
+
+      <!-- ESTADO DE ERROR: Se muestra si 'error' tiene valor -->
+      <div *ngIf="error" class="error">
+        <h3>Error de permisos</h3>
+        <pre>{{ error }}</pre>
+        <button (click)="loadProfile()" class="btn-reintentar">Reintentar</button>
+      </div>
+
+      <!-- CONTENEDOR DE PERFIL: Se muestra si hay datos de 'perfil' y no está cargando -->
+      <div *ngIf="perfil && !loading">
+
+        <!-- 
+          TARJETA DE CABECERA DE PERFIL 
+          Muestra foto y nombre/email. 
+        -->
+        <div class="card profile-card">
+          <div class="profile-header-content">
+            <div class="profile-info">
+              <!-- Foto de Perfil (Avatar) -->
+              <div class="avatar profile-avatar" data-alt="User avatar with a colorful gradient"
+                [style.background-image]="'url(' + (perfil.fotoUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png') + ')'">
+              </div>
+              <!-- Detalles del Usuario -->
+              <div class="user-details">
+                <p class="user-name">{{ perfil.nombreCompleto }}</p>
+                <p class="user-email">{{ perfil.email }}</p>
+              </div>
+            </div>
+            <!-- Botón eliminado según requisito de diseño -->
+          </div>
+        </div>
+
+        <!-- 
+          TARJETA 1: INFORMACIÓN PERSONAL 
+          Formulario para editar nombre, documento, email y teléfono.
+        -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="section-title">Información Personal</h2>
+          </div>
+          <form class="personal-form">
+            <!-- Fila del formulario (Grid layout en CSS) -->
+            <div class="form-row">
+              <!-- Campo: Nombre Completo -->
+              <label class="form-label-wrapper">
+                <p class="input-label">Nombre Completo</p>
+                <div class="input-group">
+                  <!-- Input editable -->
+                  <input *ngIf="editingField === 'nombreCompleto'" class="form-input"
+                    [(ngModel)]="updateData.nombreCompleto" name="nombreCompleto" placeholder="Nombre completo" />
+                  <!-- Input solo lectura -->
+                  <input *ngIf="editingField !== 'nombreCompleto'" class="form-input readonly-input"
+                    [value]="perfil.nombreCompleto" readonly />
+
+                  <!-- Botón editar -->
+                  <button *ngIf="editingField !== 'nombreCompleto'" class="btn-icon"
+                    (click)="toggleFieldEdit('nombreCompleto')" title="Editar">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+                  </button>
+
+                  <!-- Botones de acción (Guardar/Cancelar) -->
+                  <div *ngIf="editingField === 'nombreCompleto'" class="action-buttons">
+                    <button class="btn-icon text-success" (click)="saveField('nombreCompleto')" title="Guardar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </button>
+                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('nombreCompleto')" title="Cancelar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Campo: Documento -->
+              <label class="form-label-wrapper">
+                <p class="input-label">Documento</p>
+                <div class="input-group">
+                  <input *ngIf="editingField === 'documento'" class="form-input" [(ngModel)]="updateData.documento"
+                    name="documento" placeholder="Documento" />
+                  <input *ngIf="editingField !== 'documento'" class="form-input readonly-input"
+                    [value]="perfil.documento || 'No proporcionado'" readonly />
+
+                  <button *ngIf="editingField !== 'documento'" class="btn-icon" (click)="toggleFieldEdit('documento')"
+                    title="Editar">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+                  </button>
+
+                  <div *ngIf="editingField === 'documento'" class="action-buttons">
+                    <button class="btn-icon text-success" (click)="saveField('documento')" title="Guardar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </button>
+                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('documento')" title="Cancelar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <div class="form-row">
+              <!-- Campo: Correo Electrónico -->
+              <label class="form-label-wrapper">
+                <p class="input-label">Correo Electrónico</p>
+                <div class="input-group">
+                  <input *ngIf="editingField === 'email'" class="form-input" [(ngModel)]="updateData.email" type="email"
+                    name="email" placeholder="Email" />
+                  <input *ngIf="editingField !== 'email'" class="form-input readonly-input" [value]="perfil.email"
+                    readonly />
+                  <button *ngIf="editingField !== 'email'" class="btn-icon" (click)="toggleFieldEdit('email')"
+                    title="Editar">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+                  </button>
+
+                  <div *ngIf="editingField === 'email'" class="action-buttons">
+                    <button class="btn-icon text-success" (click)="saveField('email')" title="Guardar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </button>
+                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('email')" title="Cancelar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Campo: Teléfono -->
+              <label class="form-label-wrapper">
+                <p class="input-label">Teléfono</p>
+                <div class="input-group">
+                  <input *ngIf="editingField === 'telefono'" class="form-input" [(ngModel)]="updateData.telefono"
+                    name="telefono" placeholder="Teléfono" />
+                  <input *ngIf="editingField !== 'telefono'" class="form-input readonly-input"
+                    [value]="perfil.telefono || 'No proporcionado'" readonly />
+                  <button *ngIf="editingField !== 'telefono'" class="btn-icon" (click)="toggleFieldEdit('telefono')"
+                    title="Editar">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+                  </button>
+
+                  <div *ngIf="editingField === 'telefono'" class="action-buttons">
+                    <button class="btn-icon text-success" (click)="saveField('telefono')" title="Guardar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </button>
+                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('telefono')" title="Cancelar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <!-- Campos adicionales: Fecha y Foto URL -->
+            <div class="form-row">
+              <label class="form-label-wrapper">
+                <p class="input-label">Fecha de Registro</p>
+                <input class="form-input readonly-input" [value]="perfil.fechaRegistro | date : 'dd/MM/yyyy'"
+                  readonly />
+              </label>
+              <label class="form-label-wrapper">
+                <p class="input-label">Foto de Perfil URL</p>
+                <div class="input-group">
+                  <input *ngIf="editingField === 'fotoUrl'" class="form-input" [(ngModel)]="updateData.fotoUrl"
+                    name="fotoUrl" placeholder="URL de la foto de perfil" />
+                  <input *ngIf="editingField !== 'fotoUrl'" class="form-input readonly-input"
+                    [value]="perfil.fotoUrl || 'No proporcionado'" readonly />
+                  <button *ngIf="editingField !== 'fotoUrl'" class="btn-icon" (click)="toggleFieldEdit('fotoUrl')"
+                    title="Editar">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+                  </button>
+
+                  <div *ngIf="editingField === 'fotoUrl'" class="action-buttons">
+                    <button class="btn-icon text-success" (click)="saveField('fotoUrl')" title="Guardar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </button>
+                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('fotoUrl')" title="Cancelar">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </form>
+        </div>
+
+        <!-- 
+          TARJETA 2: CAMBIAR CONTRASEÑA 
+        -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="section-title">Cambiar Contraseña</h2>
+          </div>
+          <form class="password-form">
+            <div class="form-field">
+              <p class="input-label">Nueva Contraseña</p>
+              <input class="form-input" [(ngModel)]="updateData.contrasena" placeholder="Ingrese nueva contraseña"
+                type="password" id="contrasena" name="contrasena" />
+            </div>
+          </form>
+          <div class="card-footer">
+            <button class="btn btn-primary" (click)="updatePassword()">Actualizar Contraseña</button>
+          </div>
+        </div>
+
+        <!-- 
+          TARJETA 3: ROL Y PERMISOS 
+          Muestra el rol actual del usuario y del token.
+        -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="section-title">Rol y Permisos</h2>
+          </div>
+          <div class="personal-form">
+            <div>
+              <p>Rol Actual (Base de Datos):</p>
+              <span class="role-badge">{{ perfil.rol }}</span>
+            </div>
+
+            <!-- Mostrar rol del token si es diferente al rol del perfil (para depuración) -->
+            <div *ngIf="userRole && userRole !== perfil.rol" class="form-field">
+              <p class="input-label">Rol de Token (Sesión):</p>
+              <span class="role-badge">{{ userRole }}</span>
+            </div>
+
+            <!-- Información adicional del token -->
+            <div *ngIf="tokenInfo" class="token-info">
+              <p class="text-text-light-secondary">
+                Información adicional del token: {{ tokenInfo.roles ? tokenInfo.roles.join(', ') : 'No identificados' }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="info-item">
-        <label>Nombre Completo:</label>
-        <div class="input-container">
-          <input
-            *ngIf="editingField === 'nombreCompleto'"
-            type="text"
-            [(ngModel)]="updateData.nombreCompleto"
-            placeholder="Nombre completo"
-          />
-          <span *ngIf="editingField !== 'nombreCompleto'">{{ perfil.nombreCompleto }}</span>
-          <button
-            *ngIf="editingField !== 'nombreCompleto'"
-            (click)="toggleFieldEdit('nombreCompleto')"
-            class="btn-edit-icon"
-            title="Editar"
-          >
-            ✏️
-          </button>
-          <div *ngIf="editingField === 'nombreCompleto'" class="edit-actions">
-            <button (click)="saveField('nombreCompleto')" class="btn-save-icon" title="Guardar">
-              ✓
-            </button>
-            <button
-              (click)="toggleFieldEdit('nombreCompleto')"
-              class="btn-cancel-icon"
-              title="Cancelar"
-            >
-              ✕
-            </button>
-          </div>
+      <!-- 
+        MENSAJE DE DATOS VACÍOS
+        Se muestra si no hay perfil y no hay error ni carga.
+      -->
+      <div *ngIf="!perfil && !loading && !error" class="no-data">
+        <p>No se encontró información de perfil.</p>
+        <p *ngIf="userRole">Su rol actual es: {{ userRole }}</p>
+        <div *ngIf="tokenInfo" class="token-info">
+          <h4>Información del Token:</h4>
+          <p>Roles: {{ tokenInfo.roles ? tokenInfo.roles.join(', ') : 'No identificados' }}</p>
         </div>
       </div>
-
-      <div class="info-item">
-        <label>Email:</label>
-        <div class="input-container">
-          <input
-            *ngIf="editingField === 'email'"
-            type="email"
-            [(ngModel)]="updateData.email"
-            placeholder="Email"
-          />
-          <span *ngIf="editingField !== 'email'">{{ perfil.email }}</span>
-          <button
-            *ngIf="editingField !== 'email'"
-            (click)="toggleFieldEdit('email')"
-            class="btn-edit-icon"
-            title="Editar"
-          >
-            ✏️
-          </button>
-          <div *ngIf="editingField === 'email'" class="edit-actions">
-            <button (click)="saveField('email')" class="btn-save-icon" title="Guardar">✓</button>
-            <button (click)="toggleFieldEdit('email')" class="btn-cancel-icon" title="Cancelar">
-              ✕
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="info-item">
-        <label>Teléfono:</label>
-        <div class="input-container">
-          <input
-            *ngIf="editingField === 'telefono'"
-            type="text"
-            [(ngModel)]="updateData.telefono"
-            placeholder="Teléfono"
-          />
-          <span *ngIf="editingField !== 'telefono'">{{
-            perfil.telefono || 'No proporcionado'
-          }}</span>
-          <button
-            *ngIf="editingField !== 'telefono'"
-            (click)="toggleFieldEdit('telefono')"
-            class="btn-edit-icon"
-            title="Editar"
-          >
-            ✏️
-          </button>
-          <div *ngIf="editingField === 'telefono'" class="edit-actions">
-            <button (click)="saveField('telefono')" class="btn-save-icon" title="Guardar">✓</button>
-            <button (click)="toggleFieldEdit('telefono')" class="btn-cancel-icon" title="Cancelar">
-              ✕
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="info-item">
-        <label>Documento:</label>
-        <div class="input-container">
-          <input
-            *ngIf="editingField === 'documento'"
-            type="text"
-            [(ngModel)]="updateData.documento"
-            placeholder="Documento"
-          />
-          <span *ngIf="editingField !== 'documento'">{{
-            perfil.documento || 'No proporcionado'
-          }}</span>
-          <button
-            *ngIf="editingField !== 'documento'"
-            (click)="toggleFieldEdit('documento')"
-            class="btn-edit-icon"
-            title="Editar"
-          >
-            ✏️
-          </button>
-          <div *ngIf="editingField === 'documento'" class="edit-actions">
-            <button (click)="saveField('documento')" class="btn-save-icon" title="Guardar">
-              ✓
-            </button>
-            <button (click)="toggleFieldEdit('documento')" class="btn-cancel-icon" title="Cancelar">
-              ✕
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="info-item">
-        <label>Fecha de Registro:</label>
-        <span>{{ perfil.fechaRegistro | date : 'dd/MM/yyyy' }}</span>
-      </div>
-
-      <!-- Mostrar rol del token si es diferente al rol del perfil -->
-      <div class="info-item" *ngIf="userRole && userRole !== perfil.rol">
-        <label>Rol de Token:</label>
-        <span>{{ userRole }}</span>
-      </div>
     </div>
-
-    <!-- Formulario de cambio de contraseña -->
-    <div *ngIf="showPasswordChange" class="password-change-form">
-      <h4>Cambiar Contraseña</h4>
-      <div class="form-group">
-        <label for="contrasena">Nueva Contraseña:</label>
-        <input
-          type="password"
-          id="contrasena"
-          [(ngModel)]="updateData.contrasena"
-          placeholder="Nueva contraseña"
-        />
-      </div>
-      <div class="password-actions">
-        <button (click)="updatePassword()" class="btn-guardar">Guardar Contraseña</button>
-        <button (click)="togglePasswordChange()" class="btn-cancelar">Cancelar</button>
-      </div>
-    </div>
-
-    <div class="perfil-actions">
-      <button (click)="togglePasswordChange()" class="btn-password">
-        {{ showPasswordChange ? 'Cancelar Cambio de Contraseña' : 'Cambiar Contraseña' }}
-      </button>
-    </div>
-  </div>
-
-  <!-- Mostrar mensaje si no hay perfil y no hay error -->
-  <div *ngIf="!perfil && !loading && !error" class="no-data">
-    <p>No se encontró información de perfil.</p>
-    <p *ngIf="userRole">Su rol actual es: {{ userRole }}</p>
-    <div *ngIf="tokenInfo" class="token-info">
-      <h4>Información del Token:</h4>
-      <p>Roles: {{ tokenInfo.roles ? tokenInfo.roles.join(', ') : 'No identificados' }}</p>
-    </div>
-  </div>
+  </main>
 </div>
