@@ -122,15 +122,28 @@ export class HotelesCarruselComponent implements OnInit, OnDestroy, AfterViewIni
           modules: [Navigation, Pagination, Autoplay],
           slidesPerView: 4,
           spaceBetween: 20,
-          loop: false,
+          loop: true,
           centeredSlides: false,
           speed: 600,
-          autoplay: false,
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+          },
           navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
           },
           breakpoints: {
+            // when window width >= 320px
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            // when window width >= 480px
+            480: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
             // when window width >= 640px
             640: {
               slidesPerView: 1,

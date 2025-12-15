@@ -435,24 +435,26 @@
 .sign-in-container {
   left: 0;
   width: 50%;
-  z-index: 2;
+  z-index: 200;
+  opacity: 1;
 }
 
 .modal-content.right-panel-active .sign-in-container {
   transform: translateX(100%);
+  opacity: 0;
 }
 
 .sign-up-container {
   left: 0;
   width: 50%;
   opacity: 0;
-  z-index: 1;
+  z-index: 190;
 }
 
 .modal-content.right-panel-active .sign-up-container {
   transform: translateX(100%);
   opacity: 1;
-  z-index: 5;
+  z-index: 210;
   animation: show 0.6s;
 }
 
@@ -473,28 +475,22 @@
 .overlay-container {
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 50%;
+  left: 0;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   transition: transform 0.6s ease-in-out;
-  z-index: 100;
+  z-index: 150;
 }
 
 .modal-content.right-panel-active .overlay-container {
-  transform: translateX(-100%);
+  transform: translateX(0);
 }
 
 .overlay {
-  background: #41b6ff;
-  background: -webkit-linear-gradient(to right, #033e62, #65f2f9);
-  background: linear-gradient(to right, #024c7a, #2bd5ff);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 0 0;
   color: #ffffff;
   position: relative;
-  left: -100%;
+  left: 0;
   height: 100%;
   width: 200%;
   transform: translateX(0);
@@ -502,7 +498,7 @@
 }
 
 .modal-content.right-panel-active .overlay {
-  transform: translateX(50%);
+  transform: translateX(-9%);
 }
 
 .overlay-panel {
@@ -511,30 +507,40 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 40px;
+  padding: 0;
   text-align: center;
   top: 0;
   height: 100%;
   width: 50%;
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
+  background: #41b6ff;
+  background: -webkit-linear-gradient(to right, #033e62, #65f2f9);
+  background: linear-gradient(to right, #024c7a, #2bd5ff);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
 }
 
 .overlay-left {
-  transform: translateX(-20%);
+  transform: translateX(0);
+  opacity: 0;
 }
 
 .modal-content.right-panel-active .overlay-left {
-  transform: translateX(0);
+  transform: translateX(18%);
+  opacity: 1;
 }
 
 .overlay-right {
   right: 0;
-  transform: translateX(0);
+  transform: translateX(0%);
+  opacity: 1;
 }
 
 .modal-content.right-panel-active .overlay-right {
-  transform: translateX(20%);
+  transform: translateX(-25%);
+  opacity: 0;
 }
 
 .social-container {

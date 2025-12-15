@@ -299,10 +299,6 @@
             <h2 class="section-title">Rol y Permisos</h2>
           </div>
           <div class="personal-form">
-            <div>
-              <p>Rol Actual (Base de Datos):</p>
-              <span class="role-badge">{{ perfil.rol }}</span>
-            </div>
 
             <!-- Mostrar rol del token si es diferente al rol del perfil (para depuración) -->
             <div *ngIf="userRole && userRole !== perfil.rol" class="form-field">

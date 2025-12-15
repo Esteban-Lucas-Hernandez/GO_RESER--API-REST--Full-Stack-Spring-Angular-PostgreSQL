@@ -108,6 +108,7 @@
   transform: scale(1) !important;
   transition: all 0.3s ease !important;
   position: relative !important;
+  flex-shrink: 0 !important;
 }
 
 .hotel-card {
@@ -126,6 +127,7 @@
   flex-direction: column;
   height: 100%;
   position: relative;
+  flex-shrink: 0;
 }
 
 .hotel-card::before {
@@ -149,6 +151,7 @@
   position: relative;
   height: 160px;
   flex-shrink: 0;
+  width: 100% !important;
 }
 
 .hotel-image {
@@ -167,6 +170,7 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
+  display: block;
 }
 
 .hotel-card:hover .hotel-image.has-image img {
@@ -183,6 +187,7 @@
   color: #6c757d;
   padding: 15px;
   text-align: center;
+  width: 100% !important;
 }
 
 .placeholder-icon {
@@ -465,6 +470,86 @@
   .swiper-pagination-bullet {
     width: 10px;
     height: 10px;
+  }
+}
+
+/* Mejoras adicionales para móviles */
+@media (max-width: 640px) {
+  .swiper-slide {
+    width: calc(100% - 10px) !important;
+    max-width: calc(100% - 10px) !important;
+    margin: 0 5px !important;
+  }
+
+  .hotel-image-container {
+    height: 140px;
+  }
+
+  .hotel-info {
+    padding: 12px;
+  }
+
+  .hotel-name {
+    font-size: 1.1rem;
+  }
+
+  .location-text {
+    font-size: 0.8rem;
+  }
+
+  .hotel-details p {
+    font-size: 0.75rem;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 32px;
+    height: 32px;
+    top: calc(50% - 16px);
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 16px;
+  }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .swiper-slide {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 10px 0 !important;
+  }
+
+  .hotel-image-container {
+    height: 120px;
+  }
+
+  .hotel-info {
+    padding: 10px;
+  }
+
+  .hotel-name {
+    font-size: 1rem;
+  }
+
+  .location-text {
+    font-size: 0.75rem;
+  }
+
+  .hotel-details p {
+    font-size: 0.7rem;
+  }
+
+  .btn-ver-habitaciones {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
   }
 }
 
