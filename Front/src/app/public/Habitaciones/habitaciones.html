@@ -1,505 +1,459 @@
-<!DOCTYPE html>
-<html class="light" lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>{{ hotel.nombre }} - Detalles y Habitaciones</title>
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="habitaciones.css" />
-  </head>
-  <body>
-    <div class="layout-container">
-      <div class="layout-container">
-        <!-- Incluir el componente de navegación -->
-        <app-nav></app-nav>
-        <main>
-          <div class="layout-content-container">
-            <!-- Breadcrumbs -->
-            <div class="breadcrumbs">
-              <a class="breadcrumb-link" href="/public">Hoteles</a>
-              <span class="breadcrumb-link">/</span>
-              <span class="breadcrumb-current">{{ hotel.nombre }}</span>
-            </div>
+<div class="layout-container">
+  <!-- Incluir el componente de navegación -->
+  <app-nav></app-nav>
+  <main>
+    <div class="layout-content-container">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a class="breadcrumb-link" href="/public">Hoteles</a>
+        <span class="breadcrumb-link">/</span>
+        <span class="breadcrumb-current">{{ hotel.nombre }}</span>
+      </div>
 
-            <!-- PageHeading -->
-            <div class="page-heading">
-              <div class="hotel-header">
-                <div class="hotel-title-container">
-                  <h1 class="hotel-title">{{ hotel.nombre }}</h1>
-                  <!-- Filtro de búsqueda movido aquí, al lado del título -->
-                  <div
-                    class="search-filter-container"
-                    style="
-                      flex-grow: 1;
-                      max-width: 620px;
-                      border: 1px solid #63addd;
-                      border-radius: 10px;
-                    "
-                  >
-                    <div class="search-box">
-                      <input
-                        type="text"
-                        class="search-input"
-                        placeholder="Buscar habitaciones..."
-                        [(ngModel)]="searchTerm"
-                        (input)="onSearchInput()"
-                        (focus)="showSuggestions = true"
-                        (blur)="onSearchBlur()"
-                      />
-                      <span class="search-icon material-symbols-outlined">search</span>
-                      <button
-                        *ngIf="searchTerm"
-                        class="clear-search"
-                        (click)="clearFilter()"
-                        type="button"
-                      >
-                        ✕
-                      </button>
-                    </div>
-
-                    <!-- Lista de sugerencias -->
-                    <div
-                      class="suggestions-dropdown"
-                      *ngIf="showSuggestions && filteredHabitaciones.length > 0 && searchTerm"
-                    >
-                      <div
-                        class="suggestion-item"
-                        *ngFor="let habitacion of filteredHabitaciones"
-                        (mousedown)="selectHabitacion(habitacion)"
-                      >
-                        Habitación {{ habitacion.numero }} - {{ habitacion.categoria.nombre }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p class="hotel-description">{{ hotel.descripcion }}</p>
+      <!-- PageHeading -->
+      <div class="page-heading">
+        <div class="hotel-header">
+          <div class="hotel-title-container">
+            <h1 class="hotel-title">{{ hotel.nombre }}</h1>
+            <!-- Filtro de búsqueda movido aquí, al lado del título -->
+            <div
+              class="search-filter-container"
+              style="flex-grow: 1; max-width: 620px; border: 1px solid #63addd; border-radius: 10px"
+            >
+              <div class="search-box">
+                <input
+                  type="text"
+                  class="search-input"
+                  placeholder="Buscar habitaciones..."
+                  [(ngModel)]="searchTerm"
+                  (input)="onSearchInput()"
+                  (focus)="showSuggestions = true"
+                  (blur)="onSearchBlur()"
+                />
+                <span class="search-icon material-symbols-outlined">search</span>
+                <button
+                  *ngIf="searchTerm"
+                  class="clear-search"
+                  (click)="clearFilter()"
+                  type="button"
+                >
+                  ✕
+                </button>
               </div>
-              <div class="hotel-rating">
-                <div class="stars-container">
-                  <span
-                    *ngFor="let star of [].constructor(hotel.estrellas || 0); let i = index"
-                    class="material-symbols-outlined star-filled"
-                    style="font-variation-settings: 'FILL' 1"
-                    >star</span
-                  >
-                  <span
-                    *ngFor="let star of [].constructor(5 - (hotel.estrellas || 0)); let i = index"
-                    class="material-symbols-outlined star-empty"
-                    >star</span
-                  >
-                </div>
-                <span class="rating-text">{{ hotel.estrellas }} estrellas</span>
-              </div>
-            </div>
 
-            <!-- Main Content Grid -->
-            <div class="main-grid">
-              <!-- Left Column -->
-              <div class="left-column">
-                <!-- HeaderImage -->
+              <!-- Lista de sugerencias -->
+              <div
+                class="suggestions-dropdown"
+                *ngIf="showSuggestions && filteredHabitaciones.length > 0 && searchTerm"
+              >
                 <div
-                  class="header-image"
-                  [attr.data-alt]="'Vista exterior del hotel ' + (hotel.nombre || 'seleccionado')"
-                  [style.background-image]="
-                    'url(' +
-                    (hotel.imagenUrl ||
-                      'https://lh3.googleusercontent.com/aida-public/AB6AXuAzLpvSZBH8mXfxs_YfWe1kNAp97DeTvwHyH2wM-CbPZHyKbSrmFyuVvJ-qNEQBPA42iVFSRFTWsG7FSZ-ZaF0ir4YSFJcl526noYq4sUUCqN3pPrpPh4XB_IqYceuPGKVt4HvUCNXwYRb94gH4BvbZ62ouUJdaafmWa-Dv-MV4loZ1UUHOJSnFz8nFt61PdeohfIt5Wv4NfzYEvvI4l1XDg3zpNPkVlZ2EKL-YrH8HpmvXHBCtyToTS6L0AVX1LB6nRISkhj03Q4c') +
-                    ')'
-                  "
-                ></div>
-
-                <!-- Hotel Information -->
-                <div class="amenities-section">
-                  <h2 class="section-title">Información del Hotel</h2>
-                  <div class="hotel-info-grid">
-                    <div class="info-item">
-                      <span class="material-symbols-outlined">location_on</span>
-                      <span
-                        >{{ hotel.ciudad?.nombre }}, {{ hotel.ciudad?.departamento?.nombre }}</span
-                      >
-                    </div>
-                    <div class="info-item">
-                      <span class="material-symbols-outlined">email</span>
-                      <span>{{ hotel.email }}</span>
-                    </div>
-                    <div class="info-item">
-                      <span class="material-symbols-outlined">schedule</span>
-                      <span>Check-in: {{ hotel.checkIn }} | Check-out: {{ hotel.checkOut }}</span>
-                    </div>
-                    <div class="info-item">
-                      <span class="material-symbols-outlined">star</span>
-                      <span>Calificación: {{ hotel.estrellas }} estrellas</span>
-                    </div>
-                  </div>
-
-                  <div class="cancelation-policy">
-                    <h3>Política de Cancelación</h3>
-                    <p>
-                      {{ hotel.politicaCancelacion }}. Después de ese tiempo, se cobrará una noche
-                      de estadía.
-                    </p>
-                  </div>
-                </div>
-
-                <!-- Map -->
-                <div class="map-section">
-                  <h2>Ubicación del Hotel</h2>
-                  <div class="map-container">
-                    <div id="map" class="map"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right Column (Rooms) -->
-              <div class="right-column">
-                <div class="rooms-section">
-                  <div class="section-header">
-                    <h2 class="section-title">Habitaciones Disponibles</h2>
-                    <span class="room-count">{{ habitaciones.length }} habitaciones</span>
-                  </div>
-
-                  <div class="rooms-list">
-                    <div *ngIf="loading" class="loading-message">Cargando habitaciones...</div>
-                    <div *ngIf="error" class="error-message">{{ error }}</div>
-
-                    <div
-                      *ngIf="!loading && !error && habitaciones.length === 0"
-                      class="no-habitaciones"
-                    >
-                      No se encontraron habitaciones disponibles.
-                    </div>
-
-                    <!-- Room Item -->
-                    <div *ngFor="let habitacion of habitacionesPaginadas" class="room-card">
-                      <div class="room-image-container">
-                        <div
-                          class="room-image"
-                          [attr.data-alt]="'Habitación ' + habitacion.numero"
-                          [style.background-image]="
-                            habitacion.imagenUrl ? 'url(' + habitacion.imagenUrl + ')' : 'none'
-                          "
-                          [ngClass]="{ placeholder: !habitacion.imagenUrl }"
-                        >
-                          <div *ngIf="!habitacion.imagenUrl" class="image-placeholder">
-                            <span class="material-symbols-outlined">image</span>
-                            <span>Imagen no disponible</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="room-details">
-                        <div class="room-info">
-                          <h3 class="room-name">Habitación {{ habitacion.numero }}</h3>
-                          <div class="room-specs">
-                            <div class="spec-item">
-                              <span class="material-symbols-outlined spec-icon">person</span>
-                              <span>{{ habitacion.capacidad }} personas</span>
-                            </div>
-                            <div class="spec-item">
-                              <span class="categoria-badge">
-                                <span class="material-symbols-outlined spec-icon">king_bed</span>
-                                {{ habitacion.categoria.nombre }}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="room-actions">
-                          <div class="price-container">
-                            <span class="price"
-                              ><span class="currency-cop">COP</span>
-                              {{ habitacion.precio | number : '1.0-0' }}</span
-                            >
-                            <span class="price-period">por noche</span>
-                          </div>
-
-                          <div class="action-buttons">
-                            <div class="status-and-button">
-                              <span
-                                class="status-badge"
-                                [ngClass]="{
-                                  'status-available': habitacion.estado === 'DISPONIBLE',
-                                  'status-occupied': habitacion.estado === 'OCUPADA',
-                                  'status-maintenance': habitacion.estado === 'MANTENIMIENTO'
-                                }"
-                                [style.background-color]="
-                                  habitacion.estado === 'DISPONIBLE'
-                                    ? '#bbf7d0'
-                                    : habitacion.estado === 'OCUPADA'
-                                    ? '#ffe7ba'
-                                    : '#e2e8f0'
-                                "
-                                [style.color]="
-                                  habitacion.estado === 'DISPONIBLE'
-                                    ? '#15803d'
-                                    : habitacion.estado === 'OCUPADA'
-                                    ? '#92400e'
-                                    : '#1e293b'
-                                "
-                              >
-                                {{ habitacion.estado }}
-                              </span>
-                              <button
-                                class="view-button"
-                                (click)="verDetalles(habitacion.idHabitacion)"
-                              >
-                                Ver
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Paginación -->
-                    <div class="pagination" *ngIf="totalPages > 1">
-                      <button
-                        class="pagination-btn"
-                        (click)="previousPage()"
-                        [disabled]="currentPage === 1"
-                      >
-                        <span class="material-symbols-outlined">chevron_left</span>
-                      </button>
-
-                      <span class="pagination-info">
-                        Página {{ currentPage }} de {{ totalPages }}
-                      </span>
-
-                      <button
-                        class="pagination-btn"
-                        (click)="nextPage()"
-                        [disabled]="currentPage === totalPages"
-                      >
-                        <span class="material-symbols-outlined">chevron_right</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Customer Reviews Section -->
-            <div class="reviews-section" *ngIf="!loading && !error">
-              <div class="reviews-header">
-                <h2 class="section-title">Reseñas del Hotel</h2>
-                <div class="reviews-header-controls">
-                  <div class="reviews-count">{{ resenas.length }} reseñas</div>
-                  <button class="add-review-button" (click)="openCreateModal()">
-                    <span class="material-symbols-outlined">add</span>
-                    <span>Añadir Reseña</span>
-                  </button>
-                </div>
-              </div>
-
-              <div *ngIf="resenas.length === 0" class="no-resenas">
-                <div class="no-reviews-icon">
-                  <span class="material-symbols-outlined">rate_review</span>
-                </div>
-                <p>No hay reseñas para este hotel todavía.</p>
-                <p>¡Sé el primero en compartir tu experiencia!</p>
-              </div>
-
-              <div class="reviews-list" *ngIf="resenas.length > 0">
-                <!-- Mostrar solo las reseñas paginadas -->
-                <div *ngFor="let resena of resenasPaginadas" class="review-item">
-                  <div class="reviewer-info">
-                    <div class="resena-usuario-avatar" *ngIf="resena.fotoUrl">
-                      <img
-                        [src]="resena.fotoUrl"
-                        [alt]="'Foto de ' + resena.nombreUsuario"
-                        class="review-avatar"
-                      />
-                    </div>
-                    <div class="resena-usuario-avatar placeholder" *ngIf="!resena.fotoUrl">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                        [alt]="'Foto de ' + resena.nombreUsuario"
-                        class="review-avatar"
-                      />
-                    </div>
-                    <div class="reviewer-details">
-                      <p class="reviewer-name">{{ resena.nombreUsuario }}</p>
-                      <p class="review-text">{{ resena.comentario }}</p>
-                      <p class="review-date">{{ resena.fechaResena | date : 'mediumDate' }}</p>
-                    </div>
-                  </div>
-
-                  <div class="review-content">
-                    <div class="star-rating">
-                      <span
-                        *ngFor="
-                          let star of [].constructor(getValidCalificacion(resena.calificacion));
-                          let i = index
-                        "
-                        class="material-symbols-outlined"
-                        style="font-variation-settings: 'FILL' 1; color: #f59e0b"
-                        >star</span
-                      >
-                      <span
-                        *ngFor="
-                          let star of [].constructor(getEmptyStars(resena.calificacion));
-                          let i = index
-                        "
-                        class="material-symbols-outlined"
-                        style="color: #f59e0b"
-                        >star</span
-                      >
-                    </div>
-                    <div class="review-actions" *ngIf="isUserReview(resena)">
-                      <button
-                        class="action-button"
-                        (click)="editarResena(resena)"
-                        title="Editar reseña"
-                      >
-                        <span class="material-symbols-outlined">edit</span>
-                      </button>
-                      <button
-                        class="action-button delete"
-                        (click)="deleteResena(resena.idResena)"
-                        title="Eliminar reseña"
-                      >
-                        <span class="material-symbols-outlined">delete</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Paginación de reseñas -->
-                <div class="pagination" *ngIf="totalResenasPages > 0">
-                  <button
-                    class="pagination-btn"
-                    (click)="previousResenaPage()"
-                    [disabled]="currentResenaPage === 1"
-                    title="Página anterior"
-                  >
-                    <span class="material-symbols-outlined">chevron_left</span>
-                  </button>
-
-                  <span class="pagination-info">
-                    Página {{ currentResenaPage }} de {{ totalResenasPages }}
-                  </span>
-
-                  <button
-                    class="pagination-btn"
-                    (click)="nextResenaPage()"
-                    [disabled]="currentResenaPage === totalResenasPages"
-                    title="Página siguiente"
-                  >
-                    <span class="material-symbols-outlined">chevron_right</span>
-                  </button>
+                  class="suggestion-item"
+                  *ngFor="let habitacion of filteredHabitaciones"
+                  (mousedown)="selectHabitacion(habitacion)"
+                >
+                  Habitación {{ habitacion.numero }} - {{ habitacion.categoria.nombre }}
                 </div>
               </div>
             </div>
           </div>
-        </main>
-        <!-- Incluir el componente de footer -->
-        <app-footer></app-footer>
-      </div>
-    </div>
-
-    <!-- Modal de Edición de Reseña -->
-    <div class="modal" *ngIf="showEditModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Editar Reseña</h3>
-          <span class="close" (click)="closeEditModal()">&times;</span>
+          <p class="hotel-description">{{ hotel.descripcion }}</p>
         </div>
-        <div class="modal-body">
-          <form (ngSubmit)="saveResenaChanges()" #editForm="ngForm">
-            <div class="form-group">
-              <label for="calificacion">Calificación:</label>
-              <div class="rating-input">
-                <span
-                  *ngFor="let star of [].constructor(5); let i = index"
-                  class="star"
-                  [class.filled]="i < editCalificacion"
-                  (click)="editCalificacion = i + 1"
-                  >★</span
-                >
+        <div class="hotel-rating">
+          <div class="stars-container">
+            <span
+              *ngFor="let star of [].constructor(hotel.estrellas || 0); let i = index"
+              class="material-symbols-outlined star-filled"
+              style="font-variation-settings: 'FILL' 1"
+              >star</span
+            >
+            <span
+              *ngFor="let star of [].constructor(5 - (hotel.estrellas || 0)); let i = index"
+              class="material-symbols-outlined star-empty"
+              >star</span
+            >
+          </div>
+          <span class="rating-text">{{ hotel.estrellas }} estrellas</span>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="main-grid">
+        <!-- Left Column -->
+        <div class="left-column">
+          <!-- HeaderImage -->
+          <div
+            class="header-image"
+            [attr.data-alt]="'Vista exterior del hotel ' + (hotel.nombre || 'seleccionado')"
+            [style.background-image]="
+              'url(' +
+              (hotel.imagenUrl ||
+                'https://lh3.googleusercontent.com/aida-public/AB6AXuAzLpvSZBH8mXfxs_YfWe1kNAp97DeTvwHyH2wM-CbPZHyKbSrmFyuVvJ-qNEQBPA42iVFSRFTWsG7FSZ-ZaF0ir4YSFJcl526noYq4sUUCqN3pPrpPh4XB_IqYceuPGKVt4HvUCNXwYRb94gH4BvbZ62ouUJdaafmWa-Dv-MV4loZ1UUHOJSnFz8nFt61PdeohfIt5Wv4NfzYEvvI4l1XDg3zpNPkVlZ2EKL-YrH8HpmvXHBCtyToTS6L0AVX1LB6nRISkhj03Q4c') +
+              ')'
+            "
+          ></div>
+
+          <!-- Hotel Information -->
+          <div class="amenities-section">
+            <h2 class="section-title">Información del Hotel</h2>
+            <div class="hotel-info-grid">
+              <div class="info-item">
+                <span class="material-symbols-outlined">location_on</span>
+                <span>{{ hotel.ciudad?.nombre }}, {{ hotel.ciudad?.departamento?.nombre }}</span>
+              </div>
+              <div class="info-item">
+                <span class="material-symbols-outlined">email</span>
+                <span>{{ hotel.email }}</span>
+              </div>
+              <div class="info-item">
+                <span class="material-symbols-outlined">schedule</span>
+                <span>Check-in: {{ hotel.checkIn }} | Check-out: {{ hotel.checkOut }}</span>
+              </div>
+              <div class="info-item">
+                <span class="material-symbols-outlined">star</span>
+                <span>Calificación: {{ hotel.estrellas }} estrellas</span>
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="comentario">Comentario:</label>
-              <textarea
-                id="comentario"
-                [(ngModel)]="editComentario"
-                name="comentario"
-                rows="4"
-                required
-                class="form-control"
-                placeholder="Comparte tu experiencia en este hotel..."
-              ></textarea>
+            <div class="cancelation-policy">
+              <h3>Política de Cancelación</h3>
+              <p>
+                {{ hotel.politicaCancelacion }}. Después de ese tiempo, se cobrará una noche de
+                estadía.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column (Rooms) -->
+        <div class="right-column">
+          <div class="rooms-section">
+            <div class="section-header">
+              <h2 class="section-title">Habitaciones Disponibles</h2>
+              <span class="room-count">{{ habitaciones.length }} habitaciones</span>
             </div>
 
-            <div class="form-actions">
-              <button type="button" class="btn-cancelar" (click)="closeEditModal()">
-                Cancelar
-              </button>
-              <button type="submit" class="btn-guardar" [disabled]="!editForm.form.valid">
-                Guardar Cambios
-              </button>
+            <div class="rooms-list">
+              <div *ngIf="loading" class="loading-message">Cargando habitaciones...</div>
+              <div *ngIf="error" class="error-message">{{ error }}</div>
+
+              <div *ngIf="!loading && !error && habitaciones.length === 0" class="no-habitaciones">
+                No se encontraron habitaciones disponibles.
+              </div>
+
+              <!-- Room Item -->
+              <div *ngFor="let habitacion of habitacionesPaginadas" class="room-card">
+                <div class="room-image-container">
+                  <div
+                    class="room-image"
+                    [attr.data-alt]="'Habitación ' + habitacion.numero"
+                    [style.background-image]="
+                      habitacion.imagenUrl ? 'url(' + habitacion.imagenUrl + ')' : 'none'
+                    "
+                    [ngClass]="{ placeholder: !habitacion.imagenUrl }"
+                  >
+                    <div *ngIf="!habitacion.imagenUrl" class="image-placeholder">
+                      <span class="material-symbols-outlined">image</span>
+                      <span>Imagen no disponible</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="room-details">
+                  <div class="room-info">
+                    <h3 class="room-name">Habitación {{ habitacion.numero }}</h3>
+                    <div class="room-specs">
+                      <div class="spec-item">
+                        <span class="material-symbols-outlined spec-icon">person</span>
+                        <span>{{ habitacion.capacidad }} personas</span>
+                      </div>
+                      <div class="spec-item">
+                        <span class="categoria-badge">
+                          <span class="material-symbols-outlined spec-icon">king_bed</span>
+                          {{ habitacion.categoria.nombre }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="room-actions">
+                    <div class="price-container">
+                      <span class="price"
+                        ><span class="currency-cop">COP</span>
+                        {{ habitacion.precio | number : '1.0-0' }}</span
+                      >
+                      <span class="price-period">por noche</span>
+                    </div>
+
+                    <div class="action-buttons">
+                      <div class="status-and-button">
+                        <span
+                          class="status-badge"
+                          [ngClass]="{
+                            'status-available': habitacion.estado === 'DISPONIBLE',
+                            'status-occupied': habitacion.estado === 'OCUPADA',
+                            'status-maintenance': habitacion.estado === 'MANTENIMIENTO'
+                          }"
+                          [style.background-color]="
+                            habitacion.estado === 'DISPONIBLE'
+                              ? '#bbf7d0'
+                              : habitacion.estado === 'OCUPADA'
+                              ? '#ffe7ba'
+                              : '#e2e8f0'
+                          "
+                          [style.color]="
+                            habitacion.estado === 'DISPONIBLE'
+                              ? '#15803d'
+                              : habitacion.estado === 'OCUPADA'
+                              ? '#92400e'
+                              : '#1e293b'
+                          "
+                        >
+                          {{ habitacion.estado }}
+                        </span>
+                        <button class="view-button" (click)="verDetalles(habitacion.idHabitacion)">
+                          Ver
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Paginación -->
+              <div class="pagination" *ngIf="totalPages > 1">
+                <button
+                  class="pagination-btn"
+                  (click)="previousPage()"
+                  [disabled]="currentPage === 1"
+                >
+                  <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+
+                <span class="pagination-info"> Página {{ currentPage }} de {{ totalPages }} </span>
+
+                <button
+                  class="pagination-btn"
+                  (click)="nextPage()"
+                  [disabled]="currentPage === totalPages"
+                >
+                  <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Modal de Creación de Reseña -->
-    <div class="modal" *ngIf="showCreateModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Añadir Reseña</h3>
-          <span class="close" (click)="closeCreateModal()">&times;</span>
+      <!-- Map Section moved outside the grid to take full width -->
+      <div class="map-section-full">
+        <h2>Ubicación del Hotel</h2>
+        <div class="map-container" style="width: 100%; height: 500px; margin: 0 auto">
+          <div id="map" class="map" style="width: 100%; height: 100%"></div>
         </div>
-        <div class="modal-body">
-          <form (ngSubmit)="saveNewResena()" #createForm="ngForm">
-            <div class="form-group">
-              <label for="newCalificacion">Calificación:</label>
-              <div class="rating-input">
-                <span
-                  *ngFor="let star of [].constructor(5); let i = index"
-                  class="star"
-                  [class.filled]="i < newCalificacion"
-                  (click)="newCalificacion = i + 1"
-                  >★</span
-                >
+      </div>
+
+      <!-- Customer Reviews Section -->
+      <div class="reviews-section" *ngIf="!loading && !error">
+        <div class="reviews-header">
+          <h2 class="section-title">Reseñas del Hotel</h2>
+          <div class="reviews-header-controls">
+            <div class="reviews-count">{{ resenas.length }} reseñas</div>
+            <button class="add-review-button" (click)="openCreateModal()">
+              <span class="material-symbols-outlined">add</span>
+              <span>Añadir Reseña</span>
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="resenas.length === 0" class="no-resenas">
+          <div class="no-reviews-icon">
+            <span class="material-symbols-outlined">rate_review</span>
+          </div>
+          <p>No hay reseñas para este hotel todavía.</p>
+          <p>¡Sé el primero en compartir tu experiencia!</p>
+        </div>
+
+        <div class="reviews-list" *ngIf="resenas.length > 0">
+          <!-- Mostrar solo las reseñas paginadas -->
+          <div *ngFor="let resena of resenasPaginadas" class="review-item">
+            <div class="reviewer-info">
+              <div class="resena-usuario-avatar" *ngIf="resena.fotoUrl">
+                <img
+                  [src]="resena.fotoUrl"
+                  [alt]="'Foto de ' + resena.nombreUsuario"
+                  class="review-avatar"
+                />
+              </div>
+              <div class="resena-usuario-avatar placeholder" *ngIf="!resena.fotoUrl">
+                <img
+                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                  [alt]="'Foto de ' + resena.nombreUsuario"
+                  class="review-avatar"
+                />
+              </div>
+              <div class="reviewer-details">
+                <p class="reviewer-name">{{ resena.nombreUsuario }}</p>
+                <p class="review-text">{{ resena.comentario }}</p>
+                <p class="review-date">{{ resena.fechaResena | date : 'mediumDate' }}</p>
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="newComentario">Comentario:</label>
-              <textarea
-                id="newComentario"
-                [(ngModel)]="newComentario"
-                name="newComentario"
-                rows="4"
-                required
-                class="form-control"
-                placeholder="¿Qué te pareció tu estancia en este hotel?"
-              ></textarea>
+            <div class="review-content">
+              <div class="star-rating">
+                <span
+                  *ngFor="
+                    let star of [].constructor(getValidCalificacion(resena.calificacion));
+                    let i = index
+                  "
+                  class="material-symbols-outlined"
+                  style="font-variation-settings: 'FILL' 1; color: #f59e0b"
+                  >star</span
+                >
+                <span
+                  *ngFor="
+                    let star of [].constructor(getEmptyStars(resena.calificacion));
+                    let i = index
+                  "
+                  class="material-symbols-outlined"
+                  style="color: #f59e0b"
+                  >star</span
+                >
+              </div>
+              <div class="review-actions" *ngIf="isUserReview(resena)">
+                <button class="action-button" (click)="editarResena(resena)" title="Editar reseña">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
+                <button
+                  class="action-button delete"
+                  (click)="deleteResena(resena.idResena)"
+                  title="Eliminar reseña"
+                >
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
             </div>
+          </div>
 
-            <div class="form-actions">
-              <button type="button" class="btn-cancelar" (click)="closeCreateModal()">
-                Cancelar
-              </button>
-              <button type="submit" class="btn-guardar" [disabled]="!createForm.form.valid">
-                Añadir Reseña
-              </button>
-            </div>
-          </form>
+          <!-- Paginación de reseñas -->
+          <div class="pagination" *ngIf="totalResenasPages > 0">
+            <button
+              class="pagination-btn"
+              (click)="previousResenaPage()"
+              [disabled]="currentResenaPage === 1"
+              title="Página anterior"
+            >
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+
+            <span class="pagination-info">
+              Página {{ currentResenaPage }} de {{ totalResenasPages }}
+            </span>
+
+            <button
+              class="pagination-btn"
+              (click)="nextResenaPage()"
+              [disabled]="currentResenaPage === totalResenasPages"
+              title="Página siguiente"
+            >
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </body>
-</html>
+  </main>
+  <!-- Incluir el componente de footer -->
+  <app-footer></app-footer>
+</div>
+
+<!-- Modal de Edición de Reseña -->
+<div class="modal" *ngIf="showEditModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Editar Reseña</h3>
+      <span class="close" (click)="closeEditModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="saveResenaChanges()" #editForm="ngForm">
+        <div class="form-group">
+          <label for="calificacion">Calificación:</label>
+          <div class="rating-input">
+            <span
+              *ngFor="let star of [].constructor(5); let i = index"
+              class="star"
+              [class.filled]="i < editCalificacion"
+              (click)="editCalificacion = i + 1"
+              >★</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="comentario">Comentario:</label>
+          <textarea
+            id="comentario"
+            [(ngModel)]="editComentario"
+            name="comentario"
+            rows="4"
+            required
+            class="form-control"
+            placeholder="Comparte tu experiencia en este hotel..."
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancelar" (click)="closeEditModal()">Cancelar</button>
+          <button type="submit" class="btn-guardar" [disabled]="!editForm.form.valid">
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Creación de Reseña -->
+<div class="modal" *ngIf="showCreateModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Añadir Reseña</h3>
+      <span class="close" (click)="closeCreateModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="saveNewResena()" #createForm="ngForm">
+        <div class="form-group">
+          <label for="newCalificacion">Calificación:</label>
+          <div class="rating-input">
+            <span
+              *ngFor="let star of [].constructor(5); let i = index"
+              class="star"
+              [class.filled]="i < newCalificacion"
+              (click)="newCalificacion = i + 1"
+              >★</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="newComentario">Comentario:</label>
+          <textarea
+            id="newComentario"
+            [(ngModel)]="newComentario"
+            name="newComentario"
+            rows="4"
+            required
+            class="form-control"
+            placeholder="¿Qué te pareció tu estancia en este hotel?"
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancelar" (click)="closeCreateModal()">Cancelar</button>
+          <button type="submit" class="btn-guardar" [disabled]="!createForm.form.valid">
+            Añadir Reseña
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

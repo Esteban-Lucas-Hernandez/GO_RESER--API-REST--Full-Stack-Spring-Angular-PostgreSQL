@@ -22,3 +22,23 @@ html {
   width: 100%;
   overflow-x: hidden;
 }
+
+/* Mejoras globales para responsive design */
+* {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Evitar scroll horizontal no deseado */
+.container-fluid,
+.container {
+  max-width: 100%;
+  overflow-x: hidden;
+}

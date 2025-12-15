@@ -26,50 +26,45 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: var(--font-display);
-  background-color: var(--background-light);
-  color: var(--text-dark);
-  line-height: 1.5;
-}
-
-body.dark {
-  background-color: var(--background-dark);
-  color: var(--text-light);
-}
-
 /* Layout */
 .layout-container {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 main {
   flex: 1;
   display: flex;
   justify-content: center;
-  padding: 2rem 1rem;
-  margin-top: 40px; /* Espacio para el navbar fijo */
+  padding: 2rem 20px;
+  margin-top: 40px; /* Aumento del espacio superior a 60px */
+  width: 100%;
+  padding: 0;
 }
 @media (min-width: 640px) {
   main {
-    padding: 2rem 1.5rem;
+    padding: 2rem 20px;
   }
 }
 
 @media (min-width: 1024px) {
   main {
-    padding: 2rem 2rem;
+    padding: 2rem 20px;
   }
 }
 
 .layout-content-container {
   width: 100%;
-  max-width: 80rem;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  margin: 0;
+  padding: 0 20px; /* 20px de padding a ambos lados */
 }
 
 /* Breadcrumbs */
@@ -351,6 +346,18 @@ body.dark .cancelation-policy p {
   border-radius: var(--border-radius);
   padding: 1.5rem;
   box-shadow: var(--shadow);
+  width: 100%;
+}
+
+.map-section-full {
+  background-color: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 100%;
+  margin: 1.5rem 0;
 }
 
 body.dark .map-section {
@@ -358,20 +365,27 @@ body.dark .map-section {
   border-color: var(--border-dark);
 }
 
-.map-section h2 {
+body.dark .map-section-full {
+  background-color: var(--background-dark);
+  border-color: var(--border-dark);
+}
+
+.map-section h2,
+.map-section-full h2 {
   margin-bottom: 1rem;
   color: #0f172a;
   font-size: 1.5rem;
   font-weight: 700;
 }
 
-body.dark .map-section h2 {
+body.dark .map-section h2,
+body.dark .map-section-full h2 {
   color: #fff;
 }
 
 .map-container {
-  width: 340%; /* Ancho original mantenido para pantallas grandes */
-  height: 20rem; /* Altura original */
+  width: 100% !important;
+  height: 400px !important;
   border-radius: 0.5rem;
   overflow: hidden;
   position: relative;
@@ -380,15 +394,27 @@ body.dark .map-section h2 {
 /* Responsive para pantallas de 1024px hacia abajo */
 @media (max-width: 1024px) {
   .map-container {
-    width: 100%; /* Ancho al 100% para mejor experiencia responsiva en pantallas pequeñas */
-    height: 20rem; /* Mantener altura original */
+    width: 100% !important;
+    height: 300px !important;
   }
 }
 
 #map {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   z-index: 1;
+}
+
+/* Estilos para los popups de Leaflet */
+.hotel-popup {
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+}
+
+.hotel-popup .leaflet-popup-content {
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+  font-family: var(--font-display);
 }
 
 /* Sección de habitaciones */

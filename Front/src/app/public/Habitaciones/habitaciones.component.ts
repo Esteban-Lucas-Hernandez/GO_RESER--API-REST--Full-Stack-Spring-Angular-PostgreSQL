@@ -68,7 +68,7 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
     private router: Router,
     private hotelService: HotelService,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     // Obtener el ID del usuario logueado
@@ -552,15 +552,6 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
 
         // Mover el marcador a la nueva posición
         this.marker.setLatLng([lat, lng]);
-
-        // Agregar un popup con información
-        let hotelInfo = `Hotel ID: ${this.hotelId}`;
-        if (this.hotel && this.hotel.nombre) {
-          hotelInfo = this.hotel.nombre;
-        }
-        this.marker
-          .bindPopup(`<b>${hotelInfo}</b><br>${this.habitaciones.length} habitaciones disponibles`)
-          .openPopup();
       } else {
         console.log('No se encontraron coordenadas, usando posición simulada');
         // Si no tenemos coordenadas reales, simulamos una posición en Bogotá
@@ -572,15 +563,6 @@ export class HabitacionesComponent implements OnInit, AfterViewInit {
 
         // Mover el marcador a la nueva posición
         this.marker.setLatLng([lat, lng]);
-
-        // Agregar un popup con información
-        let hotelInfo = `Hotel ID: ${this.hotelId}`;
-        if (this.hotel && this.hotel.nombre) {
-          hotelInfo = this.hotel.nombre;
-        }
-        this.marker
-          .bindPopup(`<b>${hotelInfo}</b><br>${this.habitaciones.length} habitaciones disponibles`)
-          .openPopup();
       }
 
       // Forzar la actualización del mapa

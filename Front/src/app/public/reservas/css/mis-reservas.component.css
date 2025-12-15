@@ -535,10 +535,10 @@ body.dark .action-button {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  width: 100vw !important;
+  width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  max-width: 100vw !important;
+  max-width: 100% !important;
   overflow-x: hidden;
 }
 
@@ -661,8 +661,7 @@ body.dark .logo-title-container {
   transition: box-shadow 0.2s;
   width: 90%;
   max-height: 18rem;
-
-  margin: -2rem auto 2rem auto; /* SUBE la tarjeta */
+  margin: -2rem auto 2rem auto;
 }
 
 .reservation-card:hover {

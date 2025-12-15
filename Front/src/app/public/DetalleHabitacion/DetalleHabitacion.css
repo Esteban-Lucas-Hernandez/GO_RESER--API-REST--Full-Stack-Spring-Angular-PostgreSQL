@@ -65,8 +65,8 @@ body {
   min-height: 100vh;
   flex-direction: column;
   overflow-x: hidden;
-  width: calc(100vw - 70px) !important;
-  max-width: calc(100vw - 70px) !important;
+  width: calc(100% - 70px) !important;
+  max-width: calc(100% - 70px) !important;
   margin: 0 35px !important;
   padding: 0 !important;
 }
