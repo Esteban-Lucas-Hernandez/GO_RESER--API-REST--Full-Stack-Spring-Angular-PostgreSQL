@@ -556,7 +556,7 @@ body.dark .reservations-container {
 }
 
 /* Asegurar que todos los elementos hijos también ocupen el ancho completo */
-.reservations-content > * {
+.reservations-content>* {
   width: 100% !important;
   max-width: 100% !important;
 }
@@ -618,20 +618,23 @@ body.dark .logo-title-container {
 }
 
 /* Botón en la esquina derecha */
-.back-button {
-  display: flex;
+/* Botón en la esquina derecha - Estilo tipo Nav Link (Perfil) */
+.nav-link {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.5rem;
-  background: linear-gradient(135deg, #3498db, #2980b9);
-  color: white;
-  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  padding: 0.625rem 1.25rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  transition: background-color 0.2s;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+  background: transparent;
   border: none;
+  cursor: pointer;
+
+  /* Posicionamiento original */
   white-space: nowrap;
   position: absolute !important;
   right: 2rem !important;
@@ -640,9 +643,14 @@ body.dark .logo-title-container {
   z-index: 10 !important;
 }
 
-.back-button:hover {
-  background-color: #0d6fca;
-  cursor: pointer;
+.nav-link:hover {
+  color: #0ea5e9;
+  background-color: #f0f9ff;
+}
+
+.nav-link-active {
+  color: #0284c7;
+  background-color: #e0f2fe;
 }
 
 .reservations-main {
@@ -662,7 +670,8 @@ body.dark .logo-title-container {
   width: 90%;
   max-height: 18rem;
 
-  margin: -2rem auto 2rem auto; /* SUBE la tarjeta */
+  margin: -2rem auto 2rem auto;
+  /* SUBE la tarjeta */
 }
 
 .reservation-card:hover {
@@ -789,7 +798,8 @@ body.dark .details-grid {
 
 .download-button:hover {
   background-color: #0d6fca;
-  color: white; /* Mantener texto blanco en hover */
+  color: white;
+  /* Mantener texto blanco en hover */
 }
 
 .cancel-button {
@@ -801,7 +811,8 @@ body.dark .details-grid {
 
 .cancel-button:hover {
   background-color: #f1f5f9;
-  color: #334155; /* Mantener color original en hover */
+  color: #334155;
+  /* Mantener color original en hover */
 }
 
 body.dark .cancel-button {
@@ -812,7 +823,8 @@ body.dark .cancel-button {
 
 body.dark .cancel-button:hover {
   background-color: #334155;
-  color: #cbd5e1; /* Mantener texto blanco en hover modo oscuro */
+  color: #cbd5e1;
+  /* Mantener texto blanco en hover modo oscuro */
 }
 
 .no-reservations {

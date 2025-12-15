@@ -122,6 +122,10 @@ header {
 
 /* Enlace de navegación (Botón 'Volver') */
 .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* Espacio entre icono y texto */
   padding: 0.5rem 1.25rem;
   font-size: 0.95rem;
   font-weight: 600;
@@ -297,6 +301,23 @@ header {
   align-items: center;
   gap: 0.75rem;
   width: 100%;
+  position: relative;
+  /* Para posicionar los botones de acción */
+}
+
+/* Contenedor de botones Aceptar/Cancelar - Posicionado como overlay */
+.action-buttons {
+  position: absolute;
+  right: 0.5rem;
+  /* Alineado a la derecha dentro del input */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.25rem;
+  background: linear-gradient(90deg, transparent 0%, #ffffff 20%);
+  /* Gradiente para no tapar el texto */
+  padding-left: 1.5rem;
+  z-index: 10;
 }
 
 .form-input {
@@ -359,6 +380,18 @@ header {
 .btn-icon.text-danger:hover {
   background-color: #fee2e2;
   color: #b91c1c;
+}
+
+/* Botones más pequeños dentro del overlay de acción */
+.action-buttons .btn-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+}
+
+.action-buttons .btn-icon svg {
+  width: 1rem;
+  height: 1rem;
 }
 
 .card-footer {
