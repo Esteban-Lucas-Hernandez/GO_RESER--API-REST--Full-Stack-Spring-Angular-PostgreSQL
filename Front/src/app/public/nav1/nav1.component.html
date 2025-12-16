@@ -14,6 +14,9 @@
     </div>
 
     <ul class="nav-menu" [class.mobile-menu-active]="showMobileMenu">
+         <li class="nav-item">
+        <a href="#" (click)="scrollToFooter($event)" class="nav-link">Contacto</a>
+      </li>
       <!-- Mostrar dropdown de usuario si está autenticado -->
       <li class="nav-item dropdown-item-margin" *ngIf="isAuthenticated">
         <app-dropdown-menu [userInfo]="userInfo"></app-dropdown-menu>
