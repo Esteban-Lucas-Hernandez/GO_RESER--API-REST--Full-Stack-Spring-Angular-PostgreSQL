@@ -1,314 +1,613 @@
-/* Estilos generales para el contenedor del perfil */
-.perfil-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.perfil-container h2 {
-  color: #333;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Estilos para la tarjeta de perfil */
-.perfil-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.perfil-header h3 {
-  color: #333;
-  margin-top: 0;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-/* Estilos para los elementos de información */
-.info-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.info-item label {
-  font-weight: bold;
-  color: #555;
-  flex: 1;
-}
-
-.info-item span {
-  flex: 2;
-  color: #333;
-}
-
-/* Estilos para el contenedor de entrada */
-.input-container {
-  flex: 2;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.input-container input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-/* Estilos para la imagen de perfil */
-.profile-image-container {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid #ddd;
-}
-
-.profile-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.foto-url-input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-/* Estilos para los botones de edición */
-.btn-edit-icon,
-.btn-save-icon,
-.btn-cancel-icon {
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.btn-edit-icon {
-  color: #007bff;
-}
-
-.btn-edit-icon:hover {
-  background-color: #e9ecef;
-}
-
-.btn-save-icon {
-  color: #28a745;
-}
-
-.btn-save-icon:hover {
-  background-color: #e9ecef;
-}
-
-.btn-cancel-icon {
-  color: #dc3545;
-}
-
-.btn-cancel-icon:hover {
-  background-color: #e9ecef;
-}
-
-.edit-actions {
-  display: flex;
-  gap: 5px;
-}
-
-/* Estilos para el formulario de cambio de contraseña */
-.password-change-form {
-  background-color: #f8f9fa;
-  padding: 15px;
-  border-radius: 4px;
-  margin: 20px 0;
-}
-
-.password-change-form h4 {
-  margin-top: 0;
-  color: #333;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
+/* =========================================
+   ESTILOS GENERALES Y RESET
+   ========================================= */
+:host {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
-}
-
-.form-group input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
 }
 
-.password-actions {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* Asegura que el padding no aumente el ancho total */
+}
+
+body {
+  font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f0f9ff;
+  /* Fondo azul muy claro como base */
+  color: #334155;
+  /* Color de texto gris oscuro (Slate 700) para buena lectura */
+  line-height: 1.5;
+  /* Altura de línea para mejorar legibilidad */
+  -webkit-font-smoothing: antialiased;
+  /* Suavizado de fuentes en WebKit */
+}
+
+/* =========================================
+   LAYOUT PRINCIPAL DE LA PÁGINA
+   ========================================= */
+.page-container {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Ocupa al menos toda la altura de la pantalla */
+  background: #ffffff;
+  /* Fondo blanco sólido */
+  padding-top: 0;
+  /* Remove extra space at the top */
 }
 
-/* Estilos para los botones de acción */
-.perfil-actions {
-  margin-top: 20px;
+/* =========================================
+   ESTILOS DEL ENCABEZADO (HEADER)
+   ========================================= */
+header {
+  background: rgba(255, 255, 255, 0.9);
+  /* Fondo blanco semitransparente */
+  backdrop-filter: blur(10px);
+  /* Efecto de desenfoque tipo cristal (frosted glass) */
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  /* Borde inferior sutil */
+  position: fixed;
+  /* FIJO: Se mantiene visible al hacer scroll */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  /* Asegura que esté por encima de todo el contenido */
+  width: 100%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+  /* Sombra muy suave */
+}
+
+.header-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+  /* Padding base para móviles */
+  width: 100%;
+}
+
+/* Contenedor flexible para alinear logo y navegación */
+.header-content {
+  height: 3.5rem;
+  /* ALTURA REDUCIDA DEL HEADER (Antes 4.5rem) */
+  display: flex;
+  align-items: center;
+  /* Centra verticalmente los elementos */
+  justify-content: space-between;
+  /* Separa logo a la izq y nav a la der */
+}
+
+/* Sección del logo */
+.header-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+}
+
+.logo-wrapper img {
+  height: 35px;
+  /* Altura del logo ajustada un poco más pequeña */
+  width: auto;
+  display: block;
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* =========================================
+   NAVEGACIÓN
+   ========================================= */
+.header-nav-container {
+  display: flex;
+  align-items: center;
+}
+
+.main-nav {
+  display: flex;
+}
+
+/* Enlace de navegación (Botón 'Volver') */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* Espacio entre icono y texto */
+  padding: 0.5rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b;
+  /* Gris medio */
+  text-decoration: none;
+  border-radius: 9999px;
+  /* Bordes totalmente redondeados (tipo píldora) */
+  transition: all 0.2s ease;
+  /* Transición suave al pasar el mouse */
+}
+
+.nav-link:hover {
+  color: #0ea5e9;
+  /* Azul brillante al pasar el mouse */
+  background-color: #f0f9ff;
+  /* Fondo azul muy claro al pasar el mouse */
+}
+
+.nav-link-active {
+  color: #0284c7;
+  /* Azul más oscuro para indicar activo */
+  background-color: #e0f2fe;
+  /* Fondo azul claro seleccionado */
+}
+
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  padding: 2rem 2rem;
+  /* Increased base padding for mobile */
+  width: 100%;
+  max-width: 100%;
+  /* Full Width */
+  margin: 0;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Cards */
+.card {
+  background: #ffffff;
+  border-radius: 1rem;
+  /* Rounded corners */
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
+  overflow: hidden;
+  width: 100%;
+}
+
+.profile-card {
+  background: #ffffff;
+  /* Keep it white for consistency, or subtle gradient */
+  padding: 0;
+  /* Remove padding here, handle in content */
+}
+
+/* Profile Header Specifics */
+.profile-header-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
   text-align: center;
 }
 
-.btn-password {
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+@media (min-width: 640px) {
+  .profile-header-content {
+    flex-direction: row;
+    text-align: left;
+    padding: 2.5rem 3rem;
+  }
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .profile-info {
+    flex-direction: row;
+    gap: 2rem;
+  }
+}
+
+.profile-avatar {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center;
+  background-color: #e2e8f0;
+  /* Fallback color */
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.user-name {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.user-email {
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Card Sections */
+.card-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #f1f5f9;
+  background-color: #ffffff;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* Forms */
+.personal-form,
+.password-form {
+  padding: 2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-label-wrapper,
+.input-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  position: relative;
+  /* Para posicionar los botones de acción */
+}
+
+/* Contenedor de botones Aceptar/Cancelar - Posicionado como overlay */
+.action-buttons {
+  position: absolute;
+  right: 0.5rem;
+  /* Alineado a la derecha dentro del input */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.25rem;
+  background: linear-gradient(90deg, transparent 0%, #ffffff 20%);
+  /* Gradiente para no tapar el texto */
+  padding-left: 1.5rem;
+  z-index: 10;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: #0f172a;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+}
+
+.form-input.readonly-input {
+  background-color: #f8fafc;
+  color: #555;
+  border-color: #e2e8f0;
+}
+
+/* Icons / Buttons */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: #64748b;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  flex-shrink: 0;
 }
 
-.btn-password:hover {
-  background-color: #5a6268;
+.btn-icon:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
 }
 
-.btn-guardar {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+.btn-icon.text-success {
+  color: #10b981;
+}
+
+.btn-icon.text-success:hover {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+.btn-icon.text-danger {
+  color: #ef4444;
+}
+
+.btn-icon.text-danger:hover {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Botones más pequeños dentro del overlay de acción */
+.action-buttons .btn-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+}
+
+.action-buttons .btn-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.card-footer {
+  padding: 1.5rem 2rem;
+  background-color: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
-}
-
-.btn-guardar:hover {
-  background-color: #218838;
-}
-
-.btn-cancelar {
-  background-color: #6c757d;
-  color: white;
+  transition: all 0.2s;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
 }
 
-.btn-cancelar:hover {
-  background-color: #5a6268;
+.btn-primary {
+  background-color: #0ea5e9;
+  /* Sky 500 */
+  color: white;
+  box-shadow: 0 2px 4px rgba(14, 165, 233, 0.3);
 }
 
-/* Estilos para mensajes */
+.btn-primary:hover {
+  background-color: #0284c7;
+  /* Sky 600 */
+  box-shadow: 0 4px 6px rgba(14, 165, 233, 0.4);
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background-color: #e0f2fe;
+  color: #0284c7;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 9999px;
+}
+
+/* Loading / Error */
 .loading,
 .error,
 .no-data {
   text-align: center;
-  padding: 20px;
-  border-radius: 4px;
-  margin: 20px 0;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  word-wrap: break-word;
+  /* Ensure long words break */
+  overflow-wrap: break-word;
+  /* Modern property */
+  max-width: 100%;
+  /* Ensure it doesn't exceed parent */
+  box-sizing: border-box;
 }
 
-.loading {
-  background-color: #e9ecef;
-  color: #6c757d;
-}
-
-.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-.no-data {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeaa7;
+.error p,
+.no-data p {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  /* Ensure wrapping */
 }
 
 .btn-reintentar {
-  background-color: #007bff;
+  margin-top: 1rem;
+  background-color: #0ea5e9;
   color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 14px;
-  margin-top: 10px;
 }
 
-.btn-reintentar:hover {
-  background-color: #0069d9;
+/* =========================================
+   RESPONSIVIDAD (MEDIA QUERIES)
+   ========================================= */
+
+/* Extra Small Devices (Phones) */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 1rem;
+  }
+
+  .profile-header-content {
+    padding: 1.5rem;
+  }
+
+  .profile-avatar {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .user-name {
+    font-size: 1.5rem;
+  }
+
+  .card-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .personal-form,
+  .password-form {
+    padding: 1.5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .card-footer {
+    padding: 1rem 1.5rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
 }
 
-/* Estilos para información del token */
-.token-info {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 4px;
+/* Small Devices (Phones Landscape, Small Tablets) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .main-content {
+    padding: 1.5rem;
+  }
+
+  .profile-header-content {
+    padding: 2rem;
+  }
+
+  .profile-avatar {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .personal-form,
+  .password-form {
+    padding: 1.75rem;
+  }
 }
 
-.token-info h4 {
-  margin-top: 0;
-  color: #333;
+/* Medium Devices (Tablets) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .main-content {
+    padding: 2rem 3rem;
+  }
+
+  .profile-header-content {
+    padding: 2.5rem;
+  }
+
+  .profile-info {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .personal-form,
+  .password-form {
+    padding: 2rem;
+  }
 }
 
-.token-info p {
-  margin: 5px 0;
-  color: #666;
+/* Large Devices (Desktops) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .main-content {
+    padding: 2.5rem 5rem;
+  }
+
+  .profile-header-content {
+    padding: 2.5rem 3rem;
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .profile-info {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .personal-form,
+  .password-form {
+    padding: 2rem;
+  }
 }
 
-/* Media queries para dispositivos móviles */
-@media (max-width: 768px) {
-  .perfil-container {
-    margin: 10px;
-    padding: 15px;
+/* Extra Large Devices (Large Desktops) */
+@media (min-width: 1281px) {
+  .main-content {
+    padding: 2.5rem 10rem;
   }
 
-  .info-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
+  .profile-header-content {
+    padding: 3rem;
+    flex-direction: row;
+    text-align: left;
   }
 
-  .info-item label {
-    width: 100%;
+  .personal-form,
+  .password-form {
+    padding: 2.5rem;
   }
+}
 
-  .input-container {
-    width: 100%;
-  }
-
-  .password-actions,
-  .perfil-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .btn-password,
-  .btn-guardar,
-  .btn-cancelar {
-    width: 100%;
-    max-width: 200px;
-  }
+/* =========================================
+   UTILIDADES
+   ========================================= */
+.text-text-light-secondary {
+  color: #94a3b8;
+  /* Texto gris muy claro */
+  font-size: 0.875rem;
 }

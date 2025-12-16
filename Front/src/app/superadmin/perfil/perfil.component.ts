@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PerfilService } from './perfil.service';
-import { UsuarioDTO, ActualizarPerfilDTO } from './usuario.dto';
+import { UsuarioDTO } from './usuario.dto';
+import { ActualizarPerfilDTO } from './actualizar-perfil.dto';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -30,11 +31,13 @@ export class SuperAdminPerfilComponent implements OnInit {
     fotoUrl: '',
   };
 
-  constructor(private perfilService: PerfilService, private authService: AuthService) {}
+  constructor(private perfilService: PerfilService, private authService: AuthService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    // Obtener el rol del usuario para mostrarlo en la UI
     this.userRole = this.authService.getUserRole();
 
+    // Obtener información del token para depuración
     const token = this.authService.getToken();
     if (token) {
       try {
@@ -56,6 +59,7 @@ export class SuperAdminPerfilComponent implements OnInit {
       next: (data: UsuarioDTO) => {
         this.perfil = data;
         this.loading = false;
+        // Inicializar los datos de actualización con los valores actuales
         if (this.perfil) {
           this.updateData.nombreCompleto = this.perfil.nombreCompleto || '';
           this.updateData.telefono = this.perfil.telefono || '';
@@ -64,13 +68,14 @@ export class SuperAdminPerfilComponent implements OnInit {
           this.updateData.fotoUrl = this.perfil.fotoUrl || '';
         }
       },
-      error: (err: any) => {
-        console.error('Error al cargar el perfil de superadministrador:', err);
+      error: (err) => {
+        console.error('Error al cargar el perfil de usuario:', err);
 
+        // Manejo específico del error 403
         if (err.status === 403) {
           let errorMsg = 'No tiene permisos para acceder a esta información.\n';
           errorMsg += 'Posibles causas:\n';
-          errorMsg += '- Su rol de usuario no tiene acceso al perfil de superadministrador\n';
+          errorMsg += '- Su rol de usuario no tiene acceso al perfil de usuario\n';
           errorMsg += `- Su rol actual es: ${this.userRole || 'No identificado'}\n`;
 
           if (this.tokenInfo && this.tokenInfo.roles) {
@@ -81,7 +86,7 @@ export class SuperAdminPerfilComponent implements OnInit {
           this.error = errorMsg;
         } else {
           this.error =
-            'No se pudo cargar la información del perfil de superadministrador. Por favor, inténtelo más tarde.';
+            'No se pudo cargar la información del perfil de usuario. Por favor, inténtelo más tarde.';
         }
 
         this.loading = false;
@@ -91,7 +96,17 @@ export class SuperAdminPerfilComponent implements OnInit {
 
   toggleEditMode(): void {
     this.editMode = !this.editMode;
-    if (!this.editMode && this.perfil) {
+    // Si se entra en modo edición, inicializar los valores con los datos actuales del perfil
+    if (this.editMode && this.perfil) {
+      // Asegurarse de que los datos estén inicializados
+      this.updateData.nombreCompleto = this.updateData.nombreCompleto || this.perfil.nombreCompleto || '';
+      this.updateData.telefono = this.updateData.telefono || this.perfil.telefono || '';
+      this.updateData.documento = this.updateData.documento || this.perfil.documento || '';
+      this.updateData.email = this.updateData.email || this.perfil.email || '';
+      this.updateData.fotoUrl = this.updateData.fotoUrl || this.perfil.fotoUrl || '';
+    }
+    // Si se cancela la edición, restaurar los valores originales
+    else if (!this.editMode && this.perfil) {
       this.updateData.nombreCompleto = this.perfil.nombreCompleto || '';
       this.updateData.telefono = this.perfil.telefono || '';
       this.updateData.documento = this.perfil.documento || '';
@@ -104,31 +119,42 @@ export class SuperAdminPerfilComponent implements OnInit {
   toggleFieldEdit(field: string): void {
     if (this.editingField === field) {
       this.editingField = null;
+      // Limpiar datos al cancelar
+      this.updateData = {
+        nombreCompleto: '',
+        telefono: '',
+        documento: '',
+        email: '',
+        contrasena: '',
+        fotoUrl: '',
+      };
+    } else {
+      this.editingField = field;
+      // Inicializar el valor del campo que se va a editar
       if (this.perfil) {
         switch (field) {
           case 'nombreCompleto':
-            this.updateData.nombreCompleto = this.perfil.nombreCompleto || '';
-            break;
-          case 'telefono':
-            this.updateData.telefono = this.perfil.telefono || '';
+            this.updateData.nombreCompleto = this.perfil.nombreCompleto;
             break;
           case 'documento':
-            this.updateData.documento = this.perfil.documento || '';
+            this.updateData.documento = this.perfil.documento;
             break;
           case 'email':
-            this.updateData.email = this.perfil.email || '';
+            this.updateData.email = this.perfil.email;
+            break;
+          case 'telefono':
+            this.updateData.telefono = this.perfil.telefono;
             break;
           case 'fotoUrl':
-            this.updateData.fotoUrl = this.perfil.fotoUrl || '';
+            this.updateData.fotoUrl = this.perfil.fotoUrl;
             break;
         }
       }
-    } else {
-      this.editingField = field;
     }
   }
 
   saveField(field: string): void {
+    console.log('Guardando campo:', field);
     const dataToUpdate: ActualizarPerfilDTO = {};
 
     switch (field) {
@@ -159,6 +185,8 @@ export class SuperAdminPerfilComponent implements OnInit {
         break;
     }
 
+    console.log('Datos a actualizar:', dataToUpdate);
+
     if (Object.keys(dataToUpdate).length === 0) {
       alert('No hay cambios para actualizar.');
       return;
@@ -166,11 +194,24 @@ export class SuperAdminPerfilComponent implements OnInit {
 
     this.perfilService.updateProfile(dataToUpdate).subscribe({
       next: (updatedProfile: UsuarioDTO) => {
+        console.log('Perfil actualizado recibido del backend:', updatedProfile);
+
+        // Actualizar localmente el perfil con los datos devueltos por el backend
         this.perfil = updatedProfile;
+
+        // Actualización optimista/manual para asegurar que la UI refleje el cambio inmediatamente
+        // (útil si el backend devuelve el objeto sin actualizar o hay retraso)
+        if (this.perfil) {
+          console.log('Aplicando actualización manual local');
+          this.perfil = { ...this.perfil, ...dataToUpdate };
+          console.log('Nuevo estado del perfil local:', this.perfil);
+        }
+
         this.editingField = null;
+        this.cdr.detectChanges(); // Forzar detección de cambios
         alert('Campo actualizado correctamente.');
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('Error al actualizar el campo:', err);
         alert('Error al actualizar el campo. Por favor, inténtelo más tarde.');
       },
@@ -191,8 +232,17 @@ export class SuperAdminPerfilComponent implements OnInit {
   }
 
   updatePassword(): void {
+    console.log('updatePassword called');
+    console.log('Current password value:', this.updateData.contrasena);
+    console.log('Password length:', this.updateData.contrasena ? this.updateData.contrasena.length : 0);
+
     if (!this.updateData.contrasena) {
       alert('Por favor, ingrese la nueva contraseña.');
+      return;
+    }
+
+    if (this.updateData.contrasena.trim() === '') {
+      alert('Por favor, ingrese una contraseña válida.');
       return;
     }
 
@@ -207,7 +257,7 @@ export class SuperAdminPerfilComponent implements OnInit {
         this.updateData.contrasena = '';
         alert('Contraseña actualizada correctamente.');
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('Error al actualizar la contraseña:', err);
         alert('Error al actualizar la contraseña. Por favor, inténtelo más tarde.');
       },
@@ -215,6 +265,7 @@ export class SuperAdminPerfilComponent implements OnInit {
   }
 
   updateProfile(): void {
+    // Filtrar solo los campos que tienen valores para actualizar
     const dataToUpdate: ActualizarPerfilDTO = {};
 
     if (this.updateData.nombreCompleto) {
@@ -241,6 +292,7 @@ export class SuperAdminPerfilComponent implements OnInit {
       dataToUpdate.contrasena = this.updateData.contrasena;
     }
 
+    // Si no hay datos para actualizar, mostrar un mensaje
     if (Object.keys(dataToUpdate).length === 0) {
       alert('No hay cambios para actualizar.');
       return;
@@ -252,7 +304,7 @@ export class SuperAdminPerfilComponent implements OnInit {
         this.editMode = false;
         alert('Perfil actualizado correctamente.');
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('Error al actualizar el perfil:', err);
         alert('Error al actualizar el perfil. Por favor, inténtelo más tarde.');
       },

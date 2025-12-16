@@ -45,6 +45,14 @@ main {
   width: 100%;
   padding: 0;
 }
+
+/* Increase top margin on small screens to avoid overlap with navbar */
+@media (max-width: 640px) {
+  main {
+    margin-top: 70px;
+  }
+}
+
 @media (min-width: 640px) {
   main {
     padding: 2rem 20px;

@@ -1,22 +1,28 @@
-<div class="reservations-container">
+<div class="page-container">
   <!-- Header con título y botón de volver -->
-  <div class="reservations-content">
-    <header class="reservations-header">
+  <header>
+    <div class="header-container">
       <div class="header-content">
         <!-- Logo y título en la esquina izquierda -->
-        <div class="logo-title-container">
-          <img src="assets/Logo/Logo.png" alt="Logo" class="header-logo" />
-          <h1 class="reservations-title">Mis Reservas</h1>
+        <div class="header-logo">
+          <div class="logo-wrapper">
+            <img src="assets/Logo/Logo.png" alt="Logo" />
+          </div>
         </div>
 
         <!-- Botón en la esquina derecha -->
-        <!-- Botón en la esquina derecha -->
-        <button class="nav-link nav-link-active" (click)="volverAlInicio()">
-          <span class="material-symbols-outlined">arrow_back</span>
-          Volver al Inicio
-        </button>
+        <div class="header-nav-container">
+          <nav class="main-nav">
+            <a class="nav-link nav-link-active" href="#">
+              <span class="material-symbols-outlined">arrow_back</span>
+              Volver al inicio
+            </a>
+          </nav>
+        </div>
       </div>
-    </header>
+    </div>
+  </header>
+  <div class="reservations-content">
     <!-- Mensaje de carga -->
     <div *ngIf="loading" class="loading">Cargando reservas...</div>
 
@@ -37,76 +43,89 @@
       </div>
 
       <!-- Lista de reservas paginadas -->
-      <div *ngFor="let reserva of getReservasPaginadas()" class="reservation-card">
-        <div class="card-content">
-          <!-- Imagen de la habitación -->
-          <div class="card-image" [attr.data-alt]="'Imagen de la habitación ' + reserva.numeroHabitacion" [ngStyle]="{
-              'background-image':
-                'url(' +
-                (reserva.urlImagenHabitacion || 'https://placehold.co/600x400?text=Sin+Imagen') +
-                ')'
-            }"></div>
+      <div class="reservations-grid">
+        <div *ngFor="let reserva of getReservasPaginadas()" class="reservation-card">
+          <div class="card-content">
+            <!-- Imagen de la habitación -->
+            <div class="card-image" [attr.data-alt]="'Imagen de la habitación ' + reserva.numeroHabitacion" [ngStyle]="{
+                'background-image':
+                  'url(' +
+                  (reserva.urlImagenHabitacion || 'https://placehold.co/600x400?text=Sin+Imagen') +
+                  ')'
+              }"></div>
 
-          <!-- Detalles de la reserva -->
-          <div class="card-details">
-            <div>
-              <h2 class="hotel-name">{{ reserva.nombreHotel }}</h2>
-              <p class="reservation-id">ID de Reserva: #{{ reserva.idReserva }}</p>
+            <!-- Detalles de la reserva -->
+            <div class="card-details">
+              <div>
+                <h2 class="hotel-name">{{ reserva.nombreHotel }}</h2>
+                <p class="reservation-id">ID de Reserva: #{{ reserva.idReserva }}</p>
 
-              <div class="details-grid">
-                <p>
-                  <strong class="detail-label">Nombre del Hotel:</strong>
-                  {{ reserva.nombreHotel }}
-                </p>
+                <div class="details-grid">
+                  <p>
+                    <strong class="detail-label">Nombre del Hotel:</strong>
+                    {{ reserva.nombreHotel }}
+                  </p>
 
-                <p>
-                  <strong class="detail-label">Número de Habitación:</strong>
-                  {{ reserva.numeroHabitacion }}
-                </p>
+                  <p>
+                    <strong class="detail-label">Número de Habitación:</strong>
+                    {{ reserva.numeroHabitacion }}
+                  </p>
 
-                <p>
-                  <strong class="detail-label">Fecha de Entrada:</strong>
-                  {{ reserva.fechaInicio | date : 'dd MMM, yyyy' }}
-                </p>
+                  <p>
+                    <strong class="detail-label">Fecha de Entrada:</strong>
+                    {{ reserva.fechaInicio | date : 'dd MMM, yyyy' }}
+                  </p>
 
-                <p>
-                  <strong class="detail-label">Fecha de Salida:</strong>
-                  {{ reserva.fechaFin | date : 'dd MMM, yyyy' }}
-                </p>
+                  <p>
+                    <strong class="detail-label">Fecha de Salida:</strong>
+                    {{ reserva.fechaFin | date : 'dd MMM, yyyy' }}
+                  </p>
 
-                <p><strong class="detail-label">Total:</strong> ${{ reserva.total }}</p>
+                  <p><strong class="detail-label">Total:</strong> ${{ reserva.total }}</p>
 
-                <p>
-                  <strong class="detail-label">Estado:</strong>
-                  {{ reserva.estado }}
-                </p>
+                  <p>
+                    <strong class="detail-label">Estado:</strong>
+                    {{ reserva.estado }}
+                  </p>
 
-                <p>
-                  <strong class="detail-label">Método de Pago:</strong>
-                  {{ reserva.metodoPago }}
-                </p>
+                  <p>
+                    <strong class="detail-label">Método de Pago:</strong>
+                    {{ reserva.metodoPago }}
+                  </p>
 
-                <p>
-                  <strong class="detail-label">Fecha de Reserva:</strong>
-                  {{ reserva.fechaReserva | date : 'dd MMM, yyyy' }}
-                </p>
+                  <p>
+                    <strong class="detail-label">Fecha de Reserva:</strong>
+                    {{ reserva.fechaReserva | date : 'dd MMM, yyyy' }}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <!-- Acciones de la reserva -->
-            <div class="card-actions" *ngIf="reserva.estado?.toUpperCase() !== 'CANCELADA'">
-              <!-- Botón para descargar comprobante (solo para pagos confirmados) -->
-              <button class="action-button download-button" *ngIf="puedeDescargarComprobante(reserva)"
-                (click)="descargarComprobante(reserva.idReserva)">
-                <span class="material-symbols-outlined">receipt_long</span>
-                <span>Descargar Factura</span>
-              </button>
+              <!-- Acciones de la reserva -->
+              <div class="card-actions">
+                <!-- Botón para descargar comprobante (solo para pagos confirmados) -->
+                <button class="action-button download-button" *ngIf="puedeDescargarComprobante(reserva)"
+                  (click)="descargarComprobante(reserva.idReserva)">
+                  <span class="material-symbols-outlined">receipt_long</span>
+                  <span>Descargar Factura</span>
+                </button>
 
-              <button class="action-button cancel-button" (click)="cancelarReserva(reserva.idReserva)"
-                *ngIf="puedeCancelarReserva(reserva)">
-                <span class="material-symbols-outlined">cancel</span>
-                <span>Cancelar Reserva</span>
-              </button>
+                <button class="action-button cancel-button" (click)="cancelarReserva(reserva.idReserva)"
+                  *ngIf="puedeCancelarReserva(reserva)">
+                  <span class="material-symbols-outlined">cancel</span>
+                  <span>Cancelar Reserva</span>
+                </button>
+                
+                <!-- Placeholder buttons to maintain consistent height when buttons are not shown -->
+                <button class="action-button download-button placeholder-button" *ngIf="!puedeDescargarComprobante(reserva) && reserva.estado?.toUpperCase() !== 'CANCELADA'">
+                  <span class="material-symbols-outlined">receipt_long</span>
+                  <span>Descargar Factura</span>
+                </button>
+
+                <button class="action-button cancel-button placeholder-button" *ngIf="!puedeCancelarReserva(reserva) && reserva.estado?.toUpperCase() !== 'CANCELADA'">
+                  <span class="material-symbols-outlined">cancel</span>
+                  <span>Cancelar Reserva</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

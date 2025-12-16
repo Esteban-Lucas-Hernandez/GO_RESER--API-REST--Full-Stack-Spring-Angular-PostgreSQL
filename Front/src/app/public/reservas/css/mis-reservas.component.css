@@ -1,76 +1,165 @@
-/* Variables CSS */
-:root {
-  --primary: #137fec;
-  --background-light: #f6f7f8;
-  --background-dark: #101922;
-  --text-dark: #334155;
-  --text-light: #f1f5f9;
-  --border-light: #e2e8f0;
-  --border-dark: #1e293b;
-  --success: #4ade80;
-  --warning: #facc15;
-  --danger: #ef4444;
-  --font-display: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+/* =========================================
+   ESTILOS GENERALES Y RESET
+   ========================================= */
+:host {
+  display: block;
+  width: 100%;
 }
 
-/* Estilos para el logo personalizado */
-.header-logo {
-  height: 2.5rem;
-  width: auto;
-  object-fit: contain;
-}
-
-/* Estilos generales */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Asegura que el padding no aumente el ancho total */
 }
 
 body {
-  font-family: var(--font-display);
-  background-color: var(--background-light);
-  color: var(--text-dark);
+  font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f0f9ff;
+  /* Fondo azul muy claro como base */
+  color: #334155;
+  /* Color de texto gris oscuro (Slate 700) para buena lectura */
   line-height: 1.5;
+  /* Altura de línea para mejorar legibilidad */
+  -webkit-font-smoothing: antialiased;
+  /* Suavizado de fuentes en WebKit */
 }
 
-body.dark {
-  background-color: var(--background-dark);
-  color: var(--text-light);
-}
-
-/* Layout */
-.layout-container {
+/* =========================================
+   LAYOUT PRINCIPAL DE LA PÁGINA
+   ========================================= */
+.page-container {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
+  min-height: 100vh;
+  /* Ocupa al menos toda la altura de la pantalla */
+  background: #ffffff;
+  /* Fondo blanco sólido */
 }
 
+/* =========================================
+   ESTILOS DEL ENCABEZADO (HEADER)
+   ========================================= */
+header {
+  background: rgba(255, 255, 255, 0.9);
+  /* Fondo blanco semitransparente */
+  backdrop-filter: blur(10px);
+  /* Efecto de desenfoque tipo cristal (frosted glass) */
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  /* Borde inferior sutil */
+  position: fixed;
+  /* FIJO: Se mantiene visible al hacer scroll */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  /* Asegura que esté por encima de todo el contenido */
+  width: 100%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+  /* Sombra muy suave */
+}
+
+.page-container {
+  padding-top: 3.5rem;
+  /* ESPACIO PARA EL HEADER FIJO (Debe coincidir con la altura del header) */
+}
+
+.header-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0 5rem;
+  /* Even more spacing from edges */
+  width: 100%;
+}
+
+/* En pantallas pequeñas, reduce el padding para que el logo y botón queden en sus esquinas */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+}
+
+/* Contenedor flexible para alinear logo y navegación */
+.header-content {
+  height: 3.5rem;
+  /* ALTURA REDUCIDA DEL HEADER (Antes 4.5rem) */
+  display: flex;
+  align-items: center;
+  /* Centra verticalmente los elementos */
+  justify-content: space-between;
+  /* Separa logo a la izq y nav a la der */
+}
+
+/* Sección del logo */
+.header-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+}
+
+.logo-wrapper img {
+  height: 35px;
+  /* Altura del logo ajustada un poco más pequeña */
+  width: auto;
+  display: block;
+}
+
+/* =========================================
+   NAVEGACIÓN
+   ========================================= */
+.header-nav-container {
+  display: flex;
+  align-items: center;
+}
+
+.main-nav {
+  display: flex;
+}
+
+/* Enlace de navegación (Botón 'Volver') */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* Espacio entre icono y texto */
+  padding: 0.5rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b;
+  /* Gris medio */
+  text-decoration: none;
+  border-radius: 9999px;
+  /* Bordes totalmente redondeados (tipo píldora) */
+  transition: all 0.2s ease;
+  /* Transición suave al pasar el mouse */
+}
+
+.nav-link:hover {
+  color: #0ea5e9;
+  /* Azul brillante al pasar el mouse */
+  background-color: #f0f9ff;
+  /* Fondo azul muy claro al pasar el mouse */
+}
+
+.nav-link-active {
+  color: #0284c7;
+  /* Azul más oscuro para indicar activo */
+  background-color: #e0f2fe;
+  /* Fondo azul claro seleccionado */
+}
+
+/* Main Content Area */
 main {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  padding: 2rem 1rem;
-}
-
-@media (min-width: 640px) {
-  main {
-    padding: 2rem 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  main {
-    padding: 2rem 2rem;
-  }
-}
-
-.layout-content-container {
+  padding: 2rem 2rem;
+  /* Increased base padding for mobile */
   width: 100%;
-  max-width: 80rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  max-width: 100%;
+  /* Full Width */
+  margin: 0;
 }
 
 /* Breadcrumbs */
@@ -529,85 +618,16 @@ body.dark .action-button {
   color: var(--danger);
 }
 
-/* Estilos para Mis Reservas */
-.reservations-container {
-  background-color: var(--background-light);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  max-width: 100% !important;
-  overflow-x: hidden;
-}
 
-body.dark .reservations-container {
-  background-color: var(--background-dark);
-}
 
 .reservations-content {
-  flex-grow: 1;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 2rem 0 !important;
-  box-sizing: border-box;
-}
-
-/* Asegurar que todos los elementos hijos también ocupen el ancho completo */
-.reservations-content>* {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-.reservations-header {
-  width: 100% !important;
-  max-width: 100% !important;
-  padding: 0 1rem !important;
-  box-sizing: border-box;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 1rem !important;
-  position: relative !important;
-  min-height: 4rem !important;
-  margin-top: -2rem !important;
-}
-
-body.dark .reservations-header {
-  border-color: #1e293b;
-}
-
-@media (min-width: 640px) {
-  .reservations-header {
-    align-items: center;
-  }
-}
-
-/* Contenedor del logo y título en la esquina izquierda */
-.logo-title-container {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: #0f172a;
-  position: absolute !important;
-  left: 1rem !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  z-index: 10 !important;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
 }
 
-body.dark .logo-title-container {
-  color: #fff;
-}
 
-.header-logo {
-  height: 2.5rem;
-  width: auto;
-  object-fit: contain;
-}
 
 .reservations-title {
   font-size: 1.875rem;
@@ -636,11 +656,6 @@ body.dark .logo-title-container {
 
   /* Posicionamiento original */
   white-space: nowrap;
-  position: absolute !important;
-  right: 2rem !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  z-index: 10 !important;
 }
 
 .nav-link:hover {
@@ -660,6 +675,33 @@ body.dark .logo-title-container {
   gap: 1.5rem;
 }
 
+/* Grid for reservations - NEW */
+.reservations-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Show reservations one below the other for screens 1176px or smaller */
+@media (max-width: 1176px) {
+  .reservations-grid {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Show reservations two by two for screens larger than 1176px */
+@media (min-width: 1177px) {
+  .reservations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
 .reservation-card {
   overflow: hidden;
   border-radius: 0.5rem;
@@ -667,11 +709,13 @@ body.dark .logo-title-container {
   background-color: #fff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.2s;
-  width: 90%;
-  max-height: 18rem;
-  margin: -2rem auto 2rem auto;
+  width: 100%;
+  max-height: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
-
 
 .reservation-card:hover {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -701,7 +745,8 @@ body.dark .reservation-card {
   background-repeat: no-repeat;
   background-size: cover;
   aspect-ratio: 16/9;
-  height: 8rem;
+  height: 12rem;
+  flex-shrink: 0;
 }
 
 @media (min-width: 1024px) {
@@ -765,6 +810,7 @@ body.dark .details-grid {
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
+  min-height: 2.75rem; /* Ensures consistent height regardless of button visibility */
 }
 
 @media (min-width: 640px) {
@@ -787,6 +833,12 @@ body.dark .details-grid {
   cursor: pointer;
   border: none;
   transition: background-color 0.2s, color 0.2s;
+  min-height: 2.25rem; /* Consistent button height */
+}
+
+.placeholder-button {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .download-button {

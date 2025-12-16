@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { SuperAdminService, Usuario } from './superadmin.service';
 
 @Component({
   selector: 'app-superadmin',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './superadmin.component.html',
   styleUrls: ['./superadmin.component.css'],
 })
 export class SuperAdminComponent implements OnInit {
   usuarios: Usuario[] = [];
+  filteredUsers: Usuario[] = [];
+  searchTerm: string = '';
+  activeFilter: string = 'all'; // 'all', 'active', 'inactive'
   loading = false;
   changingRole = false;
   changingStatus = false;
@@ -36,6 +40,8 @@ export class SuperAdminComponent implements OnInit {
     this.superAdminService.getAllUsers().subscribe({
       next: (data) => {
         this.usuarios = data;
+        this.filteredUsers = [...data];
+        this.filterUsers();
         this.loading = false;
       },
       error: (error) => {
@@ -43,6 +49,15 @@ export class SuperAdminComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  // Get counts for stats cards
+  get activeUsersCount(): number {
+    return this.usuarios.filter(u => u.estado).length;
+  }
+
+  get adminUsersCount(): number {
+    return this.usuarios.filter(u => u.roles && u.roles.includes('ROLE_ADMIN')).length;
   }
 
   // Método para cambiar el estado de un usuario
@@ -116,6 +131,71 @@ export class SuperAdminComponent implements OnInit {
   // Método para seleccionar un rol
   selectRole(role: string) {
     this.selectedRole = role;
+  }
+
+  // Helper methods for UI
+  getRoleClass(roles: string[]): string {
+    if (!roles || roles.length === 0) return 'role-none';
+    const role = roles[0];
+    switch (role) {
+      case 'ROLE_USER': return 'role-user';
+      case 'ROLE_ADMIN': return 'role-admin';
+      case 'ROLE_SUPERADMIN': return 'role-superadmin';
+      default: return 'role-default';
+    }
+  }
+
+  getRoleDisplayName(role: string): string {
+    switch (role) {
+      case 'ROLE_USER': return 'Usuario';
+      case 'ROLE_ADMIN': return 'Administrador';
+      case 'ROLE_SUPERADMIN': return 'Super Admin';
+      default: return role;
+    }
+  }
+
+  getRoleDescription(role: string): string {
+    switch (role) {
+      case 'ROLE_USER': return 'Acceso básico a funciones de usuario';
+      case 'ROLE_ADMIN': return 'Gestión de contenido y usuarios básicos';
+      case 'ROLE_SUPERADMIN': return 'Control total del sistema';
+      default: return 'Rol sin descripción';
+    }
+  }
+
+  formatDate(dateString: string): string {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES');
+  }
+
+  // Filter methods
+  filterUsers(): void {
+    let result = [...this.usuarios];
+    
+    // Apply search term filter
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      result = result.filter(user => 
+        user.nombreCompleto.toLowerCase().includes(term) ||
+        user.email.toLowerCase().includes(term) ||
+        (user.documento && user.documento.toLowerCase().includes(term))
+      );
+    }
+    
+    // Apply status filter
+    if (this.activeFilter === 'active') {
+      result = result.filter(user => user.estado);
+    } else if (this.activeFilter === 'inactive') {
+      result = result.filter(user => !user.estado);
+    }
+    
+    this.filteredUsers = result;
+  }
+
+  setFilter(filter: string): void {
+    this.activeFilter = filter;
+    this.filterUsers();
   }
 
   // Método para confirmar el cambio de rol

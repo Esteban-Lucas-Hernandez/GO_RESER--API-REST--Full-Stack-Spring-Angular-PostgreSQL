@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
-import { UsuarioDTO, ActualizarPerfilDTO } from './usuario.dto';
+import { UsuarioDTO } from './usuario.dto';
+import { ActualizarPerfilDTO } from './actualizar-perfil.dto';
 
 @Injectable({
   providedIn: 'root',

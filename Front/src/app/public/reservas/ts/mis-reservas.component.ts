@@ -100,8 +100,11 @@ export class MisReservasComponent implements OnInit {
     if (confirm('¿Está seguro que desea cancelar esta reserva?')) {
       this.hotelService.cancelarReserva(idReserva).subscribe({
         next: () => {
-          // Recargar la lista de reservas para actualizar el estado
-          this.loadReservas();
+          // Actualizar el estado de la reserva localmente en lugar de recargar todas las reservas
+          const reserva = this.reservas.find(r => r.idReserva === idReserva);
+          if (reserva) {
+            reserva.estado = 'CANCELADA';
+          }
           alert('Reserva cancelada exitosamente');
         },
         error: (err: any) => {
@@ -153,6 +156,11 @@ export class MisReservasComponent implements OnInit {
 
   // Método para verificar si una reserva puede ser cancelada
   puedeCancelarReserva(reserva: Reserva): boolean {
+    // No permitir cancelar reservas ya canceladas
+    if (reserva.estado?.toUpperCase() === 'CANCELADA') {
+      return false;
+    }
+    
     // No permitir cancelar si la fecha de salida es anterior a la fecha actual
     const fechaSalida = new Date(reserva.fechaFin);
     const fechaInicio = new Date(reserva.fechaInicio);
