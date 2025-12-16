@@ -1,10 +1,8 @@
 <div class="card">
   <h2>{{ titulo }}</h2>
-  <p>{{ descripcion }}</p>
 
   <!-- Formulario para añadir nueva imagen -->
   <div class="add-imagen-form">
-    <h3>Añadir Nueva Imagen</h3>
     <form (ngSubmit)="onSubmit()" #imagenForm="ngForm">
       <div class="form-group">
         <label for="urlImagen">URL de la Imagen:</label>

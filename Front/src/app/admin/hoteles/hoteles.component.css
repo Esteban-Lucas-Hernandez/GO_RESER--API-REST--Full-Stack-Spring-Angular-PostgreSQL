@@ -1,8 +1,8 @@
-.card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.hoteles-container {
   padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 0;
   height: calc(100vh - 80px);
   overflow: hidden;
@@ -10,8 +10,10 @@
   flex-direction: column;
 }
 
-.card h2 {
-  margin-top: 0;
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .btn {
@@ -31,7 +33,7 @@
 }
 
 .btn-edit {
-  background-color: #28a745;
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -39,13 +41,12 @@
   cursor: pointer;
   margin-bottom: 5px;
   font-size: 16px;
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 5px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
 }
 
 .btn-delete {
@@ -56,77 +57,81 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
 }
 
 .btn-edit:hover {
-  background-color: #218838;
+  background-color: #0056b3;
 }
 
 .btn-delete:hover {
   background-color: #c82333;
 }
 
-.hoteles-list {
+.tabla-container {
   flex: 1;
-  overflow: auto; /* Barra de scroll única */
+  overflow: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-table {
+.tabla-hoteles {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
 }
 
-thead {
-  position: sticky;
-  top: 0;
-  background-color: #f8f9fa;
-  z-index: 10;
-}
-
-tbody {
-  display: table-row-group; /* Normal */
-  height: auto; /* No limitar la altura */
-}
-
-thead,
-tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
-
-th,
-td {
-  padding: 10px 12px;
+.tabla-hoteles th {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 600;
+  border-right: 1px solid #e0e0e0;
 }
 
-th {
-  background-color: #f8f9fa;
-  font-weight: bold;
+.tabla-hoteles th:last-child {
+  border-right: none;
 }
 
-tr:hover {
+.tabla-hoteles td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #e0e0e0;
+}
+
+.tabla-hoteles td:last-child {
+  border-right: none;
+}
+
+.tabla-hoteles tr:hover {
   background-color: #f5f5f5;
 }
 
-.no-hoteles {
+.tabla-hoteles tr:last-child td {
+  border-bottom: none;
+}
+
+.estrellas {
+  font-weight: bold;
+  color: #ffc107;
+}
+
+.no-data {
   text-align: center;
-  padding: 40px;
-  color: #6c757d;
-  font-size: 18px;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+.actions-cell {
+  white-space: nowrap;
+  width: 100px;
+  text-align: center;
 }
 
 .hotel-image {
@@ -138,40 +143,6 @@ tr:hover {
   border-radius: 4px;
   display: block;
   margin: 0 auto;
-}
-
-.actions-cell {
-  white-space: nowrap;
-  width: 60px;
-  text-align: center;
-}
-
-/* Iconos para los botones */
-.btn-edit::before {
-  content: '✏️';
-}
-
-.btn-delete::before {
-  content: '🗑️';
-}
-
-/* Mostrar barras de desplazamiento para la tabla */
-table::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-table::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-table::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-table::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
 }
 
 /* Estilos para el modal de confirmación */
@@ -246,16 +217,16 @@ table::-webkit-scrollbar-thumb:hover {
 
 /* Hacer la tabla responsive */
 @media (max-width: 768px) {
-  .card {
+  .hoteles-container {
     padding: 10px;
   }
 
-  table {
+  .tabla-hoteles {
     font-size: 12px;
   }
 
-  th,
-  td {
+  .tabla-hoteles th,
+  .tabla-hoteles td {
     padding: 8px 6px;
   }
 
@@ -273,7 +244,7 @@ table::-webkit-scrollbar-thumb:hover {
   }
 
   .actions-cell {
-    width: 50px;
+    width: 80px;
   }
 
   .modal-content {

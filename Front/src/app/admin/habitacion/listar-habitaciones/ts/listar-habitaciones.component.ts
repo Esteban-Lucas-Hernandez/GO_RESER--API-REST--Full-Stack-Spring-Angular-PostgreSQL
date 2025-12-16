@@ -14,7 +14,6 @@ import { ImagenHabitacionDTO } from '../../habitacion.interface';
 })
 export class ListarHabitacionesComponent implements OnInit {
   titulo = 'Imágenes de Habitación';
-  descripcion = 'Gestión de imágenes para la habitación seleccionada.';
   imagenes: ImagenHabitacionDTO[] = [];
   nuevaImagen: ImagenHabitacionDTO = {
     urlImagen: '',

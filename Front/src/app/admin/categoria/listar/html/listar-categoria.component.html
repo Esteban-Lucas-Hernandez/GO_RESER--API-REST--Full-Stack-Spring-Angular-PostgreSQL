@@ -1,13 +1,9 @@
-<div class="card">
+<div class="categorias-container">
   <h2>{{ titulo }}</h2>
   <p>{{ descripcion }}</p>
 
-  <div *ngIf="categorias.length === 0" class="no-categorias">
-    <p>No hay categorías registradas en el sistema.</p>
-  </div>
-
-  <div *ngIf="categorias.length > 0" class="categorias-list">
-    <table>
+  <div class="tabla-container">
+    <table class="tabla-categorias">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -20,21 +16,155 @@
           <td>{{ categoria.nombre }}</td>
           <td>{{ categoria.descripcion }}</td>
           <td class="actions-cell">
-            <button
-              class="btn-edit"
-              (click)="editarCategoria(categoria.id!)"
-              title="Editar"
-            ></button>
+            <button class="btn-edit" (click)="abrirModalEdicion(categoria)" title="Editar">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="white"
+                class="bi bi-pencil"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
+                />
+              </svg>
+            </button>
             <button
               class="btn-delete"
-              (click)="eliminarCategoria(categoria.id!)"
+              (click)="eliminarCategoria(categoria.id!, categoria.nombre)"
               title="Eliminar"
-            ></button>
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="white"
+                class="bi bi-trash"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+                />
+                <path
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+                />
+              </svg>
+            </button>
           </td>
+        </tr>
+        <tr *ngIf="categorias.length === 0">
+          <td colspan="3" class="no-data">No hay categorías registradas en el sistema.</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <button class="btn" (click)="crearCategoria()">Agregar Nueva Categoría</button>
+  <button class="btn" (click)="abrirModalCreacion()">Agregar Nueva Categoría</button>
+</div>
+
+<!-- Modal para Crear Categoría -->
+<div class="modal" *ngIf="mostrarModalCrear">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModalCrear()">&times;</span>
+    <h2>Crear Nueva Categoría</h2>
+    <form (ngSubmit)="guardarNuevaCategoria()" #categoriaForm="ngForm">
+      <div class="form-group">
+        <label for="nombre">Nombre de la Categoría:</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          [(ngModel)]="nuevaCategoria.nombre"
+          required
+          class="form-control"
+          placeholder="Ingrese el nombre de la categoría"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea
+          id="descripcion"
+          name="descripcion"
+          [(ngModel)]="nuevaCategoria.descripcion"
+          required
+          class="form-control"
+          placeholder="Ingrese una descripción detallada de la categoría"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cerrarModalCrear()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading">
+          <span *ngIf="loading">Guardando...</span>
+          <span *ngIf="!loading">Guardar Categoría</span>
+        </button>
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para Editar Categoría -->
+<div class="modal" *ngIf="mostrarModalEditar">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModalEditar()">&times;</span>
+    <h2>Editar Categoría</h2>
+    <form (ngSubmit)="guardarCategoriaEditada()" #editarForm="ngForm">
+      <div class="form-group">
+        <label for="nombreEditar">Nombre de la Categoría:</label>
+        <input
+          type="text"
+          id="nombreEditar"
+          name="nombreEditar"
+          [(ngModel)]="categoriaEditada.nombre"
+          required
+          class="form-control"
+          placeholder="Ingrese el nombre de la categoría"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="descripcionEditar">Descripción:</label>
+        <textarea
+          id="descripcionEditar"
+          name="descripcionEditar"
+          [(ngModel)]="categoriaEditada.descripcion"
+          required
+          class="form-control"
+          placeholder="Ingrese una descripción detallada de la categoría"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cerrarModalEditar()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="loading">
+          <span *ngIf="loading">Actualizando...</span>
+          <span *ngIf="!loading">Actualizar Categoría</span>
+        </button>
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div *ngIf="mostrandoModalConfirmacion" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Confirmar Eliminación</h3>
+    <p>{{ mensajeModal }}</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="cerrarModalConfirmacion()">Cancelar</button>
+      <button class="btn-confirm" (click)="confirmarEliminacion()">Eliminar</button>
+    </div>
+  </div>
 </div>
