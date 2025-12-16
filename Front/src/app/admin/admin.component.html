@@ -1,6 +1,6 @@
 <div class="admin-container">
   <app-navbar></app-navbar>
-  <div class="content">
+  <div class="content" [class.collapsed]="isCollapsed">
     <router-outlet></router-outlet>
   </div>
 </div>

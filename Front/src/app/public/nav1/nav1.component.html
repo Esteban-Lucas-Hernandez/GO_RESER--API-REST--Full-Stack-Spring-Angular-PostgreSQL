@@ -1,0 +1,71 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a href="/">
+        <img src="assets/Logo/Logo.png" alt="GO RESER" class="nav-logo-img" />
+      </a>
+    </div>
+
+    <!-- Botón de menú hamburguesa para móviles -->
+    <div class="mobile-menu-button" (click)="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <ul class="nav-menu" [class.mobile-menu-active]="showMobileMenu">
+      <!-- Mostrar dropdown de usuario si está autenticado -->
+      <li class="nav-item dropdown-item-margin" *ngIf="isAuthenticated">
+        <app-dropdown-menu [userInfo]="userInfo"></app-dropdown-menu>
+      </li>
+      <!-- Mostrar botón de iniciar sesión si no está autenticado -->
+      <li class="nav-item" *ngIf="!isAuthenticated">
+        <button class="login-button" (click)="openLoginModal()">Iniciar Sesión</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Modal de inicio de sesión -->
+<div class="modal-overlay" *ngIf="showLoginModal" (click)="closeLoginModal()">
+  <div
+    class="modal-content"
+    [class.right-panel-active]="isSignUpActive"
+    (click)="$event.stopPropagation()"
+  >
+    <button class="close-btn" (click)="closeLoginModal()">×</button>
+    <div class="form-container sign-in-container">
+      <form>
+        <div class="social-container">
+          <!-- Aquí irían los botones sociales si los hubiera -->
+        </div>
+        <app-login (loginSuccess)="onLoginSuccess($event)"></app-login>
+      </form>
+    </div>
+    <div class="form-container sign-up-container">
+      <form>
+        <h1>Crear Cuenta</h1>
+        <div class="social-container">
+          <!-- Aquí irían los botones sociales si los hubiera -->
+        </div>
+        <app-registro (registroSuccess)="onRegistroSuccess($event)"></app-registro>
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>¡Bienvenido de vuelta!</h1>
+          <p>Para mantenerte conectado con nosotros, inicia sesión con tu información personal</p>
+          <button class="ghost" id="signIn" (click)="toggleSignIn()">Iniciar Sesión</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>¡Hola, Amigo!</h1>
+          <p>Ingresa tus datos personales y comienza tu viaje con nosotros</p>
+          <button class="ghost" id="signUp" (click)="toggleSignUp()">Registrarse</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de registro (ya no se necesita ya que está integrado en el modal de login) -->

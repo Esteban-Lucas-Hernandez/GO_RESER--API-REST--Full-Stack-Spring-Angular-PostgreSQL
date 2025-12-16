@@ -12,12 +12,13 @@ import { defaultIcon } from '../../leaflet.config';
 
 // Importar el componente de navegación
 import { NavComponent } from '../nav/nav.component';
+import { Nav1Component } from '../nav1/nav1.component';
 // Importar el componente de footer
 import { FooterComponent } from '../footer/footer.component';
 @Component({
   selector: 'app-habitaciones',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavComponent, FooterComponent], // Agregar FooterComponent a los imports
+  imports: [CommonModule, FormsModule, Nav1Component, FooterComponent], // Agregar FooterComponent a los imports
   templateUrl: './habitaciones.html',
   styleUrls: ['./habitaciones.css'],
 })

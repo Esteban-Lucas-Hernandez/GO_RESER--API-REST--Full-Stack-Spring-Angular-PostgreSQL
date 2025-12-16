@@ -8,7 +8,15 @@
   flex: 1;
   margin-left: 250px;
   padding: 20px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: calc(100% - 250px);
+  transition: all 0.3s ease;
+}
+
+.content.collapsed {
+  margin-left: 70px;
+  width: calc(100% - 70px);
 }
 
 /* Ocultar barras de desplazamiento en el contenido */
@@ -19,4 +27,25 @@
 .content {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .admin-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .content {
+    margin-left: 0;
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 5px;
+  }
 }

@@ -11,6 +11,7 @@ import {
 } from '../hotel.service';
 import { AuthService } from '../../auth/auth.service';
 import { NavComponent } from '../nav/nav.component';
+import { Nav1Component } from '../nav1/nav1.component';
 import { FooterComponent } from '../footer/footer.component';
 
 // Interface para el modelo de reserva en el formulario
@@ -23,7 +24,7 @@ interface ReservaForm {
 @Component({
   selector: 'app-detalle-habitacion',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, NavComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, RouterModule, Nav1Component, FooterComponent],
   templateUrl: './DetalleHabitacion.html',
   styleUrls: ['./DetalleHabitacion.css'],
 })

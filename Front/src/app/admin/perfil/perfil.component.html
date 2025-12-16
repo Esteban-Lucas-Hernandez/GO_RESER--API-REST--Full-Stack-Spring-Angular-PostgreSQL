@@ -1,19 +1,10 @@
 <div class="page-container">
-
-  <!-- 
-    ENCABEZADO FIJO (HEADER)
-    Contiene el logo y la navegación principal.
-    Está fijo en la parte superior ('position: fixed' en CSS).
-  -->
-
-
   <!-- 
     CONTENIDO PRINCIPAL 
     'main-content' ocupa el espacio restante y tiene el padding lateral.
   -->
   <main class="main-content">
     <div class="content-wrapper">
-
       <!-- ESTADO DE CARGA: Se muestra mientras 'loading' es true -->
       <div *ngIf="loading" class="loading">
         <p>Cargando información del perfil...</p>
@@ -28,7 +19,6 @@
 
       <!-- CONTENEDOR DE PERFIL: Se muestra si hay datos de 'perfil' y no está cargando -->
       <div *ngIf="perfil && !loading">
-
         <!-- 
           TARJETA DE CABECERA DE PERFIL 
           Muestra foto y nombre/email. 
@@ -37,9 +27,16 @@
           <div class="profile-header-content">
             <div class="profile-info">
               <!-- Foto de Perfil (Avatar) -->
-              <div class="avatar profile-avatar" data-alt="User avatar with a colorful gradient"
-                [style.background-image]="'url(' + (perfil.fotoUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png') + ')'">
-              </div>
+              <div
+                class="avatar profile-avatar"
+                data-alt="User avatar with a colorful gradient"
+                [style.background-image]="
+                  'url(' +
+                  (perfil.fotoUrl ||
+                    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png') +
+                  ')'
+                "
+              ></div>
               <!-- Detalles del Usuario -->
               <div class="user-details">
                 <p class="user-name">{{ perfil.nombreCompleto }}</p>
@@ -66,34 +63,82 @@
                 <p class="input-label">Nombre Completo</p>
                 <div class="input-group">
                   <!-- Input editable -->
-                  <input *ngIf="editingField === 'nombreCompleto'" class="form-input"
-                    [(ngModel)]="updateData.nombreCompleto" name="nombreCompleto" placeholder="Nombre completo" />
+                  <input
+                    *ngIf="editingField === 'nombreCompleto'"
+                    class="form-input"
+                    [(ngModel)]="updateData.nombreCompleto"
+                    name="nombreCompleto"
+                    placeholder="Nombre completo"
+                  />
                   <!-- Input solo lectura -->
-                  <input *ngIf="editingField !== 'nombreCompleto'" class="form-input readonly-input"
-                    [value]="perfil.nombreCompleto" readonly />
+                  <input
+                    *ngIf="editingField !== 'nombreCompleto'"
+                    class="form-input readonly-input"
+                    [value]="perfil.nombreCompleto"
+                    readonly
+                  />
 
                   <!-- Botón editar -->
-                  <button *ngIf="editingField !== 'nombreCompleto'" class="btn-icon"
-                    (click)="toggleFieldEdit('nombreCompleto')" title="Editar">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  <button
+                    *ngIf="editingField !== 'nombreCompleto'"
+                    class="btn-icon"
+                    (click)="toggleFieldEdit('nombreCompleto')"
+                    title="Editar"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                      />
                     </svg>
                   </button>
 
                   <!-- Botones de acción (Guardar/Cancelar) -->
                   <div *ngIf="editingField === 'nombreCompleto'" class="action-buttons">
-                    <button class="btn-icon text-success" (click)="saveField('nombreCompleto')" title="Guardar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    <button
+                      class="btn-icon text-success"
+                      (click)="saveField('nombreCompleto')"
+                      title="Guardar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
                       </svg>
                     </button>
-                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('nombreCompleto')" title="Cancelar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    <button
+                      class="btn-icon text-danger"
+                      (click)="toggleFieldEdit('nombreCompleto')"
+                      title="Cancelar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -104,31 +149,79 @@
               <label class="form-label-wrapper">
                 <p class="input-label">Documento</p>
                 <div class="input-group">
-                  <input *ngIf="editingField === 'documento'" class="form-input" [(ngModel)]="updateData.documento"
-                    name="documento" placeholder="Documento" />
-                  <input *ngIf="editingField !== 'documento'" class="form-input readonly-input"
-                    [value]="perfil.documento || 'No proporcionado'" readonly />
+                  <input
+                    *ngIf="editingField === 'documento'"
+                    class="form-input"
+                    [(ngModel)]="updateData.documento"
+                    name="documento"
+                    placeholder="Documento"
+                  />
+                  <input
+                    *ngIf="editingField !== 'documento'"
+                    class="form-input readonly-input"
+                    [value]="perfil.documento || 'No proporcionado'"
+                    readonly
+                  />
 
-                  <button *ngIf="editingField !== 'documento'" class="btn-icon" (click)="toggleFieldEdit('documento')"
-                    title="Editar">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  <button
+                    *ngIf="editingField !== 'documento'"
+                    class="btn-icon"
+                    (click)="toggleFieldEdit('documento')"
+                    title="Editar"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                      />
                     </svg>
                   </button>
 
                   <div *ngIf="editingField === 'documento'" class="action-buttons">
-                    <button class="btn-icon text-success" (click)="saveField('documento')" title="Guardar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    <button
+                      class="btn-icon text-success"
+                      (click)="saveField('documento')"
+                      title="Guardar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
                       </svg>
                     </button>
-                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('documento')" title="Cancelar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    <button
+                      class="btn-icon text-danger"
+                      (click)="toggleFieldEdit('documento')"
+                      title="Cancelar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -141,30 +234,79 @@
               <label class="form-label-wrapper">
                 <p class="input-label">Correo Electrónico</p>
                 <div class="input-group">
-                  <input *ngIf="editingField === 'email'" class="form-input" [(ngModel)]="updateData.email" type="email"
-                    name="email" placeholder="Email" />
-                  <input *ngIf="editingField !== 'email'" class="form-input readonly-input" [value]="perfil.email"
-                    readonly />
-                  <button *ngIf="editingField !== 'email'" class="btn-icon" (click)="toggleFieldEdit('email')"
-                    title="Editar">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  <input
+                    *ngIf="editingField === 'email'"
+                    class="form-input"
+                    [(ngModel)]="updateData.email"
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                  />
+                  <input
+                    *ngIf="editingField !== 'email'"
+                    class="form-input readonly-input"
+                    [value]="perfil.email"
+                    readonly
+                  />
+                  <button
+                    *ngIf="editingField !== 'email'"
+                    class="btn-icon"
+                    (click)="toggleFieldEdit('email')"
+                    title="Editar"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                      />
                     </svg>
                   </button>
 
                   <div *ngIf="editingField === 'email'" class="action-buttons">
-                    <button class="btn-icon text-success" (click)="saveField('email')" title="Guardar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    <button
+                      class="btn-icon text-success"
+                      (click)="saveField('email')"
+                      title="Guardar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
                       </svg>
                     </button>
-                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('email')" title="Cancelar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    <button
+                      class="btn-icon text-danger"
+                      (click)="toggleFieldEdit('email')"
+                      title="Cancelar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -175,30 +317,78 @@
               <label class="form-label-wrapper">
                 <p class="input-label">Teléfono</p>
                 <div class="input-group">
-                  <input *ngIf="editingField === 'telefono'" class="form-input" [(ngModel)]="updateData.telefono"
-                    name="telefono" placeholder="Teléfono" />
-                  <input *ngIf="editingField !== 'telefono'" class="form-input readonly-input"
-                    [value]="perfil.telefono || 'No proporcionado'" readonly />
-                  <button *ngIf="editingField !== 'telefono'" class="btn-icon" (click)="toggleFieldEdit('telefono')"
-                    title="Editar">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  <input
+                    *ngIf="editingField === 'telefono'"
+                    class="form-input"
+                    [(ngModel)]="updateData.telefono"
+                    name="telefono"
+                    placeholder="Teléfono"
+                  />
+                  <input
+                    *ngIf="editingField !== 'telefono'"
+                    class="form-input readonly-input"
+                    [value]="perfil.telefono || 'No proporcionado'"
+                    readonly
+                  />
+                  <button
+                    *ngIf="editingField !== 'telefono'"
+                    class="btn-icon"
+                    (click)="toggleFieldEdit('telefono')"
+                    title="Editar"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                      />
                     </svg>
                   </button>
 
                   <div *ngIf="editingField === 'telefono'" class="action-buttons">
-                    <button class="btn-icon text-success" (click)="saveField('telefono')" title="Guardar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    <button
+                      class="btn-icon text-success"
+                      (click)="saveField('telefono')"
+                      title="Guardar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
                       </svg>
                     </button>
-                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('telefono')" title="Cancelar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    <button
+                      class="btn-icon text-danger"
+                      (click)="toggleFieldEdit('telefono')"
+                      title="Cancelar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -210,36 +400,87 @@
             <div class="form-row">
               <label class="form-label-wrapper">
                 <p class="input-label">Fecha de Registro</p>
-                <input class="form-input readonly-input" [value]="perfil.fechaRegistro | date : 'dd/MM/yyyy'"
-                  readonly />
+                <input
+                  class="form-input readonly-input"
+                  [value]="perfil.fechaRegistro | date : 'dd/MM/yyyy'"
+                  readonly
+                />
               </label>
               <label class="form-label-wrapper">
                 <p class="input-label">Foto de Perfil URL</p>
                 <div class="input-group">
-                  <input *ngIf="editingField === 'fotoUrl'" class="form-input" [(ngModel)]="updateData.fotoUrl"
-                    name="fotoUrl" placeholder="URL de la foto de perfil" />
-                  <input *ngIf="editingField !== 'fotoUrl'" class="form-input readonly-input"
-                    [value]="perfil.fotoUrl || 'No proporcionado'" readonly />
-                  <button *ngIf="editingField !== 'fotoUrl'" class="btn-icon" (click)="toggleFieldEdit('fotoUrl')"
-                    title="Editar">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  <input
+                    *ngIf="editingField === 'fotoUrl'"
+                    class="form-input"
+                    [(ngModel)]="updateData.fotoUrl"
+                    name="fotoUrl"
+                    placeholder="URL de la foto de perfil"
+                  />
+                  <input
+                    *ngIf="editingField !== 'fotoUrl'"
+                    class="form-input readonly-input"
+                    [value]="perfil.fotoUrl || 'No proporcionado'"
+                    readonly
+                  />
+                  <button
+                    *ngIf="editingField !== 'fotoUrl'"
+                    class="btn-icon"
+                    (click)="toggleFieldEdit('fotoUrl')"
+                    title="Editar"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                      />
                     </svg>
                   </button>
 
                   <div *ngIf="editingField === 'fotoUrl'" class="action-buttons">
-                    <button class="btn-icon text-success" (click)="saveField('fotoUrl')" title="Guardar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    <button
+                      class="btn-icon text-success"
+                      (click)="saveField('fotoUrl')"
+                      title="Guardar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
                       </svg>
                     </button>
-                    <button class="btn-icon text-danger" (click)="toggleFieldEdit('fotoUrl')" title="Cancelar">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    <button
+                      class="btn-icon text-danger"
+                      (click)="toggleFieldEdit('fotoUrl')"
+                      title="Cancelar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -259,12 +500,20 @@
           <form class="password-form">
             <div class="form-field">
               <p class="input-label">Nueva Contraseña</p>
-              <input class="form-input" [(ngModel)]="updateData.contrasena" placeholder="Ingrese nueva contraseña"
-                type="password" id="contrasena" name="contrasena" />
+              <input
+                class="form-input"
+                [(ngModel)]="updateData.contrasena"
+                placeholder="Ingrese nueva contraseña"
+                type="password"
+                id="contrasena"
+                name="contrasena"
+              />
             </div>
           </form>
           <div class="card-footer">
-            <button class="btn btn-primary" (click)="updatePassword()">Actualizar Contraseña</button>
+            <button class="btn btn-primary" (click)="updatePassword()">
+              Actualizar Contraseña
+            </button>
           </div>
         </div>
 
@@ -291,7 +540,8 @@
             <!-- Información adicional del token -->
             <div *ngIf="tokenInfo" class="token-info">
               <p class="text-text-light-secondary">
-                Información adicional del token: {{ tokenInfo.roles ? tokenInfo.roles.join(', ') : 'No identificados' }}
+                Información adicional del token:
+                {{ tokenInfo.roles ? tokenInfo.roles.join(', ') : 'No identificados' }}
               </p>
             </div>
           </div>

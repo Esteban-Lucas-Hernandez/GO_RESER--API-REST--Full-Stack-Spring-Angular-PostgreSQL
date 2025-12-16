@@ -1,10 +1,27 @@
-<nav class="sidebar">
-  <h2>Administración</h2>
+<nav class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="logo-container">
+    <img src="assets/Logo/Logo.png" alt="Logo" class="logo-img" [class.hidden]="isCollapsed" />
+  </div>
+
+  <!-- Botón de colapso -->
+  <button class="collapse-btn" (click)="toggleCollapse()">
+    <fa-icon [icon]="faArrowLeft" [class.rotated]="isCollapsed"></fa-icon>
+  </button>
+
   <ul>
     <li *ngFor="let item of menuItems">
       <a [routerLink]="item.route" routerLinkActive="active">
-        {{ item.name }}
+        <fa-icon [icon]="item.icon" class="menu-icon"></fa-icon>
+        <span class="menu-text" [class.hidden]="isCollapsed">{{ item.name }}</span>
       </a>
     </li>
   </ul>
+
+  <!-- Botón de Cerrar Sesión en la parte inferior -->
+  <div class="logout-container">
+    <button (click)="logout()" class="logout-btn">
+      <fa-icon [icon]="faSignOutAlt" class="logout-icon"></fa-icon>
+      <span class="menu-text" [class.hidden]="isCollapsed">Cerrar Sesión</span>
+    </button>
+  </div>
 </nav>

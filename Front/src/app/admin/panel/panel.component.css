@@ -1,24 +1,30 @@
 .admin-panel {
-  padding: 20px;
+  padding: 0;
   background-color: #f8f9fa;
   min-height: calc(100vh - 40px);
   margin: 0;
+  width: 100% !important;
+  box-sizing: border-box;
 }
 
 .header {
   background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .header h1 {
   color: #333;
   margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
 }
 
 .user-info {
@@ -28,6 +34,7 @@
 .user-info p {
   margin: 5px 0;
   color: #666;
+  font-size: 0.9rem;
 }
 
 .logout-btn {
@@ -44,6 +51,612 @@
   background-color: #c82333;
 }
 
+.panel-content {
+  padding: 0 20px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 1;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  background: linear-gradient(120deg, #f8f9fa, #e9ecef);
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.stats-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.chart-placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #ffffff, #f8f9fa);
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+}
+
+/* Contenedor para ejes numéricos */
+.numeric-axis-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Eje Y */
+.y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribuir con más espacio */
+  width: 40px;
+  padding-right: 10px;
+  font-size: 0.7rem;
+  color: #666;
+  text-align: right;
+  position: relative;
+  height: 170px; /* Altura igual al gráfico */
+}
+
+.y-axis::after {
+  content: '';
+  position: absolute;
+  top: 9px; /* Bajar más la línea vertical */
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background-color: #ccc;
+}
+
+.y-tick {
+  height: 3px; /* Reducir aún más la altura para mayor separación entre etiquetas */
+  line-height: 3px;
+  position: relative;
+  display: flex;
+  align-items: flex-start; /* Alinear hacia la parte superior */
+  justify-content: flex-end;
+  margin-top: 30px; /* Mantener espacio entre estrellas */
+  transform: translateY(-20px); /* Subir las estrellas un poco más */
+}
+
+.star-icon {
+  color: #ffd700; /* Color amarillo dorado para las estrellas */
+  margin-right: 5px;
+  font-size: 1rem;
+}
+
+.y-tick::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  width: 5px;
+  height: 1px;
+  background-color: #ccc;
+  transform: translateY(-50%);
+}
+
+/* Eje Y para trading */
+.trading-y-axis {
+  justify-content: space-around;
+}
+
+/* Contenedor principal del gráfico */
+.chart-main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 200px; /* Altura aumentada: 170px (gráfico) + 30px (eje X) */
+  position: relative;
+  padding-top: 30px;
+  width: 100%; /* Ancho normal */
+  justify-content: flex-end; /* Alinear al final (abajo) */
+  align-items: stretch; /* Alinear elementos al ancho completo */
+}
+
+/* Gráfico de barras con ejes */
+.bar-chart-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  flex: 1;
+  gap: 0px;
+  margin-left: 0; /* Eliminar margen para alinear con el eje Y */
+  width: 100%; /* Usar ancho completo */
+  height: 170px; /* ALTURA AUMENTADA DEL GRÁFICO */
+  position: relative;
+}
+
+.bar-chart-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to top,
+    transparent,
+    transparent 33px,
+    rgba(0, 0, 0, 0.05) 34px
+  );
+}
+
+.bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 170px; /* Altura máxima del gráfico: 5 estrellas * 34px */
+  position: relative;
+  flex: 1;
+  padding-bottom: 0; /* Sin padding adicional */
+}
+
+.bar {
+  width: 30px;
+  border-radius: 6px 6px 0 0;
+  min-height: 0; /* Sin altura mínima */
+  transition: height 0.5s ease;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 0px;
+  margin: 0; /* Sin margen */
+  align-self: flex-end; /* Alinear al final del contenedor */
+}
+
+.bar-value {
+  font-size: 0.7rem;
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Eje X */
+.x-axis {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding-top: 0px;
+  font-size: 0.7rem;
+  color: #666;
+  position: relative;
+  height: 0px; /* Altura fija para el eje X */
+}
+
+.x-axis::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.x-tick {
+  width: 30px;
+  text-align: center;
+  position: relative;
+  padding-top: 5px;
+}
+
+.x-tick::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 5px;
+  background-color: #ccc;
+  transform: translateX(-50%);
+}
+
+/* Estilos específicos para el gráfico de reseñas */
+.x-axis-resenas {
+  display: flex;
+  justify-content: space-between; /* Cambiado de space-around a space-between para mejor distribución */
+  width: 100%;
+  padding-top: 5px; /* Reducido para acercar al gráfico */
+  font-size: 0.7rem;
+  color: #666;
+  position: relative;
+  height: 30px; /* Aumentado para mejor alineación */
+  padding-left: 40px; /* mismo ancho del eje Y */
+  padding-right: 20px; /* Agregado para espacio a la derecha */
+}
+
+.x-axis-resenas::before {
+  content: '';
+  position: absolute;
+  top: 0; /* Alineado al inicio */
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.x-tick-resena {
+  width: 30px;
+  text-align: center;
+  position: relative;
+  padding-top: 5px;
+  margin: 0 -20px 0px 5px; /* Agregado margen horizontal para espacio entre fechas */
+}
+
+.x-tick-resena::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 5px;
+  background-color: #ccc;
+  transform: translateX(-50%);
+}
+
+/* Estilos adicionales para el gráfico de reseñas */
+.bar {
+  width: 30px;
+  border-radius: 6px 6px 0 0;
+  min-height: 0; /* Sin altura mínima */
+  transition: height 0.5s ease;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 0px;
+  margin: 0; /* Sin margen */
+  align-self: flex-end; /* Alinear al final del contenedor */
+}
+
+.bar-value {
+  font-size: 0.7rem;
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer del gráfico de reseñas */
+.chart-footer {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-top: 1px solid #eee;
+}
+
+.chart-description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.btn-ver-mas {
+  margin-top: 5px;
+  background: linear-gradient(135deg, #00bfff, #0080ff);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-ver-mas:hover {
+  background: linear-gradient(135deg, #0080ff, #0066cc);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 128, 255, 0.3);
+}
+
+.btn-ver-mas:active {
+  transform: translateY(0);
+}
+
+/* Eje X para trading */
+.trading-x-axis {
+  padding-top: 0px;
+  height: 0px; /* Altura fija para el eje X de trading */
+}
+
+/* Gráfico de trading con ejes */
+.trading-chart-with-axis {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+/* Estilos para el gráfico de pastel usando CSS */
+.pie-chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+}
+
+.pie-chart-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pie-chart-css {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: rotate(-90deg);
+}
+
+.slice {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* clip-path se establece dinámicamente desde el componente */
+}
+
+.pie-center-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+  z-index: 5;
+}
+
+.pie-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 6;
+}
+
+.center-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.legend {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legend-two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.legend-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.legend-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.legend-value {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Card de trading */
+.trading-card {
+  width: 100%;
+}
+
+.trading-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.price-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: #f8f9fa;
+  transition: background 0.3s ease;
+}
+
+.price-row:hover {
+  background: #e9ecef;
+}
+
+.symbol {
+  font-weight: 600;
+  color: #333;
+  width: 100px;
+}
+
+.price {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.change {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 70px;
+  text-align: center;
+}
+
+.change.positive {
+  background: rgba(46, 204, 113, 0.2);
+  color: #27ae60;
+}
+
+.change.negative {
+  background: rgba(231, 76, 60, 0.2);
+  color: #c0392b;
+}
+
+.trading-chart {
+  height: 250px;
+  position: relative;
+  background: linear-gradient(120deg, #ffffff, #f8f9fa);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.chart-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.grid-line {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.trading-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,80 Q20,60 40,70 T80,30 T100,50" fill="none" stroke="%233498db" stroke-width="0.5"/></svg>');
+  background-size: 100% 100%;
+}
+
+.trading-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.label {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.value {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+}
+
 .panel-content h2 {
   color: #333;
   border-bottom: 2px solid #007bff;
@@ -56,4 +669,75 @@
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    flex-direction: column;
+  }
+
+  .trading-stats {
+    flex-direction: column;
+  }
+
+  .stats-summary {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .user-info {
+    text-align: left;
+  }
+
+  .pie-chart-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .pie-chart-wrapper {
+    width: 140px;
+    height: 140px;
+  }
+
+  .numeric-axis-container {
+    flex-direction: column;
+  }
+
+  .y-axis {
+    width: 100%;
+    height: 20px;
+    flex-direction: row;
+    padding-right: 0;
+    padding-bottom: 10px;
+  }
+
+  .y-tick {
+    width: 20%;
+    text-align: center;
+  }
+
+  .y-axis::after {
+    width: 100%;
+    height: 1px;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+
+  .y-tick::after {
+    top: auto;
+    bottom: -5px;
+    right: 50%;
+    width: 1px;
+    height: 5px;
+    transform: translateX(50%);
+  }
 }
