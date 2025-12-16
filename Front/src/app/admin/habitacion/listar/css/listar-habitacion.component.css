@@ -1,8 +1,8 @@
-.card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.habitaciones-container {
   padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 0;
   height: calc(100vh - 80px);
   overflow: hidden;
@@ -10,8 +10,10 @@
   flex-direction: column;
 }
 
-.card h2 {
-  margin-top: 0;
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .btn {
@@ -48,7 +50,7 @@
 }
 
 .btn-edit {
-  background-color: #28a745;
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -56,13 +58,12 @@
   cursor: pointer;
   margin-bottom: 5px;
   font-size: 16px;
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 5px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
 }
 
 .btn-delete {
@@ -73,13 +74,11 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
 }
 
 .btn-images {
@@ -91,17 +90,16 @@
   cursor: pointer;
   margin-bottom: 5px;
   font-size: 16px;
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 5px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
 }
 
 .btn-edit:hover {
-  background-color: #218838;
+  background-color: #0056b3;
 }
 
 .btn-delete:hover {
@@ -112,131 +110,65 @@
   background-color: #138496;
 }
 
-.habitaciones-list {
+.tabla-container {
   flex: 1;
-  overflow: auto; /* Barra de scroll única */
+  overflow: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-table {
+.tabla-habitaciones {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
 }
 
-thead {
-  position: sticky;
-  top: 0;
-  background-color: #f8f9fa;
-  z-index: 10;
-}
-
-tbody {
-  display: table-row-group; /* Normal */
-  height: auto; /* No limitar la altura */
-}
-
-thead,
-tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
-
-th,
-td {
-  padding: 10px 12px;
+.tabla-habitaciones th {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 600;
+  border-right: 1px solid #e0e0e0;
 }
 
-th {
-  background-color: #f8f9fa;
-  font-weight: bold;
+.tabla-habitaciones th:last-child {
+  border-right: none;
 }
 
-tr:hover {
+.tabla-habitaciones td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #e0e0e0;
+}
+
+.tabla-habitaciones td:last-child {
+  border-right: none;
+}
+
+.tabla-habitaciones tr:hover {
   background-color: #f5f5f5;
 }
 
-.no-habitaciones {
+.tabla-habitaciones tr:last-child td {
+  border-bottom: none;
+}
+
+.no-data {
   text-align: center;
-  padding: 40px;
-  color: #6c757d;
-  font-size: 18px;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
 }
 
 .actions-cell {
   white-space: nowrap;
-  width: 60px;
+  width: 150px;
   text-align: center;
 }
 
 .actions {
   display: flex;
-}
-
-/* Iconos para los botones */
-.btn-edit::before {
-  content: '✏️';
-}
-
-.btn-delete::before {
-  content: '🗑️';
-}
-
-.btn-images::before {
-  content: '🖼️';
-}
-
-/* Mostrar barras de desplazamiento para la tabla */
-table::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-table::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-table::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-table::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
-/* Hacer la tabla responsive */
-@media (max-width: 768px) {
-  .card {
-    padding: 10px;
-  }
-
-  table {
-    font-size: 12px;
-  }
-
-  th,
-  td {
-    padding: 8px 6px;
-  }
-
-  .btn-edit,
-  .btn-delete,
-  .btn-images {
-    padding: 6px;
-    font-size: 14px;
-    width: 35px;
-    height: 35px;
-  }
-
-  .actions-cell {
-    width: 50px;
-  }
 }
 
 /* Estilos para el selector de hotel */
@@ -296,4 +228,230 @@ table::-webkit-scrollbar-thumb:hover {
 
 .btn:disabled:hover {
   background-color: #6c757d;
+}
+
+/* Hacer la tabla responsive */
+@media (max-width: 768px) {
+  .habitaciones-container {
+    padding: 10px;
+  }
+
+  .tabla-habitaciones {
+    font-size: 12px;
+  }
+
+  .tabla-habitaciones th,
+  .tabla-habitaciones td {
+    padding: 8px 6px;
+  }
+
+  .btn-edit,
+  .btn-delete,
+  .btn-images {
+    padding: 6px;
+    font-size: 14px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .actions-cell {
+    width: 120px;
+  }
+
+  .hotel-selector {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hotel-selector select {
+    min-width: 200px;
+  }
+}
+
+/* Estilos para los modales */
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+.btn-submit {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+.btn-submit:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
+
+/* Estilos para el modal de confirmación */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.modal-content p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn-confirm {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-confirm:hover {
+  background-color: #c82333;
+}
+
+/* Responsive para modales */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 15px;
+  }
+
+  .modal-content h3 {
+    font-size: 18px;
+  }
+
+  .modal-content p {
+    font-size: 14px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-cancel,
+  .btn-confirm {
+    width: 100%;
+  }
 }

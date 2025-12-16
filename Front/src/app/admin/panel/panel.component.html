@@ -2,8 +2,21 @@
   <div class="header">
     <h1>Panel de Administración</h1>
     <div class="user-info" *ngIf="userInfo">
-      <p>Bienvenido, {{ userInfo.username }}!</p>
-      <p>Email: {{ userInfo.email }}</p>
+      <div class="user-details">
+        <p>Bienvenido, {{ userInfo.username }}!</p>
+        <p>Email: {{ userInfo.email }}</p>
+      </div>
+      <!-- Avatar del usuario -->
+      <div
+        class="user-avatar"
+        *ngIf="userProfile"
+        [style.background-image]="
+          'url(' +
+          (userProfile.fotoUrl ||
+            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png') +
+          ')'
+        "
+      ></div>
     </div>
   </div>
 
@@ -120,68 +133,7 @@
       </div>
     </div>
 
-    <!-- Card de trading que ocupa todo el ancho -->
-    <div class="card trading-card">
-      <div class="card-header">
-        <h3>Análisis de Trading</h3>
-      </div>
-      <div class="card-body">
-        <div class="trading-content">
-          
-
-          <div class="chart-placeholder trading-chart">
-            <div class="numeric-axis-container">
-              <!-- Eje Y con números del lado izquierdo -->
-              <div class="y-axis trading-y-axis">
-                <div class="y-tick">$46K</div>
-                <div class="y-tick">$45.5K</div>
-                <div class="y-tick">$45K</div>
-                <div class="y-tick">$44.5K</div>
-                <div class="y-tick">$44K</div>
-              </div>
-
-              <!-- Contenedor principal del gráfico -->
-              <div class="chart-main-container">
-                <!-- Gráfico de trading -->
-                <div class="trading-chart-with-axis">
-                  <div class="trading-line"></div>
-                  <div class="chart-grid">
-                    <div class="grid-line"></div>
-                    <div class="grid-line"></div>
-                    <div class="grid-line"></div>
-                    <div class="grid-line"></div>
-                    <div class="grid-line"></div>
-                  </div>
-                </div>
-
-                <!-- Eje X con números abajo -->
-                <div class="x-axis trading-x-axis">
-                  <div class="x-tick">09:00</div>
-                  <div class="x-tick">12:00</div>
-                  <div class="x-tick">15:00</div>
-                  <div class="x-tick">18:00</div>
-                  <div class="x-tick">21:00</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="trading-stats">
-            <div class="stat">
-              <span class="label">Volumen 24h</span>
-              <span class="value">$2.4B</span>
-            </div>
-            <div class="stat">
-              <span class="label">Cap. Mercado</span>
-              <span class="value">$867.2B</span>
-            </div>
-            <div class="stat">
-              <span class="label">Dominio BTC</span>
-              <span class="value">42.3%</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Card de ingresos que ocupa todo el ancho -->
+    <app-ingresos></app-ingresos>
   </div>
 </div>

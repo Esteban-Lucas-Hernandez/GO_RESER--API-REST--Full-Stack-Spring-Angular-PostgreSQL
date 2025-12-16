@@ -1,0 +1,73 @@
+<div
+  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px"
+>
+  <h1
+    style="
+      font-family: Arial, sans-serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    "
+  >
+    Ingresos por Reservas
+  </h1>
+  <button class="btn-ver-mas" style="margin-top: 0" (click)="verTodasLasReservas()">Ver más</button>
+</div>
+
+<section class="chart-container">
+  <canvas
+    baseChart
+    [data]="lineChartData"
+    [labels]="lineChartLabels"
+    [options]="lineChartOptions"
+    [type]="'line'"
+  >
+  </canvas>
+</section>
+<section class="cards">
+  <div class="card">
+    <h3 style="font-family: Arial, sans-serif; font-size: 1.2rem; font-weight: 600; color: #333">
+      Total Ingresos
+    </h3>
+    <p style="font-family: Arial, sans-serif; font-size: 1.1rem; font-weight: 700; color: #3498db">
+      {{ totalIngresos | currency : 'USD' : 'symbol' : '1.0-0' }}
+    </p>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family: Arial, sans-serif; font-size: 1.2rem; font-weight: 600; color: #333">
+      Total Reservas
+    </h3>
+    <p style="font-family: Arial, sans-serif; font-size: 1.1rem; font-weight: 700; color: #3498db">
+      {{ totalReservas }}
+    </p>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family: Arial, sans-serif; font-size: 1.2rem; font-weight: 600; color: #333">
+      Promedio por Reserva
+    </h3>
+    <p
+      style="font-family: Arial, sans-serif; font-size: 1.1rem; font-weight: 700; color: #3498db"
+      *ngIf="totalReservas > 0"
+    >
+      {{ totalIngresos / totalReservas | currency : 'USD' : 'symbol' : '1.0-0' }}
+    </p>
+    <p
+      style="font-family: Arial, sans-serif; font-size: 1.1rem; font-weight: 700; color: #3498db"
+      *ngIf="totalReservas === 0"
+    >
+      N/A
+    </p>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family: Arial, sans-serif; font-size: 1.2rem; font-weight: 600; color: #333">
+      Hoteles Activos
+    </h3>
+    <p style="font-family: Arial, sans-serif; font-size: 1.1rem; font-weight: 700; color: #3498db">
+      {{ getHotelesActivosCount() }}
+    </p>
+  </div>
+</section>

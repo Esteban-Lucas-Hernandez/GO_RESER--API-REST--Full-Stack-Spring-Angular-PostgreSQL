@@ -6,11 +6,14 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ResenaService } from '../resenas/resena.service';
 import { Resena } from '../resenas/resena.interface';
+import { IngresosComponent } from './ingresos/ingresos.component';
+import { PerfilService } from '../perfil/perfil.service';
+import { UsuarioDTO } from '../perfil/usuario.dto';
 
 @Component({
   selector: 'app-panel',
   standalone: true,
-  imports: [CommonModule, SlicePipe, NgStyle],
+  imports: [CommonModule, SlicePipe, NgStyle, IngresosComponent],
   templateUrl: './panel.component.html',
   styleUrls: ['./panel.component.css'],
   providers: [DatePipe],
@@ -18,6 +21,7 @@ import { Resena } from '../resenas/resena.interface';
 export class PanelComponent implements OnInit {
   panelData: any = null;
   userInfo: any = null;
+  userProfile: UsuarioDTO | null = null;
   ultimasResenas: Resena[] = [];
   categorias: any[] = [];
 
@@ -25,7 +29,8 @@ export class PanelComponent implements OnInit {
     private authService: AuthService,
     private http: HttpClient,
     private router: Router,
-    private resenaService: ResenaService
+    private resenaService: ResenaService,
+    private perfilService: PerfilService
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +42,8 @@ export class PanelComponent implements OnInit {
     this.loadUltimasResenas();
     // Cargar las categorías
     this.loadCategorias();
+    // Cargar el perfil del usuario
+    this.loadUserProfile();
   }
 
   loadUserInfoFromToken(): void {
@@ -52,6 +59,17 @@ export class PanelComponent implements OnInit {
         };
       }
     }
+  }
+
+  loadUserProfile(): void {
+    this.perfilService.getProfile().subscribe({
+      next: (profile: UsuarioDTO) => {
+        this.userProfile = profile;
+      },
+      error: (error: any) => {
+        console.error('Error loading user profile:', error);
+      },
+    });
   }
 
   loadPanelData(): void {

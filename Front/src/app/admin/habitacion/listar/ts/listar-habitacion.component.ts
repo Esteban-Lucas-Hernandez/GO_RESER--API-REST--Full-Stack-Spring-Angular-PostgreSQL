@@ -1,38 +1,85 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { HabitacionService } from '../../habitacion.service';
 import { HotelAdminService } from '../../../hoteles/hotel-admin.service';
-import { HabitacionDTO } from '../../habitacion.interface';
+import { HabitacionDTO, CrearHabitacionDTO } from '../../habitacion.interface';
 import { HotelDTO } from '../../../hoteles/hotel-admin.service';
+import { CategoriaHabitacionDTO } from '../../../categoria/categoria.service';
 import { filter } from 'rxjs/operators';
+import { CategoriaService } from '../../../categoria/categoria.service'; // Importar CategoriaService
 
 @Component({
   selector: 'app-listar-habitacion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: '../html/listar-habitacion.component.html',
   styleUrls: ['../css/listar-habitacion.component.css'],
 })
 export class ListarHabitacionComponent implements OnInit {
   titulo = 'Gestión de Habitaciones';
-  descripcion = 'Aquí puedes administrar las habitaciones de los hoteles.';
   habitaciones: HabitacionDTO[] = [];
   hoteles: HotelDTO[] = [];
+  categorias: CategoriaHabitacionDTO[] = []; // Arreglar la carga de categorías
   loading = false;
   error: string | null = null;
+  errorModal: string | null = null;
   hotelId: number | null = null;
+
+  // Propiedades para el modal de creación
+  mostrarModalCrear = false;
+  nuevaHabitacion: CrearHabitacionDTO = {
+    numero: '',
+    capacidad: 0,
+    precio: 0,
+    descripcion: '',
+    estado: 'disponible',
+    categoriaId: 0,
+    imagenUrl: '',
+    imagenesUrls: [],
+  };
+
+  // Propiedades para el modal de edición
+  mostrarModalEditar = false;
+  habitacionEditada: HabitacionDTO = {
+    idHabitacion: undefined,
+    idHotel: undefined,
+    categoria: {
+      id: undefined,
+      nombre: '',
+      descripcion: '',
+      usuarioId: undefined,
+    },
+    numero: '',
+    capacidad: 0,
+    precio: 0,
+    descripcion: '',
+    estado: 'disponible',
+    imagenUrl: '',
+    imagenesUrls: [],
+  };
+  habitacionEnEdicion: HabitacionDTO | null = null;
+
+  // Variables para el modal de confirmación
+  mostrandoModalConfirmacion = false;
+  mensajeModal = '';
+  habitacionAEliminar: { id: number; numero: string } | null = null;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private habitacionService: HabitacionService,
-    private hotelService: HotelAdminService
+    private hotelService: HotelAdminService,
+    private categoriaService: CategoriaService // Inyectar CategoriaService
   ) {}
 
   ngOnInit(): void {
     // Cargar la lista de hoteles
     this.loadHoteles();
+
+    // Cargar categorías
+    this.loadCategorias();
 
     // Cargar todas las habitaciones por defecto
     this.loadTodasLasHabitaciones();
@@ -63,6 +110,19 @@ export class ListarHabitacionComponent implements OnInit {
       error: (err: any) => {
         console.error('Error al cargar hoteles:', err);
         this.error = 'No se pudieron cargar los hoteles. Por favor, inténtelo más tarde.';
+      },
+    });
+  }
+
+  loadCategorias(): void {
+    // Cargar las categorías usando el servicio
+    this.categoriaService.getCategorias().subscribe({
+      next: (data: CategoriaHabitacionDTO[]) => {
+        this.categorias = data;
+      },
+      error: (err: any) => {
+        console.error('Error al cargar categorías:', err);
+        this.error = 'No se pudieron cargar las categorías. Por favor, inténtelo más tarde.';
       },
     });
   }
@@ -133,30 +193,149 @@ export class ListarHabitacionComponent implements OnInit {
     }
   }
 
-  crearHabitacion(): void {
-    if (this.hotelId) {
-      this.router.navigate(['/admin/habitacion/crear', this.hotelId]);
-    } else {
+  // Métodos para el modal de creación
+  abrirModalCreacion(): void {
+    if (!this.hotelId) {
       alert('Por favor, seleccione un hotel primero.');
+      return;
     }
+
+    // Resetear el formulario de nueva habitación
+    this.nuevaHabitacion = {
+      numero: '',
+      capacidad: 0,
+      precio: 0,
+      descripcion: '',
+      estado: 'disponible',
+      categoriaId: 0,
+      imagenUrl: '',
+      imagenesUrls: [],
+    };
+    this.mostrarModalCrear = true;
+    this.errorModal = null;
   }
 
-  editarHabitacion(habitacionId: number): void {
-    if (this.hotelId) {
-      this.router.navigate(['/admin/habitacion/editar', this.hotelId, habitacionId]);
-    } else {
-      // Si no hay hotelId específico, necesitamos encontrar a qué hotel pertenece la habitación
-      const habitacion = this.habitaciones.find((h) => h.idHabitacion === habitacionId);
-      if (habitacion && habitacion.idHotel) {
-        this.router.navigate(['/admin/habitacion/editar', habitacion.idHotel, habitacionId]);
-      } else {
-        alert('No se puede determinar el hotel de la habitación seleccionada.');
-      }
-    }
+  cerrarModalCrear(): void {
+    this.mostrarModalCrear = false;
+    this.errorModal = null;
   }
 
-  eliminarHabitacion(habitacionId: number): void {
-    if (confirm('¿Está seguro que desea eliminar esta habitación?')) {
+  guardarNuevaHabitacion(): void {
+    if (!this.hotelId) {
+      this.errorModal = 'ID de hotel no válido.';
+      return;
+    }
+
+    if (
+      !this.nuevaHabitacion.numero ||
+      !this.nuevaHabitacion.capacidad ||
+      !this.nuevaHabitacion.precio ||
+      !this.nuevaHabitacion.categoriaId
+    ) {
+      this.errorModal = 'Por favor, complete todos los campos obligatorios.';
+      return;
+    }
+
+    this.loading = true;
+    this.errorModal = null;
+
+    this.habitacionService.createHabitacion(this.hotelId, this.nuevaHabitacion).subscribe({
+      next: (habitacion: HabitacionDTO) => {
+        // Agregar la nueva habitación a la lista
+        this.habitaciones.push(habitacion);
+        this.cerrarModalCrear();
+        this.loading = false;
+      },
+      error: (err: any) => {
+        console.error('Error al crear habitación:', err);
+        this.errorModal = 'No se pudo crear la habitación. Por favor, inténtelo más tarde.';
+        this.loading = false;
+      },
+    });
+  }
+
+  // Métodos para el modal de edición
+  abrirModalEdicion(habitacion: HabitacionDTO): void {
+    this.habitacionEnEdicion = habitacion;
+    // Copiar los valores actuales para edición
+    this.habitacionEditada = {
+      ...habitacion,
+      categoria: {
+        ...habitacion.categoria,
+      },
+    };
+    this.mostrarModalEditar = true;
+    this.errorModal = null;
+  }
+
+  cerrarModalEditar(): void {
+    this.mostrarModalEditar = false;
+    this.habitacionEnEdicion = null;
+    this.errorModal = null;
+  }
+
+  guardarHabitacionEditada(): void {
+    if (!this.hotelId || !this.habitacionEnEdicion) {
+      this.errorModal = 'ID de hotel o habitación no válido.';
+      return;
+    }
+
+    if (
+      !this.habitacionEditada.numero ||
+      !this.habitacionEditada.capacidad ||
+      !this.habitacionEditada.precio
+    ) {
+      this.errorModal = 'Por favor, complete todos los campos obligatorios.';
+      return;
+    }
+
+    this.loading = true;
+    this.errorModal = null;
+
+    // Asegurarse de que categoriaId sea un número
+    const habitacionToUpdate: HabitacionDTO = {
+      ...this.habitacionEditada,
+      categoria: {
+        ...this.habitacionEditada.categoria,
+        id: this.habitacionEditada.categoria.id ? +this.habitacionEditada.categoria.id : undefined,
+      },
+    };
+
+    this.habitacionService
+      .updateHabitacion(this.hotelId, this.habitacionEnEdicion.idHabitacion!, habitacionToUpdate)
+      .subscribe({
+        next: (habitacionActualizada: HabitacionDTO) => {
+          // Actualizar la habitación en la lista
+          const index = this.habitaciones.findIndex(
+            (h) => h.idHabitacion === this.habitacionEnEdicion!.idHabitacion
+          );
+          if (index !== -1) {
+            this.habitaciones[index] = habitacionActualizada;
+          }
+
+          this.cerrarModalEditar();
+          this.loading = false;
+        },
+        error: (err: any) => {
+          console.error('Error al actualizar habitación:', err);
+          this.errorModal = 'No se pudo actualizar la habitación. Por favor, inténtelo más tarde.';
+          this.loading = false;
+        },
+      });
+  }
+
+  // Método modificado para usar modal de confirmación
+  eliminarHabitacion(id: number, numero: string): void {
+    this.habitacionAEliminar = { id, numero };
+    this.mensajeModal = '¿Está seguro que desea eliminar esta habitación?';
+    this.mostrandoModalConfirmacion = true;
+  }
+
+  // Método para confirmar la eliminación
+  confirmarEliminacion(): void {
+    if (this.habitacionAEliminar) {
+      const habitacionId = this.habitacionAEliminar.id;
+
       if (this.hotelId) {
         this.habitacionService.deleteHabitacion(this.hotelId, habitacionId).subscribe({
           next: () => {
@@ -166,10 +345,16 @@ export class ListarHabitacionComponent implements OnInit {
             } else {
               this.loadTodasLasHabitaciones();
             }
+            alert(
+              `La habitación "${this.habitacionAEliminar!.numero}" ha sido eliminada correctamente.`
+            );
+            this.cerrarModalConfirmacion();
           },
           error: (err: any) => {
             console.error('Error al eliminar habitación:', err);
             this.error = 'No se pudo eliminar la habitación. Por favor, inténtelo más tarde.';
+            alert('Error al eliminar la habitación. Por favor, inténtelo más tarde.');
+            this.cerrarModalConfirmacion();
           },
         });
       } else {
@@ -180,17 +365,33 @@ export class ListarHabitacionComponent implements OnInit {
             next: () => {
               // Recargar la lista después de eliminar
               this.loadTodasLasHabitaciones();
+              alert(
+                `La habitación "${
+                  this.habitacionAEliminar!.numero
+                }" ha sido eliminada correctamente.`
+              );
+              this.cerrarModalConfirmacion();
             },
             error: (err: any) => {
               console.error('Error al eliminar habitación:', err);
               this.error = 'No se pudo eliminar la habitación. Por favor, inténtelo más tarde.';
+              alert('Error al eliminar la habitación. Por favor, inténtelo más tarde.');
+              this.cerrarModalConfirmacion();
             },
           });
         } else {
           alert('No se puede determinar el hotel de la habitación seleccionada.');
+          this.cerrarModalConfirmacion();
         }
       }
     }
+  }
+
+  // Método para cerrar el modal de confirmación
+  cerrarModalConfirmacion(): void {
+    this.mostrandoModalConfirmacion = false;
+    this.habitacionAEliminar = null;
+    this.mensajeModal = '';
   }
 
   volverAHotel(): void {
