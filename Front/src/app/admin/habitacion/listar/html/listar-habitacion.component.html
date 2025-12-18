@@ -1,11 +1,12 @@
 <div class="habitaciones-container">
   <h2>{{ titulo }}</h2>
+  <p>{{ descripcion }}</p>
 
   <!-- Selector de hotel -->
   <div class="hotel-selector">
     <label for="hotelSelect">Filtrar por Hotel:</label>
-    <select id="hotelSelect" (change)="onHotelChange($event)" [value]="hotelId || ''">
-      <option value="">Todos los hoteles</option>
+    <select id="hotelSelect" (change)="onHotelChange($event)" [(ngModel)]="hotelId">
+      <option [value]="0">Todos los hoteles</option>
       <option *ngFor="let hotel of hoteles" [value]="hotel.id">
         {{ hotel.nombre }}
       </option>
@@ -114,7 +115,7 @@
   </div>
 
   <div class="actions">
-    <button class="btn" (click)="abrirModalCreacion()" [disabled]="!hotelId">
+    <button class="btn" (click)="abrirModalCreacion()" [disabled]="!hotelId || hotelId === 0">
       Agregar Nueva Habitación
     </button>
     <button class="btn-secondary" (click)="volverAHotel()">Volver a Hoteles</button>

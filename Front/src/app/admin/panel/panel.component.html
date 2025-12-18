@@ -68,9 +68,13 @@
                 </div>
               </div>
               <div class="legend" [ngClass]="{ 'legend-two-columns': categorias.length > 5 }">
+                <!-- Mostrar solo 5 categorías en pantallas menores a 560px -->
                 <div
                   class="legend-item"
-                  *ngFor="let categoria of categorias | slice : 0 : 10; let i = index"
+                  *ngFor="
+                    let categoria of categorias | slice : 0 : (isMobileView ? 5 : 10);
+                    let i = index
+                  "
                 >
                   <div class="legend-color" [style.background]="getCategoriaColor(i)"></div>
                   <div class="legend-text">
@@ -92,7 +96,7 @@
           <div class="chart-placeholder">
             <div class="numeric-axis-container">
               <!-- Eje Y con números del lado izquierdo -->
-              <div class="y-axis">
+              <div class="y-axis hide-on-mobile">
                 <div class="y-tick"><span class="star-icon">★</span> 5</div>
                 <div class="y-tick"><span class="star-icon">★</span> 4</div>
                 <div class="y-tick"><span class="star-icon">★</span> 3</div>

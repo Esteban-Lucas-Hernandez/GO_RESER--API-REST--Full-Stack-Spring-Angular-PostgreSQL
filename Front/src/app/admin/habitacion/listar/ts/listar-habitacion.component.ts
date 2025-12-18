@@ -19,13 +19,14 @@ import { CategoriaService } from '../../../categoria/categoria.service'; // Impo
 })
 export class ListarHabitacionComponent implements OnInit {
   titulo = 'Gestión de Habitaciones';
+  descripcion = 'Si quiere editar o eliminar un hotel por favor seleccione primero en el filtro';
   habitaciones: HabitacionDTO[] = [];
   hoteles: HotelDTO[] = [];
   categorias: CategoriaHabitacionDTO[] = []; // Arreglar la carga de categorías
   loading = false;
   error: string | null = null;
   errorModal: string | null = null;
-  hotelId: number | null = null;
+  hotelId: number | null = 0;
 
   // Propiedades para el modal de creación
   mostrarModalCrear = false;
@@ -96,7 +97,7 @@ export class ListarHabitacionComponent implements OnInit {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       // Si estamos en la ruta base de listado de habitaciones, recargar todas
       if (this.router.url === '/admin/habitacion/listar') {
-        this.hotelId = null;
+        this.hotelId = 0;
         this.loadTodasLasHabitaciones();
       }
     });
@@ -163,12 +164,12 @@ export class ListarHabitacionComponent implements OnInit {
 
   onHotelChange(event: any): void {
     const selectedHotelId = +event.target.value;
-    if (selectedHotelId) {
+    if (selectedHotelId > 0) {
       this.hotelId = selectedHotelId;
       this.router.navigate(['/admin/habitacion/listar', selectedHotelId]);
     } else {
-      // Si se selecciona la opción vacía, cargar todas las habitaciones
-      this.hotelId = null;
+      // Si se selecciona la opción "Todos los hoteles" (0), cargar todas las habitaciones
+      this.hotelId = 0;
       this.loadTodasLasHabitaciones();
     }
   }
@@ -195,7 +196,7 @@ export class ListarHabitacionComponent implements OnInit {
 
   // Métodos para el modal de creación
   abrirModalCreacion(): void {
-    if (!this.hotelId) {
+    if (!this.hotelId || this.hotelId === 0) {
       alert('Por favor, seleccione un hotel primero.');
       return;
     }
@@ -221,7 +222,7 @@ export class ListarHabitacionComponent implements OnInit {
   }
 
   guardarNuevaHabitacion(): void {
-    if (!this.hotelId) {
+    if (!this.hotelId || this.hotelId === 0) {
       this.errorModal = 'ID de hotel no válido.';
       return;
     }
@@ -275,7 +276,7 @@ export class ListarHabitacionComponent implements OnInit {
   }
 
   guardarHabitacionEditada(): void {
-    if (!this.hotelId || !this.habitacionEnEdicion) {
+    if (!this.hotelId || this.hotelId === 0 || !this.habitacionEnEdicion) {
       this.errorModal = 'ID de hotel o habitación no válido.';
       return;
     }
@@ -336,11 +337,11 @@ export class ListarHabitacionComponent implements OnInit {
     if (this.habitacionAEliminar) {
       const habitacionId = this.habitacionAEliminar.id;
 
-      if (this.hotelId) {
+      if (this.hotelId && this.hotelId > 0) {
         this.habitacionService.deleteHabitacion(this.hotelId, habitacionId).subscribe({
           next: () => {
             // Recargar la lista después de eliminar
-            if (this.hotelId) {
+            if (this.hotelId && this.hotelId > 0) {
               this.loadHabitaciones(this.hotelId);
             } else {
               this.loadTodasLasHabitaciones();

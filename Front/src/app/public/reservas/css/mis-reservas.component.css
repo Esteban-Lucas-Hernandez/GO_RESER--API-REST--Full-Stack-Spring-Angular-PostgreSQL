@@ -14,7 +14,8 @@
 }
 
 body {
-  font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
   background-color: #f0f9ff;
   /* Fondo azul muy claro como base */
   color: #334155;
@@ -618,16 +619,12 @@ body.dark .action-button {
   color: var(--danger);
 }
 
-
-
 .reservations-content {
   display: flex;
   flex-direction: column;
   gap: 2rem;
   width: 100%;
 }
-
-
 
 .reservations-title {
   font-size: 1.875rem;
@@ -864,6 +861,18 @@ body.dark .details-grid {
   background-color: #f1f5f9;
   color: #334155;
   /* Mantener color original en hover */
+}
+
+.confirm-button {
+  background: linear-gradient(135deg, #28a745, #218838);
+  color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.confirm-button:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34);
+  color: white;
+  /* Mantener texto blanco en hover */
 }
 
 body.dark .cancel-button {

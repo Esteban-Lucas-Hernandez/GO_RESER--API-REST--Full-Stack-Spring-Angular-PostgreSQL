@@ -48,12 +48,12 @@
 }
 
 .filtro-container .btn-secondary {
-  background-color: #6c757d;
+  background: linear-gradient(135deg, #00bfff, #0080ff);
   color: white;
 }
 
 .filtro-container .btn-secondary:hover:not(:disabled) {
-  background-color: #5a6268;
+  background: linear-gradient(135deg, #00bfff, #00509f);
 }
 
 /* Estilos para el botón de generar PDF */

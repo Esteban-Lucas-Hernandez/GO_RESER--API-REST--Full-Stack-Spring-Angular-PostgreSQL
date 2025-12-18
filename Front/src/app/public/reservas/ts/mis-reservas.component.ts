@@ -101,7 +101,7 @@ export class MisReservasComponent implements OnInit {
       this.hotelService.cancelarReserva(idReserva).subscribe({
         next: () => {
           // Actualizar el estado de la reserva localmente en lugar de recargar todas las reservas
-          const reserva = this.reservas.find(r => r.idReserva === idReserva);
+          const reserva = this.reservas.find((r) => r.idReserva === idReserva);
           if (reserva) {
             reserva.estado = 'CANCELADA';
           }
@@ -160,7 +160,7 @@ export class MisReservasComponent implements OnInit {
     if (reserva.estado?.toUpperCase() === 'CANCELADA') {
       return false;
     }
-    
+
     // No permitir cancelar si la fecha de salida es anterior a la fecha actual
     const fechaSalida = new Date(reserva.fechaFin);
     const fechaInicio = new Date(reserva.fechaInicio);
@@ -180,5 +180,37 @@ export class MisReservasComponent implements OnInit {
     // 1. La fecha de salida es posterior o igual a la fecha actual (como antes)
     // 2. Aún no hemos pasado el límite de 24 horas antes del inicio
     return fechaSalida >= fechaActual && fechaActual < tiempoLimiteCancelacion;
+  }
+
+  // Método para verificar si una reserva puede ser confirmada
+  puedeConfirmarReserva(reserva: Reserva): boolean {
+    // Solo mostrar el botón para reservas con estado "PENDIENTE"
+    return reserva.estado?.toUpperCase() === 'PENDIENTE';
+  }
+
+  // Método para confirmar una reserva
+  confirmarReserva(idReserva: number): void {
+    if (confirm('¿Está seguro que desea confirmar esta reserva?')) {
+      this.hotelService.confirmarReserva(idReserva).subscribe({
+        next: (reservaActualizada: Reserva) => {
+          // Actualizar el estado de la reserva localmente
+          const reserva = this.reservas.find((r) => r.idReserva === idReserva);
+          if (reserva) {
+            reserva.estado = reservaActualizada.estado;
+          }
+          alert('Reserva confirmada exitosamente');
+        },
+        error: (err: any) => {
+          console.error('Error al confirmar reserva:', err);
+          if (err.status === 403) {
+            alert('No tienes permisos para confirmar esta reserva.');
+          } else if (err.status === 404) {
+            alert('Reserva no encontrada.');
+          } else {
+            alert('No se pudo confirmar la reserva. Por favor, inténtelo más tarde.');
+          }
+        },
+      });
+    }
   }
 }
