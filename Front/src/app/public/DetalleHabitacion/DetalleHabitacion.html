@@ -114,7 +114,7 @@
             <button class="nav-btn next" (click)="imagenSiguiente()">&#10095;</button>
           </div>
           <div class="indice-imagen">
-            {{ indiceImagenActual + 1 }} / {{ habitacion.imagenesUrls?.length }}
+            {{ indiceImagenActual + 1 }} / {{ habitacion.imagenesUrls.length }}
           </div>
         </div>
       </div>
@@ -218,6 +218,8 @@
                         [class.rango-seleccionado]="esRangoSeleccionado(anioActual, mesActual, dia)"
                         [class.fecha-inicio]="esFechaInicio(anioActual, mesActual, dia)"
                         [class.fecha-fin]="esFechaFin(anioActual, mesActual, dia)"
+                        [class.flecha-derecha]="esFechaInicioFlecha(anioActual, mesActual, dia)"
+                        [class.flecha-izquierda]="esFechaFinFlecha(anioActual, mesActual, dia)"
                         (click)="seleccionarDia(dia)"
                       >
                         {{ dia }}

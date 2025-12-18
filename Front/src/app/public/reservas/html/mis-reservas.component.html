@@ -47,12 +47,16 @@
         <div *ngFor="let reserva of getReservasPaginadas()" class="reservation-card">
           <div class="card-content">
             <!-- Imagen de la habitación -->
-            <div class="card-image" [attr.data-alt]="'Imagen de la habitación ' + reserva.numeroHabitacion" [ngStyle]="{
+            <div
+              class="card-image"
+              [attr.data-alt]="'Imagen de la habitación ' + reserva.numeroHabitacion"
+              [ngStyle]="{
                 'background-image':
                   'url(' +
                   (reserva.urlImagenHabitacion || 'https://placehold.co/600x400?text=Sin+Imagen') +
                   ')'
-              }"></div>
+              }"
+            ></div>
 
             <!-- Detalles de la reserva -->
             <div class="card-details">
@@ -102,26 +106,63 @@
 
               <!-- Acciones de la reserva -->
               <div class="card-actions">
+                <!-- Botón para confirmar reserva (solo para reservas pendientes) -->
+                <button
+                  class="action-button confirm-button"
+                  *ngIf="puedeConfirmarReserva(reserva)"
+                  (click)="confirmarReserva(reserva.idReserva)"
+                >
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span>Confirmar Reserva</span>
+                </button>
+
                 <!-- Botón para descargar comprobante (solo para pagos confirmados) -->
-                <button class="action-button download-button" *ngIf="puedeDescargarComprobante(reserva)"
-                  (click)="descargarComprobante(reserva.idReserva)">
+                <button
+                  class="action-button download-button"
+                  *ngIf="puedeDescargarComprobante(reserva)"
+                  (click)="descargarComprobante(reserva.idReserva)"
+                >
                   <span class="material-symbols-outlined">receipt_long</span>
                   <span>Descargar Factura</span>
                 </button>
 
-                <button class="action-button cancel-button" (click)="cancelarReserva(reserva.idReserva)"
-                  *ngIf="puedeCancelarReserva(reserva)">
+                <button
+                  class="action-button cancel-button"
+                  (click)="cancelarReserva(reserva.idReserva)"
+                  *ngIf="puedeCancelarReserva(reserva)"
+                >
                   <span class="material-symbols-outlined">cancel</span>
                   <span>Cancelar Reserva</span>
                 </button>
-                
+
                 <!-- Placeholder buttons to maintain consistent height when buttons are not shown -->
-                <button class="action-button download-button placeholder-button" *ngIf="!puedeDescargarComprobante(reserva) && reserva.estado?.toUpperCase() !== 'CANCELADA'">
+                <button
+                  class="action-button confirm-button placeholder-button"
+                  *ngIf="
+                    !puedeConfirmarReserva(reserva) && reserva.estado?.toUpperCase() !== 'PENDIENTE'
+                  "
+                >
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span>Confirmar Reserva</span>
+                </button>
+
+                <button
+                  class="action-button download-button placeholder-button"
+                  *ngIf="
+                    !puedeDescargarComprobante(reserva) &&
+                    reserva.estado?.toUpperCase() !== 'CANCELADA'
+                  "
+                >
                   <span class="material-symbols-outlined">receipt_long</span>
                   <span>Descargar Factura</span>
                 </button>
 
-                <button class="action-button cancel-button placeholder-button" *ngIf="!puedeCancelarReserva(reserva) && reserva.estado?.toUpperCase() !== 'CANCELADA'">
+                <button
+                  class="action-button cancel-button placeholder-button"
+                  *ngIf="
+                    !puedeCancelarReserva(reserva) && reserva.estado?.toUpperCase() !== 'CANCELADA'
+                  "
+                >
                   <span class="material-symbols-outlined">cancel</span>
                   <span>Cancelar Reserva</span>
                 </button>
@@ -139,7 +180,11 @@
 
         <span class="pagination-info"> Página {{ currentPage }} de {{ totalPages }} </span>
 
-        <button class="pagination-button" (click)="nextPage()" [disabled]="currentPage === totalPages">
+        <button
+          class="pagination-button"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
           Siguiente
         </button>
       </div>

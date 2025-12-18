@@ -21,6 +21,12 @@ interface ReservaForm {
   metodoPago: string;
 }
 
+// Interface para el resultado de validación de fechas
+interface FechaValidationResult {
+  isValid: boolean;
+  errorMessage?: string;
+}
+
 @Component({
   selector: 'app-detalle-habitacion',
   standalone: true,
@@ -37,6 +43,9 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
 
   // Variable para almacenar las fechas reservadas
   fechasReservadas: string[][] = [];
+
+  // Variable para almacenar el resultado de validación de fechas
+  fechaValidationResult: FechaValidationResult = { isValid: true };
 
   // Variable para la imagen principal seleccionada
   imagenPrincipal: string = '';
@@ -181,9 +190,20 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
   }
 
   cerrarSelectorFechas(): void {
+    // Limpiar las fechas seleccionadas sin cerrar el selector
+    this.limpiarFechasSeleccionadas();
+  }
+
+  // Nueva función para realmente cerrar el selector de fechas
+  ocultarSelectorFechas(): void {
     this.mostrarSelectorFechas = false;
   }
 
+  // Función para limpiar las fechas seleccionadas
+  limpiarFechasSeleccionadas(): void {
+    this.fechaInicio = null;
+    this.fechaFin = null;
+  }
   cambiarMes(delta: number): void {
     this.mesActual += delta;
     if (this.mesActual < 0) {
@@ -304,6 +324,162 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
     return false;
   }
 
+  // Verificar si una reserva es de una noche y está aislada
+  esReservaUnaNocheAislada(rangoReserva: string[]): {
+    esUnaNoche: boolean;
+    esAislada: boolean;
+    estiloInicio?: string;
+    estiloFin?: string;
+  } {
+    // Verificar que el rango tenga exactamente 2 elementos
+    if (rangoReserva.length !== 2) {
+      return { esUnaNoche: false, esAislada: false };
+    }
+
+    // Parsear las fechas de inicio y fin
+    const partesInicio = rangoReserva[0].split('-');
+    const fechaInicio = new Date(
+      parseInt(partesInicio[0]),
+      parseInt(partesInicio[1]) - 1,
+      parseInt(partesInicio[2])
+    );
+    fechaInicio.setHours(0, 0, 0, 0);
+
+    const partesFin = rangoReserva[1].split('-');
+    const fechaFin = new Date(
+      parseInt(partesFin[0]),
+      parseInt(partesFin[1]) - 1,
+      parseInt(partesFin[2])
+    );
+    fechaFin.setHours(0, 0, 0, 0);
+
+    // Calcular la diferencia en días
+    const diferenciaMs = fechaFin.getTime() - fechaInicio.getTime();
+    const diferenciaDias = diferenciaMs / (1000 * 60 * 60 * 24);
+
+    // Verificar si es una reserva de una noche (diferencia exactamente 1 día)
+    const esUnaNoche = diferenciaDias === 1;
+
+    if (!esUnaNoche) {
+      return { esUnaNoche: false, esAislada: false };
+    }
+
+    // Verificar aislamiento
+    let esAislada = true;
+
+    // Verificar que ninguna otra reserva termine el mismo día que esta inicia
+    for (const otroRango of this.fechasReservadas) {
+      if (otroRango !== rangoReserva && otroRango.length === 2) {
+        const otrasPartesFin = otroRango[1].split('-');
+        const otraFechaFin = new Date(
+          parseInt(otrasPartesFin[0]),
+          parseInt(otrasPartesFin[1]) - 1,
+          parseInt(otrasPartesFin[2])
+        );
+        otraFechaFin.setHours(0, 0, 0, 0);
+
+        // Si otra reserva termina el mismo día que esta comienza, no está aislada
+        if (otraFechaFin.getTime() === fechaInicio.getTime()) {
+          esAislada = false;
+          break;
+        }
+      }
+    }
+
+    // Verificar que ninguna otra reserva comience el mismo día que esta termina
+    if (esAislada) {
+      for (const otroRango of this.fechasReservadas) {
+        if (otroRango !== rangoReserva && otroRango.length === 2) {
+          const otrasPartesInicio = otroRango[0].split('-');
+          const otraFechaInicio = new Date(
+            parseInt(otrasPartesInicio[0]),
+            parseInt(otrasPartesInicio[1]) - 1,
+            parseInt(otrasPartesInicio[2])
+          );
+          otraFechaInicio.setHours(0, 0, 0, 0);
+
+          // Si otra reserva comienza el mismo día que esta termina, no está aislada
+          if (otraFechaInicio.getTime() === fechaFin.getTime()) {
+            esAislada = false;
+            break;
+          }
+        }
+      }
+    }
+
+    // Si es una noche y está aislada, retornar los estilos
+    if (esUnaNoche && esAislada) {
+      return {
+        esUnaNoche: true,
+        esAislada: true,
+        estiloInicio: 'flecha-derecha',
+        estiloFin: 'flecha-izquierda',
+      };
+    }
+
+    return { esUnaNoche, esAislada };
+  }
+
+  // Verificar si una fecha es inicio de reserva de una noche aislada (para mostrar flecha derecha)
+  esFechaInicioFlecha(anio: number, mes: number, dia: number): boolean {
+    const fecha = new Date(anio, mes, dia);
+    fecha.setHours(0, 0, 0, 0);
+
+    // Revisar cada reserva para ver si esta fecha es inicio de una reserva de una noche aislada
+    for (const rango of this.fechasReservadas) {
+      if (rango.length === 2) {
+        const resultado = this.esReservaUnaNocheAislada(rango);
+        if (resultado.esUnaNoche && resultado.esAislada) {
+          // Parsear la fecha de inicio de esta reserva
+          const partesInicio = rango[0].split('-');
+          const fechaInicio = new Date(
+            parseInt(partesInicio[0]),
+            parseInt(partesInicio[1]) - 1,
+            parseInt(partesInicio[2])
+          );
+          fechaInicio.setHours(0, 0, 0, 0);
+
+          // Si la fecha coincide con el inicio de esta reserva aislada
+          if (fecha.getTime() === fechaInicio.getTime()) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  // Verificar si una fecha es fin de reserva de una noche aislada (para mostrar flecha izquierda)
+  esFechaFinFlecha(anio: number, mes: number, dia: number): boolean {
+    const fecha = new Date(anio, mes, dia);
+    fecha.setHours(0, 0, 0, 0);
+
+    // Revisar cada reserva para ver si esta fecha es fin de una reserva de una noche aislada
+    for (const rango of this.fechasReservadas) {
+      if (rango.length === 2) {
+        const resultado = this.esReservaUnaNocheAislada(rango);
+        if (resultado.esUnaNoche && resultado.esAislada) {
+          // Parsear la fecha de fin de esta reserva
+          const partesFin = rango[1].split('-');
+          const fechaFin = new Date(
+            parseInt(partesFin[0]),
+            parseInt(partesFin[1]) - 1,
+            parseInt(partesFin[2])
+          );
+          fechaFin.setHours(0, 0, 0, 0);
+
+          // Si la fecha coincide con el fin de esta reserva aislada
+          if (fecha.getTime() === fechaFin.getTime()) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
   // Verificar si una fecha está bloqueada (ya sea por ser pasada, por estar reservada, por ser salida y entrada el mismo día, o por ser el día actual cuando hay reserva que comienza ese día)
   esFechaBloqueada(anio: number, mes: number, dia: number): boolean {
     // Crear fecha con zona horaria de Colombia
@@ -363,13 +539,129 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  seleccionarDia(dia: number): void {
-    // No permitir seleccionar días bloqueados
-    if (this.esFechaBloqueada(this.anioActual, this.mesActual, dia)) {
-      return;
+  // Nueva función de validación de fechas según las reglas especificadas
+  validarSeleccionFecha(fecha: Date): FechaValidationResult {
+    // Normalizar la fecha
+    fecha.setHours(0, 0, 0, 0);
+
+    // Obtener la fecha de hoy con zona horaria de Colombia
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    // Si no hay fecha de inicio seleccionada aún
+    if (!this.fechaInicio || (this.fechaInicio && this.fechaFin)) {
+      // Validación de Inicio Inmediata: Verificar si ya existe una reserva que empieza ese mismo día
+      if (this.esFechaInicioDeReserva(fecha.getFullYear(), fecha.getMonth(), fecha.getDate())) {
+        return {
+          isValid: false,
+          errorMessage: 'Ya existe una reserva que inicia este día, por favor elige otro inicio',
+        };
+      }
+
+      // Continuidad Permitida: Se permite iniciar una reserva solo si ese día está libre
+      // O si es el día en que termina otra reserva existente
+      // Esta validación ya se maneja implícitamente al permitir seleccionar días no bloqueados
+
+      // Bloquear fechas pasadas
+      if (fecha < hoy) {
+        return {
+          isValid: false,
+          errorMessage: 'No se pueden seleccionar fechas pasadas',
+        };
+      }
+
+      // Si pasa todas las validaciones, es válida
+      return { isValid: true };
+    }
+    // Si ya hay una fecha de inicio seleccionada pero no una fecha de fin
+    else if (this.fechaInicio && !this.fechaFin) {
+      // Verificar que la fecha de fin sea posterior o igual a la fecha de inicio
+      if (fecha < this.fechaInicio) {
+        return {
+          isValid: false,
+          errorMessage: 'La fecha de fin debe ser posterior o igual a la fecha de inicio',
+        };
+      }
+
+      // Bloqueo de Rangos Intermedios:
+      // No se puede cerrar el rango si existen reservas que empiecen o terminen dentro del intervalo seleccionado
+      // El rango solo puede finalizar en un día libre o en el día exacto donde comienza la siguiente reserva
+      if (this.fechasReservadas && this.fechasReservadas.length > 0) {
+        for (const rango of this.fechasReservadas) {
+          if (rango.length === 2) {
+            // Parsear las fechas de reserva
+            const partesInicio = rango[0].split('-');
+            const fechaInicioReserva = new Date(
+              parseInt(partesInicio[0]),
+              parseInt(partesInicio[1]) - 1,
+              parseInt(partesInicio[2])
+            );
+            fechaInicioReserva.setHours(0, 0, 0, 0);
+
+            const partesFin = rango[1].split('-');
+            const fechaFinReserva = new Date(
+              parseInt(partesFin[0]),
+              parseInt(partesFin[1]) - 1,
+              parseInt(partesFin[2])
+            );
+            fechaFinReserva.setHours(0, 0, 0, 0);
+
+            // Verificar si la reserva existente está completamente dentro del rango seleccionado
+            // (excluyendo los extremos que coinciden con inicio/fin de la reserva existente)
+            if (fechaInicioReserva > this.fechaInicio && fechaInicioReserva < fecha) {
+              return {
+                isValid: false,
+                errorMessage:
+                  'No se puede seleccionar esta fecha de fin porque interfiere con una reserva existente',
+              };
+            }
+
+            if (fechaFinReserva > this.fechaInicio && fechaFinReserva < fecha) {
+              return {
+                isValid: false,
+                errorMessage:
+                  'No se puede seleccionar esta fecha de fin porque interfiere con una reserva existente',
+              };
+            }
+
+            // Caso especial: si la fecha de fin seleccionada coincide exactamente con el inicio de otra reserva
+            if (fecha.getTime() === fechaInicioReserva.getTime()) {
+              // Esto está permitido según las reglas
+              continue;
+            }
+
+            // Caso especial: si la fecha de inicio seleccionada coincide con el fin de otra reserva
+            // y la fecha de fin seleccionada está después
+            if (
+              this.fechaInicio.getTime() === fechaFinReserva.getTime() &&
+              fecha > fechaFinReserva
+            ) {
+              // Esto está permitido según las reglas
+              continue;
+            }
+          }
+        }
+      }
+
+      // Si pasa todas las validaciones, es válida
+      return { isValid: true };
     }
 
+    // Por defecto, asumimos que es válida
+    return { isValid: true };
+  }
+
+  seleccionarDia(dia: number): void {
     const fechaSeleccionada = new Date(this.anioActual, this.mesActual, dia);
+
+    // Validar la selección de fecha según las reglas especificadas
+    const validationResult = this.validarSeleccionFecha(fechaSeleccionada);
+
+    // Si la validación falla, mostrar el mensaje de error y salir
+    if (!validationResult.isValid) {
+      this.mostrarMensaje(validationResult.errorMessage || 'Fecha no válida', 'error');
+      return;
+    }
 
     if (!this.fechaInicio || (this.fechaInicio && this.fechaFin)) {
       // Si no hay fecha de inicio o ya hay ambas fechas, establecer nueva fecha de inicio
@@ -506,7 +798,14 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
 
         // Manejar errores específicos si es posible
         if (error.status === 400) {
-          mensaje = 'Datos de reserva inválidos. Por favor revise las fechas.';
+          // Intentar obtener el mensaje de error específico del backend
+          if (error.error && typeof error.error === 'string') {
+            mensaje = error.error;
+          } else if (error.error && error.error.message) {
+            mensaje = error.error.message;
+          } else {
+            mensaje = 'Datos de reserva inválidos. Por favor revise las fechas.';
+          }
         } else if (error.status === 401) {
           mensaje = 'No autorizado. Debe iniciar sesión para realizar una reserva.';
         } else if (error.status === 409) {
@@ -607,7 +906,14 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
 
         let mensaje = 'Error al confirmar el pago. Por favor, inténtelo más tarde.';
         if (error.status === 400) {
-          mensaje = 'Datos de pago inválidos. Por favor revise la información.';
+          // Intentar obtener el mensaje de error específico del backend
+          if (error.error && typeof error.error === 'string') {
+            mensaje = error.error;
+          } else if (error.error && error.error.message) {
+            mensaje = error.error.message;
+          } else {
+            mensaje = 'Datos de pago inválidos. Por favor revise la información.';
+          }
         } else if (error.status === 404) {
           mensaje = 'No se encontró la reserva.';
         }

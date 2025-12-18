@@ -1858,6 +1858,34 @@ footer {
   font-weight: 600;
 }
 
+.dia-calendario.flecha-derecha {
+  position: relative;
+}
+
+.dia-calendario.flecha-derecha::after {
+  content: '▶';
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.6rem;
+  color: white;
+}
+
+.dia-calendario.flecha-izquierda {
+  position: relative;
+}
+
+.dia-calendario.flecha-izquierda::before {
+  content: '◀';
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.6rem;
+  color: white;
+}
+
 .selector-footer {
   display: flex;
   justify-content: space-between;
