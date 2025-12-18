@@ -35,7 +35,7 @@ public class ReservaController {
     @GetMapping("/habitacion/{idHabitacion}/fechas-reservadas")
     public ResponseEntity<List<Object[]>> getFechasReservadas(@PathVariable Integer idHabitacion) {
         try {
-            List<Object[]> fechasReservadas = reservaService.getFechasReservadas(idHabitacion);
+            List<Object[]> fechasReservadas = reservaService.getFechasReservadasConfirmadas(idHabitacion);
             return ResponseEntity.ok(fechasReservadas);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -115,6 +115,23 @@ public class ReservaController {
         } catch (Exception e) {
             logger.error("Error al cancelar reserva: {}", e.getMessage(), e);
             return ResponseEntity.badRequest().body("Error al cancelar reserva: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Confirmar una reserva (cambiar de pendiente a confirmada)
+     */
+    @PutMapping("/{idReserva}/confirmar")
+    public ResponseEntity<?> confirmarReserva(@PathVariable Integer idReserva) {
+        logger.info("Iniciando confirmación de reserva ID: {}", idReserva);
+        try {
+            logger.info("Recibida solicitud de confirmación de reserva ID: {}", idReserva);
+            ReservaDTO reserva = reservaService.confirmarReserva(idReserva);
+            logger.info("Reserva confirmada exitosamente");
+            return ResponseEntity.ok(reserva);
+        } catch (Exception e) {
+            logger.error("Error al confirmar reserva: {}", e.getMessage(), e);
+            return ResponseEntity.badRequest().body("Error al confirmar reserva: " + e.getMessage());
         }
     }
     

@@ -14,9 +14,9 @@ import java.util.List;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     
-    // Verificar si hay reservas solapadas para una habitación en un rango de fechas
+    // Verificar si hay reservas solapadas confirmadas para una habitación en un rango de fechas
     @Query("SELECT COUNT(r) > 0 FROM Reserva r WHERE r.habitacion = :habitacion " +
-           "AND r.estado IN (com.example.Back.Models.Reserva.EstadoReserva.pendiente, com.example.Back.Models.Reserva.EstadoReserva.confirmada) " +
+           "AND r.estado = com.example.Back.Models.Reserva.EstadoReserva.confirmada " +
            "AND (r.fechaInicio < :fechaFin AND r.fechaFin > :fechaInicio)")
     boolean existsSolapadas(@Param("habitacion") Habitacion habitacion, 
                            @Param("fechaInicio") LocalDate fechaInicio, 
@@ -30,6 +30,6 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     
     // Obtener fechas de reservas confirmadas para una habitación
     @Query("SELECT r.fechaInicio, r.fechaFin FROM Reserva r WHERE r.habitacion = :habitacion " +
-           "AND r.estado IN (com.example.Back.Models.Reserva.EstadoReserva.pendiente, com.example.Back.Models.Reserva.EstadoReserva.confirmada)")
-    List<Object[]> findFechasReservadas(@Param("habitacion") Habitacion habitacion);
+           "AND r.estado = com.example.Back.Models.Reserva.EstadoReserva.confirmada")
+    List<Object[]> findFechasReservadasConfirmadas(@Param("habitacion") Habitacion habitacion);
 }

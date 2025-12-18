@@ -355,9 +355,70 @@ public class ReservaService {
     }
     
     /**
-     * Eliminar reservas canceladas y reservas con fecha de fin anterior a la fecha actual
-     * Solo para las reservas de los hoteles del usuario actual
+     * Obtener los días reservados confirmados de una habitación
      */
+    public List<Object[]> getFechasReservadasConfirmadas(Integer idHabitacion) {
+        logger.info("Obteniendo fechas reservadas confirmadas para la habitación ID: {}", idHabitacion);
+        try {
+            // Verificar que la habitación exista
+            Habitacion habitacion = habitacionRepository.findById(idHabitacion)
+                    .orElseThrow(() -> {
+                        logger.error("Habitación no encontrada: {}", idHabitacion);
+                        return new RuntimeException("Habitación no encontrada");
+                    });
+            
+            // Obtener las fechas reservadas confirmadas
+            List<Object[]> fechasReservadas = reservaRepository.findFechasReservadasConfirmadas(habitacion);
+            logger.info("Se encontraron {} rangos de fechas reservadas confirmadas para la habitación {}", fechasReservadas.size(), idHabitacion);
+            return fechasReservadas;
+        } catch (Exception e) {
+            logger.error("Error al obtener fechas reservadas confirmadas: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+    
+    /**
+     * Confirmar una reserva (cambiar de pendiente a confirmada)
+     */
+    public ReservaDTO confirmarReserva(Integer idReserva) {
+        logger.info("Iniciando confirmación de reserva ID: {}", idReserva);
+        try {
+            logger.info("Confirmando reserva ID: {}", idReserva);
+            Usuario usuario = securityService.getAuthenticatedUser();
+            if (usuario == null) {
+                logger.error("Usuario no autenticado al confirmar reserva");
+                throw new RuntimeException("Usuario no autenticado");
+            }
+
+            Reserva reserva = reservaRepository.findById(idReserva)
+                    .orElseThrow(() -> {
+                        logger.error("Reserva no encontrada al confirmar: {}", idReserva);
+                        return new RuntimeException("Reserva no encontrada");
+                    });
+
+            // Verificar que la reserva pertenezca al usuario
+            if (!reserva.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())) {
+                logger.error("Usuario no autorizado para confirmar reserva. Usuario ID: {}, Reserva ID: {}", 
+                            usuario.getIdUsuario(), idReserva);
+                throw new RuntimeException("No tienes permiso para confirmar esta reserva");
+            }
+
+            // Verificar que la reserva esté en estado pendiente
+            if (!reserva.getEstado().equals(Reserva.EstadoReserva.pendiente)) {
+                logger.error("La reserva no está en estado pendiente. Estado actual: {}", reserva.getEstado());
+                throw new RuntimeException("La reserva no está en estado pendiente");
+            }
+
+            reserva.setEstado(Reserva.EstadoReserva.confirmada);
+            Reserva reservaConfirmada = reservaRepository.save(reserva);
+            logger.info("Reserva confirmada exitosamente: {}", idReserva);
+            // Convertir a DTO
+            return ReservaMapper.INSTANCE.reservaToReservaDTO(reservaConfirmada);
+        } catch (Exception e) {
+            logger.error("Error al confirmar reserva: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
     public int eliminarReservasAntiguasYCanceladas() {
         logger.info("Iniciando eliminación de reservas antiguas y canceladas");
         try {
