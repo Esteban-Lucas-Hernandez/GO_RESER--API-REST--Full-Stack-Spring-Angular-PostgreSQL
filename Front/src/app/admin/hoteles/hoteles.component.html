@@ -6,75 +6,67 @@
     <table class="tabla-hoteles">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Nombre</th>
-          <th>Dirección</th>
-          <th>Teléfono</th>
+          <th>Contacto</th>
+          <th>Ubicación</th>
+          <th>Detalles</th>
           <th>Imagen</th>
-          <th>Estrellas</th>
-          <th>Ciudad</th>
           <th class="actions-cell">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let hotel of hoteles">
-          <td>{{ hotel.nombre }}</td>
-          <td>{{ hotel.direccion }}</td>
-          <td>{{ hotel.telefono }}</td>
-          <td>
-            <img
-              *ngIf="hotel.imagenUrl"
-              [src]="hotel.imagenUrl"
-              alt="Imagen del hotel"
-              class="hotel-image"
-            />
-            <span *ngIf="!hotel.imagenUrl">Sin imagen</span>
+          <td data-label="ID">{{ hotel.id }}</td>
+          <td data-label="Nombre">
+            <strong>{{ hotel.nombre }}</strong>
           </td>
-          <td>
-            <span class="estrellas">
-              {{ hotel.estrellas }}
-              <span *ngIf="hotel.estrellas === 5">★ ★ ★ ★ ★</span>
-              <span *ngIf="hotel.estrellas === 4">★ ★ ★ ★</span>
-              <span *ngIf="hotel.estrellas === 3">★ ★ ★</span>
-              <span *ngIf="hotel.estrellas === 2">★ ★</span>
-              <span *ngIf="hotel.estrellas === 1">★</span>
-            </span>
+          <td data-label="Contacto">
+            <div class="contact-info">
+              <div><fa-icon [icon]="faPhone"></fa-icon> {{ hotel.telefono }}</div>
+              <div>
+                <fa-icon [icon]="faEnvelope"></fa-icon> {{ hotel.email || 'No especificado' }}
+              </div>
+            </div>
           </td>
-          <td>{{ hotel.ciudadNombre }}</td>
+          <td data-label="Ubicación">
+            <div class="location-info">
+              <div><fa-icon [icon]="faMapMarkerAlt"></fa-icon> {{ hotel.direccion }}</div>
+              <div><fa-icon [icon]="faCity"></fa-icon> {{ hotel.ciudadNombre }}</div>
+            </div>
+          </td>
+          <td data-label="Detalles">
+            <div class="details-info">
+              <div><fa-icon [icon]="faStar"></fa-icon> {{ hotel.estrellas }} estrellas</div>
+              <div class="description">
+                {{ hotel.descripcion | slice : 0 : 50
+                }}{{ hotel.descripcion?.length > 50 ? '...' : '' }}
+              </div>
+            </div>
+          </td>
+          <td data-label="Imagen">
+            <div class="image-cell">
+              <img
+                *ngIf="hotel.imagenUrl"
+                [src]="hotel.imagenUrl"
+                alt="Imagen del hotel"
+                class="hotel-image"
+              />
+              <div *ngIf="!hotel.imagenUrl" class="no-image">
+                <fa-icon [icon]="faImage"></fa-icon>
+              </div>
+            </div>
+          </td>
           <td class="actions-cell">
             <button class="btn-edit" (click)="editarHotel(hotel)" title="Editar">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="white"
-                class="bi bi-pencil"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
-                />
-              </svg>
+              <fa-icon [icon]="faEdit"></fa-icon>
             </button>
             <button
               class="btn-delete"
               (click)="eliminarHotel(hotel.id, hotel.nombre)"
               title="Eliminar"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="white"
-                class="bi bi-trash"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
-                />
-                <path
-                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
-                />
-              </svg>
+              <fa-icon [icon]="faTrash"></fa-icon>
             </button>
           </td>
         </tr>

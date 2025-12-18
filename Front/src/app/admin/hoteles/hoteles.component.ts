@@ -4,15 +4,46 @@ import { HotelAdminService } from './hotel-admin.service';
 import { HotelDTO } from './hotel-admin.service';
 import { EditarHotelComponent } from './editar/ts/editar-hotel.component';
 import { CrearHotelComponent } from './crear/ts/crear-hotel.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faPhone,
+  faEnvelope,
+  faMapMarkerAlt,
+  faCity,
+  faMap,
+  faStar,
+  faSignInAlt,
+  faSignOutAlt,
+  faImage,
+  faCalendarPlus,
+  faHistory,
+  faEdit,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-hoteles',
   standalone: true,
-  imports: [CommonModule, EditarHotelComponent, CrearHotelComponent],
+  imports: [CommonModule, EditarHotelComponent, CrearHotelComponent, FontAwesomeModule],
   templateUrl: './hoteles.component.html',
   styleUrls: ['./hoteles.component.css'],
 })
 export class HotelesComponent implements OnInit {
+  // Iconos de FontAwesome
+  faPhone = faPhone;
+  faEnvelope = faEnvelope;
+  faMapMarkerAlt = faMapMarkerAlt;
+  faCity = faCity;
+  faMap = faMap;
+  faStar = faStar;
+  faSignInAlt = faSignInAlt;
+  faSignOutAlt = faSignOutAlt;
+  faImage = faImage;
+  faCalendarPlus = faCalendarPlus;
+  faHistory = faHistory;
+  faEdit = faEdit;
+  faTrash = faTrash;
+
   titulo = 'Gestión de Hoteles';
   descripcion = 'Aquí puedes administrar los hoteles del sistema.';
   hoteles: HotelDTO[] = [];
