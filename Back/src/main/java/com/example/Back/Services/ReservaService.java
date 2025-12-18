@@ -332,6 +332,29 @@ public class ReservaService {
     }
     
     /**
+     * Obtener los días reservados de una habitación
+     */
+    public List<Object[]> getFechasReservadas(Integer idHabitacion) {
+        logger.info("Obteniendo fechas reservadas para la habitación ID: {}", idHabitacion);
+        try {
+            // Verificar que la habitación exista
+            Habitacion habitacion = habitacionRepository.findById(idHabitacion)
+                    .orElseThrow(() -> {
+                        logger.error("Habitación no encontrada: {}", idHabitacion);
+                        return new RuntimeException("Habitación no encontrada");
+                    });
+            
+            // Obtener las fechas reservadas
+            List<Object[]> fechasReservadas = reservaRepository.findFechasReservadas(habitacion);
+            logger.info("Se encontraron {} rangos de fechas reservadas para la habitación {}", fechasReservadas.size(), idHabitacion);
+            return fechasReservadas;
+        } catch (Exception e) {
+            logger.error("Error al obtener fechas reservadas: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+    
+    /**
      * Eliminar reservas canceladas y reservas con fecha de fin anterior a la fecha actual
      * Solo para las reservas de los hoteles del usuario actual
      */

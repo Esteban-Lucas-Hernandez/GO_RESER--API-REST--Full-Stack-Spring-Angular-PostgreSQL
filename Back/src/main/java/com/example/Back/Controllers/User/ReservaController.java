@@ -30,6 +30,19 @@ public class ReservaController {
     private PagoService pagoService;
 
     /**
+     * Obtener los días reservados de una habitación
+     */
+    @GetMapping("/habitacion/{idHabitacion}/fechas-reservadas")
+    public ResponseEntity<List<Object[]>> getFechasReservadas(@PathVariable Integer idHabitacion) {
+        try {
+            List<Object[]> fechasReservadas = reservaService.getFechasReservadas(idHabitacion);
+            return ResponseEntity.ok(fechasReservadas);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
      * Crear una reserva para una habitación específica
      */
     @PostMapping("/habitacion/{idHabitacion}")

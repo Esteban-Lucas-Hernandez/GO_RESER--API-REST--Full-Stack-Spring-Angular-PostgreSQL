@@ -2,6 +2,7 @@ package com.example.Back.Repo;
 
 import com.example.Back.Models.Habitacion;
 import com.example.Back.Models.Hotel;
+import com.example.Back.Models.CategoriaHabitacion;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,8 @@ public interface HabitacionRepository extends JpaRepository<Habitacion, Integer>
     
     @Query("SELECT CASE WHEN COUNT(h) > 0 THEN true ELSE false END FROM Habitacion h WHERE h.idHabitacion = :idHabitacion AND h.hotel.id = :hotelId")
     boolean existsByIdHabitacionAndHotelId(@Param("idHabitacion") Integer idHabitacion, @Param("hotelId") Integer hotelId);
+    
+    // Método para verificar si existen habitaciones asociadas a una categoría
+    @Query("SELECT COUNT(h) FROM Habitacion h WHERE h.categoria.id = :categoriaId")
+    long countByCategoriaId(@Param("categoriaId") Integer categoriaId);
 }

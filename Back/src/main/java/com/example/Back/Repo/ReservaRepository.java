@@ -27,4 +27,9 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     
     // Obtener reservas de una habitación específica
     List<Reserva> findByHabitacion(Habitacion habitacion);
+    
+    // Obtener fechas de reservas confirmadas para una habitación
+    @Query("SELECT r.fechaInicio, r.fechaFin FROM Reserva r WHERE r.habitacion = :habitacion " +
+           "AND r.estado IN (com.example.Back.Models.Reserva.EstadoReserva.pendiente, com.example.Back.Models.Reserva.EstadoReserva.confirmada)")
+    List<Object[]> findFechasReservadas(@Param("habitacion") Habitacion habitacion);
 }

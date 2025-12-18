@@ -5,6 +5,7 @@ import com.example.Back.Mapper.CategoriaHabitacionMapper;
 import com.example.Back.Models.CategoriaHabitacion;
 import com.example.Back.Models.Usuario;
 import com.example.Back.Repo.CategoriaHabitacionRepository;
+import com.example.Back.Repo.HabitacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class CategoriaHabitacionService {
 
     @Autowired
     private CategoriaHabitacionRepository categoriaHabitacionRepository;
+    
+    @Autowired
+    private HabitacionRepository habitacionRepository;
 
     @Autowired
     private SecurityService securityService;
@@ -89,7 +93,8 @@ public class CategoriaHabitacionService {
         return categoriaHabitacionMapper.categoriaHabitacionToCategoriaHabitacionDTO(categoriaActualizada);
     }
 
-    public void eliminarCategoriaDeUsuario(Integer categoriaId) {
+    // Método modificado para verificar relaciones antes de eliminar
+    public void eliminarCategoriaDeUsuario(Integer categoriaId) throws RuntimeException {
         // Obtener el usuario actual
         Usuario usuario = securityService.getCurrentUser();
         if (usuario == null) {
@@ -100,6 +105,12 @@ public class CategoriaHabitacionService {
         CategoriaHabitacion categoriaExistente = categoriaHabitacionRepository
                 .findByIdAndUsuarioIdUsuario(categoriaId, usuario.getIdUsuario())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada o no pertenece al usuario"));
+
+        // Verificar si existen habitaciones asociadas a esta categoría
+        long habitacionesAsociadas = habitacionRepository.countByCategoriaId(categoriaId);
+        if (habitacionesAsociadas > 0) {
+            throw new RuntimeException("No se puede eliminar la categoría porque está asociada a " + habitacionesAsociadas + " habitacion(es) por favor cambie de categoria la habitacion");
+        }
 
         // Eliminar la categoría
         categoriaHabitacionRepository.delete(categoriaExistente);

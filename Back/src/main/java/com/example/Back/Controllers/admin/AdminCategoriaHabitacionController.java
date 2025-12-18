@@ -45,9 +45,13 @@ public class AdminCategoriaHabitacionController {
     }
 
     @DeleteMapping("/{categoriaId}")
-    public ResponseEntity<Void> eliminarCategoriaDeUsuario(
+    public ResponseEntity<?> eliminarCategoriaDeUsuario(
             @PathVariable Integer categoriaId) {
-        categoriaHabitacionService.eliminarCategoriaDeUsuario(categoriaId);
-        return ResponseEntity.noContent().build();
+        try {
+            categoriaHabitacionService.eliminarCategoriaDeUsuario(categoriaId);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
