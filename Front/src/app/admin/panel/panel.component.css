@@ -442,6 +442,56 @@
   position: relative;
 }
 
+/* Estilos específicos para el gráfico de categorías (pie chart) */
+.card.pie-chart {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card.pie-chart .card-header {
+  flex-shrink: 0;
+}
+
+.card.pie-chart .card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.card.pie-chart .stats-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.card.pie-chart .stat-item {
+  text-align: center;
+  flex: 1;
+  min-width: 120px;
+}
+
+.card.pie-chart .chart-placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #ffffff, #f8f9fa);
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+  flex: 1;
+  min-height: 200px;
+  overflow: hidden;
+}
+
 /* Estilos para el gráfico de pastel usando CSS */
 .pie-chart-container {
   display: flex;
@@ -450,6 +500,8 @@
   width: 100%;
   height: 100%;
   gap: 20px;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .pie-chart-wrapper {
@@ -459,6 +511,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .pie-chart-css {
@@ -509,6 +562,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .legend-two-columns {
@@ -521,28 +576,30 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 
 .legend-color {
   width: 20px;
   height: 20px;
   border-radius: 4px;
+  flex-shrink: 0;
 }
 
 .legend-text {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 
 .legend-label {
   font-weight: 600;
   color: #333;
   font-size: 0.9rem;
-}
-
-.legend-value {
-  font-size: 0.8rem;
-  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Card de trading */
@@ -687,6 +744,163 @@
   overflow-x: auto;
 }
 
+/* Media queries específicas para el gráfico de categorías */
+@media (max-width: 1200px) {
+  .card.pie-chart .pie-chart-container {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .card.pie-chart .legend {
+    max-width: none;
+  }
+
+  .card.pie-chart .legend-two-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .card.pie-chart .stats-summary {
+    flex-wrap: wrap;
+  }
+
+  .card.pie-chart .stat-item {
+    flex: 1 1 45%;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card.pie-chart .pie-chart-container {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .card.pie-chart .legend {
+    max-width: none;
+  }
+
+  .card.pie-chart .stats-summary {
+    flex-direction: row;
+  }
+
+  .card.pie-chart .stat-item {
+    flex: 1 1 45%;
+  }
+
+  .card.pie-chart .chart-placeholder {
+    height: 180px;
+    min-height: 180px;
+  }
+
+  .card.pie-chart .pie-chart-wrapper {
+    width: 140px;
+    height: 140px;
+  }
+
+  .card.pie-chart .pie-chart-css {
+    width: 100px;
+    height: 100px;
+  }
+
+  .card.pie-chart .pie-center-circle {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 560px) {
+  .card.pie-chart .pie-chart-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .card.pie-chart .pie-chart-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .card.pie-chart .pie-chart-css {
+    width: 80px;
+    height: 80px;
+  }
+
+  .card.pie-chart .pie-center-circle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .card.pie-chart .center-value {
+    font-size: 0.8rem;
+  }
+
+  .card.pie-chart .legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 150px;
+  }
+
+  .card.pie-chart .legend-two-columns {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card.pie-chart .legend-item {
+    min-width: 120px;
+  }
+
+  .card.pie-chart .legend-label {
+    font-size: 0.8rem;
+  }
+
+  .card.pie-chart .chart-placeholder {
+    height: 150px;
+    min-height: 150px;
+    padding: 15px;
+  }
+
+  .card.pie-chart .stats-summary {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .card.pie-chart .stat-item {
+    flex: 1 1 45%;
+    min-width: 100px;
+  }
+
+  .card.pie-chart .stat-label {
+    font-size: 0.8rem;
+  }
+
+  .card.pie-chart .stat-value {
+    font-size: 1rem;
+  }
+}
+
+/* Media queries generales */
+@media (max-width: 1200px) {
+  .cards-container {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .stats-summary {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .stat-item {
+    flex: 1 1 45%;
+    min-width: 120px;
+  }
+}
+
 @media (max-width: 768px) {
   .cards-container {
     flex-direction: column;
@@ -705,21 +919,17 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    padding: 15px;
   }
 
   .user-info {
     text-align: left;
+    width: 100%;
+    justify-content: space-between;
   }
 
-  .pie-chart-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .pie-chart-wrapper {
-    width: 140px;
-    height: 140px;
+  .user-details {
+    flex: 1;
   }
 
   .numeric-axis-container {
@@ -755,5 +965,68 @@
     width: 1px;
     height: 5px;
     transform: translateX(50%);
+  }
+
+  .chart-footer {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .btn-ver-mas {
+    align-self: center;
+  }
+
+  .x-axis-resenas {
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: space-around;
+  }
+
+  .bar-chart-container {
+    padding: 0 10px;
+  }
+}
+
+/* Ocultar eje Y en pantallas menores a 769px */
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .card-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .stat-item {
+    flex: 1 1 100%;
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .bar {
+    width: 20px;
+  }
+
+  .x-tick-resena {
+    width: 20px;
+    font-size: 0.6rem;
+  }
+
+  .y-tick {
+    font-size: 0.6rem;
+  }
+
+  .card-body {
+    padding: 15px;
   }
 }

@@ -127,6 +127,10 @@
   display: none;
 }
 
+.logo-img.hidden {
+  display: none;
+}
+
 .sidebar a::before {
   content: '';
   position: absolute;

@@ -186,10 +186,18 @@ export class ListarCategoriaComponent implements OnInit {
           } else if (err.status === 0) {
             this.error =
               'Error de conexión. Verifique su conexión a internet o inténtelo más tarde.';
+          } else if (err.error && typeof err.error === 'string') {
+            // Mostrar el mensaje de error específico del backend
+            this.error = err.error;
+            alert(err.error);
+          } else if (err.error && err.error.message) {
+            // Mostrar el mensaje de error específico del backend
+            this.error = err.error.message;
+            alert(err.error.message);
           } else {
             this.error = 'No se pudo eliminar la categoría. Por favor, inténtelo más tarde.';
+            alert('Error al eliminar la categoría. Por favor, inténtelo más tarde.');
           }
-          alert('Error al eliminar la categoría. Por favor, inténtelo más tarde.');
           this.cerrarModalConfirmacion();
         },
       });

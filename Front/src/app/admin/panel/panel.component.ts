@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe, SlicePipe, NgStyle } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ResenaService } from '../resenas/resena.service';
 import { Resena } from '../resenas/resena.interface';
@@ -18,12 +18,14 @@ import { UsuarioDTO } from '../perfil/usuario.dto';
   styleUrls: ['./panel.component.css'],
   providers: [DatePipe],
 })
-export class PanelComponent implements OnInit {
+export class PanelComponent implements OnInit, OnDestroy {
   panelData: any = null;
   userInfo: any = null;
   userProfile: UsuarioDTO | null = null;
   ultimasResenas: Resena[] = [];
   categorias: any[] = [];
+  isMobileView: boolean = false;
+  private resizeSubscription!: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -44,6 +46,30 @@ export class PanelComponent implements OnInit {
     this.loadCategorias();
     // Cargar el perfil del usuario
     this.loadUserProfile();
+    // Detectar tamaño de pantalla
+    this.checkScreenSize();
+    // Escuchar cambios en el tamaño de la ventana
+    this.resizeSubscription = this.onResize().subscribe(() => {
+      this.checkScreenSize();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
+    }
+  }
+
+  private onResize(): Observable<Event> {
+    return new Observable((observer) => {
+      const handler = (event: Event) => observer.next(event);
+      window.addEventListener('resize', handler);
+      return () => window.removeEventListener('resize', handler);
+    });
+  }
+
+  private checkScreenSize(): void {
+    this.isMobileView = window.innerWidth < 560;
   }
 
   loadUserInfoFromToken(): void {
@@ -154,15 +180,6 @@ export class PanelComponent implements OnInit {
     } else {
       return 'linear-gradient(to top, #66d9ff,rgb(139, 218, 245))'; // 1 estrella - Azul muy claro
     }
-  }
-
-  getClipPathPoint(index: number, total: number): string {
-    const angle = (index + 1) * (360 / total);
-    // Convertir ángulo a coordenadas cartesianas
-    const radians = ((angle - 90) * Math.PI) / 180;
-    const x = 50 + 50 * Math.cos(radians);
-    const y = 50 + 50 * Math.sin(radians);
-    return `${x.toFixed(2)}% ${y.toFixed(2)}%, 50% 50%)`;
   }
 
   getPieSliceStyle(index: number, total: number): any {

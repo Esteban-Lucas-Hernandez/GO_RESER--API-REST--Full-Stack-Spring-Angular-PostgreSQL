@@ -316,4 +316,12 @@ export class HotelService {
       responseType: 'blob',
     });
   }
+
+  // Método para obtener las fechas reservadas de una habitación
+  getFechasReservadas(habitacionId: number): Observable<string[][]> {
+    const url = `${this.reservasUrl}/habitacion/${habitacionId}/fechas-reservadas`;
+    const headers = this.getAuthHeaders();
+
+    return this.http.get<string[][]>(url, { headers });
+  }
 }

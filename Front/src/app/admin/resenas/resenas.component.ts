@@ -22,17 +22,14 @@ export class ResenasComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarHoteles();
+    // Cargar todas las reseñas por defecto
+    this.cargarTodasLasResenas();
   }
 
   cargarHoteles(): void {
     this.hotelService.getHoteles().subscribe({
       next: (data: HotelDTO[]) => {
         this.hoteles = data;
-        // Seleccionar el primer hotel por defecto si hay hoteles
-        if (this.hoteles.length > 0 && this.hotelSeleccionado === null) {
-          this.hotelSeleccionado = this.hoteles[0].id;
-          this.cargarResenasPorHotel(this.hotelSeleccionado);
-        }
       },
       error: (error: any) => {
         console.error('Error al cargar hoteles:', error);
@@ -40,10 +37,12 @@ export class ResenasComponent implements OnInit {
     });
   }
 
-  cargarResenas(): void {
+  cargarTodasLasResenas(): void {
     this.resenaService.getResenas().subscribe({
       next: (data: Resena[]) => {
         this.resenas = data;
+        // Limpiar la selección del hotel cuando se muestran todas las reseñas
+        this.hotelSeleccionado = null;
       },
       error: (error: any) => {
         console.error('Error al cargar reseñas:', error);
@@ -69,5 +68,10 @@ export class ResenasComponent implements OnInit {
     if (!isNaN(hotelId)) {
       this.cargarResenasPorHotel(hotelId);
     }
+  }
+
+  // Método para ver todas las reseñas
+  verTodasLasResenas(): void {
+    this.cargarTodasLasResenas();
   }
 }

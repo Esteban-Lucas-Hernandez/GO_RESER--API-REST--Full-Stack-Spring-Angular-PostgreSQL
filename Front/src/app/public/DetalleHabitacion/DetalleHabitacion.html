@@ -171,44 +171,74 @@
       >
         <div class="modal-contenido-reserva">
           <span class="cerrar-modal-reserva" (click)="toggleFormularioReserva()">&times;</span>
-          <h3>Realizar Reserva</h3>
+          <h3>Reserva</h3>
           <form (ngSubmit)="onSubmitReserva($event)" #reservaForm="ngForm">
             <div class="form-row">
               <div class="form-group">
-                <label for="fechaInicio">Fecha de Entrada:</label>
+                <label for="rangoFechas"></label>
                 <input
-                  type="date"
-                  id="fechaInicio"
-                  name="fechaInicio"
-                  [(ngModel)]="reserva.fechaInicio"
-                  required
+                  type="text"
+                  id="rangoFechas"
+                  name="rangoFechas"
+                  readonly
+                  placeholder="Seleccione las fechas"
                   class="form-control"
                   style="
                     border: 2px solid #8ab6d4;
                     border-radius: 0.5rem;
                     padding: 0.75rem;
                     font-size: 1rem;
+                    cursor: pointer;
+                    background-color: white;
                   "
+                  (click)="abrirSelectorFechas()"
                 />
+                <div *ngIf="mostrarSelectorFechas" class="selector-fechas-container">
+                  <div class="selector-fechas">
+                    <div class="selector-header">
+                      <button (click)="cambiarMes(-1)">&lt;</button>
+                      <span>{{ obtenerNombreMes(anioActual, mesActual) }} {{ anioActual }}</span>
+                      <button (click)="cambiarMes(1)">&gt;</button>
+                    </div>
+                    <div class="dias-semana">
+                      <span>D</span>
+                      <span>L</span>
+                      <span>M</span>
+                      <span>M</span>
+                      <span>J</span>
+                      <span>V</span>
+                      <span>S</span>
+                    </div>
+                    <div class="calendario-dias">
+                      <div
+                        *ngFor="let dia of obtenerDiasDelMes(anioActual, mesActual); let i = index"
+                        class="dia-calendario"
+                        [class.dia-bloqueado]="esFechaBloqueada(anioActual, mesActual, dia)"
+                        [class.dia-seleccionado]="esDiaSeleccionado(anioActual, mesActual, dia)"
+                        [class.rango-seleccionado]="esRangoSeleccionado(anioActual, mesActual, dia)"
+                        [class.fecha-inicio]="esFechaInicio(anioActual, mesActual, dia)"
+                        [class.fecha-fin]="esFechaFin(anioActual, mesActual, dia)"
+                        (click)="seleccionarDia(dia)"
+                      >
+                        {{ dia }}
+                      </div>
+                    </div>
+                    <div class="selector-footer">
+                      <button (click)="cerrarSelectorFechas()">Cancelar</button>
+                      <button
+                        (click)="confirmarSeleccionFechas()"
+                        [disabled]="!fechaInicio || !fechaFin"
+                      >
+                        Aplicar
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div class="form-group">
-                <label for="fechaFin">Fecha de Salida:</label>
-                <input
-                  type="date"
-                  id="fechaFin"
-                  name="fechaFin"
-                  [(ngModel)]="reserva.fechaFin"
-                  required
-                  class="form-control"
-                  style="
-                    border: 2px solid #81b4d4;
-                    border-radius: 0.5rem;
-                    padding: 0.75rem;
-                    font-size: 1rem;
-                  "
-                />
-              </div>
+              <!-- Inputs ocultos para almacenar las fechas seleccionadas -->
+              <input type="hidden" name="fechaInicio" [(ngModel)]="reserva.fechaInicio" required />
+              <input type="hidden" name="fechaFin" [(ngModel)]="reserva.fechaFin" required />
             </div>
 
             <div class="form-group">

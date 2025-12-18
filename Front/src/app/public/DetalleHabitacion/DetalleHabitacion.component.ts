@@ -35,6 +35,9 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
   hotelId: number | null = null;
   habitacionId: number | null = null;
 
+  // Variable para almacenar las fechas reservadas
+  fechasReservadas: string[][] = [];
+
   // Variable para la imagen principal seleccionada
   imagenPrincipal: string = '';
 
@@ -50,6 +53,14 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
     fechaFin: '',
     metodoPago: '',
   };
+
+  // Variables para el selector de fechas
+  mostrarSelectorFechas = false;
+  fechaInicio: Date | null = null;
+  fechaFin: Date | null = null;
+  mesActual: number;
+  anioActual: number;
+  hoy: Date;
 
   // Opciones de métodos de pago
   metodosPago = [
@@ -82,7 +93,13 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
     private router: Router,
     private hotelService: HotelService,
     private authService: AuthService
-  ) {}
+  ) {
+    // Configurar la fecha de hoy con la zona horaria de Colombia (GMT-5)
+    this.hoy = new Date();
+    this.hoy.setHours(0, 0, 0, 0); // Establecer la hora a 00:00:00 para comparaciones
+    this.mesActual = this.hoy.getMonth();
+    this.anioActual = this.hoy.getFullYear();
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -112,12 +129,29 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
           this.imagenPrincipal = data.imagenesUrls[0];
         }
         this.loading = false;
+
+        // Cargar las fechas reservadas después de obtener los detalles de la habitación
+        this.loadFechasReservadas(habitacionId);
       },
       error: (err: any) => {
         console.error('Error al cargar detalle de habitación:', err);
         this.error =
           'No se pudo cargar el detalle de la habitación. Por favor, inténtelo más tarde.';
         this.loading = false;
+      },
+    });
+  }
+
+  // Método para cargar las fechas reservadas
+  loadFechasReservadas(habitacionId: number): void {
+    this.hotelService.getFechasReservadas(habitacionId).subscribe({
+      next: (fechas: string[][]) => {
+        this.fechasReservadas = fechas;
+        console.log('Fechas reservadas cargadas:', this.fechasReservadas);
+      },
+      error: (err: any) => {
+        console.error('Error al cargar fechas reservadas:', err);
+        // No mostramos error al usuario ya que esto no bloquea la funcionalidad principal
       },
     });
   }
@@ -136,6 +170,262 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
       this.mensajeReserva = null;
       this.tipoMensajeReserva = null;
     }
+  }
+
+  // Funciones para el selector de fechas
+  abrirSelectorFechas(): void {
+    this.mostrarSelectorFechas = true;
+    // Reiniciar al mes actual si estamos viendo un mes diferente
+    this.mesActual = this.hoy.getMonth();
+    this.anioActual = this.hoy.getFullYear();
+  }
+
+  cerrarSelectorFechas(): void {
+    this.mostrarSelectorFechas = false;
+  }
+
+  cambiarMes(delta: number): void {
+    this.mesActual += delta;
+    if (this.mesActual < 0) {
+      this.mesActual = 11;
+      this.anioActual--;
+    } else if (this.mesActual > 11) {
+      this.mesActual = 0;
+      this.anioActual++;
+    }
+  }
+
+  obtenerNombreMes(anio: number, mes: number): string {
+    const meses = [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre',
+    ];
+    return meses[mes];
+  }
+
+  obtenerDiasDelMes(anio: number, mes: number): number[] {
+    const diasEnMes = new Date(anio, mes + 1, 0).getDate();
+    return Array.from({ length: diasEnMes }, (_, i) => i + 1);
+  }
+
+  // Verificar si una fecha es tanto fecha de salida de una reserva como fecha de entrada de otra reserva el mismo día
+  esFechaSalidaYEntrada(anio: number, mes: number, dia: number): boolean {
+    // Crear fecha con zona horaria de Colombia
+    const fecha = new Date(anio, mes, dia);
+    fecha.setHours(0, 0, 0, 0); // Normalizar la hora
+
+    if (this.fechasReservadas && this.fechasReservadas.length > 0) {
+      let esFechaSalida = false;
+      let esFechaEntrada = false;
+
+      // Verificar si la fecha es fecha de salida de alguna reserva
+      for (const rango of this.fechasReservadas) {
+        if (rango.length === 2) {
+          // Parsear la fecha de fin de reserva
+          const partesFin = rango[1].split('-');
+          const fechaFin = new Date(
+            parseInt(partesFin[0]),
+            parseInt(partesFin[1]) - 1,
+            parseInt(partesFin[2])
+          );
+          fechaFin.setHours(0, 0, 0, 0);
+
+          // Verificar si la fecha coincide con la fecha de fin
+          if (fecha.getTime() === fechaFin.getTime()) {
+            esFechaSalida = true;
+            break;
+          }
+        }
+      }
+
+      // Verificar si la fecha es fecha de entrada de alguna reserva
+      for (const rango of this.fechasReservadas) {
+        if (rango.length === 2) {
+          // Parsear la fecha de inicio de reserva
+          const partesInicio = rango[0].split('-');
+          const fechaInicio = new Date(
+            parseInt(partesInicio[0]),
+            parseInt(partesInicio[1]) - 1,
+            parseInt(partesInicio[2])
+          );
+          fechaInicio.setHours(0, 0, 0, 0);
+
+          // Verificar si la fecha coincide con la fecha de inicio
+          if (fecha.getTime() === fechaInicio.getTime()) {
+            esFechaEntrada = true;
+            break;
+          }
+        }
+      }
+
+      // Si la fecha es tanto salida como entrada, bloquearla
+      return esFechaSalida && esFechaEntrada;
+    }
+
+    return false;
+  }
+
+  // Verificar si una fecha es la fecha de inicio de una reserva
+  esFechaInicioDeReserva(anio: number, mes: number, dia: number): boolean {
+    // Crear fecha con zona horaria de Colombia
+    const fecha = new Date(anio, mes, dia);
+    fecha.setHours(0, 0, 0, 0); // Normalizar la hora
+
+    if (this.fechasReservadas && this.fechasReservadas.length > 0) {
+      for (const rango of this.fechasReservadas) {
+        if (rango.length === 2) {
+          // Parsear la fecha de inicio de reserva
+          const partesInicio = rango[0].split('-');
+          const fechaInicio = new Date(
+            parseInt(partesInicio[0]),
+            parseInt(partesInicio[1]) - 1,
+            parseInt(partesInicio[2])
+          );
+          fechaInicio.setHours(0, 0, 0, 0);
+
+          // Verificar si la fecha coincide con la fecha de inicio
+          if (fecha.getTime() === fechaInicio.getTime()) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  // Verificar si una fecha está bloqueada (ya sea por ser pasada, por estar reservada, por ser salida y entrada el mismo día, o por ser el día actual cuando hay reserva que comienza ese día)
+  esFechaBloqueada(anio: number, mes: number, dia: number): boolean {
+    // Crear fecha con zona horaria de Colombia
+    const fecha = new Date(anio, mes, dia);
+    fecha.setHours(0, 0, 0, 0); // Normalizar la hora
+
+    // Obtener la fecha de hoy con zona horaria de Colombia
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    // Bloquear fechas pasadas
+    if (fecha < hoy) {
+      return true;
+    }
+
+    // Bloquear fechas que son tanto salida como entrada
+    if (this.esFechaSalidaYEntrada(anio, mes, dia)) {
+      return true;
+    }
+
+    // Bloquear el día actual si hay una reserva que comienza ese día
+    if (fecha.getTime() === hoy.getTime() && this.esFechaInicioDeReserva(anio, mes, dia)) {
+      return true;
+    }
+
+    // Bloquear solo las noches intermedias de las reservas existentes
+    // Ni la fecha de entrada ni la fecha de salida deben bloquearse
+    if (this.fechasReservadas && this.fechasReservadas.length > 0) {
+      for (const rango of this.fechasReservadas) {
+        if (rango.length === 2) {
+          // Parsear las fechas de reserva considerando la zona horaria de Colombia
+          const partesInicio = rango[0].split('-');
+          const fechaInicio = new Date(
+            parseInt(partesInicio[0]),
+            parseInt(partesInicio[1]) - 1,
+            parseInt(partesInicio[2])
+          );
+          fechaInicio.setHours(0, 0, 0, 0);
+
+          const partesFin = rango[1].split('-');
+          const fechaFin = new Date(
+            parseInt(partesFin[0]),
+            parseInt(partesFin[1]) - 1,
+            parseInt(partesFin[2])
+          );
+          fechaFin.setHours(0, 0, 0, 0);
+
+          // Verificar si la fecha está dentro del rango de reserva (excluyendo los extremos)
+          // Para una reserva del 21 al 24, bloquear solo 22 y 23
+          if (fecha > fechaInicio && fecha < fechaFin) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  seleccionarDia(dia: number): void {
+    // No permitir seleccionar días bloqueados
+    if (this.esFechaBloqueada(this.anioActual, this.mesActual, dia)) {
+      return;
+    }
+
+    const fechaSeleccionada = new Date(this.anioActual, this.mesActual, dia);
+
+    if (!this.fechaInicio || (this.fechaInicio && this.fechaFin)) {
+      // Si no hay fecha de inicio o ya hay ambas fechas, establecer nueva fecha de inicio
+      this.fechaInicio = fechaSeleccionada;
+      this.fechaFin = null;
+    } else if (fechaSeleccionada < this.fechaInicio) {
+      // Si la fecha seleccionada es antes de la fecha de inicio, hacerla la nueva fecha de inicio
+      this.fechaInicio = fechaSeleccionada;
+    } else {
+      // Si la fecha seleccionada es después de la fecha de inicio, hacerla la fecha de fin
+      this.fechaFin = fechaSeleccionada;
+    }
+  }
+
+  esDiaSeleccionado(anio: number, mes: number, dia: number): boolean {
+    const fecha = new Date(anio, mes, dia);
+    if (this.fechaInicio && this.fechaFin) {
+      return (
+        fecha.getTime() === this.fechaInicio.getTime() ||
+        fecha.getTime() === this.fechaFin.getTime()
+      );
+    } else if (this.fechaInicio) {
+      return fecha.getTime() === this.fechaInicio.getTime();
+    }
+    return false;
+  }
+
+  esRangoSeleccionado(anio: number, mes: number, dia: number): boolean {
+    if (!this.fechaInicio || !this.fechaFin) return false;
+
+    const fecha = new Date(anio, mes, dia);
+    return fecha > this.fechaInicio && fecha < this.fechaFin;
+  }
+
+  esFechaInicio(anio: number, mes: number, dia: number): boolean {
+    if (!this.fechaInicio) return false;
+
+    const fecha = new Date(anio, mes, dia);
+    return fecha.getTime() === this.fechaInicio.getTime();
+  }
+
+  esFechaFin(anio: number, mes: number, dia: number): boolean {
+    if (!this.fechaFin) return false;
+
+    const fecha = new Date(anio, mes, dia);
+    return fecha.getTime() === this.fechaFin.getTime();
+  }
+
+  confirmarSeleccionFechas(): void {
+    if (this.fechaInicio) {
+      this.reserva.fechaInicio = this.fechaInicio.toISOString().split('T')[0];
+    }
+    if (this.fechaFin) {
+      this.reserva.fechaFin = this.fechaFin.toISOString().split('T')[0];
+    }
+    this.mostrarSelectorFechas = false;
   }
 
   // Validar y enviar formulario de reserva
@@ -235,6 +525,8 @@ export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
       fechaFin: '',
       metodoPago: '',
     };
+    this.fechaInicio = null;
+    this.fechaFin = null;
   }
 
   // Mostrar mensaje de éxito o error

@@ -10,10 +10,12 @@
       [(ngModel)]="hotelSeleccionado"
       class="form-control"
     >
+      <option [value]="null">Todos los hoteles</option>
       <option *ngFor="let hotel of hoteles" [value]="hotel.id">
         {{ hotel.nombre }}
       </option>
     </select>
+    <button (click)="verTodasLasResenas()" class="btn-ver-todas">Ver todas las reseñas</button>
   </div>
 
   <!-- Tabla de reseñas -->
