@@ -11,6 +11,7 @@ export interface Usuario {
   roles: string[];
   estado: boolean;
   fechaRegistro: string;
+  fotoUrl?: string; // Propiedad opcional para la URL de la foto del usuario
 }
 
 @Injectable({
@@ -59,17 +60,17 @@ export class SuperAdminService {
 
   // Eliminar un usuario
   deleteUser(id: number): Observable<any> {
-  const url = `${this.baseUrl}/usuarios/${id}`;
-  const token = this.getToken();
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`,
-  });
+    const url = `${this.baseUrl}/usuarios/${id}`;
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
 
-  return this.http.delete(url, {
-    headers,
-    responseType: 'text'  // 👈 ESTA ES LA CLAVE
-  });
-}
+    return this.http.delete(url, {
+      headers,
+      responseType: 'text', // 👈 ESTA ES LA CLAVE
+    });
+  }
 
   // Método auxiliar para obtener el token
   private getToken(): string | null {

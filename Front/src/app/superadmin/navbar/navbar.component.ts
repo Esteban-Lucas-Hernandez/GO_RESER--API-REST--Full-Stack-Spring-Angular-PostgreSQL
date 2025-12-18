@@ -14,6 +14,7 @@ import {
   faSignOutAlt,
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
+import { NavbarStateService } from '../../admin/navbar-state.service';
 
 @Component({
   selector: 'app-superadmin-navbar',
@@ -38,11 +39,13 @@ export class SuperAdminNavbarComponent {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private navbarStateService: NavbarStateService
   ) {}
 
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
+    this.navbarStateService.setCollapsed(this.isCollapsed);
   }
 
   logout(): void {

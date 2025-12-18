@@ -3,13 +3,13 @@
     <h1>Panel de Super Administrador</h1>
     <div class="header-actions">
       <div class="search-container">
-        <input 
-          type="text" 
-          placeholder="Buscar usuarios..." 
+        <input
+          type="text"
+          placeholder="Buscar usuarios..."
           class="search-input"
           [(ngModel)]="searchTerm"
           (input)="filterUsers()"
-        >
+        />
       </div>
       <button (click)="getUsers()" class="btn btn-refresh" [disabled]="loading">
         <span *ngIf="!loading">↻ Actualizar</span>
@@ -38,22 +38,22 @@
       <div class="section-header">
         <h2>Gestión de Usuarios</h2>
         <div class="filter-tabs">
-          <button 
-            class="tab-btn" 
+          <button
+            class="tab-btn"
             [class.active]="activeFilter === 'all'"
             (click)="setFilter('all')"
           >
             Todos
           </button>
-          <button 
-            class="tab-btn" 
+          <button
+            class="tab-btn"
             [class.active]="activeFilter === 'active'"
             (click)="setFilter('active')"
           >
             Activos
           </button>
-          <button 
-            class="tab-btn" 
+          <button
+            class="tab-btn"
             [class.active]="activeFilter === 'inactive'"
             (click)="setFilter('inactive')"
           >
@@ -72,14 +72,21 @@
       </div>
 
       <div *ngIf="!loading && filteredUsers.length > 0" class="users-grid">
-        <div 
-          *ngFor="let usuario of paginatedUsers" 
+        <div
+          *ngFor="let usuario of paginatedUsers"
           class="user-card"
           [class.inactive]="!usuario.estado"
         >
           <div class="user-header">
-            <div class="user-avatar">
+            <div class="user-avatar" *ngIf="!usuario.fotoUrl">
               {{ usuario.nombreCompleto.charAt(0) }}
+            </div>
+            <div class="user-image" *ngIf="usuario.fotoUrl">
+              <img
+                [src]="usuario.fotoUrl"
+                [alt]="usuario.nombreCompleto"
+                (error)="handleImageError(usuario)"
+              />
             </div>
             <div class="user-info">
               <h3>{{ usuario.nombreCompleto }}</h3>
@@ -106,7 +113,11 @@
             <div class="detail-row">
               <span class="detail-label">Rol:</span>
               <span class="detail-value role-badge" [class]="getRoleClass(usuario.roles)">
-                {{ usuario.roles && usuario.roles.length > 0 ? getRoleDisplayName(usuario.roles[0]) : 'Sin rol' }}
+                {{
+                  usuario.roles && usuario.roles.length > 0
+                    ? getRoleDisplayName(usuario.roles[0])
+                    : 'Sin rol'
+                }}
               </span>
             </div>
             <div class="detail-row">
@@ -123,7 +134,7 @@
             >
               {{ changingRole ? 'Cambiando...' : 'Cambiar Rol' }}
             </button>
-            
+
             <button
               (click)="changeUserStatus(usuario)"
               class="btn btn-toggle btn-small"
@@ -132,7 +143,7 @@
             >
               {{ usuario.estado ? 'Desactivar' : 'Activar' }}
             </button>
-            
+
             <button
               (click)="deleteUser(usuario)"
               class="btn btn-danger btn-small"
@@ -146,23 +157,13 @@
 
       <!-- Pagination Controls -->
       <div *ngIf="filteredUsers.length > 6" class="pagination-controls">
-        <button 
-          class="btn-pagination"
-          (click)="previousPage()"
-          [disabled]="currentPage === 1"
-        >
+        <button class="btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">
           Anterior
         </button>
-        
-        <span class="pagination-info">
-          Página {{ currentPage }} de {{ totalPages }}
-        </span>
-        
-        <button 
-          class="btn-pagination"
-          (click)="nextPage()"
-          [disabled]="currentPage === totalPages"
-        >
+
+        <span class="pagination-info"> Página {{ currentPage }} de {{ totalPages }} </span>
+
+        <button class="btn-pagination" (click)="nextPage()" [disabled]="currentPage === totalPages">
           Siguiente
         </button>
       </div>
@@ -177,10 +178,11 @@
       <h3>Cambiar Rol de Usuario</h3>
       <button class="modal-close" (click)="closeRoleChangeDialog()">×</button>
     </div>
-    
+
     <div class="modal-body" *ngIf="selectedUser">
       <p class="modal-subtitle">
-        Selecciona el nuevo rol para <strong>{{ selectedUser.nombreCompleto }}</strong>:
+        Selecciona el nuevo rol para <strong>{{ selectedUser.nombreCompleto }}</strong
+        >:
       </p>
 
       <div class="role-options">

@@ -1,6 +1,6 @@
 <div class="superadmin-container">
   <app-superadmin-navbar></app-superadmin-navbar>
-  <div class="content">
+  <div class="content" [class.collapsed]="isCollapsed">
     <router-outlet></router-outlet>
   </div>
 </div>

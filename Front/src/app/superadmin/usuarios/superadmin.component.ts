@@ -32,7 +32,7 @@ export class SuperAdminComponent implements OnInit {
     { maxWidth: 768, itemsPerPage: 4 },
     { maxWidth: 1024, itemsPerPage: 6 },
     { maxWidth: 1200, itemsPerPage: 6 },
-    { maxWidth: Infinity, itemsPerPage: 6 }
+    { maxWidth: Infinity, itemsPerPage: 6 },
   ];
 
   @HostListener('window:resize', ['$event'])
@@ -40,7 +40,7 @@ export class SuperAdminComponent implements OnInit {
     // Recalculate items per page and update pagination on window resize
     const previousItemsPerPage = this.itemsPerPage;
     this.setItemsPerPage();
-    
+
     // If items per page changed, reset to first page
     if (previousItemsPerPage !== this.itemsPerPage) {
       this.currentPage = 1;
@@ -123,11 +123,11 @@ export class SuperAdminComponent implements OnInit {
 
   // Get counts for stats cards
   get activeUsersCount(): number {
-    return this.usuarios.filter(u => u.estado).length;
+    return this.usuarios.filter((u) => u.estado).length;
   }
 
   get adminUsersCount(): number {
-    return this.usuarios.filter(u => u.roles && u.roles.includes('ROLE_ADMIN')).length;
+    return this.usuarios.filter((u) => u.roles && u.roles.includes('ROLE_ADMIN')).length;
   }
 
   // Método para cambiar el estado de un usuario
@@ -139,7 +139,7 @@ export class SuperAdminComponent implements OnInit {
 
     this.changingStatus = true;
     const newStatus = !usuario.estado; // Cambiar al estado opuesto
-    
+
     this.superAdminService.changeUserStatus(usuario.idUsuario, newStatus).subscribe({
       next: (response) => {
         // Actualizar la lista de usuarios
@@ -163,7 +163,9 @@ export class SuperAdminComponent implements OnInit {
     }
 
     // Confirmar antes de eliminar
-    const confirmDelete = confirm(`¿Está seguro que desea eliminar al usuario ${usuario.nombreCompleto}? Puede contener hoteles y habitaciones esta acción no se puede deshacer.`);
+    const confirmDelete = confirm(
+      `¿Está seguro que desea eliminar al usuario ${usuario.nombreCompleto}? Puede contener hoteles y habitaciones esta acción no se puede deshacer.`
+    );
     if (!confirmDelete) {
       return;
     }
@@ -185,7 +187,10 @@ export class SuperAdminComponent implements OnInit {
         if (error.status === 0) {
           alert(`Usuario ${usuario.nombreCompleto} eliminado con éxito`);
         } else {
-          alert('Error al eliminar el usuario: ' + (error.error?.message || error.message || 'Error desconocido'));
+          alert(
+            'Error al eliminar el usuario: ' +
+              (error.error?.message || error.message || 'Error desconocido')
+          );
         }
       },
     });
@@ -215,28 +220,40 @@ export class SuperAdminComponent implements OnInit {
     if (!roles || roles.length === 0) return 'role-none';
     const role = roles[0];
     switch (role) {
-      case 'ROLE_USER': return 'role-user';
-      case 'ROLE_ADMIN': return 'role-admin';
-      case 'ROLE_SUPERADMIN': return 'role-superadmin';
-      default: return 'role-default';
+      case 'ROLE_USER':
+        return 'role-user';
+      case 'ROLE_ADMIN':
+        return 'role-admin';
+      case 'ROLE_SUPERADMIN':
+        return 'role-superadmin';
+      default:
+        return 'role-default';
     }
   }
 
   getRoleDisplayName(role: string): string {
     switch (role) {
-      case 'ROLE_USER': return 'Usuario';
-      case 'ROLE_ADMIN': return 'Administrador';
-      case 'ROLE_SUPERADMIN': return 'Super Admin';
-      default: return role;
+      case 'ROLE_USER':
+        return 'Usuario';
+      case 'ROLE_ADMIN':
+        return 'Administrador';
+      case 'ROLE_SUPERADMIN':
+        return 'Super Admin';
+      default:
+        return role;
     }
   }
 
   getRoleDescription(role: string): string {
     switch (role) {
-      case 'ROLE_USER': return 'Acceso básico a funciones de usuario';
-      case 'ROLE_ADMIN': return 'Gestión de contenido y usuarios básicos';
-      case 'ROLE_SUPERADMIN': return 'Control total del sistema';
-      default: return 'Rol sin descripción';
+      case 'ROLE_USER':
+        return 'Acceso básico a funciones de usuario';
+      case 'ROLE_ADMIN':
+        return 'Gestión de contenido y usuarios básicos';
+      case 'ROLE_SUPERADMIN':
+        return 'Control total del sistema';
+      default:
+        return 'Rol sin descripción';
     }
   }
 
@@ -249,24 +266,25 @@ export class SuperAdminComponent implements OnInit {
   // Filter methods
   filterUsers(): void {
     let result = [...this.usuarios];
-    
+
     // Apply search term filter
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
-      result = result.filter(user => 
-        user.nombreCompleto.toLowerCase().includes(term) ||
-        user.email.toLowerCase().includes(term) ||
-        (user.documento && user.documento.toLowerCase().includes(term))
+      result = result.filter(
+        (user) =>
+          user.nombreCompleto.toLowerCase().includes(term) ||
+          user.email.toLowerCase().includes(term) ||
+          (user.documento && user.documento.toLowerCase().includes(term))
       );
     }
-    
+
     // Apply status filter
     if (this.activeFilter === 'active') {
-      result = result.filter(user => user.estado);
+      result = result.filter((user) => user.estado);
     } else if (this.activeFilter === 'inactive') {
-      result = result.filter(user => !user.estado);
+      result = result.filter((user) => !user.estado);
     }
-    
+
     this.filteredUsers = result;
     this.updatePagination();
   }
@@ -286,6 +304,12 @@ export class SuperAdminComponent implements OnInit {
 
     this.changeUserRole(this.selectedUser.idUsuario, this.selectedRole);
     this.closeRoleChangeDialog();
+  }
+
+  // Método para manejar errores de carga de imagen
+  handleImageError(usuario: Usuario): void {
+    // Si la imagen no se puede cargar, eliminamos la URL para mostrar el avatar
+    usuario.fotoUrl = undefined;
   }
 
   // Método para cambiar el rol de un usuario

@@ -50,6 +50,7 @@
 .table-container {
   overflow-x: auto;
   width: 100%;
+  max-width: 100%;
 }
 
 .hoteles-table {
@@ -185,8 +186,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-state i,
@@ -249,39 +254,39 @@
   .hoteles-container {
     padding: 15px;
   }
-  
+
   .header-section {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .actions-bar {
     justify-content: center;
   }
-  
+
   .content-card {
     padding: 15px;
   }
-  
+
   .hoteles-table {
     font-size: 0.8rem;
   }
-  
+
   .hoteles-table th,
   .hoteles-table td {
     padding: 8px 10px;
   }
-  
+
   .hotel-image {
     max-width: 60px;
     max-height: 40px;
   }
-  
+
   .no-image {
     width: 40px;
     height: 40px;
   }
-  
+
   .no-image i {
     font-size: 1rem;
   }
@@ -291,21 +296,21 @@
   .hoteles-container {
     padding: 10px;
   }
-  
+
   .hoteles-container h2 {
     font-size: 1.5rem;
   }
-  
+
   .content-card {
     padding: 10px;
   }
-  
+
   /* Hide non-essential columns on small screens */
-  .hoteles-table th:nth-child(n+6),
-  .hoteles-table td:nth-child(n+6) {
+  .hoteles-table th:nth-child(n + 6),
+  .hoteles-table td:nth-child(n + 6) {
     display: none;
   }
-  
+
   /* Make table responsive */
   .hoteles-table,
   .hoteles-table thead,
@@ -315,36 +320,82 @@
   .hoteles-table tr {
     display: block;
   }
-  
+
   .hoteles-table thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
-  
+
   .hoteles-table tr {
     border: 1px solid #ccc;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 4px;
     background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
   }
-  
+
   .hoteles-table td {
     border: none;
     position: relative;
-    padding-left: 50%;
+    padding: 8px 8px 8px 50%;
     text-align: right;
+    word-wrap: break-word;
+    white-space: normal;
   }
-  
+
   .hoteles-table td:before {
-    content: attr(data-label) ": ";
+    content: attr(data-label) ': ';
     position: absolute;
     left: 10px;
     width: 45%;
     text-align: left;
     font-weight: bold;
     color: #2c3e50;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Ensure images don't overflow */
+  .hotel-image {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .image-cell {
+    min-height: auto;
+    padding: 5px 0;
+  }
+
+  .no-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .no-image i {
+    font-size: 1rem;
+  }
+
+  /* Adjust contact and location info for small screens */
+  .contact-info div,
+  .location-info div,
+  .details-info div,
+  .schedule-info div,
+  .date-info div {
+    font-size: 0.8rem;
+    word-break: break-word;
+  }
+
+  .contact-info i,
+  .location-info i,
+  .details-info i,
+  .schedule-info i,
+  .date-info i {
+    width: 14px;
+    font-size: 0.8rem;
   }
 }

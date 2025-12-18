@@ -45,13 +45,6 @@
   object-fit: contain;
 }
 
-/* Responsive design - Ocultar logo en pantallas pequeñas y medianas */
-@media (max-width: 992px) {
-  .logo-container {
-    display: none;
-  }
-}
-
 /* Botón de colapso */
 .collapse-btn {
   background: rgba(0, 191, 255, 0.1);
@@ -130,8 +123,11 @@
   transition: opacity 0.3s ease;
 }
 
-.menu-text.hidden,
-.logout-text.hidden {
+.menu-text.hidden {
+  display: none;
+}
+
+.logo-img.hidden {
   display: none;
 }
 
@@ -247,48 +243,4 @@
 .logout-btn:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.25);
-}
-
-/* Additional responsive adjustments */
-@media (max-width: 992px) {
-  .sidebar:not(.collapsed) {
-    width: 70px;
-  }
-  
-  .sidebar:not(.collapsed) .menu-text,
-  .sidebar:not(.collapsed) .logout-text {
-    display: none;
-  }
-  
-  .sidebar:not(.collapsed) .menu-icon,
-  .sidebar:not(.collapsed) .logout-icon {
-    margin-right: 0;
-  }
-  
-  .sidebar:not(.collapsed) a {
-    justify-content: center;
-    padding: 15px 0;
-  }
-  
-  .sidebar:not(.collapsed) .logout-btn {
-    justify-content: center;
-    padding: 12px 0;
-  }
-  
-  .sidebar:not(.collapsed) .collapse-btn {
-    position: absolute;
-    top: 10px;
-    right: 5px;
-  }
-}
-
-/* Mobile-first approach for smaller screens */
-@media (max-width: 768px) {
-  .sidebar {
-    transition: transform 0.3s ease;
-  }
-  
-  .sidebar.collapsed {
-    transform: translateX(-100%);
-  }
 }

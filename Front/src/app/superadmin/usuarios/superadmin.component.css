@@ -28,7 +28,7 @@
     align-items: stretch;
     margin-bottom: 20px;
   }
-  
+
   .dashboard-header h1 {
     font-size: 24px;
     text-align: center;
@@ -51,7 +51,7 @@
   .header-actions {
     flex-direction: column;
   }
-  
+
   .btn-refresh {
     width: 100%;
   }
@@ -193,7 +193,7 @@
   .filter-tabs {
     justify-content: center;
   }
-  
+
   .tab-btn {
     padding: 6px 12px;
     font-size: 13px;
@@ -240,8 +240,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* No Users Message */
@@ -328,6 +332,22 @@
   font-weight: bold;
   margin-right: 15px;
   flex-shrink: 0; /* Prevent avatar from shrinking */
+}
+
+.user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+  flex-shrink: 0; /* Prevent image from shrinking */
+  overflow: hidden;
+}
+
+.user-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .user-info {
@@ -656,7 +676,7 @@
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .btn-pagination {
     width: 100%;
   }
@@ -694,36 +714,36 @@
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .header-actions {
     flex-direction: column;
   }
-  
+
   .search-input {
     width: 100%;
   }
-  
+
   .section-header {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .filter-tabs {
     justify-content: center;
   }
-  
+
   .users-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .user-actions {
     flex-wrap: wrap;
   }
-  
+
   .stats-cards {
     grid-template-columns: 1fr;
   }
-  
+
   .pagination-controls {
     flex-direction: column;
     gap: 10px;

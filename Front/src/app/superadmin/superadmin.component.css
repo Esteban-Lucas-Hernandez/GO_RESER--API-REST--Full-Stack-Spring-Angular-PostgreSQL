@@ -1,19 +1,53 @@
 .superadmin-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .content {
+  flex: 1;
   margin-left: 250px;
   padding: 20px;
-  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: calc(100% - 250px);
+  transition: all 0.3s ease;
   background-color: #f8f9fa;
   min-height: 100vh;
 }
 
-@media (max-width: 768px) {
+.content.collapsed {
+  margin-left: 70px;
+  width: calc(100% - 70px);
+}
+
+/* Ocultar barras de desplazamiento en el contenido */
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+.content {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .superadmin-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
   .content {
     margin-left: 0;
+    width: 100%;
     padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 5px;
   }
 }
