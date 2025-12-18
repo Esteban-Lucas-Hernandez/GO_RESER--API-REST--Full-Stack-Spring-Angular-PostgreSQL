@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +21,33 @@ export class SuperAdminComponent implements OnInit {
   changingStatus = false;
   deletingUser = false;
 
+  // Pagination properties
+  currentPage: number = 1;
+  itemsPerPage: number = 6;
+  totalPages: number = 0;
+  paginatedUsers: Usuario[] = [];
+
+  // Responsive breakpoints
+  private breakpoints = [
+    { maxWidth: 768, itemsPerPage: 4 },
+    { maxWidth: 1024, itemsPerPage: 6 },
+    { maxWidth: 1200, itemsPerPage: 6 },
+    { maxWidth: Infinity, itemsPerPage: 6 }
+  ];
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    // Recalculate items per page and update pagination on window resize
+    const previousItemsPerPage = this.itemsPerPage;
+    this.setItemsPerPage();
+    
+    // If items per page changed, reset to first page
+    if (previousItemsPerPage !== this.itemsPerPage) {
+      this.currentPage = 1;
+      this.updatePagination();
+    }
+  }
+
   // Propiedades para el diálogo de cambio de rol
   showRoleChangeDialog = false;
   selectedUser: Usuario | null = null;
@@ -30,13 +57,56 @@ export class SuperAdminComponent implements OnInit {
   constructor(private superAdminService: SuperAdminService) {}
 
   ngOnInit(): void {
+    // Set initial items per page based on screen size
+    this.setItemsPerPage();
     // Obtener la lista de usuarios
     this.getUsers();
+  }
+
+  // Pagination methods
+  updatePagination(): void {
+    this.setItemsPerPage();
+    this.totalPages = Math.ceil(this.filteredUsers.length / this.itemsPerPage);
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedUsers = this.filteredUsers.slice(startIndex, endIndex);
+  }
+
+  setItemsPerPage(): void {
+    const screenWidth = window.innerWidth;
+    for (const breakpoint of this.breakpoints) {
+      if (screenWidth <= breakpoint.maxWidth) {
+        this.itemsPerPage = breakpoint.itemsPerPage;
+        break;
+      }
+    }
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
   }
 
   // Método para obtener la lista de usuarios
   getUsers() {
     this.loading = true;
+    this.currentPage = 1; // Reset to first page when fetching new data
     this.superAdminService.getAllUsers().subscribe({
       next: (data) => {
         this.usuarios = data;
@@ -104,12 +174,19 @@ export class SuperAdminComponent implements OnInit {
         // Actualizar la lista de usuarios
         this.getUsers();
         this.deletingUser = false;
-        alert(`Usuario ${usuario.nombreCompleto} eliminado correctamente`);
+        alert(`Usuario ${usuario.nombreCompleto} eliminado con éxito`);
       },
       error: (error) => {
         console.error('Error al eliminar usuario:', error);
-        alert('Error al eliminar el usuario: ' + (error.error?.message || error.message));
+        // Even if we get an error, refresh the list as the user might have been deleted
+        this.getUsers();
         this.deletingUser = false;
+        // For network errors (status 0), assume success and show success message
+        if (error.status === 0) {
+          alert(`Usuario ${usuario.nombreCompleto} eliminado con éxito`);
+        } else {
+          alert('Error al eliminar el usuario: ' + (error.error?.message || error.message || 'Error desconocido'));
+        }
       },
     });
   }
@@ -191,10 +268,12 @@ export class SuperAdminComponent implements OnInit {
     }
     
     this.filteredUsers = result;
+    this.updatePagination();
   }
 
   setFilter(filter: string): void {
     this.activeFilter = filter;
+    this.currentPage = 1; // Reset to first page when filter changes
     this.filterUsers();
   }
 

@@ -10,7 +10,6 @@
           [(ngModel)]="searchTerm"
           (input)="filterUsers()"
         >
-        <i class="search-icon">🔍</i>
       </div>
       <button (click)="getUsers()" class="btn btn-refresh" [disabled]="loading">
         <span *ngIf="!loading">↻ Actualizar</span>
@@ -74,7 +73,7 @@
 
       <div *ngIf="!loading && filteredUsers.length > 0" class="users-grid">
         <div 
-          *ngFor="let usuario of filteredUsers" 
+          *ngFor="let usuario of paginatedUsers" 
           class="user-card"
           [class.inactive]="!usuario.estado"
         >
@@ -143,6 +142,29 @@
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div *ngIf="filteredUsers.length > 6" class="pagination-controls">
+        <button 
+          class="btn-pagination"
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+        >
+          Anterior
+        </button>
+        
+        <span class="pagination-info">
+          Página {{ currentPage }} de {{ totalPages }}
+        </span>
+        
+        <button 
+          class="btn-pagination"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   </div>

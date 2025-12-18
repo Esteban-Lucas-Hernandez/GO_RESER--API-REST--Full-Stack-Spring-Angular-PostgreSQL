@@ -1,66 +1,109 @@
 <div class="hoteles-container">
-  <h2>Gestión de Hoteles</h2>
-
-  <div *ngIf="loading" class="loading">
-    <p>Cargando hoteles...</p>
+  <div class="header-section">
+    <h2>Gestión de Hoteles</h2>
+    <div class="actions-bar">
+      <button class="btn btn-primary" (click)="loadHoteles()">
+        <i class="fas fa-sync-alt"></i> Actualizar
+      </button>
+      <!-- Aquí podrías agregar un botón para crear nuevos hoteles -->
+      <!-- <button class="btn btn-success" (click)="crearHotel()">
+        <i class="fas fa-plus"></i> Nuevo Hotel
+      </button> -->
+    </div>
   </div>
 
-  <div *ngIf="error" class="error">
-    <p>{{ error }}</p>
-  </div>
+  <div class="content-card">
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando hoteles...</p>
+    </div>
 
-  <div *ngIf="!loading && !error">
-    <table class="hoteles-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Dirección</th>
-          <th>Teléfono</th>
-          <th>Email</th>
-          <th>Descripción</th>
-          <th>Estrellas</th>
-          <th>Política Cancelación</th>
-          <th>Check In</th>
-          <th>Check Out</th>
-          <th>Imagen</th>
-          <th>Ciudad</th>
-          <th>Departamento</th>
-          <th>Creado</th>
-          <th>Actualizado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let hotel of hoteles">
-          <td>{{ hotel.id }}</td>
-          <td>{{ hotel.nombre }}</td>
-          <td>{{ hotel.direccion }}</td>
-          <td>{{ hotel.telefono }}</td>
-          <td>{{ hotel.email }}</td>
-          <td>{{ hotel.descripcion }}</td>
-          <td>{{ hotel.estrellas }}</td>
-          <td>{{ hotel.politicaCancelacion }}</td>
-          <td>{{ hotel.checkIn }}</td>
-          <td>{{ hotel.checkOut }}</td>
-          <td>
-            <img
-              *ngIf="hotel.imagenUrl"
-              [src]="hotel.imagenUrl"
-              alt="Imagen del hotel"
-              class="hotel-image"
-            />
-            <span *ngIf="!hotel.imagenUrl">Sin imagen</span>
-          </td>
-          <td>{{ hotel.ciudadNombre }}</td>
-          <td>{{ hotel.departamentoNombre }}</td>
-          <td>{{ hotel.createdAt | date : 'short' }}</td>
-          <td>{{ hotel.updatedAt | date : 'short' }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div *ngIf="error" class="error-state">
+      <i class="fas fa-exclamation-circle"></i>
+      <p>{{ error }}</p>
+      <button class="btn btn-secondary" (click)="loadHoteles()">
+        <i class="fas fa-redo"></i> Reintentar
+      </button>
+    </div>
 
-    <div *ngIf="hoteles.length === 0" class="no-data">
-      <p>No hay hoteles registrados.</p>
+    <div *ngIf="!loading && !error" class="table-container">
+      <div *ngIf="hoteles.length > 0" class="results-info">
+        Mostrando {{ hoteles.length }} hotel(es)
+      </div>
+      
+      <div *ngIf="hoteles.length === 0" class="empty-state">
+        <i class="fas fa-building"></i>
+        <h3>No hay hoteles registrados</h3>
+        <p>Aún no se han registrado hoteles en el sistema.</p>
+      </div>
+
+      <table class="hoteles-table" *ngIf="hoteles.length > 0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Contacto</th>
+            <th>Ubicación</th>
+            <th>Detalles</th>
+            <th>Horarios</th>
+            <th>Imagen</th>
+            <th>Fechas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let hotel of hoteles">
+            <td data-label="ID">{{ hotel.id }}</td>
+            <td data-label="Nombre">
+              <strong>{{ hotel.nombre }}</strong>
+            </td>
+            <td data-label="Contacto">
+              <div class="contact-info">
+                <div><i class="fas fa-phone"></i> {{ hotel.telefono }}</div>
+                <div><i class="fas fa-envelope"></i> {{ hotel.email }}</div>
+              </div>
+            </td>
+            <td data-label="Ubicación">
+              <div class="location-info">
+                <div><i class="fas fa-map-marker-alt"></i> {{ hotel.direccion }}</div>
+                <div><i class="fas fa-city"></i> {{ hotel.ciudadNombre }}</div>
+                <div><i class="fas fa-map"></i> {{ hotel.departamentoNombre }}</div>
+              </div>
+            </td>
+            <td data-label="Detalles">
+              <div class="details-info">
+                <div><i class="fas fa-star"></i> {{ hotel.estrellas }} estrellas</div>
+                <div class="description">{{ hotel.descripcion | slice:0:50 }}{{ hotel.descripcion.length > 50 ? '...' : '' }}</div>
+              </div>
+            </td>
+            <td data-label="Horarios">
+              <div class="schedule-info">
+                <div><i class="fas fa-sign-in-alt"></i> {{ hotel.checkIn }}</div>
+                <div><i class="fas fa-sign-out-alt"></i> {{ hotel.checkOut }}</div>
+              </div>
+            </td>
+            <td data-label="Imagen">
+              <div class="image-cell">
+                <img
+                  *ngIf="hotel.imagenUrl"
+                  [src]="hotel.imagenUrl"
+                  alt="Imagen del hotel"
+                  class="hotel-image"
+                  (error)="handleImageError($event)"
+                />
+                <div *ngIf="!hotel.imagenUrl" class="no-image">
+                  <i class="fas fa-image"></i>
+                </div>
+              </div>
+            </td>
+            <td data-label="Fechas">
+              <div class="date-info">
+                <div><i class="fas fa-calendar-plus"></i> {{ hotel.createdAt | date : 'shortDate' }}</div>
+                <div><i class="fas fa-history"></i> {{ hotel.updatedAt | date : 'shortDate' }}</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

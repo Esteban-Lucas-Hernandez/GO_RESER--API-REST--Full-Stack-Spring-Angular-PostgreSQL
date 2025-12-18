@@ -1,58 +1,140 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .hoteles-container {
   padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .hoteles-container h2 {
-  color: #333;
-  margin-bottom: 20px;
+  color: #2c3e50;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.actions-bar {
+  display: flex;
+  gap: 10px;
+}
+
+.content-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  padding: 20px;
+}
+
+.results-info {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+/* Table Styles */
+.table-container {
+  overflow-x: auto;
+  width: 100%;
 }
 
 .hoteles-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  table-layout: auto;
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
+  margin-top: 10px;
+  font-size: 0.9rem;
 }
 
 .hoteles-table th,
 .hoteles-table td {
-  padding: 12px;
+  padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
-  white-space: nowrap;
+  vertical-align: top;
 }
 
 .hoteles-table th {
-  background-color: #f2f2f2;
-  font-weight: bold;
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e9ecef;
   position: sticky;
   top: 0;
 }
 
-.hoteles-table tr:hover {
-  background-color: #f5f5f5;
+.hoteles-table td {
+  border-bottom: 1px solid #e9ecef;
 }
 
-.loading,
-.error,
-.no-data {
-  padding: 20px;
+.hoteles-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.hoteles-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Info Sections */
+.contact-info,
+.location-info,
+.details-info,
+.schedule-info,
+.date-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.contact-info div,
+.location-info div,
+.details-info div,
+.schedule-info div,
+.date-info div {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 0.85rem;
+}
+
+.contact-info i,
+.location-info i,
+.details-info i,
+.schedule-info i,
+.date-info i {
+  color: #3498db;
+  width: 16px;
   text-align: center;
 }
 
-.error {
-  color: #d32f2f;
-  background-color: #ffebee;
-  border: 1px solid #ffcdd2;
-  border-radius: 4px;
+.description {
+  margin-top: 5px;
+  color: #7f8c8d;
+  font-style: italic;
+  font-size: 0.8rem;
 }
 
-.no-data {
-  color: #666;
-  font-style: italic;
+/* Image Cell */
+.image-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
 }
 
 .hotel-image {
@@ -61,4 +143,208 @@
   width: auto;
   height: auto;
   object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.no-image {
+  width: 60px;
+  height: 60px;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #95a5a6;
+}
+
+.no-image i {
+  font-size: 1.5rem;
+}
+
+/* States */
+.loading-state,
+.error-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(52, 152, 219, 0.2);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-state i,
+.empty-state i {
+  font-size: 3rem;
+  color: #e74c3c;
+  margin-bottom: 15px;
+}
+
+.empty-state i {
+  color: #bdc3c7;
+}
+
+.empty-state h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.empty-state p {
+  color: #7f8c8d;
+  margin: 0;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+
+.btn-secondary {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #7f8c8d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hoteles-container {
+    padding: 15px;
+  }
+  
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .actions-bar {
+    justify-content: center;
+  }
+  
+  .content-card {
+    padding: 15px;
+  }
+  
+  .hoteles-table {
+    font-size: 0.8rem;
+  }
+  
+  .hoteles-table th,
+  .hoteles-table td {
+    padding: 8px 10px;
+  }
+  
+  .hotel-image {
+    max-width: 60px;
+    max-height: 40px;
+  }
+  
+  .no-image {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .no-image i {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hoteles-container {
+    padding: 10px;
+  }
+  
+  .hoteles-container h2 {
+    font-size: 1.5rem;
+  }
+  
+  .content-card {
+    padding: 10px;
+  }
+  
+  /* Hide non-essential columns on small screens */
+  .hoteles-table th:nth-child(n+6),
+  .hoteles-table td:nth-child(n+6) {
+    display: none;
+  }
+  
+  /* Make table responsive */
+  .hoteles-table,
+  .hoteles-table thead,
+  .hoteles-table tbody,
+  .hoteles-table th,
+  .hoteles-table td,
+  .hoteles-table tr {
+    display: block;
+  }
+  
+  .hoteles-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .hoteles-table tr {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .hoteles-table td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+  
+  .hoteles-table td:before {
+    content: attr(data-label) ": ";
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    text-align: left;
+    font-weight: bold;
+    color: #2c3e50;
+  }
 }

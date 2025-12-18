@@ -1,34 +1,30 @@
 <div class="habitaciones-container">
   <h2>Gestión de Habitaciones</h2>
 
-  <!-- Filtro de hoteles -->
-  <div class="filter-section">
-    <div class="filter-row">
-      <div class="filter-group">
-        <label for="hotel-select">Filtrar por hotel:</label>
-        <select id="hotel-select" (change)="onHotelChange($event)" [value]="selectedHotelId || ''">
-          <option value="">Todos los hoteles</option>
-          <option *ngFor="let hotel of hoteles" [value]="hotel.id">
-            {{ hotel.nombre }}
-          </option>
-        </select>
-      </div>
-      <button class="btn-reset" (click)="resetFilter()" *ngIf="selectedHotelId">
-        Limpiar filtro
-      </button>
-    </div>
+  <!-- Selector de hotel -->
+  <div class="hotel-selector">
+    <label for="hotelSelect">Filtrar por Hotel:</label>
+    <select id="hotelSelect" (change)="onHotelChange($event)" [value]="selectedHotelId || ''">
+      <option value="">Todos los hoteles</option>
+      <option *ngFor="let hotel of hoteles" [value]="hotel.id">
+        {{ hotel.nombre }}
+      </option>
+    </select>
   </div>
 
+  <!-- Mensaje de carga -->
   <div *ngIf="loading" class="loading">
     <p>Cargando habitaciones...</p>
   </div>
 
+  <!-- Mensaje de error -->
   <div *ngIf="error" class="error">
     <p>{{ error }}</p>
   </div>
 
-  <div *ngIf="!loading && !error">
-    <table class="habitaciones-table">
+  <!-- Lista de habitaciones -->
+  <div class="tabla-container">
+    <table class="tabla-habitaciones">
       <thead>
         <tr>
           <th>ID</th>
@@ -50,11 +46,10 @@
           <td>{{ habitacion.descripcion }}</td>
           <td>{{ habitacion.estado }}</td>
         </tr>
+        <tr *ngIf="!loading && habitaciones.length === 0">
+          <td colspan="7" class="no-data">No hay habitaciones registradas.</td>
+        </tr>
       </tbody>
     </table>
-
-    <div *ngIf="habitaciones.length === 0" class="no-data">
-      <p>No hay habitaciones registradas.</p>
-    </div>
   </div>
 </div>

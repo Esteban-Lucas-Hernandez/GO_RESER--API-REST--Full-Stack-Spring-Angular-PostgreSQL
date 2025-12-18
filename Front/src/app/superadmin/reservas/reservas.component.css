@@ -1,93 +1,70 @@
 .reservas-container {
   padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .reservas-container h2 {
   color: #333;
   margin-bottom: 20px;
+  font-size: 24px;
 }
 
-.filter-section {
-  margin-bottom: 20px;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-}
-
-.filter-row {
+.filtro-container {
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
   flex-wrap: wrap;
 }
 
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.filter-group label {
+.filtro-container label {
   font-weight: bold;
   color: #555;
 }
 
-.filter-group select {
+.filtro-container .form-control {
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: white;
-  min-width: 200px;
+  font-size: 14px;
 }
 
-.btn-reset {
-  padding: 8px 15px;
-  background-color: #6c757d;
-  color: white;
+.filtro-container .btn {
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
 }
 
-.btn-reset:hover {
+.filtro-container .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.filtro-container .btn-secondary:hover:not(:disabled) {
   background-color: #5a6268;
 }
 
-.reservas-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  table-layout: auto;
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
+.filtro-container .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.reservas-table th,
-.reservas-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-  white-space: nowrap;
-}
-
-.reservas-table th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  position: sticky;
-  top: 0;
-}
-
-.reservas-table tr:hover {
-  background-color: #f5f5f5;
-}
-
-.loading,
-.error,
-.no-data {
-  padding: 20px;
+.loading {
   text-align: center;
+  padding: 20px;
+  color: #666;
 }
 
 .error {
@@ -95,11 +72,65 @@
   background-color: #ffebee;
   border: 1px solid #ffcdd2;
   border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+}
+
+.tabla-container {
+  flex: 1;
+  overflow: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-reservas {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-reservas th {
+  background-color: #00bfff;
+  color: white;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  border-right: 1px solid #e0e0e0;
+}
+
+.tabla-reservas th:last-child {
+  border-right: none;
+}
+
+.tabla-reservas td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #e0e0e0;
+}
+
+.tabla-reservas td:last-child {
+  border-right: none;
+}
+
+.tabla-reservas tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.tabla-reservas tr:last-child td {
+  border-bottom: none;
 }
 
 .no-data {
+  text-align: center;
+  padding: 20px;
   color: #666;
   font-style: italic;
+}
+
+.actions-cell {
+  white-space: nowrap;
+  width: 100px;
+  text-align: center;
 }
 
 /* Estilos para el botón PDF */
@@ -111,35 +142,48 @@
   padding: 8px 12px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.2s;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
 }
 
 .btn-pdf:hover {
   background-color: #c82333;
 }
 
-/* Media queries para dispositivos móviles */
 @media (max-width: 768px) {
-  .filter-row {
+  .reservas-container {
+    padding: 10px;
+  }
+
+  .filtro-container {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .filter-group {
-    flex-direction: column;
-    align-items: flex-start;
+  .filtro-container > * {
+    margin-bottom: 10px;
   }
 
-  .filter-group select {
-    min-width: 100%;
+  .tabla-reservas {
+    font-size: 12px;
   }
 
-  .reservas-table th,
-  .reservas-table td {
-    padding: 8px 10px;
+  .tabla-reservas th,
+  .tabla-reservas td {
+    padding: 8px 6px;
+  }
+
+  .btn-pdf {
+    padding: 6px;
     font-size: 14px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .actions-cell {
+    width: 80px;
   }
 }

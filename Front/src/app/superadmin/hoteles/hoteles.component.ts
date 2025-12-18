@@ -38,4 +38,8 @@ export class SuperAdminHotelesComponent implements OnInit {
       },
     });
   }
+
+  handleImageError(event: any): void {
+    event.target.style.display = 'none';
+  }
 }
