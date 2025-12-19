@@ -2,7 +2,6 @@ package com.example.Back.Controllers.superadmin;
 
 import com.example.Back.Dto.HabitacionDTO;
 import com.example.Back.Services.SuperAdminService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +10,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/superadmin/habitaciones")
-@RequiredArgsConstructor
 public class SuperAdminHabitacionesController {
 
     private final SuperAdminService superAdminService;
+    
+    // Constructor
+    public SuperAdminHabitacionesController(SuperAdminService superAdminService) {
+        this.superAdminService = superAdminService;
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('SUPERADMIN')")

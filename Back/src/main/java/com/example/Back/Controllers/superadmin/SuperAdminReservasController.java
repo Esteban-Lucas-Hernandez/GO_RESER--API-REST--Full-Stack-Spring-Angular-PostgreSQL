@@ -8,7 +8,6 @@ import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,10 +22,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/superadmin/reservas")
-@RequiredArgsConstructor
 public class SuperAdminReservasController {
 
     private final SuperAdminService superAdminService;
+    
+    // Constructor
+    public SuperAdminReservasController(SuperAdminService superAdminService) {
+        this.superAdminService = superAdminService;
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('SUPERADMIN')")

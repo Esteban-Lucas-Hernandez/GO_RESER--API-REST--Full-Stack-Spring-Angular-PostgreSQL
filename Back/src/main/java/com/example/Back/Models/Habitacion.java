@@ -1,16 +1,11 @@
 package com.example.Back.Models;
 
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "habitaciones")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Habitacion {
 
     @Id
@@ -75,7 +70,29 @@ public class Habitacion {
         mantenimiento
     }
     
-    // Getters explícitos como fallback
+    // Constructor por defecto
+    public Habitacion() {}
+    
+    // Constructor con parámetros
+    public Habitacion(Integer idHabitacion, Hotel hotel, CategoriaHabitacion categoria, String numero,
+                     Integer capacidad, Double precio, String descripcion, EstadoHabitacion estado,
+                     LocalDateTime createdAt, LocalDateTime updatedAt, List<Reserva> reservas,
+                     List<ImagenHabitacion> imagenes) {
+        this.idHabitacion = idHabitacion;
+        this.hotel = hotel;
+        this.categoria = categoria;
+        this.numero = numero;
+        this.capacidad = capacidad != null ? capacidad : 1;
+        this.precio = precio;
+        this.descripcion = descripcion;
+        this.estado = estado != null ? estado : EstadoHabitacion.disponible;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.reservas = reservas;
+        this.imagenes = imagenes;
+    }
+    
+    // Getters
     public Integer getIdHabitacion() {
         return idHabitacion;
     }
@@ -122,5 +139,79 @@ public class Habitacion {
     
     public List<ImagenHabitacion> getImagenes() {
         return imagenes;
+    }
+    
+    // Setters
+    public void setIdHabitacion(Integer idHabitacion) {
+        this.idHabitacion = idHabitacion;
+    }
+    
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+    
+    public void setCategoria(CategoriaHabitacion categoria) {
+        this.categoria = categoria;
+    }
+    
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+    
+    public void setCapacidad(Integer capacidad) {
+        this.capacidad = capacidad != null ? capacidad : 1;
+    }
+    
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+    
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
+    public void setEstado(EstadoHabitacion estado) {
+        this.estado = estado != null ? estado : EstadoHabitacion.disponible;
+    }
+    
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+    
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+    
+    public void setImagenes(List<ImagenHabitacion> imagenes) {
+        this.imagenes = imagenes;
+    }
+    
+    // Métodos equals y hashCode
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Habitacion)) return false;
+        Habitacion that = (Habitacion) o;
+        return idHabitacion != null && idHabitacion.equals(that.idHabitacion);
+    }
+    
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+    
+    // Método toString
+    @Override
+    public String toString() {
+        return "Habitacion{idHabitacion=" + idHabitacion + ", hotel=" + hotel +
+                ", categoria=" + categoria + ", numero='" + numero + '\'' +
+                ", capacidad=" + capacidad + ", precio=" + precio +
+                ", descripcion='" + descripcion + '\'' + ", estado=" + estado +
+                ", createdAt=" + createdAt + ", updatedAt=" + updatedAt +
+                ", reservas=" + reservas + ", imagenes=" + imagenes + '}';
     }
 }

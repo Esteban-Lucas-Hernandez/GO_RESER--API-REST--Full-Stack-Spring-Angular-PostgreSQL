@@ -4,7 +4,6 @@ import com.example.Back.Models.Role;
 import com.example.Back.Models.Usuario;
 import com.example.Back.Repo.RoleRepository;
 import com.example.Back.Repo.UsuarioRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +12,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Set;
 
 @Configuration
-@RequiredArgsConstructor
 public class DataInitializer {
 
     private final RoleRepository roleRepository;
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    
+    // Constructor
+    public DataInitializer(RoleRepository roleRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.roleRepository = roleRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Bean
     public CommandLineRunner initData() {

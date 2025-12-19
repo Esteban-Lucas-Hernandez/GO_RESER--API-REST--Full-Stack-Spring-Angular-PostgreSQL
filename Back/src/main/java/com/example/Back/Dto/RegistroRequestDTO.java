@@ -1,8 +1,5 @@
 package com.example.Back.Dto;
 
-import lombok.Data;
-
-@Data
 public class RegistroRequestDTO {
     private String nombreCompleto;
     private String email;
@@ -11,7 +8,21 @@ public class RegistroRequestDTO {
     private String contrasena;
     private String fotoUrl;
     
-    // Getters explícitos como fallback
+    // Constructor por defecto
+    public RegistroRequestDTO() {}
+    
+    // Constructor con parámetros
+    public RegistroRequestDTO(String nombreCompleto, String email, String telefono, 
+                           String documento, String contrasena, String fotoUrl) {
+        this.nombreCompleto = nombreCompleto;
+        this.email = email;
+        this.telefono = telefono;
+        this.documento = documento;
+        this.contrasena = contrasena;
+        this.fotoUrl = fotoUrl;
+    }
+    
+    // Getters
     public String getNombreCompleto() {
         return nombreCompleto;
     }
@@ -36,7 +47,7 @@ public class RegistroRequestDTO {
         return fotoUrl;
     }
     
-    // Setters explícitos como fallback
+    // Setters
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
@@ -59,5 +70,14 @@ public class RegistroRequestDTO {
     
     public void setFotoUrl(String fotoUrl) {
         this.fotoUrl = fotoUrl;
+    }
+    
+    // Método toString
+    @Override
+    public String toString() {
+        return "RegistroRequestDTO{nombreCompleto='" + nombreCompleto + '\'' +
+                ", email='" + email + '\'' + ", telefono='" + telefono + '\'' +
+                ", documento='" + documento + '\'' + ", contrasena='" + contrasena + '\'' +
+                ", fotoUrl='" + fotoUrl + '\'' + '}';
     }
 }

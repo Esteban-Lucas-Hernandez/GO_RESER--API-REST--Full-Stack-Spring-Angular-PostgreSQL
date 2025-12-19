@@ -6,19 +6,24 @@ import com.example.Back.Models.Usuario;
 import com.example.Back.Repo.RoleRepository;
 import com.example.Back.Repo.UsuarioRepository;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
 public class RegistroService {
 
     private final UsuarioRepository usuarioRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    
+    // Constructor
+    public RegistroService(UsuarioRepository usuarioRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.usuarioRepository = usuarioRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public String registrar(RegistroRequestDTO request) {
 

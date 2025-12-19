@@ -4,7 +4,6 @@ import com.example.Back.Dto.UsuarioDTO;
 import com.example.Back.Models.Usuario;
 import com.example.Back.Services.SuperAdminService;
 import com.example.Back.Services.EmailService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +13,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/superadmin/usuarios")
-@RequiredArgsConstructor
 public class SuperAdminUsuariosController {
 
     private final SuperAdminService superAdminService;
     private final EmailService emailService;
+    
+    // Constructor
+    public SuperAdminUsuariosController(SuperAdminService superAdminService, EmailService emailService) {
+        this.superAdminService = superAdminService;
+        this.emailService = emailService;
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('SUPERADMIN')")

@@ -2,17 +2,12 @@ package com.example.Back.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "ciudades")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ciudad {
 
@@ -45,5 +40,90 @@ public class Ciudad {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+    }
+    
+    // Constructor por defecto
+    public Ciudad() {}
+    
+    // Constructor con parámetros
+    public Ciudad(Integer id, String nombre, BigDecimal latitud, BigDecimal longitud, Departamento departamento, LocalDateTime createdAt) {
+        this.id = id;
+        this.nombre = nombre;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.departamento = departamento;
+        this.createdAt = createdAt;
+    }
+    
+    // Getters
+    public Integer getId() {
+        return id;
+    }
+    
+    public String getNombre() {
+        return nombre;
+    }
+    
+    public BigDecimal getLatitud() {
+        return latitud;
+    }
+    
+    public BigDecimal getLongitud() {
+        return longitud;
+    }
+    
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+    
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    
+    // Setters
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public void setLatitud(BigDecimal latitud) {
+        this.latitud = latitud;
+    }
+    
+    public void setLongitud(BigDecimal longitud) {
+        this.longitud = longitud;
+    }
+    
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
+    
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    // Métodos equals y hashCode
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ciudad)) return false;
+        Ciudad ciudad = (Ciudad) o;
+        return id != null && id.equals(ciudad.id);
+    }
+    
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+    
+    // Método toString
+    @Override
+    public String toString() {
+        return "Ciudad{id=" + id + ", nombre='" + nombre + '\'' +
+                ", latitud=" + latitud + ", longitud=" + longitud +
+                ", departamento=" + departamento + ", createdAt=" + createdAt + '}';
     }
 }

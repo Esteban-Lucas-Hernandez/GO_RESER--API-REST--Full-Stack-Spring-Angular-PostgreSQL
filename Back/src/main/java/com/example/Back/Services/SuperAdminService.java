@@ -22,7 +22,6 @@ import com.example.Back.Repo.ReservaRepository;
 import com.example.Back.Repo.RoleRepository;
 import com.example.Back.Repo.UsuarioRepository;
 import com.example.Back.Repo.CategoriaHabitacionRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class SuperAdminService {
 
     private final UsuarioRepository usuarioRepository;
@@ -44,6 +42,24 @@ public class SuperAdminService {
     private final CategoriaHabitacionRepository categoriaHabitacionRepository;
     private final HotelMapper hotelMapper;
     private final HabitacionMapper habitacionMapper;
+    
+    // Constructor
+    public SuperAdminService(UsuarioRepository usuarioRepository, RoleRepository roleRepository, 
+                           UsuarioMapper usuarioMapper, HotelRepository hotelRepository, 
+                           HabitacionRepository habitacionRepository, ReservaRepository reservaRepository, 
+                           ResenaRepository resenaRepository, CategoriaHabitacionRepository categoriaHabitacionRepository, 
+                           HotelMapper hotelMapper, HabitacionMapper habitacionMapper) {
+        this.usuarioRepository = usuarioRepository;
+        this.roleRepository = roleRepository;
+        this.usuarioMapper = usuarioMapper;
+        this.hotelRepository = hotelRepository;
+        this.habitacionRepository = habitacionRepository;
+        this.reservaRepository = reservaRepository;
+        this.resenaRepository = resenaRepository;
+        this.categoriaHabitacionRepository = categoriaHabitacionRepository;
+        this.hotelMapper = hotelMapper;
+        this.habitacionMapper = habitacionMapper;
+    }
 
     public List<UsuarioDTO> listarUsuarios() {
         return usuarioRepository.findAll()

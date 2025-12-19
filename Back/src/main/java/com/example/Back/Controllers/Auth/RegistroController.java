@@ -3,7 +3,6 @@ package com.example.Back.Controllers.Auth;
 import com.example.Back.Dto.RegistroRequestDTO;
 import com.example.Back.Services.RegistroService;
 
-import lombok.RequiredArgsConstructor;
 import java.util.Map;
 
 
@@ -14,10 +13,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
 public class RegistroController {
 
     private final RegistroService authService;
+    
+    // Constructor
+    public RegistroController(RegistroService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/registro")
     public ResponseEntity<?> registrar(@RequestBody RegistroRequestDTO request) {

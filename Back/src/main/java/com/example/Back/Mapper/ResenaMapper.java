@@ -12,16 +12,16 @@ public class ResenaMapper {
             return null;
         }
         
-        return ResenaDTO.builder()
-                .idResena(resena.getIdResena())
-                .idUsuario(resena.getUsuario() != null ? resena.getUsuario().getIdUsuario() : null)
-                .nombreUsuario(resena.getUsuario() != null ? resena.getUsuario().getNombreCompleto() : null)
-                .idHotel(resena.getHotel() != null ? resena.getHotel().getId() : null)
-                .comentario(resena.getComentario())
-                .calificacion(resena.getCalificacion())
-                .fechaResena(resena.getFechaResena())
-                .fotoUrl(resena.getUsuario() != null ? resena.getUsuario().getFotoUrl() : null) // Agregar la URL de la foto del usuario
-                .build();
+        return new ResenaDTO(
+                resena.getIdResena(),
+                resena.getUsuario() != null ? resena.getUsuario().getIdUsuario() : null,
+                resena.getUsuario() != null ? resena.getUsuario().getNombreCompleto() : null,
+                resena.getHotel() != null ? resena.getHotel().getId() : null,
+                resena.getComentario(),
+                resena.getCalificacion(),
+                resena.getFechaResena(),
+                resena.getUsuario() != null ? resena.getUsuario().getFotoUrl() : null // Agregar la URL de la foto del usuario
+        );
     }
     
     public Resena toEntity(ResenaDTO resenaDTO) {
