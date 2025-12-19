@@ -33,8 +33,7 @@ public class ReservaService {
     @Autowired
     private HabitacionRepository habitacionRepository;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    // Se elimina la inyección no utilizada de UsuarioRepository
 
     @Autowired
     private HotelRepository hotelRepository;
@@ -345,7 +344,7 @@ public class ReservaService {
                     });
             
             // Obtener las fechas reservadas
-            List<Object[]> fechasReservadas = reservaRepository.findFechasReservadas(habitacion);
+            List<Object[]> fechasReservadas = reservaRepository.findFechasReservadasConfirmadas(habitacion);
             logger.info("Se encontraron {} rangos de fechas reservadas para la habitación {}", fechasReservadas.size(), idHabitacion);
             return fechasReservadas;
         } catch (Exception e) {
