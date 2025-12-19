@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/public/resenas")
-public class ResenaController {
+public class ResenaPublicController {
 
     @Autowired
     private ResenaService resenaService;
