@@ -6,6 +6,16 @@
       </a>
     </div>
 
+    <!-- Elementos de autenticación para móviles (fuera del menú) -->
+    <div class="auth-mobile-elements" *ngIf="isAuthenticated">
+      <app-dropdown-menu [userInfo]="userInfo"></app-dropdown-menu>
+    </div>
+    <div class="auth-mobile-elements" *ngIf="!isAuthenticated">
+      <button class="login-button mobile-login-button" (click)="openLoginModal()">
+        Iniciar Sesión
+      </button>
+    </div>
+
     <!-- Botón de menú hamburguesa para móviles -->
     <div class="mobile-menu-button" (click)="toggleMobileMenu()">
       <span></span>
@@ -23,12 +33,12 @@
       <li class="nav-item">
         <a href="#" (click)="scrollToFooter($event)" class="nav-link">Contacto</a>
       </li>
-      <!-- Mostrar dropdown de usuario si está autenticado -->
-      <li class="nav-item dropdown-item-margin" *ngIf="isAuthenticated">
+      <!-- Mostrar dropdown de usuario si está autenticado (solo en desktop) -->
+      <li class="nav-item dropdown-item-margin hide-on-mobile" *ngIf="isAuthenticated">
         <app-dropdown-menu [userInfo]="userInfo"></app-dropdown-menu>
       </li>
-      <!-- Mostrar botón de iniciar sesión si no está autenticado -->
-      <li class="nav-item" *ngIf="!isAuthenticated">
+      <!-- Mostrar botón de iniciar sesión si no está autenticado (solo en desktop) -->
+      <li class="nav-item hide-on-mobile" *ngIf="!isAuthenticated">
         <button class="login-button" (click)="openLoginModal()">Iniciar Sesión</button>
       </li>
     </ul>
@@ -49,7 +59,7 @@
           <!-- Aquí irían los botones sociales si los hubiera -->
         </div>
         <app-login (loginSuccess)="onLoginSuccess($event)"></app-login>
-        <div class="form-navigation" style="margin-bottom: 10px;">
+        <div class="form-navigation" style="margin-bottom: 10px">
           <p>
             ¿No tienes cuenta?
             <button type="button" class="link-button" (click)="toggleSignUp()">

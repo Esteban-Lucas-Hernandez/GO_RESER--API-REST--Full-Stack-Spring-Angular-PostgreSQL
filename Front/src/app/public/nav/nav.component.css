@@ -192,6 +192,21 @@
   margin-left: 15px;
 }
 
+/* Elementos de autenticación para móviles */
+.auth-mobile-elements {
+  display: none;
+}
+
+/* Elementos de autenticación para móviles */
+.auth-mobile-elements {
+  display: none;
+}
+
+/* Elementos de autenticación para móviles */
+.auth-mobile-elements {
+  display: none;
+}
+
 .mobile-menu-button span {
   width: 100%;
   height: 3px;
@@ -244,6 +259,22 @@
 
   .dropdown-container {
     margin: 15px auto;
+  }
+
+  /* Mostrar elementos de autenticación en móviles */
+  .auth-mobile-elements {
+    display: block;
+    margin-right: 10px;
+    margin-left: 65px;
+  }
+
+  .mobile-login-button {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .hide-on-mobile {
+    display: none;
   }
 }
 
