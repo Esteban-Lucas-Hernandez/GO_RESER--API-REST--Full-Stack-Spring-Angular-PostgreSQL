@@ -14,7 +14,7 @@
     </div>
 
     <ul class="nav-menu" [class.mobile-menu-active]="showMobileMenu">
-         <li class="nav-item">
+      <li class="nav-item">
         <a href="#" (click)="scrollToFooter($event)" class="nav-link">Contacto</a>
       </li>
       <!-- Mostrar dropdown de usuario si está autenticado -->
@@ -43,6 +43,14 @@
           <!-- Aquí irían los botones sociales si los hubiera -->
         </div>
         <app-login (loginSuccess)="onLoginSuccess($event)"></app-login>
+        <div class="form-navigation">
+          <p>
+            ¿No tienes cuenta?
+            <button type="button" class="link-button" (click)="toggleSignUp()">
+              Regístrate aquí
+            </button>
+          </p>
+        </div>
       </form>
     </div>
     <div class="form-container sign-up-container">
@@ -52,6 +60,14 @@
           <!-- Aquí irían los botones sociales si los hubiera -->
         </div>
         <app-registro (registroSuccess)="onRegistroSuccess($event)"></app-registro>
+        <div class="form-navigation">
+          <p>
+            ¿Ya tienes cuenta?
+            <button type="button" class="link-button" (click)="toggleSignIn()">
+              Inicia sesión aquí
+            </button>
+          </p>
+        </div>
       </form>
     </div>
     <div class="overlay-container">

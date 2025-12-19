@@ -49,6 +49,14 @@
           <!-- Aquí irían los botones sociales si los hubiera -->
         </div>
         <app-login (loginSuccess)="onLoginSuccess($event)"></app-login>
+        <div class="form-navigation" style="margin-bottom: 10px;">
+          <p>
+            ¿No tienes cuenta?
+            <button type="button" class="link-button" (click)="toggleSignUp()">
+              Regístrate aquí
+            </button>
+          </p>
+        </div>
       </form>
     </div>
     <div class="form-container sign-up-container">
@@ -58,6 +66,14 @@
           <!-- Aquí irían los botones sociales si los hubiera -->
         </div>
         <app-registro (registroSuccess)="onRegistroSuccess($event)"></app-registro>
+        <div class="form-navigation">
+          <p>
+            ¿Ya tienes cuenta?
+            <button type="button" class="link-button" (click)="toggleSignIn()">
+              Inicia sesión aquí
+            </button>
+          </p>
+        </div>
       </form>
     </div>
     <div class="overlay-container">

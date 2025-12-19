@@ -627,6 +627,156 @@
   border-top: 1px solid rgba(0, 191, 255, 0.1);
 }
 
+.form-navigation {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 191, 255, 0.1);
+  width: 100%;
+}
+
+/* Ocultar los divs de navegación de formularios en pantallas mayores a 768px */
+@media (min-width: 769px) {
+  .form-navigation {
+    display: none;
+  }
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #00bfff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.link-button:hover {
+  color: #0080ff;
+  text-decoration: none;
+}
+
+/* Responsive design for login/register modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    min-height: 500px;
+  }
+
+  .overlay-panel {
+    padding: 15px;
+  }
+
+  .overlay-panel h1 {
+    font-size: 1.5rem;
+  }
+
+  .overlay-panel p {
+    font-size: 0.9rem;
+  }
+
+  .ghost {
+    padding: 10px 25px;
+    font-size: 11px;
+  }
+
+  .sign-in-container,
+  .sign-up-container {
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transform: translateX(0);
+    opacity: 0;
+    z-index: 190;
+  }
+
+  .sign-in-container {
+    opacity: 1;
+    z-index: 200;
+  }
+
+  .modal-content.right-panel-active .sign-in-container {
+    transform: translateX(0);
+    opacity: 0;
+    z-index: 190;
+  }
+
+  .modal-content.right-panel-active .sign-up-container {
+    transform: translateX(0);
+    opacity: 1;
+    z-index: 210;
+  }
+
+  .overlay-container {
+    display: none;
+  }
+
+  .close-btn {
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+
+  .form-navigation {
+    display: block;
+    margin-top: 15px;
+    padding-top: 15px;
+  }
+
+  .link-button {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 98%;
+    min-height: 450px;
+  }
+
+  .form-container form {
+    padding: 10px;
+  }
+
+  .sign-up-container form {
+    padding: 15px;
+  }
+
+  .overlay-panel {
+    padding: 10px;
+  }
+
+  .overlay-panel h1 {
+    font-size: 1.3rem;
+    margin: 10px 0;
+  }
+
+  .overlay-panel p {
+    font-size: 0.8rem;
+    margin: 10px 0;
+  }
+
+  .ghost {
+    padding: 8px 20px;
+    font-size: 10px;
+  }
+
+  .form-navigation {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .link-button {
+    font-size: 0.8rem;
+  }
+}
 .register-link-anchor,
 .login-link-anchor {
   color: #00bfff;

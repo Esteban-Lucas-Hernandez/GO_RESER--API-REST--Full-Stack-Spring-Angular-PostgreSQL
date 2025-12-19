@@ -687,6 +687,16 @@
     width: 32px;
     height: 32px;
   }
+
+  .form-navigation {
+    display: block;
+    margin-top: 15px;
+    padding-top: 15px;
+  }
+
+  .link-button {
+    font-size: 0.9rem;
+  }
 }
 
 /* Animación de carga */
@@ -703,4 +713,11 @@
   background: linear-gradient(90deg, transparent, rgba(0, 191, 255, 0.1), transparent);
   background-size: 1000px 100%;
   animation: shimmer 2s infinite;
+}
+
+/* Ocultar los divs de navegación de formularios en pantallas mayores a 768px */
+@media (min-width: 769px) {
+  .form-navigation {
+    display: none;
+  }
 }
