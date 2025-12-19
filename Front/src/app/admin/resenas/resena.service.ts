@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { Resena } from './resena.interface';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ResenaService {
-  private baseUrl = 'http://localhost:8080/admin/resenas';
+  private baseUrl = `${environment.apiUrl}/admin/resenas`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

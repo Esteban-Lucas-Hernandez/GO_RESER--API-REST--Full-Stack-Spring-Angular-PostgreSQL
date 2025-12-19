@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms'; // Importar FormsModule para el fo
 
 // Importaciones para Leaflet
 import * as L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+
 import { defaultIcon } from '../../leaflet.config';
 
 // Importar el componente de navegación

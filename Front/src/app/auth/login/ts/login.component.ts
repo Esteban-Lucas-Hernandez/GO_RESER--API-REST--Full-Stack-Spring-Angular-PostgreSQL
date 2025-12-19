@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService, LoginData, AuthResponse } from '../../auth.service'; // Importar el servicio y los modelos
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -81,6 +82,6 @@ export class LoginComponent {
   // Método para iniciar sesión con Google
   loginWithGoogle() {
     // Redirigir al endpoint de autenticación de Google
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = `${environment.apiUrl}/oauth2/authorization/google`;
   }
 }

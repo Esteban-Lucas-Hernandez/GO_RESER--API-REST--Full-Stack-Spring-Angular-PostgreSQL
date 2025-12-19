@@ -4,12 +4,13 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
 import { UsuarioDTO, ActualizarPerfilDTO } from './usuario.dto';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PerfilService {
-  private baseUrl = 'http://localhost:8080/admin/profile';
+  private baseUrl = `${environment.apiUrl}/admin/profile`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -66,7 +67,6 @@ export class PerfilService {
       .put<UsuarioDTO>(this.baseUrl, data, { headers })
       .pipe(catchError(this.handleError));
   }
-
 
   // Manejo de errores
   private handleError(error: HttpErrorResponse) {

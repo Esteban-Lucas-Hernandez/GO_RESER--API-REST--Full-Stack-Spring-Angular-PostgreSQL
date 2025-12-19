@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { environment } from '../../environments/environment';
 
 // Interfaz para las reseñas corregida según el DTO proporcionado
 export interface Resena {
@@ -147,12 +148,12 @@ export interface PagoConfirmacion {
   providedIn: 'root',
 })
 export class HotelService {
-  private baseUrl = 'http://localhost:8080/public/hoteles';
-  private reservasUrl = 'http://localhost:8080/user/reservas'; // Base URL para reservas
-  private pagosUrl = 'http://localhost:8080/user/pagos'; // Base URL para pagos
-  private resenasUrl = 'http://localhost:8080/public/resenas'; // Base URL para reseñas
-  private userResenasUrl = 'http://localhost:8080/user/resenas'; // Base URL para reseñas de usuario
-  private userResenaUrl = 'http://localhost:8080/user/resenas'; // Base URL para crear reseña
+  private baseUrl = `${environment.apiUrl}/public/hoteles`;
+  private reservasUrl = `${environment.apiUrl}/user/reservas`; // Base URL para reservas
+  private pagosUrl = `${environment.apiUrl}/user/pagos`; // Base URL para pagos
+  private resenasUrl = `${environment.apiUrl}/public/resenas`; // Base URL para reseñas
+  private userResenasUrl = `${environment.apiUrl}/user/resenas`; // Base URL para reseñas de usuario
+  private userResenaUrl = `${environment.apiUrl}/user/resenas`; // Base URL para crear reseña
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

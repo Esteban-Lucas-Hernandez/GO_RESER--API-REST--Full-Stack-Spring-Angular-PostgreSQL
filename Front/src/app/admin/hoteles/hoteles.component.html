@@ -40,7 +40,7 @@
               <div><fa-icon [icon]="faStar"></fa-icon> {{ hotel.estrellas }} estrellas</div>
               <div class="description">
                 {{ hotel.descripcion | slice : 0 : 50
-                }}{{ hotel.descripcion?.length > 50 ? '...' : '' }}
+                }}{{ hotel.descripcion.length > 50 ? '...' : '' }}
               </div>
             </div>
           </td>

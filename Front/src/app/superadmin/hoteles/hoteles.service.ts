@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
+import { environment } from '../../../environments/environment';
 
 // Interfaz específica para los hoteles en el panel de superadmin
 export interface SuperAdminHotel {
@@ -26,7 +27,7 @@ export interface SuperAdminHotel {
   providedIn: 'root',
 })
 export class SuperAdminHotelService {
-  private baseUrl = 'http://localhost:8080/superadmin/hoteles';
+  private baseUrl = `${environment.apiUrl}/superadmin/hoteles`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

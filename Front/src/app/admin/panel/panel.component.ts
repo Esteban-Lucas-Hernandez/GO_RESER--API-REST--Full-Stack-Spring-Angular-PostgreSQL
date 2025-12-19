@@ -9,6 +9,7 @@ import { Resena } from '../resenas/resena.interface';
 import { IngresosComponent } from './ingresos/ingresos.component';
 import { PerfilService } from '../perfil/perfil.service';
 import { UsuarioDTO } from '../perfil/usuario.dto';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-panel',
@@ -105,7 +106,7 @@ export class PanelComponent implements OnInit, OnDestroy {
         Authorization: `Bearer ${token}`,
       });
 
-      this.http.get('http://localhost:8080/admin/dashboard', { headers }).subscribe({
+      this.http.get(`${environment.apiUrl}/admin/dashboard`, { headers }).subscribe({
         next: (data: any) => {
           this.panelData = data;
         },
@@ -138,7 +139,7 @@ export class PanelComponent implements OnInit, OnDestroy {
       });
 
       // Cargar categorías con información adicional
-      this.http.get<any[]>('http://localhost:8080/admin/categoria', { headers }).subscribe({
+      this.http.get<any[]>(`${environment.apiUrl}/admin/categoria`, { headers }).subscribe({
         next: (data: any[]) => {
           this.categorias = data;
           // Aquí podrías cargar información adicional si es necesario

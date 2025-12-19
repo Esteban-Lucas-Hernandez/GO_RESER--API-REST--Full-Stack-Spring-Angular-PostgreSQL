@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
+import { environment } from '../../../environments/environment';
 
 // Interfaz para la categoría de habitación
 export interface CategoriaHabitacion {
@@ -32,8 +33,8 @@ export interface HotelSimple {
   providedIn: 'root',
 })
 export class SuperAdminHabitacionesService {
-  private baseUrl = 'http://localhost:8080/superadmin/habitaciones';
-  private hotelesUrl = 'http://localhost:8080/superadmin/hoteles';
+  private baseUrl = `${environment.apiUrl}/superadmin/habitaciones`;
+  private hotelesUrl = `${environment.apiUrl}/superadmin/hoteles`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

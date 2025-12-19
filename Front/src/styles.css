@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importar estilos de Leaflet */
-@import 'leaflet/dist/leaflet.css';
+@import './assets/css/leaflet.css';
 
 /* Estilos globales personalizados */
 body {

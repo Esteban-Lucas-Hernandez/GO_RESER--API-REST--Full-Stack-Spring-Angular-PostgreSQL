@@ -25,6 +25,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "**/*.png",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "assets/images"
               }
             ],
             "styles": ["src/styles.css"]
@@ -82,6 +87,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "**/*.png",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "assets/images"
               }
             ],
             "styles": ["src/styles.css"]

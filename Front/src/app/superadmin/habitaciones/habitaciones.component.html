@@ -39,7 +39,7 @@
       <tbody>
         <tr *ngFor="let habitacion of habitaciones">
           <td>{{ habitacion.idHabitacion }}</td>
-          <td>{{ habitacion.categoria?.nombre || 'N/A' }}</td>
+          <td>{{ habitacion.categoria.nombre || 'N/A' }}</td>
           <td>{{ habitacion.numero }}</td>
           <td>{{ habitacion.capacidad }}</td>
           <td>{{ habitacion.precio | currency : 'COP' : 'symbol' : '1.0-0' }}</td>

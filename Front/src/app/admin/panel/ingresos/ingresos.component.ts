@@ -4,6 +4,7 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { AuthService } from '../../../auth/auth.service';
+import { environment } from '../../../../environments/environment';
 
 interface Reserva {
   total: number;
@@ -25,7 +26,7 @@ interface IngresosPorDia {
   styleUrls: ['./ingresos.component.css'],
 })
 export class IngresosComponent implements OnInit {
-  API_URL = 'http://localhost:8080/admin/reservas';
+  API_URL = `${environment.apiUrl}/admin/reservas`;
 
   totalIngresos: number = 0;
   totalReservas: number = 0;

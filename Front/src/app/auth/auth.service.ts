@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface RegistroData {
   nombreCompleto: string;
@@ -28,7 +29,7 @@ export interface AuthResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080/auth';
+  private baseUrl = `${environment.apiUrl}/auth`;
   private readonly TOKEN_KEY = 'auth_token';
 
   constructor(private http: HttpClient) {}

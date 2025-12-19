@@ -5,12 +5,13 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
 import { UsuarioDTO } from './usuario.dto';
 import { ActualizarPerfilDTO } from './actualizar-perfil.dto';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PerfilService {
-  private baseUrl = 'http://localhost:8080/superadmin/profile';
+  private baseUrl = `${environment.apiUrl}/superadmin/profile`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

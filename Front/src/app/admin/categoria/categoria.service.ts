@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
+import { environment } from '../../../environments/environment';
 
 export interface CategoriaHabitacionDTO {
   id?: number;
@@ -14,7 +15,7 @@ export interface CategoriaHabitacionDTO {
   providedIn: 'root',
 })
 export class CategoriaService {
-  private baseUrl = 'http://localhost:8080/admin/categoria';
+  private baseUrl = `${environment.apiUrl}/admin/categoria`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Usuario {
   idUsuario: number;
@@ -18,7 +19,7 @@ export interface Usuario {
   providedIn: 'root',
 })
 export class SuperAdminService {
-  private baseUrl = 'http://localhost:8080/superadmin'; // URL base para las APIs de super admin
+  private baseUrl = `${environment.apiUrl}/superadmin`; // URL base para las APIs de super admin
   private readonly TOKEN_KEY = 'auth_token';
 
   constructor(private http: HttpClient) {}

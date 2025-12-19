@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
+import { environment } from '../../../environments/environment';
 
 // Definimos la interfaz HotelDTO según la memoria
 export interface HotelDTO {
@@ -37,8 +38,8 @@ export interface Ciudad {
   providedIn: 'root',
 })
 export class HotelAdminService {
-  private baseUrl = 'http://localhost:8080/admin/hoteles';
-  private departamentosUrl = 'http://localhost:8080/admin/departamentos';
+  private baseUrl = `${environment.apiUrl}/admin/hoteles`;
+  private departamentosUrl = `${environment.apiUrl}/admin/departamentos`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
