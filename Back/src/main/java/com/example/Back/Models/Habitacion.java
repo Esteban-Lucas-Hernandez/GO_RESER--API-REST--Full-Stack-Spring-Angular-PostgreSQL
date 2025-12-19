@@ -74,4 +74,53 @@ public class Habitacion {
         disponible,
         mantenimiento
     }
+    
+    // Getters explícitos como fallback
+    public Integer getIdHabitacion() {
+        return idHabitacion;
+    }
+    
+    public Hotel getHotel() {
+        return hotel;
+    }
+    
+    public CategoriaHabitacion getCategoria() {
+        return categoria;
+    }
+    
+    public String getNumero() {
+        return numero;
+    }
+    
+    public Integer getCapacidad() {
+        return capacidad;
+    }
+    
+    public Double getPrecio() {
+        return precio;
+    }
+    
+    public String getDescripcion() {
+        return descripcion;
+    }
+    
+    public EstadoHabitacion getEstado() {
+        return estado;
+    }
+    
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+    
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+    
+    public List<ImagenHabitacion> getImagenes() {
+        return imagenes;
+    }
 }

@@ -94,4 +94,73 @@ public class Hotel {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+    
+    // Getters explícitos como fallback
+    public Integer getId() {
+        return id;
+    }
+    
+    public String getNombre() {
+        return nombre;
+    }
+    
+    public String getDireccion() {
+        return direccion;
+    }
+    
+    public String getTelefono() {
+        return telefono;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
+    
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    
+    public String getDescripcion() {
+        return descripcion;
+    }
+    
+    public Integer getEstrellas() {
+        return estrellas;
+    }
+    
+    public String getPoliticaCancelacion() {
+        return politicaCancelacion;
+    }
+    
+    public LocalTime getCheckIn() {
+        return checkIn;
+    }
+    
+    public LocalTime getCheckOut() {
+        return checkOut;
+    }
+    
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+    
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+    
+    public List<Habitacion> getHabitaciones() {
+        return habitaciones;
+    }
+    
+    public List<Resena> getResenas() {
+        return resenas;
+    }
 }

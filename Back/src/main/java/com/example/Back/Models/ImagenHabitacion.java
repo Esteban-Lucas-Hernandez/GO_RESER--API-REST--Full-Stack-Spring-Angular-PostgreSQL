@@ -22,5 +22,14 @@ public class ImagenHabitacion {
 
     @Column(name = "url_imagen", nullable = false, length = 255)
     private String urlImagen;
-
+    
+    // Getter explícito como fallback
+    public String getUrlImagen() {
+        return urlImagen;
+    }
+    
+    // Setter explícito como fallback
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
+    }
 }
