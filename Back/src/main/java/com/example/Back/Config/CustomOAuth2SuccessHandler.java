@@ -104,7 +104,7 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
             String token = jwtUtil.generateToken(user);
             
             // Redirigir al frontend con el token como parámetro
-            String redirectUrl = UriComponentsBuilder.fromUriString("http://localhost:4200/auth/google/callback")
+            String redirectUrl = UriComponentsBuilder.fromUriString("https://go-reser-api-rest-full-stack-spring-r46x.onrender.com/auth/google/callback")
                     .queryParam("token", token)
                     .queryParam("userId", user.getIdUsuario())
                     .queryParam("email", user.getEmail())
