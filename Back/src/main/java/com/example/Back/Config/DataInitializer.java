@@ -42,14 +42,13 @@ public class DataInitializer {
             // Crear admin por defecto
             if (usuarioRepository.findByEmail("admin@admin.com").isEmpty()) {
 
-                Usuario admin = Usuario.builder()
-                        .nombreCompleto("Administrador Principal")
-                        .email("admin@admin.com")
-                        .telefono("0000000000")
-                        .documento("ADMIN000")
-                        .contrasena(passwordEncoder.encode("admin123"))
-                        .roles(Set.of(roleAdmin))
-                        .build();
+                Usuario admin = new Usuario();
+                admin.setNombreCompleto("Administrador Principal");
+                admin.setEmail("admin@admin.com");
+                admin.setTelefono("0000000000");
+                admin.setDocumento("ADMIN000");
+                admin.setContrasena(passwordEncoder.encode("admin123"));
+                admin.setRoles(Set.of(roleAdmin));
 
                 usuarioRepository.save(admin);
 
@@ -59,14 +58,13 @@ public class DataInitializer {
             // Crear superadmin por defecto
             if (usuarioRepository.findByEmail("superadmin@admin.com").isEmpty()) {
 
-                Usuario superAdmin = Usuario.builder()
-                        .nombreCompleto("Super Administrador")
-                        .email("superadmin@admin.com")
-                        .telefono("0000000001")
-                        .documento("SUPERADMIN001")
-                        .contrasena(passwordEncoder.encode("superadmin123"))
-                        .roles(Set.of(roleSuperAdmin))
-                        .build();
+                Usuario superAdmin = new Usuario();
+                superAdmin.setNombreCompleto("Super Administrador");
+                superAdmin.setEmail("superadmin@admin.com");
+                superAdmin.setTelefono("0000000001");
+                superAdmin.setDocumento("SUPERADMIN001");
+                superAdmin.setContrasena(passwordEncoder.encode("superadmin123"));
+                superAdmin.setRoles(Set.of(roleSuperAdmin));
 
                 usuarioRepository.save(superAdmin);
 

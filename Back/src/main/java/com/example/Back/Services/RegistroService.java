@@ -35,15 +35,14 @@ public class RegistroService {
         Role userRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("ROLE_USER no existe"));
 
-        Usuario nuevo = Usuario.builder()
-                .nombreCompleto(request.getNombreCompleto())
-                .email(request.getEmail())
-                .telefono(request.getTelefono())
-                .documento(request.getDocumento())
-                .fotoUrl(request.getFotoUrl()) // Agregar la URL de la foto
-                .contrasena(passwordEncoder.encode(request.getContrasena()))
-                .roles(Set.of(userRole))      // ASIGNA ROLE_USER
-                .build();
+        Usuario nuevo = new Usuario();
+        nuevo.setNombreCompleto(request.getNombreCompleto());
+        nuevo.setEmail(request.getEmail());
+        nuevo.setTelefono(request.getTelefono());
+        nuevo.setDocumento(request.getDocumento());
+        nuevo.setFotoUrl(request.getFotoUrl()); // Agregar la URL de la foto
+        nuevo.setContrasena(passwordEncoder.encode(request.getContrasena()));
+        nuevo.setRoles(Set.of(userRole));      // ASIGNA ROLE_USER
 
         usuarioRepository.save(nuevo);
 
