@@ -697,6 +697,10 @@
   .link-button {
     font-size: 0.9rem;
   }
+
+  .hide-on-mobile {
+    display: none;
+  }
 }
 
 /* Animación de carga */

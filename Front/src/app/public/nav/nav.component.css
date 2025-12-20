@@ -203,6 +203,20 @@
 }
 
 /* Elementos de autenticación para móviles */
+.auth-mobile-elements1 {
+  display: none;
+}
+
+.auth-mobile-elements1 {
+  display: none;
+}
+
+/* Elementos de autenticación para móviles */
+.auth-mobile-elements1 {
+  display: none;
+}
+
+/* Elementos de autenticación para móviles */
 .auth-mobile-elements {
   display: none;
 }
@@ -266,6 +280,12 @@
     display: block;
     margin-right: 10px;
     margin-left: 65px;
+  }
+  .auth-mobile-elements1 {
+    display: block;
+    margin-right: 10px;
+    margin-left: 170px;
+    margin-top: 5px;
   }
 
   .mobile-login-button {

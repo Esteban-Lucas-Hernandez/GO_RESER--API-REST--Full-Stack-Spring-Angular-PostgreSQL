@@ -17,12 +17,12 @@
       <li class="nav-item">
         <a href="#" (click)="scrollToFooter($event)" class="nav-link">Contacto</a>
       </li>
-      <!-- Mostrar dropdown de usuario si está autenticado -->
-      <li class="nav-item dropdown-item-margin" *ngIf="isAuthenticated">
+      <!-- Mostrar dropdown de usuario si está autenticado (solo en desktop) -->
+      <li class="nav-item dropdown-item-margin hide-on-mobile" *ngIf="isAuthenticated">
         <app-dropdown-menu [userInfo]="userInfo"></app-dropdown-menu>
       </li>
-      <!-- Mostrar botón de iniciar sesión si no está autenticado -->
-      <li class="nav-item" *ngIf="!isAuthenticated">
+      <!-- Mostrar botón de iniciar sesión si no está autenticado (solo en desktop) -->
+      <li class="nav-item hide-on-mobile" *ngIf="!isAuthenticated">
         <button class="login-button" (click)="openLoginModal()">Iniciar Sesión</button>
       </li>
     </ul>
@@ -30,7 +30,7 @@
 </nav>
 
 <!-- Modal de inicio de sesión -->
-<div class="modal-overlay" *ngIf="showLoginModal" (click)="closeLoginModal()">
+<div class="modal-overlay hide-on-mobile" *ngIf="showLoginModal" (click)="closeLoginModal()">
   <div
     class="modal-content"
     [class.right-panel-active]="isSignUpActive"
