@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './navbar/ts/navbar.component';
 import { NavbarStateService } from './navbar-state.service';
 import { Subscription } from 'rxjs';
 

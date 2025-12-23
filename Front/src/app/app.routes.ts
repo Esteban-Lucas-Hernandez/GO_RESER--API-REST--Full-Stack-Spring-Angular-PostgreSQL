@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { PublicComponent } from './public/index/public.component';
+import { PublicComponent } from './public/index/ts/public.component';
 import { LoginComponent } from './auth/login/ts/login.component';
 import { RegistroComponent } from './auth/registro/ts/registro.component';
 import { AuthGuard } from './auth/auth.guard';
 import { SuperAdminGuard } from './auth/superadmin.guard';
 import { AdminGuard } from './auth/admin.guard';
-import { PanelComponent } from './admin/panel/panel.component';
-import { HotelesComponent } from './admin/hoteles/hoteles.component';
+import { PanelComponent } from './admin/panel/ts/panel.component';
+import { HotelesComponent } from './admin/hoteles/ts/hoteles.component';
 import { ListarCategoriaComponent } from './admin/categoria/listar/ts/listar-categoria.component';
 import { CrearCategoriaComponent } from './admin/categoria/crear/ts/crear-categoria.component';
 import { EditarCategoriaComponent } from './admin/categoria/editar/ts/editar-categoria.component';
@@ -15,19 +15,19 @@ import { CrearHabitacionComponent } from './admin/habitacion/crear/ts/crear-habi
 import { EditarHabitacionComponent } from './admin/habitacion/editar/ts/editar-habitacion.component';
 import { ListarHabitacionesComponent } from './admin/habitacion/listar-habitaciones/ts/listar-habitaciones.component';
 import { AdminComponent } from './admin/admin.component';
-import { SuperAdminComponent } from './superadmin/usuarios/superadmin.component';
+import { SuperAdminComponent } from './superadmin/usuarios/ts/superadmin.component';
 import { SuperAdminContainerComponent } from './superadmin/superadmin.component';
-import { SuperAdminPerfilComponent } from './superadmin/perfil/perfil.component';
-import { SuperAdminHotelesComponent } from './superadmin/hoteles/hoteles.component';
-import { SuperAdminHabitacionesComponent } from './superadmin/habitaciones/habitaciones.component';
-import { SuperAdminReservasComponent } from './superadmin/reservas/reservas.component';
-import { HabitacionesComponent } from './public/Habitaciones/habitaciones.component';
-import { DetalleHabitacionComponent } from './public/DetalleHabitacion/DetalleHabitacion.component';
+import { SuperAdminPerfilComponent } from './superadmin/perfil/ts/perfil.component';
+import { SuperAdminHotelesComponent } from './superadmin/hoteles/ts/hoteles.component';
+import { SuperAdminHabitacionesComponent } from './superadmin/habitaciones/ts/habitaciones.component';
+import { SuperAdminReservasComponent } from './superadmin/reservas/ts/reservas.component';
+import { HabitacionesComponent } from './public/Habitaciones/ts/habitaciones.component';
+import { DetalleHabitacionComponent } from './public/DetalleHabitacion/ts/DetalleHabitacion.component';
 import { MisReservasComponent } from './public/reservas/ts/mis-reservas.component';
-import { PerfilComponent } from './admin/perfil/perfil.component';
-import { PerfilComponent as PublicPerfilComponent } from './public/perfil/perfil.component';
-import { ReservasComponent } from './admin/Reservas/reservas.component';
-import { ResenasComponent } from './admin/resenas/resenas.component';
+import { PerfilComponent } from './admin/perfil/ts/perfil.component';
+import { PerfilComponent as PublicPerfilComponent } from './public/perfil/ts/perfil.component';
+import { ReservasComponent } from './admin/Reservas/ts/reservas.component';
+import { ResenasComponent } from './admin/resenas/ts/resenas.component';
 import { GoogleCallbackComponent } from './auth/google-callback/google-callback.component';
 
 export const routes: Routes = [
