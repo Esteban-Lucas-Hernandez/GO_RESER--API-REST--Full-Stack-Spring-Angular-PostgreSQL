@@ -7,8 +7,8 @@ import { AuthService } from '../../../auth/auth.service';
   selector: 'app-dropdown-menu',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dropdown-menu.component.html',
-  styleUrls: ['./dropdown-menu.component.css'],
+  templateUrl: '../html/dropdown-menu.component.html',
+  styleUrls: ['../css/dropdown-menu.component.css'],
 })
 export class DropdownMenuComponent {
   @Input() userInfo: any = null;

@@ -8,8 +8,8 @@ import { SuperAdminHabitacionesService } from '../habitaciones.service';
   selector: 'app-superadmin-habitaciones',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './habitaciones.component.html',
-  styleUrls: ['./habitaciones.component.css'],
+  templateUrl: '../html/habitaciones.component.html',
+  styleUrls: ['../css/habitaciones.component.css'],
 })
 export class SuperAdminHabitacionesComponent implements OnInit {
   habitaciones: SuperAdminHabitacion[] = [];

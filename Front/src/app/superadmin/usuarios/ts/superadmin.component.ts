@@ -8,8 +8,8 @@ import { SuperAdminService, Usuario } from '../superadmin.service';
   selector: 'app-superadmin',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
-  templateUrl: './superadmin.component.html',
-  styleUrls: ['./superadmin.component.css'],
+  templateUrl: '../html/superadmin.component.html',
+  styleUrls: ['../css/superadmin.component.css'],
 })
 export class SuperAdminComponent implements OnInit {
   usuarios: Usuario[] = [];

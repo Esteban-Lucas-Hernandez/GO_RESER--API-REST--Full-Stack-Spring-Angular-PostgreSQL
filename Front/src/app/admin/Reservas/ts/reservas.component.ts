@@ -10,8 +10,8 @@ import { Reserva } from '../reserva.interface';
   selector: 'app-reservas',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './reservas.html',
-  styleUrls: ['./reservas.css'],
+  templateUrl: '../html/reservas.html',
+  styleUrls: ['../css/reservas.css'],
 })
 export class ReservasComponent implements OnInit {
   hoteles: HotelDTO[] = [];

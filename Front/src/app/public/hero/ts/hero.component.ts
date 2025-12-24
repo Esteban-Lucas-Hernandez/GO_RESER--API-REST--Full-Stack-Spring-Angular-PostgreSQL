@@ -16,8 +16,8 @@ import { HotelService, Hotel } from '../../../public/hotel.service';
   selector: 'app-hero',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './hero.component.html',
-  styleUrls: ['./hero.component.css'],
+  templateUrl: '../html/hero.component.html',
+  styleUrls: ['../css/hero.component.css'],
 })
 export class HeroComponent implements OnInit, OnDestroy {
   @ViewChild('searchContainer', { static: false }) searchContainer!: ElementRef;

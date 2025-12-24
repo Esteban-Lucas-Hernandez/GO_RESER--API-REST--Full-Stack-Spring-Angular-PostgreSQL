@@ -22,8 +22,8 @@ interface IngresosPorDia {
   selector: 'app-ingresos',
   standalone: true,
   imports: [CommonModule, HttpClientModule, BaseChartDirective],
-  templateUrl: './ingresos.component.html',
-  styleUrls: ['./ingresos.component.css'],
+  templateUrl: '../html/ingresos.component.html',
+  styleUrls: ['../css/ingresos.component.css'],
 })
 export class IngresosComponent implements OnInit {
   API_URL = `${environment.apiUrl}/admin/reservas`;

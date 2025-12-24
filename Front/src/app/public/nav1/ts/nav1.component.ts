@@ -13,8 +13,8 @@ import { DropdownMenuComponent } from '../../../public/dropdown-menu/ts/dropdown
   selector: 'app-nav1',
   standalone: true,
   imports: [CommonModule, LoginComponent, RegistroComponent, DropdownMenuComponent],
-  templateUrl: './nav1.component.html',
-  styleUrls: ['./nav1.component.css'],
+  templateUrl: '../html/nav1.component.html',
+  styleUrls: ['../css/nav1.component.css'],
 })
 export class Nav1Component implements OnInit {
   isAuthenticated = false;

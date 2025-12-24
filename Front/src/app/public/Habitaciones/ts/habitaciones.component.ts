@@ -19,8 +19,8 @@ import { FooterComponent } from '../../footer/ts/footer.component';
   selector: 'app-habitaciones',
   standalone: true,
   imports: [CommonModule, FormsModule, Nav1Component, FooterComponent], // Agregar FooterComponent a los imports
-  templateUrl: './habitaciones.html',
-  styleUrls: ['./habitaciones.css'],
+  templateUrl: '../html/habitaciones.html',
+  styleUrls: ['../css/habitaciones.css'],
 })
 export class HabitacionesComponent implements OnInit, AfterViewInit {
   habitaciones: Habitacion[] = [];

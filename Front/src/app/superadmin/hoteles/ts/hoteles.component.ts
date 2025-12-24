@@ -8,8 +8,8 @@ import { SuperAdminHotelService } from '../hoteles.service';
   selector: 'app-superadmin-hoteles',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './hoteles.component.html',
-  styleUrls: ['./hoteles.component.css'],
+  templateUrl: '../html/hoteles.component.html',
+  styleUrls: ['../css/hoteles.component.css'],
 })
 export class SuperAdminHotelesComponent implements OnInit {
   hoteles: SuperAdminHotel[] = [];

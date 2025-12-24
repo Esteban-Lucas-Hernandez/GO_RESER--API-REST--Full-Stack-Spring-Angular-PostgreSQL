@@ -21,8 +21,8 @@ import { HotelService } from '../../hotel.service';
     FeaturesSectionComponent,
   ],
   providers: [HotelService],
-  templateUrl: './public.component.html',
-  styleUrls: ['./public.component.css'],
+  templateUrl: '../html/public.component.html',
+  styleUrls: ['../css/public.component.css'],
 })
 export class PublicComponent {
   constructor() {}

@@ -15,8 +15,8 @@ import { environment } from '../../../../environments/environment';
   selector: 'app-panel',
   standalone: true,
   imports: [CommonModule, SlicePipe, NgStyle, IngresosComponent],
-  templateUrl: './panel.component.html',
-  styleUrls: ['./panel.component.css'],
+  templateUrl: '../html/panel.component.html',
+  styleUrls: ['../css/panel.component.css'],
   providers: [DatePipe],
 })
 export class PanelComponent implements OnInit, OnDestroy {

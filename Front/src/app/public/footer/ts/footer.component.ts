@@ -6,8 +6,8 @@ import { RouterModule } from '@angular/router';
   selector: 'app-footer',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.css'],
+  templateUrl: '../html/footer.component.html',
+  styleUrls: ['../css/footer.component.css'],
 })
 export class FooterComponent {
   // Información de contacto

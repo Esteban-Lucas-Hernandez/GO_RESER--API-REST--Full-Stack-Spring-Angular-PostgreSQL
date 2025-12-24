@@ -31,8 +31,8 @@ interface FechaValidationResult {
   selector: 'app-detalle-habitacion',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, Nav1Component, FooterComponent],
-  templateUrl: './DetalleHabitacion.html',
-  styleUrls: ['./DetalleHabitacion.css'],
+  templateUrl: '../html/DetalleHabitacion.html',
+  styleUrls: ['../css/DetalleHabitacion.css'],
 })
 export class DetalleHabitacionComponent implements OnInit, AfterViewInit {
   habitacion!: HabitacionDetalle;

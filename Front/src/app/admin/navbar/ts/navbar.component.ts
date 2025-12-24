@@ -20,8 +20,8 @@ import { NavbarStateService } from '../../navbar-state.service';
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterModule, FontAwesomeModule],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+  templateUrl: '../html/navbar.component.html',
+  styleUrls: ['../css/navbar.component.css'],
 })
 export class NavbarComponent {
   isCollapsed = false;

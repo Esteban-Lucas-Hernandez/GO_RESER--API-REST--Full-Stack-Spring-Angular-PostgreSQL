@@ -10,8 +10,8 @@ import { AuthService } from '../../../auth/auth.service';
   selector: 'app-superadmin-perfil',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.css'],
+  templateUrl: '../html/perfil.component.html',
+  styleUrls: ['../css/perfil.component.css'],
 })
 export class SuperAdminPerfilComponent implements OnInit {
   perfil: UsuarioDTO | null = null;

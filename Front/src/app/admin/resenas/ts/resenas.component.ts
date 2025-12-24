@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-resenas',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './resenas.component.html',
-  styleUrls: ['./resenas.component.css'],
+  templateUrl: '../html/resenas.component.html',
+  styleUrls: ['../css/resenas.component.css'],
 })
 export class ResenasComponent implements OnInit {
   hoteles: HotelDTO[] = [];

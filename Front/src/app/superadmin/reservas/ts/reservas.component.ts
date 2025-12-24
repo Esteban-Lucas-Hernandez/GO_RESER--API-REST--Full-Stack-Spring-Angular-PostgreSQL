@@ -8,8 +8,8 @@ import { SuperAdminReservasService } from '../reservas.service';
   selector: 'app-superadmin-reservas',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './reservas.component.html',
-  styleUrls: ['./reservas.component.css'],
+  templateUrl: '../html/reservas.component.html',
+  styleUrls: ['../css/reservas.component.css'],
 })
 export class SuperAdminReservasComponent implements OnInit {
   reservas: SuperAdminReserva[] = [];

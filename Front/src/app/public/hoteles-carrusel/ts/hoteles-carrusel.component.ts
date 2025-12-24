@@ -21,8 +21,8 @@ import 'swiper/css/pagination';
   selector: 'app-hoteles-carrusel',
   standalone: true,
   imports: [CommonModule, LoginComponent, RegistroComponent, DropdownMenuComponent],
-  templateUrl: './hoteles-carrusel.component.html',
-  styleUrls: ['./hoteles-carrusel.component.css'],
+  templateUrl: '../html/hoteles-carrusel.component.html',
+  styleUrls: ['../css/hoteles-carrusel.component.css'],
 })
 export class HotelesCarruselComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() filteredHoteles: Hotel[] | null = null;

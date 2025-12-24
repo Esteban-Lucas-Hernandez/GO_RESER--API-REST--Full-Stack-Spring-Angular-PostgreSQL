@@ -25,8 +25,8 @@ import {
   selector: 'app-hoteles',
   standalone: true,
   imports: [CommonModule, EditarHotelComponent, CrearHotelComponent, FontAwesomeModule],
-  templateUrl: './hoteles.component.html',
-  styleUrls: ['./hoteles.component.css'],
+  templateUrl: '../html/hoteles.component.html',
+  styleUrls: ['../css/hoteles.component.css'],
 })
 export class HotelesComponent implements OnInit {
   // Iconos de FontAwesome

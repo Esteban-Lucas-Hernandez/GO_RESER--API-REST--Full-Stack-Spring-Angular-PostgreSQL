@@ -12,8 +12,8 @@ interface Estadistica {
   selector: 'app-informacion-extra',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './informacion-extra.component.html',
-  styleUrls: ['./informacion-extra.component.css'],
+  templateUrl: '../html/informacion-extra.component.html',
+  styleUrls: ['../css/informacion-extra.component.css'],
 })
 export class InformacionExtraComponent implements OnInit, OnDestroy {
   // Información de servicios destacados
