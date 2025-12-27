@@ -186,3 +186,35 @@ INSERT INTO public.ciudades (id_ciudad, id_departamento, created_at, nombre, lat
 (149, 31, NOW(), 'Mitú', 1.2508, -70.1739),
 (150, 32, NOW(), 'Puerto Carreño', 6.1850, -67.4858),
 (151, 32, NOW(), 'La Primavera', 5.5194, -67.8556);
+
+
+-- Insert example data
+INSERT INTO chat_intents (keywords, action_type, response) VALUES 
+('hola,saludo,bienvenido,que tal,hey,ola', 'TEXT', '¡Hola! Bienvenido a nuestro servicio de reservas de hotel. ¿En qué puedo ayudarte?'),
+('adios,despedida,chao', 'TEXT', 'Gracias por usar nuestro servicio. ¡Hasta luego!'),
+('habitación más barata,mejor precio,oferta', 'GET_CHEAPEST_ROOM', 'Mostrando la habitación más económica disponible.'),
+('precio habitación,cuánto cuesta,valor,cuanto cuesta,precio,valor habitación,me cuesta', 'TEXT', 'Las habitaciones tienen diferentes precios según categoría y disponibilidad. ¿Te gustaría ver las habitaciones más económicas?'),
+('ayuda,soporte,ayudar,ayúdame,me ayudas,ayuda por favor', 'TEXT', 'Estoy aquí para ayudarte. Puedo mostrarte habitaciones, precios o ayudarte con reservas.'),
+('contacto,atención,soporte', 'TEXT', 'Puedes contactarnos por email en info@hotelreservas.com o por teléfono al 555-1234.'),
+('buscar hoteles,ciudad,departamento,encontrar hoteles', 'GET_HOTELS_BY_LOCATION', 'Puedes buscar hoteles en nuestra página web filtrando por ciudad o departamento. ¿En qué ciudad estás interesado?'),
+('hoteles disponibles,todos los hoteles,lista hoteles', 'GET_ALL_HOTELS', 'Puedes ver todos los hoteles disponibles en la sección "Hoteles" de nuestra página web. ¿Te gustaría que te ayudara con algo específico de algún hotel?'),
+('detalles hotel,dirección servicios,información hotel', 'TEXT', 'Puedes ver todos los detalles de cada hotel (dirección, servicios, estrellas, etc.) en la página de detalles de cada hotel. ¿Cuál hotel te interesa?'),
+('tipos habitaciones,categorías habitaciones', 'TEXT', 'Tenemos diferentes categorías de habitaciones: estándar, superior, suite, entre otras. Cada hotel puede tener diferentes categorías disponibles.'),
+('fotos habitación,imagenes habitación,ver fotos', 'TEXT', 'Puedes ver las fotos de cada habitación en la página de detalles de la habitación. Cada habitación tiene múltiples imágenes disponibles.'),
+('precio habitación,valor noche,valor habitación', 'TEXT', 'El precio de las habitaciones varía según la categoría, temporada y disponibilidad. ¿Te gustaría ver habitaciones en un rango de precio específico?'),
+('habitaciones disponibles,fechas,disponibilidad', 'TEXT', 'Puedes consultar la disponibilidad de habitaciones seleccionando tus fechas de entrada y salida en nuestro buscador de habitaciones.'),
+('resenas hotel,calificaciones,opiniones', 'TEXT', 'Puedes leer las reseñas y ver la calificación promedio de cada hotel en la página de detalles del hotel.'),
+('calificación promedio,promedio reseñas', 'TEXT', 'La calificación promedio de cada hotel se muestra en estrellas en la página principal de cada hotel.'),
+('registrarme,crear cuenta,registro', 'TEXT', 'Puedes registrarte en la sección "Registrarse" de nuestra página web. Solo necesitas tu nombre, email y contraseña.'),
+('iniciar sesión,login,loguearme', 'TEXT', 'Puedes iniciar sesión en la sección "Iniciar Sesión" con tu email y contraseña.'),
+('login google,iniciar sesión google,google', 'TEXT', 'Sí, puedes iniciar sesión con tu cuenta de Google. Busca el botón "Iniciar sesión con Google" en la página de login.'),
+('chatbot,ayuda,asistente', 'TEXT', 'Sí, estás hablando con nuestro chatbot. Puedo ayudarte con información sobre hoteles, habitaciones, precios y más.'),
+('ver perfil,información perfil,mi perfil', 'TEXT', 'Como usuario registrado, puedes ver y actualizar tu información de perfil en la sección "Mi Cuenta".'),
+('cambiar contraseña,actualizar contraseña', 'TEXT', 'Puedes cambiar tu contraseña en la sección "Configuración de Cuenta" o "Mi Perfil".'),
+('crear reserva,nueva reserva,reservar habitación,reservar,hacer reserva,hago una reserva,como hago una reserva,como reservo', 'TEXT', 'Puedes crear una nueva reserva seleccionando un hotel, fechas y habitación disponible en nuestro sistema de reservas.'),
+('historial reservas,mis reservas,reservas anteriores', 'TEXT', 'Puedes ver el historial de tus reservas en la sección "Mis Reservas" de tu cuenta de usuario.'),
+('cancelar reserva,modificar reserva', 'TEXT', 'Puedes cancelar o modificar tus reservas en la sección "Mis Reservas" dependiendo de las políticas de cancelación del hotel.'),
+('realizar pago,pagar reserva,pago', 'TEXT', 'Puedes realizar el pago de tu reserva mediante tarjeta, transferencia, efectivo o métodos electrónicos como Nequi o Daviplata.'),
+('detalles pago,pago realizado', 'TEXT', 'Puedes ver los detalles de tus pagos en la sección "Mis Pagos" o "Historial de Pagos" en tu cuenta de usuario.'),
+('publicar reseña,escribir reseña,dejar opinión', 'TEXT', 'Puedes publicar una reseña para un hotel en el que te has alojado desde la página del hotel o en tu historial de reservas.'),
+('editar reseña,eliminar reseña', 'TEXT', 'Puedes editar o eliminar tus reseñas en la sección "Mis Reseñas" de tu cuenta de usuario.');
