@@ -5,11 +5,12 @@ import { PerfilService } from '../perfil.service';
 import { UsuarioDTO } from '../usuario.dto';
 import { ActualizarPerfilDTO } from '../actualizar-perfil.dto';
 import { AuthService } from '../../../auth/auth.service';
+import { ChatComponent } from '../../chat';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ChatComponent],
   templateUrl: '../html/perfil.component.html',
   styleUrls: ['../css/perfil.component.css'],
 })

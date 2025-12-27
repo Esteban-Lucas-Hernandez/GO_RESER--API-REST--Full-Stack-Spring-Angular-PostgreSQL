@@ -13,6 +13,7 @@ import { AuthService } from '../../../auth/auth.service';
 import { NavComponent } from '../../nav/ts/nav.component';
 import { Nav1Component } from '../../nav1/ts/nav1.component';
 import { FooterComponent } from '../../footer/ts/footer.component';
+import { ChatComponent } from '../../chat';
 
 // Interface para el modelo de reserva en el formulario
 interface ReservaForm {
@@ -30,7 +31,7 @@ interface FechaValidationResult {
 @Component({
   selector: 'app-detalle-habitacion',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, Nav1Component, FooterComponent],
+  imports: [CommonModule, FormsModule, RouterModule, Nav1Component, FooterComponent, ChatComponent],
   templateUrl: '../html/DetalleHabitacion.html',
   styleUrls: ['../css/DetalleHabitacion.css'],
 })

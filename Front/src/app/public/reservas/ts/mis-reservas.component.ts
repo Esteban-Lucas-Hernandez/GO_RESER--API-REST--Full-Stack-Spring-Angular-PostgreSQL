@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { HotelService } from '../../hotel.service';
 import { Reserva } from '../../hotel.service';
+import { ChatComponent } from '../../chat';
 
 @Component({
   selector: 'app-mis-reservas',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ChatComponent],
   templateUrl: '../html/mis-reservas.component.html',
   styleUrls: ['../css/mis-reservas.component.css'],
 })

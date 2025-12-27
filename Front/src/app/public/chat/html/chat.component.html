@@ -1,0 +1,51 @@
+<div class="chat-container" *ngIf="isVisible">
+  <!-- Chat Header -->
+  <div class="chat-header">
+    <h3>Chat de Ayuda</h3>
+    <button class="close-btn" (click)="closeChat()">&times;</button>
+  </div>
+
+  <!-- Chat Messages -->
+  <div class="chat-messages" #chatMessages>
+    <div 
+      *ngFor="let message of chatHistory; trackBy: trackByMessages" 
+      class="message"
+      [class.user-message]="message.sender === 'user'"
+      [class.bot-message]="message.sender === 'bot'"
+    >
+      <div class="message-content">
+        <span>{{ message.text }}</span>
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="loading-message">
+      <div class="typing-indicator">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Input -->
+  <div class="chat-input-container">
+    <textarea
+      [(ngModel)]="message"
+      (keydown)="onKeyPress($event)"
+      placeholder="Escribe tu mensaje..."
+      class="chat-input"
+      rows="1"
+    ></textarea>
+    <button (click)="sendMessage()" class="send-btn" [disabled]="!message.trim()">
+      <span>Enviar</span>
+    </button>
+  </div>
+</div>
+
+<!-- Chat Toggle Button -->
+<button 
+  class="chat-toggle-btn" 
+  (click)="toggleChat()"
+  *ngIf="!isVisible"
+>
+  <i class="chat-icon">💬</i>
+</button>

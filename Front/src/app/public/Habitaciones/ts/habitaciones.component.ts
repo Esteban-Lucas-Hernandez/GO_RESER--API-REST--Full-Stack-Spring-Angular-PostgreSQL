@@ -15,10 +15,11 @@ import { NavComponent } from '../../nav/ts/nav.component';
 import { Nav1Component } from '../../nav1/ts/nav1.component';
 // Importar el componente de footer
 import { FooterComponent } from '../../footer/ts/footer.component';
+import { ChatComponent } from '../../chat';
 @Component({
   selector: 'app-habitaciones',
   standalone: true,
-  imports: [CommonModule, FormsModule, Nav1Component, FooterComponent], // Agregar FooterComponent a los imports
+  imports: [CommonModule, FormsModule, Nav1Component, FooterComponent, ChatComponent], // Agregar FooterComponent a los imports
   templateUrl: '../html/habitaciones.html',
   styleUrls: ['../css/habitaciones.css'],
 })

@@ -144,6 +144,15 @@ export interface PagoConfirmacion {
   monto: number;
 }
 
+// Interfaces para el chat
+export interface ChatMessage {
+  message: string;
+}
+
+export interface ChatResponse {
+  response: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -332,5 +341,16 @@ export class HotelService {
     const headers = this.getAuthHeaders();
 
     return this.http.get<string[][]>(url, { headers });
+  }
+
+  // Método para enviar mensajes al chat
+  sendMessageToChat(message: string): Observable<ChatResponse> {
+    const url = `${environment.apiUrl}/public/chat`;
+    const body: ChatMessage = { message };
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post<ChatResponse>(url, body, { headers });
   }
 }

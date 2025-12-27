@@ -7,6 +7,7 @@ import { InformacionExtraComponent } from '../../informacion-extra/ts/informacio
 import { FooterComponent } from '../../footer/ts/footer.component';
 import { FeaturesSectionComponent } from '../../features-section/ts/features-section.component';
 import { HotelService } from '../../hotel.service';
+import { ChatComponent } from '../../chat';
 
 @Component({
   selector: 'app-public',
@@ -19,6 +20,7 @@ import { HotelService } from '../../hotel.service';
     InformacionExtraComponent,
     FooterComponent,
     FeaturesSectionComponent,
+    ChatComponent,
   ],
   providers: [HotelService],
   templateUrl: '../html/public.component.html',
