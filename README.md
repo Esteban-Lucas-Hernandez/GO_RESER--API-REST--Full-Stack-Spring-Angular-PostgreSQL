@@ -1,6 +1,6 @@
 GoReser:
 
-Hotel Management SystemGoReser es una solución integral para la gestión hotelera robusta, escalable y eficiente. Este sistema permite centralizar la operación de un hotel, desde el control de inventario de habitaciones hasta la gestión inteligente de reservas y estados de ocupación.
+GoReser es una solución integral para la gestión hotelera robusta, escalable y eficiente. Este sistema permite centralizar la operación de un hotel, desde el control de inventario de habitaciones hasta la gestión inteligente de reservas y estados de ocupación.
 
 
 Stack TecnológicoLa aplicación utiliza una arquitectura de vanguardia para asegurar el rendimiento y la mantenibilidad
